@@ -1,3 +1,4 @@
+import bean.Player;
 import bean.User;
 import com.mongodb.client.*;
 
@@ -55,9 +56,24 @@ public class ProvaQuery {
         return i;
     }
 
+    public Player show_player_information(Integer id){
+        //open connection
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+        MongoDatabase db = mongoClient.getDatabase("futdb");
+        MongoCollection<Document> myColl = db.getCollection("players");
+        //query
+        Document doc = myColl.find(eq("futbin_id",id)).first();
+        //close connection
+        mongoClient.close();
+
+        //User newUser = new User(doc.get("first_name").toString(),//da completare con gli altri attributi);
+        System.out.println(doc.toJson());
+        return new Player();
+    }
+
     public static void main(String[] args){
         ProvaQuery m = new ProvaQuery();
-        System.out.println(m.count_document_in_collection("users"));
+        m.show_player_information(1);
     }
 }
 
