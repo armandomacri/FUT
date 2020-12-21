@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="FUTServices" />
         <module name="FUTGui" />
+        <module name="FUTPersistence" />
       </profile>
     </annotationProcessing>
   </component>

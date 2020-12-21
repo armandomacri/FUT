@@ -12,6 +12,7 @@
     <modules>
         <module>FUTGui</module>
         <module>FUTServices</module>
+        <module>FUTPersistence</module>
     </modules>
 
     <properties>
