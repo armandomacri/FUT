@@ -40,15 +40,24 @@ public class ProvaQuery {
         mongoClient.close();
 
         //User newUser = new User(doc.get("first_name").toString(),//da completare con gli altri attributi);
-
         return new User();
+    }
 
-
+    public Integer count_document_in_collection(String collection){
+        //open connection
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+        MongoDatabase db = mongoClient.getDatabase("futdb");
+        MongoCollection<Document> myColl = db.getCollection(collection);
+        //query
+        Integer i = Math.toIntExact(myColl.countDocuments());
+        //close connection
+        mongoClient.close();
+        return i;
     }
 
     public static void main(String[] args){
         ProvaQuery m = new ProvaQuery();
-        m.show_profile_information("Arvel");
+        System.out.println(m.count_document_in_collection("users"));
     }
 }
 

@@ -15,9 +15,9 @@ public class User {
     private Date join_date;
     private String password;
     private ArrayList<Squad> squads;
-    private ArrayList<Comment> comments;
 
-    public User(String username, String first_name, String last_name, Integer user_id, String country, Date join_date, String password, ArrayList<Squad> squads, ArrayList<Comment> comments){
+    //user constructor with squads
+    public User(String username, String first_name, String last_name, Integer user_id, String country, Date join_date, String password, ArrayList<Squad> squads){
         this.username = username;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -26,7 +26,18 @@ public class User {
         this.join_date = join_date;
         this.password = password;
         this.squads = squads;
-        this.comments = comments;
+    }
+
+    //user constructor without squads
+    public User(String username, String first_name, String last_name, Integer user_id, String country, Date join_date, String password){
+        this.username = username;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.user_id = user_id;
+        this.country = country;
+        this.join_date = join_date;
+        this.password = password;
+        this.squads = new ArrayList<>();
     }
 
     public User(){
@@ -65,10 +76,6 @@ public class User {
         return squads;
     }
 
-    public ArrayList<Comment> getComments() {
-        return comments;
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -99,9 +106,5 @@ public class User {
 
     public void setSquads(ArrayList<Squad> squads) {
         this.squads = squads;
-    }
-
-    public void setComments(ArrayList<Comment> comments) {
-        this.comments = comments;
     }
 }
