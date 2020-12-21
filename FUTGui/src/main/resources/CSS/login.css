@@ -1,0 +1,68 @@
+.background{
+    -fx-background-color: linear-gradient(to bottom, #ba6d7c, #844558);
+}
+
+.right_login_pane{
+    -fx-background-color:  #384a62;
+    -fx-background-radius: 0 10 10 0;
+    -fx-effect: dropshadow(three-pass-box, #2d3d51, 10, 0.3, -0.5, 1);
+}
+
+.left_login_pane{
+    -fx-background-color:  #5fd0c0;
+    -fx-background-radius: 10 0 0 10;
+}
+
+.text-field{
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 0.5 0;
+    -fx-border-color: #9099a5;
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+    -fx-padding: 0;
+}
+
+.button_click{
+    -fx-background-color: #5fd0c0;
+    -fx-text-fill: white;
+    -fx-font-size: 12;
+}
+
+.button_switch{
+    -fx-min-width: 70px;
+    -fx-max-width: 70px;
+    -fx-effect: dropshadow(three-pass-box, #2d3d51, 10, 0, 1, 0);
+}
+
+.button_disabled{
+    -fx-background-color: #586a7c;
+    -fx-min-width: 70px;
+    -fx-max-width: 70px;
+    -fx-font-size: 12;
+    -fx-text-fill: #9099a5;
+    -fx-opacity: 1.0;
+}
+
+.button_to_enter{
+    -fx-background-radius: 50;
+    -fx-max-width: 100px;
+    -fx-min-width: 100px;
+    -fx-effect: dropshadow(three-pass-box, #2d3d51, 10, 0.7, 0, 0);
+}
+
+.button_radius_right{
+    -fx-background-radius: 0 50 50 0;
+}
+
+.button_radius_left{
+    -fx-background-radius: 50 0 0 50;
+}
+
+GridPane {
+    -fx-hpos: center;
+}
+
+.button_click:pressed {
+    -fx-background-color: #14d0ad;
+    -fx-effect: none;
+}
