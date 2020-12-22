@@ -42,7 +42,7 @@ public class AuthenticationService {
         }
         catch (NoSuchAlgorithmException e) { e.printStackTrace(); }
 
-        System.out.println(passwordToHash + " ------ " + generatedPassword);
+        //System.out.println(passwordToHash + " ------ " + generatedPassword);
 
         return generatedPassword;
     }

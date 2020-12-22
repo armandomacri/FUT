@@ -1,8 +1,10 @@
 package org.unipi.group15;
 
-import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import user.SignUpServices;
+
+import java.io.IOException;
 
 public class SignUpController {
 
@@ -31,11 +33,11 @@ public class SignUpController {
 
     @FXML
     private void singUp(){
-        System.out.println(usernameTextField.getText());
+
+        SignUpServices sus = new SignUpServices();
+        sus.signUp(usernameTextField.getText(), passwordTextField.getText(), countryTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText());
+
         System.out.println(repeatPasswordTextField.getText());
-        System.out.println(passwordTextField.getText());
-        System.out.println(countryTextField.getText());
-        System.out.println(firstNameTextField.getText());
-        System.out.println(lastNameTextField.getText());
+
     }
 }

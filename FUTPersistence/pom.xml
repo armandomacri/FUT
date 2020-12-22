@@ -9,13 +9,21 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>org.unipi.group15</groupId>
     <artifactId>FUTPersistence</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>15</maven.compiler.source>
+        <maven.compiler.target>15</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.unipi.group15</groupId>
             <artifactId>FUTServices</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
@@ -23,8 +31,5 @@
             <version>4.1.1</version>
         </dependency>
     </dependencies>
-
-
-
 
 </project>

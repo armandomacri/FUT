@@ -1,29 +1,26 @@
 package bean;
 
-import bean.Comment;
-import bean.Squad;
-
 import java.util.ArrayList;
 import java.util.Date;
 
 public class User {
     private String username;
-    private String first_name;
-    private String last_name;
-    private Integer user_id;
+    private String firstName;
+    private String lastName;
+    private Integer userId;
     private String country;
-    private Date join_date;
+    private Date joinDate;
     private String password;
     private ArrayList<Squad> squads;
 
     //user constructor with squads
     public User(String username, String first_name, String last_name, Integer user_id, String country, Date join_date, String password, ArrayList<Squad> squads){
         this.username = username;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.user_id = user_id;
+        this.firstName = first_name;
+        this.lastName = last_name;
+        this.userId = user_id;
         this.country = country;
-        this.join_date = join_date;
+        this.joinDate = join_date;
         this.password = password;
         this.squads = squads;
     }
@@ -31,11 +28,11 @@ public class User {
     //user constructor without squads
     public User(String username, String first_name, String last_name, Integer user_id, String country, Date join_date, String password){
         this.username = username;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.user_id = user_id;
+        this.firstName = first_name;
+        this.lastName = last_name;
+        this.userId = user_id;
         this.country = country;
-        this.join_date = join_date;
+        this.joinDate = join_date;
         this.password = password;
         this.squads = new ArrayList<>();
     }
@@ -48,24 +45,24 @@ public class User {
         return username;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
     public String getCountry() {
         return country;
     }
 
-    public Date getJoin_date() {
-        return join_date;
+    public Date getJoinDate() {
+        return joinDate;
     }
 
     public String getPassword() {
@@ -81,15 +78,15 @@ public class User {
     }
 
     public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+        this.firstName = first_name;
     }
 
     public void setLast_name(String last_name) {
-        this.last_name = last_name;
+        this.lastName = last_name;
     }
 
     public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+        this.userId = user_id;
     }
 
     public void setCountry(String country) {
@@ -97,7 +94,7 @@ public class User {
     }
 
     public void setJoin_date(Date join_date) {
-        this.join_date = join_date;
+        this.joinDate = join_date;
     }
 
     public void setPassword(String password) {

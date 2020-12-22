@@ -1,30 +1,25 @@
-import bean.Player;
-import bean.User;
+package mongo;
+
+import bean.*;
 import com.mongodb.client.*;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import org.bson.Document;
 
 import static com.mongodb.client.model.Filters.*;
 
-
 public class ProvaQuery {
-    public void user_registration(String username, String first_name, String last_name, String country, String password){
+
+    public void user_registration(User u){
         //open connection
         MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
         MongoDatabase db = mongoClient.getDatabase("futdb");
         MongoCollection<Document> myColl = db.getCollection("users");
-        //query
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        String date = df.format(new Date());
-        Document user = new Document("username", username)
-                .append("first_name", first_name)
-                .append("last_name", last_name)
-                .append("country", country)
-                .append("join_date", date)
-                .append("password", password);
+
+        Document user = new Document("username", u.getUsername())
+                .append("first_name", u.getFirstName())
+                .append("last_name", u.getLastName())
+                .append("country", u.getCountry())
+                .append("join_date", u.getJoinDate())
+                .append("password", u.getPassword());
         myColl.insertOne(user);
         //close connection
         mongoClient.close();
@@ -44,7 +39,7 @@ public class ProvaQuery {
         return new User();
     }
 
-    public Integer count_document_in_collection(String collection){
+    public Integer countElement(String collection){
         //open connection
         MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
         MongoDatabase db = mongoClient.getDatabase("futdb");

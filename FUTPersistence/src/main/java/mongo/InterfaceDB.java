@@ -1,3 +1,5 @@
+package mongo;
+
 interface InterfaceDB {
     void OpenConnection();
     void CloseConnection();
