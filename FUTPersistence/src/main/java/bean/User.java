@@ -8,27 +8,30 @@ public class User {
     private String username;
     private String firstName;
     private String lastName;
+    private String password;
     private String country;
     private Date joinDate;
     private ArrayList<Squad> squads;
 
     //user constructor with squads
-    public User(String username, String first_name, String last_name, String user_id, String country, Date join_date, ArrayList<Squad> squads){
+    public User(String username, String first_name, String last_name, String user_id, String country, Date join_date, String password, ArrayList<Squad> squads){
         this.username = username;
         this.firstName = first_name;
         this.lastName = last_name;
         this.userId = user_id;
+        this.password = password;
         this.country = country;
         this.joinDate = join_date;
         this.squads = squads;
     }
 
     //user constructor without squads
-    public User(String username, String first_name, String last_name, String user_id, String country, Date join_date){
+    public User(String username, String first_name, String last_name, String user_id, String country, Date join_date, String password){
         this.username = username;
         this.firstName = first_name;
         this.lastName = last_name;
         this.userId = user_id;
+        this.password = password;
         this.country = country;
         this.joinDate = join_date;
 
@@ -54,6 +57,8 @@ public class User {
     public String getUserId() {
         return userId;
     }
+
+    public String getPassword() { return password; }
 
     public String getCountry() {
         return country;
@@ -84,6 +89,8 @@ public class User {
         this.userId = user_id;
     }
 
+    public void setPassword(String password) { this.password = password; }
+
     public void setCountry(String country) {
         this.country = country;
     }
@@ -105,6 +112,7 @@ public class User {
                 "\t USERNAME: " + username + "\n" +
                 "\t JOIN DATE: " + joinDate + "\n" +
                 "\t COUNTRY: " + country + "\n" +
+                "\t PASSWORD: " + password + "\n" +
                 "}";
     }
 }

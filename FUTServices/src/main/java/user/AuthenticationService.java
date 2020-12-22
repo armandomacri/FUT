@@ -49,7 +49,7 @@ public class AuthenticationService {
         ProvaQuery pq = new ProvaQuery();
         //assegnare l'id che da mongo
         String id = "iudhud";
-        User u = new User(username, firstName, lastName, id, country, date);
+        User u = new User(username, firstName, lastName, id, country, date, password);
         UserSessionService s = UserSessionService.getInstace(u);
         return s;
 

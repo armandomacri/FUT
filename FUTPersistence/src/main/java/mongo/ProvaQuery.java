@@ -49,7 +49,7 @@ public class ProvaQuery {
 
         User newUser = new User(doc.get("username").toString(), doc.get("first_name").toString(),
                                 doc.get("last_name").toString(), doc.get("_id").toString(),
-                                doc.get("country").toString(), date);
+                                doc.get("country").toString(), date, doc.get("password").toString());
 
         return newUser;
     }
