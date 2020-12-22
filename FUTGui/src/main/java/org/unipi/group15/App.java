@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import user.UserSessionService;
 
 import java.io.IOException;
 
@@ -12,7 +13,7 @@ import java.io.IOException;
  * JavaFX App
  */
 public class App extends Application {
-
+    private static UserSessionService session;
     private static Scene scene;
 
     @Override
@@ -20,6 +21,13 @@ public class App extends Application {
         scene = new Scene(loadFXML("primary"));
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static UserSessionService getSession() {
+        return session;
+    }
+    public static void setSession(UserSessionService s){
+        session = s;
     }
 
     static void setRoot(String fxml) throws IOException {

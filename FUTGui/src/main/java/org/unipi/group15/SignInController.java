@@ -3,6 +3,7 @@ package org.unipi.group15;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import user.AuthenticationService;
+import user.UserSessionService;
 
 import java.io.IOException;
 
@@ -22,6 +23,10 @@ public class SignInController {
     @FXML
     private void signIn(){
         AuthenticationService as = new AuthenticationService();
-        as.signIn(usernameTextField.getText(), passwordTextField.getText());
+        UserSessionService uss = as.signIn(usernameTextField.getText(), passwordTextField.getText());
+        App.setSession(uss);
+        System.out.println(uss);
     }
+
+    public void initialize() {}
 }

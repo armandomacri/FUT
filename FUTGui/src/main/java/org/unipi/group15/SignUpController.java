@@ -2,7 +2,9 @@ package org.unipi.group15;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import user.SignUpServices;
+import user.AuthenticationService;
+import user.UserSessionService;
+
 
 import java.io.IOException;
 
@@ -34,10 +36,12 @@ public class SignUpController {
     @FXML
     private void singUp(){
 
-        SignUpServices sus = new SignUpServices();
-        sus.signUp(usernameTextField.getText(), passwordTextField.getText(), countryTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText());
+        AuthenticationService as = new AuthenticationService();
+        UserSessionService uss = as.signUp(usernameTextField.getText(), passwordTextField.getText(), countryTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText());
 
-        System.out.println(repeatPasswordTextField.getText());
-
+        App.setSession(uss);
+        //System.out.println(repeatPasswordTextField.getText());
     }
+
+    public void initialize() {}
 }

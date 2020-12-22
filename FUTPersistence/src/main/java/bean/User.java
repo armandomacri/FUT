@@ -77,15 +77,15 @@ public class User {
         this.username = username;
     }
 
-    public void setFirst_name(String first_name) {
+    public void setFirstName(String first_name) {
         this.firstName = first_name;
     }
 
-    public void setLast_name(String last_name) {
+    public void setLastName(String last_name) {
         this.lastName = last_name;
     }
 
-    public void setUser_id(Integer user_id) {
+    public void setUserId(Integer user_id) {
         this.userId = user_id;
     }
 
@@ -93,7 +93,7 @@ public class User {
         this.country = country;
     }
 
-    public void setJoin_date(Date join_date) {
+    public void setJoinDate(Date join_date) {
         this.joinDate = join_date;
     }
 

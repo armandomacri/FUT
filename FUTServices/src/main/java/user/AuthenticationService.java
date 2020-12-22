@@ -1,24 +1,59 @@
 package user;
 
+import bean.User;
+import mongo.ProvaQuery;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AuthenticationService {
 
     public AuthenticationService(){}
 
-    public boolean signIn(String user, String pwd){
+    public UserSessionService signIn(String user, String pwd){
 
         if (user.equals("") || pwd.equals("")){
-            return false;
+            return null;
             //inventare un'eccezione
         }
         String encryptedPwd = encryptPassword(pwd);
 
-        //cercare nel database l'utente
+        ProvaQuery pq = new ProvaQuery();
+        User u = pq.show_profile_information(user);
+        /*
+        if(!u.getPassword().equals(encryptedPwd))
+            return null;
 
-        return true;
+         */
+
+        UserSessionService s = UserSessionService.getInstace(u);
+
+        return s;
     }
+
+    public UserSessionService signUp(String username, String password, String country, String firstName, String lastName){
+
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        Date date = null;
+        try {
+            date = df.parse(df.format(new Date()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //lanciare eccezione se non trova l'utente
+
+        ProvaQuery pq = new ProvaQuery();
+        int id = pq.countElement("users");
+        User u = new User(username, firstName, lastName, id, country, date, password);
+        UserSessionService s = UserSessionService.getInstace(u);
+        return s;
+
+    }
+
 
     //https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
     private String encryptPassword(String passwordToHash){
