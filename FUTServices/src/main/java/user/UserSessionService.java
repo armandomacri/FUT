@@ -41,6 +41,6 @@ public class UserSessionService {
                 "\tLAST NAME = " + user.getLastName() + "\n " +
                 "\tUSERNAME = " + user.getUsername() + "\n " +
                 "\tJOIN DATE = "+ user.getJoinDate() +
-                "\n}";
+                "\n\t}";
     }
 }

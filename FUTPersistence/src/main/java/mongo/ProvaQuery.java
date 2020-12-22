@@ -4,6 +4,11 @@ import bean.*;
 import com.mongodb.client.*;
 import org.bson.Document;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static com.mongodb.client.model.Filters.*;
 
 public class ProvaQuery {
@@ -18,8 +23,7 @@ public class ProvaQuery {
                 .append("first_name", u.getFirstName())
                 .append("last_name", u.getLastName())
                 .append("country", u.getCountry())
-                .append("join_date", u.getJoinDate())
-                .append("password", u.getPassword());
+                .append("join_date", u.getJoinDate());
         myColl.insertOne(user);
         //close connection
         mongoClient.close();
@@ -35,8 +39,19 @@ public class ProvaQuery {
         //close connection
         mongoClient.close();
 
-        //User newUser = new User(doc.get("first_name").toString(),//da completare con gli altri attributi);
-        return new User();
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = null;
+        try {
+             date = df.parse(doc.get("join_date").toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        User newUser = new User(doc.get("username").toString(), doc.get("first_name").toString(),
+                                doc.get("last_name").toString(), doc.get("_id").toString(),
+                                doc.get("country").toString(), date);
+
+        return newUser;
     }
 
     public Integer countElement(String collection){

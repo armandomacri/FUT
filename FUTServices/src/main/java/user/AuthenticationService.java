@@ -13,16 +13,16 @@ public class AuthenticationService {
 
     public AuthenticationService(){}
 
-    public UserSessionService signIn(String user, String pwd){
+    public UserSessionService signIn(String username, String pwd){
 
-        if (user.equals("") || pwd.equals("")){
+        if (username.equals("") || pwd.equals("")){
             return null;
             //inventare un'eccezione
         }
         String encryptedPwd = encryptPassword(pwd);
 
         ProvaQuery pq = new ProvaQuery();
-        User u = pq.show_profile_information(user);
+        User u = pq.show_profile_information(username);
         /*
         if(!u.getPassword().equals(encryptedPwd))
             return null;
@@ -36,7 +36,7 @@ public class AuthenticationService {
 
     public UserSessionService signUp(String username, String password, String country, String firstName, String lastName){
 
-        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Date date = null;
         try {
             date = df.parse(df.format(new Date()));
@@ -47,8 +47,9 @@ public class AuthenticationService {
         //lanciare eccezione se non trova l'utente
 
         ProvaQuery pq = new ProvaQuery();
-        int id = pq.countElement("users");
-        User u = new User(username, firstName, lastName, id, country, date, password);
+        //assegnare l'id che da mongo
+        String id = "iudhud";
+        User u = new User(username, firstName, lastName, id, country, date);
         UserSessionService s = UserSessionService.getInstace(u);
         return s;
 
