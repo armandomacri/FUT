@@ -12,32 +12,36 @@ import java.util.Date;
 import static com.mongodb.client.model.Filters.*;
 
 public class ProvaQuery {
+    private static final MongoClient mongoClient;
+    private static final MongoDatabase db;
 
-    public void user_registration(User u){
+    static {
         //open connection
-        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-        MongoDatabase db = mongoClient.getDatabase("futdb");
+        mongoClient = MongoClients.create("mongodb://localhost:27017");
+        db = mongoClient.getDatabase("futdb");
+    }
+
+    public String user_registration(String firstName, String lastName, String username, String country, Date joinDate, String password){
+
         MongoCollection<Document> myColl = db.getCollection("users");
 
-        Document user = new Document("username", u.getUsername())
-                .append("first_name", u.getFirstName())
-                .append("last_name", u.getLastName())
-                .append("country", u.getCountry())
-                .append("join_date", u.getJoinDate());
+        Document user = new Document("username", username)
+                .append("first_name", firstName)
+                .append("last_name", lastName)
+                .append("country", country)
+                .append("join_date", joinDate)
+                .append("password", password);
         myColl.insertOne(user);
-        //close connection
-        mongoClient.close();
+
+        String mongoId = user.getObjectId("_id").toString();
+        return mongoId;
     }
 
     public User show_profile_information(String username){
-        //open connection
-        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-        MongoDatabase db = mongoClient.getDatabase("futdb");
+
         MongoCollection<Document> myColl = db.getCollection("users");
         //query
         Document doc = myColl.find(eq("username",username)).first();
-        //close connection
-        mongoClient.close();
 
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Date date = null;
@@ -55,30 +59,27 @@ public class ProvaQuery {
     }
 
     public Integer countElement(String collection){
-        //open connection
-        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-        MongoDatabase db = mongoClient.getDatabase("futdb");
+
         MongoCollection<Document> myColl = db.getCollection(collection);
         //query
         Integer i = Math.toIntExact(myColl.countDocuments());
-        //close connection
-        mongoClient.close();
+
         return i;
     }
 
     public Player show_player_information(Integer id){
-        //open connection
-        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-        MongoDatabase db = mongoClient.getDatabase("futdb");
+
         MongoCollection<Document> myColl = db.getCollection("players");
         //query
         Document doc = myColl.find(eq("futbin_id",id)).first();
-        //close connection
-        mongoClient.close();
 
         //User newUser = new User(doc.get("first_name").toString(),//da completare con gli altri attributi);
         System.out.println(doc.toJson());
         return new Player();
+    }
+
+    public void closeConnection(){
+        mongoClient.close();
     }
 
     public static void main(String[] args){

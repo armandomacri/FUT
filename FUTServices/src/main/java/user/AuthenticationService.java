@@ -44,17 +44,18 @@ public class AuthenticationService {
             e.printStackTrace();
         }
 
+        String encryptedPwd = encryptPassword(password);
         //lanciare eccezione se non trova l'utente
 
         ProvaQuery pq = new ProvaQuery();
-        //assegnare l'id che da mongo
-        String id = "iudhud";
-        User u = new User(username, firstName, lastName, id, country, date, password);
+
+        String id = pq.user_registration(firstName, lastName, username, country, date, encryptedPwd);
+
+        User u = new User(username, firstName, lastName, id, country, date, encryptedPwd);
         UserSessionService s = UserSessionService.getInstace(u);
         return s;
 
     }
-
 
     //https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
     private String encryptPassword(String passwordToHash){
@@ -77,8 +78,6 @@ public class AuthenticationService {
             generatedPassword = sb.toString();
         }
         catch (NoSuchAlgorithmException e) { e.printStackTrace(); }
-
-        //System.out.println(passwordToHash + " ------ " + generatedPassword);
 
         return generatedPassword;
     }
