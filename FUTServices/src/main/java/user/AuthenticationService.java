@@ -3,6 +3,7 @@ package user;
 import bean.User;
 import mongo.ProvaQuery;
 import serviceExceptions.SignInException;
+import serviceExceptions.UserAlreadyExists;
 import serviceExceptions.UserNotFoudException;
 
 import java.security.MessageDigest;
@@ -36,7 +37,7 @@ public class AuthenticationService {
         return s;
     }
 
-    public UserSessionService signUp(String username, String password, String country, String firstName, String lastName){
+    public UserSessionService signUp(String username, String password, String country, String firstName, String lastName) throws UserAlreadyExists {
 
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Date date = null;
@@ -47,14 +48,16 @@ public class AuthenticationService {
         }
 
         String encryptedPwd = encryptPassword(password);
-        //lanciare eccezione se non trova l'utente
 
         ProvaQuery pq = new ProvaQuery();
+        User u = pq.show_profile_information(username);
+        if (u != null)
+            throw new UserAlreadyExists("User already Exists!");
 
         String id = pq.user_registration(firstName, lastName, username, country, date, encryptedPwd);
 
-        User u = new User(username, firstName, lastName, id, country, date, encryptedPwd);
-        UserSessionService s = UserSessionService.getInstace(u);
+        User user = new User(username, firstName, lastName, id, country, date, encryptedPwd);
+        UserSessionService s = UserSessionService.getInstace(user);
         return s;
 
     }

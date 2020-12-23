@@ -1,11 +1,18 @@
 package org.unipi.group15;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import serviceExceptions.UserAlreadyExists;
 import user.AuthenticationService;
 import user.UserSessionService;
 
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class SignUpController {
@@ -29,6 +36,9 @@ public class SignUpController {
     private TextField lastNameTextField;
 
     @FXML
+    private AnchorPane errorBox;
+
+    @FXML
     private void switchToPrimary() throws IOException {
         App.setRoot("primary");
     }
@@ -37,11 +47,33 @@ public class SignUpController {
     private void singUp(){
 
         AuthenticationService as = new AuthenticationService();
-        UserSessionService uss = as.signUp(usernameTextField.getText(), passwordTextField.getText(), countryTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText());
+        UserSessionService uss = null;
+        try {
+            uss = as.signUp(usernameTextField.getText(), passwordTextField.getText(), countryTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText());
+        } catch (UserAlreadyExists uae) {
+            uae.printStackTrace();
+            setErrorBox("Username already exists!");
+        }
 
         App.setSession(uss);
         //System.out.println(repeatPasswordTextField.getText());
     }
 
-    public void initialize() {}
+    @FXML
+    public void initialize() { errorBox.setVisible(false); }
+
+    private void setErrorBox(String text){
+        errorBox.getChildren().clear();
+        FileInputStream fis = null;
+
+        try {
+            fis = new FileInputStream("src/main/resources/img/warning.png");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Image i = new Image(fis);
+        ImageView iw = new ImageView(i);
+        errorBox.getChildren().add(0, new Label(text, iw));
+        errorBox.setVisible(true);
+    }
 }
