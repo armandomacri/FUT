@@ -9,8 +9,6 @@ import javafx.scene.layout.AnchorPane;
 import serviceExceptions.UserAlreadyExists;
 import user.AuthenticationService;
 import user.UserSessionService;
-
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -46,8 +44,14 @@ public class SignUpController {
     @FXML
     private void singUp(){
 
+        if (!repeatPasswordTextField.getText().equals(passwordTextField.getText())){
+            setErrorBox("Something wrong with password field!");
+            return;
+        }
+
         AuthenticationService as = new AuthenticationService();
         UserSessionService uss = null;
+
         try {
             uss = as.signUp(usernameTextField.getText(), passwordTextField.getText(), countryTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText());
         } catch (UserAlreadyExists uae) {
@@ -56,7 +60,6 @@ public class SignUpController {
         }
 
         App.setSession(uss);
-        //System.out.println(repeatPasswordTextField.getText());
     }
 
     @FXML
