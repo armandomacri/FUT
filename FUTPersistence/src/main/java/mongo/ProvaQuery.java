@@ -43,6 +43,10 @@ public class ProvaQuery {
         //query
         Document doc = myColl.find(eq("username",username)).first();
 
+        //no user found
+        if (doc == null)
+            return null;
+
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Date date = null;
         try {

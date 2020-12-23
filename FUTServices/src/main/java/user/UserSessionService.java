@@ -2,11 +2,13 @@ package user;
 
 import bean.User;
 
+import java.util.Date;
+
 public class UserSessionService {
     private static UserSessionService instance;
     private User user;
 
-
+    /*               SINGLETONE PATTERN            */
     private UserSessionService(User user) {
         this.user = user;
     }
@@ -29,6 +31,10 @@ public class UserSessionService {
     public String getUsername() {
         return user.getUsername();
     };
+
+    public Date getJoinDate(){ return user.getJoinDate(); }
+
+    public String getCountry(){ return user.getCountry(); }
 
     public void cleanUserSession() {
         this.user = null;

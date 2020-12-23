@@ -130,6 +130,7 @@
                         </Button>
                      </children>
                   </AnchorPane>
+                  <AnchorPane fx:id="errorBox" layoutX="13.0" layoutY="488.0" prefHeight="42.0" prefWidth="404.0" styleClass="error" />
                </children>
             </AnchorPane>
          </children>

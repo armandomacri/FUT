@@ -66,3 +66,13 @@ GridPane {
     -fx-background-color: #14d0ad;
     -fx-effect: none;
 }
+
+#errorBox{
+
+}
+
+#errorBox > .label{
+    -fx-text-fill: #FD003A;
+    -fx-font-size: 15;
+
+}

@@ -2,6 +2,8 @@ package user;
 
 import bean.User;
 import mongo.ProvaQuery;
+import serviceExceptions.SignInException;
+import serviceExceptions.UserNotFoudException;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,21 +15,21 @@ public class AuthenticationService {
 
     public AuthenticationService(){}
 
-    public UserSessionService signIn(String username, String pwd){
+    public UserSessionService signIn(String username, String pwd) throws SignInException, UserNotFoudException {
 
-        if (username.equals("") || pwd.equals("")){
-            return null;
-            //inventare un'eccezione
-        }
+        if (username.equals("") || pwd.equals(""))
+            throw new SignInException("Password or Username are incorrect!");
+
         String encryptedPwd = encryptPassword(pwd);
 
         ProvaQuery pq = new ProvaQuery();
         User u = pq.show_profile_information(username);
-        /*
-        if(!u.getPassword().equals(encryptedPwd))
-            return null;
 
-         */
+        if (u == null)
+            throw new UserNotFoudException("User not found");
+
+        if (!u.getPassword().equals(encryptedPwd))
+            throw new SignInException("Password or Username are incorrect!");
 
         UserSessionService s = UserSessionService.getInstace(u);
 
