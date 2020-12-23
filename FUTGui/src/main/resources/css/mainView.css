@@ -1,0 +1,36 @@
+.background{
+    -fx-background-color: linear-gradient(to bottom, #ba6d7c, #844558);
+}
+
+#mainWrapper{
+    -fx-background-color:  #384a62;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, #2d3d51, 10, 0.3, -0.5, 1);
+}
+
+.statisticsBox{
+    -fx-background-color:  #384a62;
+    -fx-border-color: #ba6d7c;
+    -fx-border-width: 2;
+    -fx-effect: innershadow( gaussian, rgba( 0, 0, 0, 0.5 ), 10, 0, 5, 5 );
+}
+
+.menu-bar{
+    -fx-background-color: #ba6d7c;
+    -fx-background-radius: 50;
+    -fx-effect: dropshadow(three-pass-box, #844558, 5, 0, 0, 2);
+    -fx-padding: 0;
+}
+
+.menu-bar .label {
+    -fx-font-size: 15;
+    -fx-font-family: "Bookman Old Style";
+    -fx-text-fill: #2d3d51;
+    -fx-padding: 5 40;
+}
+
+.menu-bar .menu-button:hover, .menu-bar .menu-button:focused, .menu-bar .menu-button:showing {
+    -fx-background: #844558;
+    -fx-background-radius: 50;
+    -fx-opacity: 0.5;
+}
