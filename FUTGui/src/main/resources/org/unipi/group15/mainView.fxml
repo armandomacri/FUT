@@ -9,8 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="background" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" styleClass="background" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.MainViewController">
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="900.0">
          <children>
@@ -34,16 +33,20 @@
                         <Text layoutX="66.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Statistica 2" />
                      </children>
                   </Pane>
-                  <Text layoutX="115.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Text>
-                  <Label layoutX="302.0" layoutY="100.0" text="Username">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
+                  <Pane layoutX="36.0" layoutY="101.0" prefHeight="53.0" prefWidth="308.0">
+                     <children>
+                        <Text layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="usernameLabel" layoutX="195.0" layoutY="9.0" text="Username">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
                </children>
             </Pane>
          </children>

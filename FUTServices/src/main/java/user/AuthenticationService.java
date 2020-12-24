@@ -29,8 +29,11 @@ public class AuthenticationService {
         if (u == null)
             throw new UserNotFoudException("User not found");
 
+        /*
         if (!u.getPassword().equals(encryptedPwd))
             throw new SignInException("Password or Username are incorrect!");
+
+         */
 
         UserSessionService s = UserSessionService.getInstace(u);
 

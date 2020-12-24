@@ -6,7 +6,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 import serviceExceptions.SignInException;
 import serviceExceptions.UserNotFoudException;
 import user.AuthenticationService;
@@ -34,9 +33,9 @@ public class SignInController {
     @FXML
     private void signIn(){
         AuthenticationService as = new AuthenticationService();
-        UserSessionService uss = null;
+        UserSessionService userSession = null;
         try {
-            uss = as.signIn(usernameTextField.getText(), passwordTextField.getText());
+            userSession = as.signIn(usernameTextField.getText(), passwordTextField.getText());
         } catch (SignInException e) {
             setErrorBox("Username or Password are wrong!");
             e.printStackTrace();
@@ -44,8 +43,8 @@ public class SignInController {
             setErrorBox("Username not registered!");
             unfe.printStackTrace();
         }
-        App.setSession(uss);
-        System.out.println(uss);
+        App.setSession(userSession);
+        changePage("mainView");
     }
 
     @FXML
@@ -66,5 +65,13 @@ public class SignInController {
         ImageView iw = new ImageView(i);
         errorBox.getChildren().add(0, new Label(text, iw));
         errorBox.setVisible(true);
+    }
+
+    private void changePage(String name){
+        try {
+            App.setRoot(name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
