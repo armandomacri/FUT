@@ -2,15 +2,29 @@
     -fx-background-color: linear-gradient(to bottom, #ba6d7c, #844558);
 }
 
-#mainWrapper{
-    -fx-background-color:  white;
-    -fx-background-radius: 10;
-    -fx-effect: dropshadow(three-pass-box, #2d3d51, 10, 0.3, -0.5, 1);
+.leftMenu{
+    -fx-background-color:  #14d0ad;
+    -fx-background-radius: 0 40 0 0;
+    -fx-alignment: left;
+}
+
+.leftMenu .button{
+    -fx-background-color: transparent;
+    -fx-font-size: 16;
+    -fx-text-fill: white;
+}
+
+.leftMenu .label{
+    -fx-padding: 0 25;
+    -fx-text-fill: #14d0ad;
+    -fx-background-color: white;
+    -fx-background-radius: 50;
+    -fx-alignment: left;
 }
 
 .statisticsBox{
     -fx-background-color: white;
-    -fx-effect: innershadow( gaussian, rgba( 0, 0, 0, 0.5 ), 10, 0, 5, 5 );
+    -fx-effect: innershadow(gaussian, rgba( 0, 0, 0, 0.5 ), 10, 0, 5, 5);
 
 }
 

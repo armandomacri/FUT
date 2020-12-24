@@ -10,9 +10,13 @@ public class MainViewController {
     private Label usernameLabel;
 
     @FXML
+    private Label userIdLabel;
+
+    @FXML
     public void initialize(){
         UserSessionService userSession = App.getSession();
         usernameLabel.setText(userSession.getUsername());
+        //userIdLabel.setText(userSession.getUserId());
     }
 
 }

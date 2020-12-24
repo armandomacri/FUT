@@ -26,6 +26,11 @@ public class SignInController {
     private AnchorPane errorBox;
 
     @FXML
+    public void initialize() {
+        errorBox.setVisible(false);
+    }
+
+    @FXML
     private void switchToSecondary() throws IOException {
         App.setRoot("secondary");
     }
@@ -44,12 +49,8 @@ public class SignInController {
             unfe.printStackTrace();
         }
         App.setSession(userSession);
+        System.out.println(userSession.toString());
         changePage("mainView");
-    }
-
-    @FXML
-    public void initialize() {
-        errorBox.setVisible(false);
     }
 
     private void setErrorBox(String text){
