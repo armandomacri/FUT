@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
@@ -13,25 +15,49 @@
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="900.0">
          <children>
-            <VBox fx:id="leftMenu" layoutY="38.0" prefHeight="562.0" prefWidth="240.0" styleClass="leftMenu">
+            <VBox layoutY="38.0" prefHeight="562.0" prefWidth="240.0" styleClass="leftMenu">
                <children>
                   <AnchorPane prefHeight="573.0" prefWidth="186.0">
                      <children>
+                        <AnchorPane prefHeight="150.0" prefWidth="240.0">
+                           <children>
+                              <Text layoutX="42.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="155.9285301566124">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Text>
+                              <Label fx:id="usernameLabel" contentDisplay="CENTER" layoutX="54.0" layoutY="75.0" text="Username">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
                         <Button layoutX="58.0" layoutY="509.0" mnemonicParsing="false" text="Log Out" />
-                        <Button layoutX="61.0" layoutY="165.0" mnemonicParsing="false" text="Profile" />
+                        <Button alignment="CENTER" layoutX="61.0" layoutY="165.0" mnemonicParsing="false" text="Profile" />
                         <Button layoutX="61.0" layoutY="281.0" mnemonicParsing="false" text="Build My Squad" />
-                        <Text layoutX="46.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome">
-                           <font>
-                              <Font size="36.0" />
-                           </font>
-                        </Text>
-                        <Label fx:id="usernameLabel" layoutX="53.0" layoutY="83.0" text="Username">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
                         <Button layoutX="61.0" layoutY="202.0" mnemonicParsing="false" text="Players" />
                         <Button layoutX="61.0" layoutY="243.0" mnemonicParsing="false" text="Friends" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="48.0" layoutY="174.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/user.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="48.0" layoutY="211.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/player.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="48.0" layoutY="290.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/team.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="48.0" layoutY="252.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../img/support.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </AnchorPane>
                </children>
@@ -42,6 +68,18 @@
                   <Label fx:id="userIdLabel" layoutX="107.0" layoutY="11.0" text="id numerico" textFill="#9099a5" />
                </children>
             </Pane>
+            <AnchorPane layoutX="239.0" layoutY="38.0" prefHeight="562.0" prefWidth="662.0">
+               <children>
+                  <Pane layoutX="78.0" layoutY="58.0" prefHeight="150.0" prefWidth="506.0" styleClass="statisticsBox" />
+                  <Pane layoutX="78.0" layoutY="391.0" prefHeight="150.0" prefWidth="506.0" styleClass="statisticsBox" />
+                  <Pane layoutX="78.0" layoutY="226.0" prefHeight="150.0" prefWidth="506.0" styleClass="statisticsBox" />
+                  <Text layoutX="271.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Analytics">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>
