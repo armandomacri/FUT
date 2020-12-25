@@ -5,7 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import serviceExceptions.SignInException;
 import serviceExceptions.UserNotFoudException;
 import user.AuthenticationService;
@@ -23,7 +23,7 @@ public class SignInController {
     private TextField passwordTextField;
 
     @FXML
-    private AnchorPane errorBox;
+    private HBox errorBox;
 
     @FXML
     public void initialize() {

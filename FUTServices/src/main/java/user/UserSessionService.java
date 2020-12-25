@@ -32,7 +32,7 @@ public class UserSessionService {
         return user.getUsername();
     };
 
-    public String getUserId(){ return getUserId(); }
+    public String getUserId(){ return user.getUserId(); }
 
     public Date getJoinDate(){ return user.getJoinDate(); }
 

@@ -5,7 +5,11 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -15,60 +19,74 @@
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="900.0">
          <children>
+            <Pane layoutX="-1.0" prefHeight="38.0" prefWidth="240.0">
+               <children>
+                  <Text layoutX="14.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="user id:" />
+                  <Label fx:id="userIdLabel" layoutX="56.0" layoutY="11.0" text="id numerico" textFill="#9099a5" />
+               </children>
+            </Pane>
             <VBox layoutY="38.0" prefHeight="562.0" prefWidth="240.0" styleClass="leftMenu">
                <children>
                   <AnchorPane prefHeight="573.0" prefWidth="186.0">
                      <children>
-                        <AnchorPane prefHeight="150.0" prefWidth="240.0">
+                        <Text layoutX="41.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="155.9285301566124">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Text>
+                        <HBox alignment="TOP_CENTER" layoutX="-1.0" layoutY="76.0" prefHeight="27.0" prefWidth="240.0">
                            <children>
-                              <Text layoutX="42.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="155.9285301566124">
-                                 <font>
-                                    <Font size="36.0" />
-                                 </font>
-                              </Text>
-                              <Label fx:id="usernameLabel" contentDisplay="CENTER" layoutX="54.0" layoutY="75.0" text="Username">
+                              <Label fx:id="usernameLabel" contentDisplay="CENTER" prefHeight="0.0" prefWidth="130.0" text="Username">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
                            </children>
-                        </AnchorPane>
+                        </HBox>
                         <Button layoutX="58.0" layoutY="509.0" mnemonicParsing="false" text="Log Out" />
-                        <Button alignment="CENTER" layoutX="61.0" layoutY="165.0" mnemonicParsing="false" text="Profile" />
-                        <Button layoutX="61.0" layoutY="281.0" mnemonicParsing="false" text="Build My Squad" />
-                        <Button layoutX="61.0" layoutY="202.0" mnemonicParsing="false" text="Players" />
-                        <Button layoutX="61.0" layoutY="243.0" mnemonicParsing="false" text="Friends" />
-                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="48.0" layoutY="174.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../img/user.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="48.0" layoutY="211.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../img/player.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="48.0" layoutY="290.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../img/team.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="48.0" layoutY="252.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../img/support.png" />
-                           </image>
-                        </ImageView>
+                        <GridPane layoutX="41.0" layoutY="190.0" prefHeight="181.0" prefWidth="171.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.39999389648438" minWidth="9.599985885620118" prefWidth="27.199981689453125" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.20001411437988" minWidth="10.0" prefWidth="144.00001831054686" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../img/user.png" />
+                                 </image>
+                              </ImageView>
+                              <Button alignment="CENTER" mnemonicParsing="false" text="Profile" GridPane.columnIndex="1" />
+                              <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                                 <image>
+                                    <Image url="@../../../img/player.png" />
+                                 </image>
+                              </ImageView>
+                              <Button mnemonicParsing="false" text="Players" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Button mnemonicParsing="false" text="Friends" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+                                 <image>
+                                    <Image url="@../../../img/support.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
+                                 <image>
+                                    <Image url="@../../../img/team.png" />
+                                 </image>
+                              </ImageView>
+                              <Button mnemonicParsing="false" text="Build My Squad" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                           </children>
+                        </GridPane>
                      </children>
                   </AnchorPane>
                </children>
             </VBox>
-            <Pane layoutX="-1.0" prefHeight="38.0" prefWidth="900.0">
-               <children>
-                  <Text layoutX="58.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="user id:" />
-                  <Label fx:id="userIdLabel" layoutX="107.0" layoutY="11.0" text="id numerico" textFill="#9099a5" />
-               </children>
-            </Pane>
-            <AnchorPane layoutX="239.0" layoutY="38.0" prefHeight="562.0" prefWidth="662.0">
+            <AnchorPane layoutX="239.0" prefHeight="600.0" prefWidth="662.0">
                <children>
                   <Pane layoutX="78.0" layoutY="58.0" prefHeight="150.0" prefWidth="506.0" styleClass="statisticsBox" />
                   <Pane layoutX="78.0" layoutY="391.0" prefHeight="150.0" prefWidth="506.0" styleClass="statisticsBox" />
