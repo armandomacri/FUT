@@ -14,7 +14,9 @@ public class User {
     private ArrayList<Squad> squads;
 
     //user constructor with squads
-    public User(String username, String first_name, String last_name, String user_id, String country, Date join_date, String password, ArrayList<Squad> squads){
+    public User(String username, String first_name, String last_name,
+                String user_id, String country, Date join_date, String password,
+                ArrayList<Squad> squads){
         this.username = username;
         this.firstName = first_name;
         this.lastName = last_name;
@@ -26,7 +28,8 @@ public class User {
     }
 
     //user constructor without squads
-    public User(String username, String first_name, String last_name, String user_id, String country, Date join_date, String password){
+    public User(String username, String first_name, String last_name, String user_id,
+                String country, Date join_date, String password){
         this.username = username;
         this.firstName = first_name;
         this.lastName = last_name;
@@ -105,7 +108,7 @@ public class User {
 
     @Override
     public String toString(){
-        return "USER {\n" +
+        String s = "USER {\n" +
                 "\t ID: " + userId + "\n" +
                 "\t FIRST NAME: " + firstName + "\n" +
                 "\t LAST NAME: " + lastName + "\n " +
@@ -113,6 +116,13 @@ public class User {
                 "\t JOIN DATE: " + joinDate + "\n" +
                 "\t COUNTRY: " + country + "\n" +
                 "\t PASSWORD: " + password + "\n" +
-                "}";
+                "\t SQUADS {\n";
+
+        for(Squad squad : squads)
+            s += "\t" + squad.toString();
+
+        s += "\t }\n}";
+
+        return s;
     }
 }

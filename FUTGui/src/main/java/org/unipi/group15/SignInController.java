@@ -49,7 +49,6 @@ public class SignInController {
             unfe.printStackTrace();
         }
         App.setSession(userSession);
-        System.out.println(userSession.toString());
         changePage("mainView");
     }
 

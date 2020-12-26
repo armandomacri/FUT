@@ -3,11 +3,9 @@ package mongo;
 import bean.*;
 import com.mongodb.client.*;
 import org.bson.Document;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 import static com.mongodb.client.model.Filters.*;
 
@@ -55,19 +53,42 @@ public class ProvaQuery {
             e.printStackTrace();
         }
 
+        //ricostruisco le squadre dell'utente
+        ArrayList<Document> squadsDoc = (ArrayList)doc.get("squads");
+        HashMap<String, String> pos = new HashMap<>();
+        ArrayList<Squad> s = new ArrayList<>();
+        for (Document squad : squadsDoc){
+            Map<String, String> map = (Map)squad.get("players");
+            Iterator iterator = map.keySet().iterator();
+            while(iterator.hasNext()) {
+                String key = iterator.next().toString();
+                String value = map.get(key);
+                pos.put(key, value);
+            }
+            try {
+                df = new SimpleDateFormat("dd.MM.yyyy");
+                date = df.parse(squad.get("date").toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Squad sq = new Squad(squad.get("name").toString(), squad.get("module").toString(),
+                   date, pos);
+            s.add(sq);
+        }
+
         User newUser = new User(doc.get("username").toString(), doc.get("first_name").toString(),
-                                doc.get("last_name").toString(), doc.get("_id").toString(),
-                                doc.get("country").toString(), date, doc.get("password").toString());
+                doc.get("last_name").toString(), doc.get("_id").toString(),
+                doc.get("country").toString(), date, doc.get("password").toString(), s);
+
+        System.out.println(newUser);
 
         return newUser;
     }
 
     public Integer countElement(String collection){
-
         MongoCollection<Document> myColl = db.getCollection(collection);
-        //query
         Integer i = Math.toIntExact(myColl.countDocuments());
-
         return i;
     }
 

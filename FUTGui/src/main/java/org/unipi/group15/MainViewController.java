@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import user.UserSessionService;
 
+import java.io.IOException;
+
 public class MainViewController {
 
     @FXML
@@ -13,9 +15,15 @@ public class MainViewController {
     private Label userIdLabel;
 
     @FXML
-    public void initialize(){
+    private void initialize(){
         UserSessionService userSession = App.getSession();
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
     }
+
+    @FXML
+    private void switchToProfile() throws IOException {
+        App.setRoot("userPage");
+    }
+
 }

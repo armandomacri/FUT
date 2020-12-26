@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.MainViewController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.UserPageController">
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="900.0">
          <children>
@@ -29,7 +29,7 @@
                <children>
                   <AnchorPane prefHeight="573.0" prefWidth="186.0">
                      <children>
-                        <Text layoutX="41.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="155.9285301566124">
+                        <Text layoutX="49.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome" wrappingWidth="155.9285301566124">
                            <font>
                               <Font size="36.0" />
                            </font>
@@ -61,7 +61,7 @@
                                     <Image url="@../../../img/user.png" />
                                  </image>
                               </ImageView>
-                              <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#switchToProfile" text="Profile" GridPane.columnIndex="1" />
+                              <Button alignment="CENTER" disable="true" mnemonicParsing="false" style="-fx-border-color: white; -fx-border-width: 0 0 2 0;" text="Profile" GridPane.columnIndex="1" />
                               <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                                  <image>
                                     <Image url="@../../../img/player.png" />
@@ -86,16 +86,30 @@
                   </AnchorPane>
                </children>
             </VBox>
-            <AnchorPane layoutX="239.0" prefHeight="600.0" prefWidth="662.0">
+            <AnchorPane layoutX="240.0" prefHeight="600.0" prefWidth="661.0">
                <children>
-                  <Pane layoutX="78.0" layoutY="58.0" prefHeight="150.0" prefWidth="506.0" styleClass="statisticsBox" />
-                  <Pane layoutX="78.0" layoutY="391.0" prefHeight="150.0" prefWidth="506.0" styleClass="statisticsBox" />
-                  <Pane layoutX="78.0" layoutY="226.0" prefHeight="150.0" prefWidth="506.0" styleClass="statisticsBox" />
-                  <Text layoutX="271.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Analytics">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
+                  <VBox alignment="CENTER_LEFT" layoutX="339.0" layoutY="134.0" />
+                  <VBox alignment="CENTER_LEFT" layoutX="348.0" layoutY="158.0" />
+                  <VBox alignment="CENTER_LEFT" layoutX="334.0" layoutY="197.0" />
+                  <Pane prefHeight="220.0" prefWidth="662.0">
+                     <children>
+                        <Label fx:id="registrationDaysLabel" layoutX="144.0" layoutY="80.0" text="Registration Days" />
+                        <Label fx:id="countryLabel" layoutX="144.0" layoutY="122.0" text="Country" />
+                        <Label fx:id="passwordLabel" layoutX="144.0" layoutY="167.0" text="Password" />
+                        <Text layoutX="277.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My Profile">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="nameLabel" layoutX="384.0" layoutY="80.0" text="Name" />
+                        <Label fx:id="lastNameLabel" layoutX="384.0" layoutY="122.0" text="Last Name" />
+                        <Text layoutX="32.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registration Date:" />
+                        <Text layoutX="32.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country:" />
+                        <Text layoutX="32.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
+                        <Text layoutX="291.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
+                        <Text layoutX="291.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" />
+                     </children>
+                  </Pane>
                </children>
             </AnchorPane>
          </children>

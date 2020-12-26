@@ -8,18 +8,16 @@ public class Squad {
     private String name;
     private String module;
     private Date date;
-    private HashMap<String, Integer> players;
+    private HashMap<String, String> players;
 
-    public Squad(String name, String module, Date date, HashMap<String, Integer> players){
+    public Squad(String name, String module, Date date, HashMap<String, String> players){
         this.name = name;
         this.module = module;
         this.date = date;
         this.players = players;
     }
 
-    public Squad(){
-
-    }
+    public Squad(){}
 
     public String getName() {
         return name;
@@ -33,7 +31,7 @@ public class Squad {
         return date;
     }
 
-    public HashMap<String, Integer> getPlayers() {
+    public HashMap<String, String> getPlayers() {
         return players;
     }
 
@@ -49,8 +47,18 @@ public class Squad {
         this.date = date;
     }
 
-    public void setPlayers(HashMap<String, Integer> players) {
+    public void setPlayers(HashMap<String, String> players) {
         this.players = players;
+    }
+
+    @Override
+    public String toString(){
+        return "Squad { \n" +
+                "\t NAME:" + getName() + "\n" +
+                "\t MODULE:" + getModule() + "\n" +
+                "\t DATE:" + getDate() + "\n" +
+                "\t PLAYERS: " + getPlayers() + "\n" +
+                "}";
     }
 }
 
