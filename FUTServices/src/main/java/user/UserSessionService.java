@@ -1,7 +1,9 @@
 package user;
 
+import bean.Squad;
 import bean.User;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class UserSessionService {
@@ -34,9 +36,13 @@ public class UserSessionService {
 
     public String getUserId(){ return user.getUserId(); }
 
+    public String getPassword() { return user.getPassword(); }
+
     public Date getJoinDate(){ return user.getJoinDate(); }
 
     public String getCountry(){ return user.getCountry(); }
+
+    public ArrayList<Squad> getSquads() { return user.getSquads(); }
 
     public void cleanUserSession() {
         this.user = null;

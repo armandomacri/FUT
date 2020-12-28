@@ -1,6 +1,4 @@
 package bean;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -53,7 +51,7 @@ public class Squad {
 
     @Override
     public String toString(){
-        return "Squad { \n" +
+        return "Squad {\n" +
                 "\t NAME:" + getName() + "\n" +
                 "\t MODULE:" + getModule() + "\n" +
                 "\t DATE:" + getDate() + "\n" +

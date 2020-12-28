@@ -37,3 +37,9 @@
     -fx-alignment: center;
 }
 
+.squadPane {
+    -fx-background-radius: 20;
+    -fx-padding: 15;
+    -fx-background-color: #cacaca;
+}
+
