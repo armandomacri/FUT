@@ -64,7 +64,7 @@ public class ProvaQuery {
             while(iterator.hasNext()) {
                 String key = iterator.next().toString();
                 String value = map.get(key);
-                pos.put(key, findById(value));
+                pos.put(key, findById(Integer.parseInt(value)));
             }
             try {
                 df = new SimpleDateFormat("dd.MM.yyyy");
@@ -93,9 +93,9 @@ public class ProvaQuery {
         return i;
     }
 
-    public Player findById(String id){
+    public Player findById(Integer id){
 
-        MongoCollection<Document> myColl = db.getCollection("players");
+        MongoCollection<Document> myColl = db.getCollection("player_cards");
         //query
         Document playerDoc = myColl.find(eq("_id",id)).first();
 
@@ -163,7 +163,7 @@ public class ProvaQuery {
     public static void main(String[] args){
         ProvaQuery m = new ProvaQuery();
         //m.show_player_information(1);
-        System.out.println(m.findById("1"));
+        System.out.println(m.findById(1));
     }
 }
 
