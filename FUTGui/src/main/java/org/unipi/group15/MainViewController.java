@@ -31,4 +31,11 @@ public class MainViewController {
         App.setRoot("searchPlayer");
     }
 
+    @FXML
+    private void switchToBuildSquad() throws IOException {
+        App.setRoot("buildSquad");
+        App.setHeight(700);
+        App.setWidth(1000);
+    }
+
 }

@@ -1,0 +1,28 @@
+
+#footbalField{
+    -fx-background-image: url("../img/footbal-field.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.topMenu{
+    -fx-background-color:  #384a62;
+    -fx-effect: dropshadow(three-pass-box, #2d3d51, 10, 0.3, -0.5, 1);
+}
+
+.topMenu .button{
+    -fx-background-color: #5fd0c0;
+    -fx-text-fill: white;
+    -fx-font-size: 12;
+    -fx-cursor: hand;
+}
+
+.player-position{
+    -fx-background-image: url("../img/add.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-border-color: white;
+    -fx-border-width: 3;
+    visibility: hidden;
+}
