@@ -77,11 +77,12 @@ public class UserPageController {
                 public void handle(ActionEvent event) {
                     System.out.println();
                     try {
+                        BuildSquadController bqc = new BuildSquadController();
+                        bqc.setSquadIndex(Integer.parseInt(button.getId()));
                         App.setRoot("buildSquad");
                         App.setHeight(700);
                         App.setWidth(1000);
-                        BuildSquadController bqc = new BuildSquadController();
-                        bqc.setSquad(squads.get(Integer.parseInt(button.getId())));
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
