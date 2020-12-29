@@ -103,17 +103,29 @@ public class ProvaQuery {
         return new Player();
     }
 
-    public ArrayList<Document> findPlayers (String toFind) {
+    public ArrayList<Player> findPlayers (String toFind) {
 
-        ArrayList<Document> results = new ArrayList<>();
+        ArrayList<Player> results = new ArrayList<>();
         MongoCollection<Document> myColl = db.getCollection("player_cards");
         System.out.println(toFind);
         try (MongoCursor<Document> cursor = myColl.find(eq("player_name",toFind)).iterator())
         {
             while (cursor.hasNext())
             {
+                Document playerDoc = cursor.next();
                 //System.out.println(cursor.next());
-                results.add(cursor.next());
+                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                Date date1 = null;
+                Date date2 = null;
+                try {
+                    date1 = df.parse(playerDoc.get("date_of_birth").toString());
+                    date2 = df.parse(playerDoc.get("added_date").toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                String[] images = playerDoc.get("images").toString().split(",");
+                Player p = new Player(playerDoc.get("futbin_id").toString(), playerDoc.get("player_name").toString(), playerDoc.get("player_extended_name").toString(), playerDoc.get("quality").toString(), playerDoc.get("revision").toString(), playerDoc.get("origin").toString(), Integer.parseInt(playerDoc.get("overall").toString()), playerDoc.get("club").toString(), playerDoc.get("league").toString(), playerDoc.get("nationality").toString(), playerDoc.get("position").toString(), date1, Integer.parseInt(playerDoc.get("height").toString()), Integer.parseInt(playerDoc.get("weight").toString()), date2, Integer.parseInt(playerDoc.get("pace").toString()), Integer.parseInt(playerDoc.get("dribbling").toString()), Integer.parseInt(playerDoc.get("shooting").toString()), Integer.parseInt(playerDoc.get("passing").toString()), Integer.parseInt(playerDoc.get("defending").toString()), Integer.parseInt(playerDoc.get("physicality").toString()), Integer.parseInt(playerDoc.get("gk_diving").toString()), Integer.parseInt(playerDoc.get("gk_reflexe").toString()), Integer.parseInt(playerDoc.get("gk_handling").toString()), Integer.parseInt(playerDoc.get("gk_speed").toString()), Integer.parseInt(playerDoc.get("gk_kicking").toString()), Integer.parseInt(playerDoc.get("gk_positioning").toString()), playerDoc.get("pref_foot").toString(), Integer.parseInt(playerDoc.get("weak_foot").toString()), Integer.parseInt(playerDoc.get("skill_moves").toString()), playerDoc.get("traits").toString(), images);
+                results.add(p);
             }
         }
 

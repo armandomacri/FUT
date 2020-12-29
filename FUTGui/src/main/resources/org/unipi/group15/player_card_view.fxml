@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.PlayerCardViewController">
+   <children>
+      <AnchorPane prefHeight="600.0" prefWidth="900.0">
+         <children>
+            <VBox fx:id="leftMenu" layoutY="38.0" prefHeight="562.0" prefWidth="240.0" styleClass="leftMenu">
+               <children>
+                  <AnchorPane prefHeight="573.0" prefWidth="186.0">
+                     <children>
+                        <Button layoutX="58.0" layoutY="509.0" mnemonicParsing="false" text="Log Out" />
+                        <Button layoutX="61.0" layoutY="165.0" mnemonicParsing="false" text="Profile" />
+                        <Button layoutX="61.0" layoutY="281.0" mnemonicParsing="false" text="Build My Squad" />
+                        <Text layoutX="30.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player Card">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="usernameLabel" layoutX="53.0" layoutY="83.0" text="Username">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="61.0" layoutY="202.0" mnemonicParsing="false" text="Players" />
+                        <Button layoutX="61.0" layoutY="243.0" mnemonicParsing="false" text="Friends" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+            <Pane layoutX="-1.0" prefHeight="38.0" prefWidth="900.0">
+               <children>
+                  <Text layoutX="58.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="user id:" />
+                  <Label fx:id="userIdLabel" layoutX="107.0" layoutY="11.0" text="id numerico" textFill="#9099a5" />
+                  <AnchorPane layoutX="532.0" layoutY="14.0" prefHeight="200.0" prefWidth="354.0">
+                     <children>
+                        <GridPane cacheShape="false" centerShape="false" prefHeight="200.0" prefWidth="354.4" scaleShape="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.4000244140625" minWidth="10.0" prefWidth="160.5999755859375" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="113.199951171875" minWidth="10.0" prefWidth="34.20002441406251" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.39990234375" minWidth="10.0" prefWidth="159.39990234375" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints maxHeight="52.60001220703125" minHeight="10.0" prefHeight="49.4" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="28.599996948242186" minHeight="10.0" prefHeight="17.4" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="50.00000610351562" minHeight="10.0" prefHeight="43.200003051757804" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="27.599996948242193" minHeight="10.0" prefHeight="22.399996948242176" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="50.79999389648438" minHeight="10.0" prefHeight="45.800012207031244" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="27.600012207031256" minHeight="10.0" prefHeight="21.79998779296875" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <ProgressBar id="pace_bar" fx:id="paceBar" prefHeight="17.6" prefWidth="200.0" progress="0.89" GridPane.rowIndex="1" />
+                              <ProgressBar id="shooting_bar" fx:id="shootingBar" prefHeight="17.6" prefWidth="200.0" progress="0.93" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <ProgressBar id="passing_bar" fx:id="passingBar" prefHeight="17.6" prefWidth="178.0" progress="0.81" GridPane.rowIndex="3" />
+                              <ProgressBar id="dribbling_bar" fx:id="dribblingBar" prefHeight="17.6" prefWidth="200.0" progress="0.89" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <ProgressBar id="defending_bar" fx:id="defendingBar" prefHeight="17.6" prefWidth="200.0" progress="0.35" GridPane.rowIndex="5" />
+                              <ProgressBar id="physicality_bar" fx:id="physicalityBar" prefHeight="17.6" prefWidth="200.0" progress="0.77" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                              <Label prefHeight="27.0" prefWidth="41.0" text="Pace">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Passing" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Defending" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Shooting" GridPane.columnIndex="2">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Dribbling" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Physicality" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label id="pace_stat" fx:id="paceStat" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="176.0" text="89">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label id="shooting_stat" fx:id="shootingStat" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="176.0" text="93" GridPane.columnIndex="2">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label id="passing_stat" fx:id="passingStat" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="176.0" text="81" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label id="dribbling_stat" fx:id="dribblingStat" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="176.0" text="89" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label id="defending_stat" fx:id="defendingStat" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="176.0" text="35" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label id="physicality_stat" fx:id="physicalityStat" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="176.0" text="77" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </Pane>
+            <AnchorPane layoutX="274.0" layoutY="14.0" prefHeight="200.0" prefWidth="252.0">
+               <children>
+                  <GridPane layoutX="26.0" layoutY="23.0" prefHeight="170.0" prefWidth="200.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.20001220703125" minWidth="10.0" prefWidth="51.199951171875" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="109.60004882812501" minWidth="10.0" prefWidth="109.60004882812501" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="107.20002441406251" minWidth="10.0" prefWidth="50.800012207031244" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="101.60000610351562" minHeight="10.0" prefHeight="95.19998779296876" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="85.6" minHeight="10.0" prefHeight="50.3999755859375" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="31.199993896484386" minHeight="10.0" prefHeight="21.60002441406249" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <ImageView fx:id="playerCardImg" fitHeight="105.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                           <image>
+                              <Image url="@../../../../../../../../../Desktop/ronaldo.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="nationalityImg" fitHeight="29.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../../../../Desktop/portugal.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView id="club_img" fx:id="clubImg" fitHeight="43.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+                           <image>
+                              <Image url="@../../../../../../../../../Desktop/juve.png" />
+                           </image>
+                        </ImageView>
+                        <Text id="player_name" fx:id="playerName" strokeType="OUTSIDE" strokeWidth="0.0" text="Ronaldo" textAlignment="CENTER" wrappingWidth="107.30939102172852" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Text>
+                        <Text id="overall" fx:id="overall" strokeType="OUTSIDE" strokeWidth="0.0" text="92" textAlignment="CENTER" wrappingWidth="44.53662109375" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <Text id="position" fx:id="position" strokeType="OUTSIDE" strokeWidth="0.0" text="ST" textAlignment="CENTER" wrappingWidth="48.66211128234863" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="611.0" layoutY="233.0" prefHeight="333.0" prefWidth="274.0">
+               <children>
+                  <GridPane layoutY="45.0" prefHeight="262.0" prefWidth="274.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quality:" wrappingWidth="92.23052978515625" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Version:" wrappingWidth="95.122314453125" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Origin:" wrappingWidth="120.290283203125" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Weak foot:" wrappingWidth="123.7281494140625" GridPane.rowIndex="3" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Skill moves:" wrappingWidth="123.7281494140625" GridPane.rowIndex="4" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Traits:" wrappingWidth="123.7281494140625" GridPane.rowIndex="5" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pref. foot:" wrappingWidth="99.298828125" GridPane.rowIndex="6" />
+                        <Text fx:id="quality" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" />
+                        <Text fx:id="revision" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="1" />
+                        <Text fx:id="origin" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="2" />
+                        <Text fx:id="weakFoot" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="3" />
+                        <Text fx:id="skillMoves" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="4" />
+                        <Text fx:id="traits" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="5" />
+                        <Text fx:id="prefFoot" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="6" />
+                     </children>
+                  </GridPane>
+                  <Label layoutX="14.0" text="Card Information">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="263.0" layoutY="234.0" prefHeight="318.0" prefWidth="274.0">
+               <children>
+                  <GridPane layoutY="13.0" prefHeight="292.0" prefWidth="274.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Club:" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="League:" GridPane.rowIndex="3" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nationality:" wrappingWidth="99.38165283203125" GridPane.rowIndex="4" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of birth:" wrappingWidth="85.64453125" GridPane.rowIndex="5" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Height:" GridPane.rowIndex="6" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:" wrappingWidth="56.98162841796875" GridPane.rowIndex="7" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Extended name:" GridPane.rowIndex="1" />
+                        <Text fx:id="extendedName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="1" />
+                        <Text fx:id="club" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="276.53680419921875" GridPane.rowIndex="2" />
+                        <Text fx:id="league" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="3" />
+                        <Text fx:id="nationality" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="4" />
+                        <Text fx:id="height" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="6" />
+                        <Text fx:id="weight" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="7" />
+                        <Text fx:id="dateOfBirth" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="5" />
+                     </children>
+                  </GridPane>
+                  <Label layoutX="14.0" layoutY="-1.0" text="Player Information">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <Button fx:id="showCommentButton" layoutX="459.0" layoutY="553.0" mnemonicParsing="false" onAction="#goToComments" prefHeight="26.0" prefWidth="174.0" text="Go to the comments section!" />
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
