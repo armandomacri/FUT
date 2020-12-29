@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -38,6 +39,7 @@ public class UserPageController {
     @FXML private Label lastNameLabel;
 
     @FXML private ScrollPane squadsWrapper;
+
 
     @FXML
     private void initialize(){
@@ -109,5 +111,8 @@ public class UserPageController {
 
         squadsWrapper.setContent(gridPane);
     }
-
+    @FXML
+    private void goToPlayer() throws IOException{
+        App.setRoot("searchPlayer");
+    }
 }

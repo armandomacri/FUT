@@ -103,13 +103,31 @@ public class ProvaQuery {
         return new Player();
     }
 
+    public ArrayList<Document> findPlayers (String toFind) {
+
+        ArrayList<Document> results = new ArrayList<>();
+        MongoCollection<Document> myColl = db.getCollection("player_cards");
+        System.out.println(toFind);
+        try (MongoCursor<Document> cursor = myColl.find(eq("player_name",toFind)).iterator())
+        {
+            while (cursor.hasNext())
+            {
+                //System.out.println(cursor.next());
+                results.add(cursor.next());
+            }
+        }
+
+        return results;
+    }
+
     public void closeConnection(){
         mongoClient.close();
     }
 
     public static void main(String[] args){
         ProvaQuery m = new ProvaQuery();
-        m.show_player_information(1);
+        //m.show_player_information(1);
+        System.out.println(m.findPlayers("Ronaldo"));
     }
 }
 

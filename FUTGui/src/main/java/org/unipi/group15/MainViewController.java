@@ -26,4 +26,9 @@ public class MainViewController {
         App.setRoot("userPage");
     }
 
+    @FXML
+    private void goToPlayer() throws IOException {
+        App.setRoot("searchPlayer");
+    }
+
 }
