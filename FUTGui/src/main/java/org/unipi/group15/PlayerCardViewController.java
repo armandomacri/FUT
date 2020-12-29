@@ -1,5 +1,6 @@
 package org.unipi.group15;
 
+import bean.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -8,6 +9,12 @@ import javafx.scene.control.TextField;
 import user.UserSessionService;
 
 public class PlayerCardViewController {
+    private static Player player;
+
+    public void setPlayer(Player p){
+        player = p;
+        System.out.println(p.toString());
+    }
 
     @FXML
     private Label usernameLabel;
@@ -15,7 +22,7 @@ public class PlayerCardViewController {
     @FXML
     private Label userIdLabel;
 
-    @FXML
+    /*@FXML
     private TextField playerName;
 
     @FXML
@@ -114,7 +121,7 @@ public class PlayerCardViewController {
         // mostra tutti i campi della player card
 
     }
-
+*/
     @FXML
     private void goToComments(){
         // carica tutti i commenti del giocatore

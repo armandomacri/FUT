@@ -72,6 +72,64 @@ public class Player {
         this.images = images;
     }
 
+    public Player(String futbin_id, String player_name, String player_extended_name, String quality, String revision, Integer overall, String origin, String club, String league, String nationality, String position, Date date_of_birth, Integer height, Integer weight, Date added_date, Integer gk_diving, Integer gk_reflexe, Integer gk_handling, Integer gk_speed, Integer gk_kicking, Integer gk_positioning, String pref_foot, Integer weak_foot, Integer skill_moves, String traits, String[] images){
+        this.futbinId = futbin_id;
+        this.playerName = player_name;
+        this.playerExtendedName = player_extended_name;
+        this.quality = quality;
+        this.revision = revision;
+        this.origin = origin;
+        this.overall = overall;
+        this.club = club;
+        this.league = league;
+        this.position = position;
+        this.nationality = nationality;
+        this.dateOfBirth = date_of_birth;
+        this.height = height;
+        this.weight = weight;
+        this.addedDate = added_date;
+        this.gkDiving = gk_diving;
+        this.gkReflexe = gk_reflexe;
+        this.gkHandling = gk_handling;
+        this.gkSpeed = gk_speed;
+        this.gkKicking = gk_kicking;
+        this.gkPositioning = gk_positioning;
+        this.prefFoot = pref_foot;
+        this.weakFoot = weak_foot;
+        this.skillMoves = skill_moves;
+        this.traits = traits;
+        this.images = images;
+    }
+
+    public Player(String futbin_id, String player_name, String player_extended_name, String quality, String revision, String origin, Integer overall, String club, String league, String nationality, String position, Date date_of_birth, Integer height, Integer weight, Date added_date, Integer pace, Integer dribbling, Integer shooting, Integer passing, Integer defending, Integer physicality, String pref_foot, Integer weak_foot, Integer skill_moves, String traits, String[] images){
+        this.futbinId = futbin_id;
+        this.playerName = player_name;
+        this.playerExtendedName = player_extended_name;
+        this.quality = quality;
+        this.revision = revision;
+        this.origin = origin;
+        this.overall = overall;
+        this.club = club;
+        this.league = league;
+        this.position = position;
+        this.nationality = nationality;
+        this.dateOfBirth = date_of_birth;
+        this.height = height;
+        this.weight = weight;
+        this.addedDate = added_date;
+        this.pace = pace;
+        this.dribbling = dribbling;
+        this.shooting = shooting;
+        this.passing = passing;
+        this.defending = defending;
+        this.physicality = physicality;
+        this.prefFoot = pref_foot;
+        this.weakFoot = weak_foot;
+        this.skillMoves = skill_moves;
+        this.traits = traits;
+        this.images = images;
+    }
+
     public Player(){
 
     }

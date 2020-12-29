@@ -58,10 +58,7 @@
                   <Button fx:id="toFindButton" layoutX="537.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#findPlayer" prefHeight="26.0" prefWidth="78.0" text="Find" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="275.0" layoutY="119.0" prefHeight="418.0" prefWidth="601.0">
-               <children>
-                  <AnchorPane fx:id="playersWrapper" prefHeight="418.0" prefWidth="602.0" />
-               </children></AnchorPane>
+            <AnchorPane fx:id="playersWrapper" layoutX="255.0" layoutY="138.0" prefHeight="434.0" prefWidth="634.0" />
          </children>
       </AnchorPane>
    </children>
