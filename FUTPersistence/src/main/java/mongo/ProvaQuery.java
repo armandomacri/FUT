@@ -3,6 +3,8 @@ package mongo;
 import bean.*;
 import com.mongodb.client.*;
 import org.bson.Document;
+import org.bson.types.ObjectId;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -55,7 +57,7 @@ public class ProvaQuery {
 
         //ricostruisco le squadre dell'utente
         ArrayList<Document> squadsDoc = (ArrayList)doc.get("squads");
-        HashMap<String, String> pos = new HashMap<>();
+        HashMap<String, Player> pos = new HashMap<>();
         ArrayList<Squad> s = new ArrayList<>();
         for (Document squad : squadsDoc){
             Map<String, String> map = (Map)squad.get("players");
@@ -63,7 +65,9 @@ public class ProvaQuery {
             while(iterator.hasNext()) {
                 String key = iterator.next().toString();
                 String value = map.get(key);
-                pos.put(key, value);
+
+
+                pos.put(key, findById(value));
             }
             try {
                 df = new SimpleDateFormat("dd.MM.yyyy");
@@ -90,15 +94,28 @@ public class ProvaQuery {
         return i;
     }
 
-    public Player show_player_information(Integer id){
+    public Player findById(String id){
 
-        MongoCollection<Document> myColl = db.getCollection("players");
-        //query
-        Document doc = myColl.find(eq("futbin_id",id)).first();
+        MongoCollection<Document> myColl = db.getCollection("player_cards");
+        Document playerDoc = myColl.find(eq("_id", id)).first();
 
-        //User newUser = new User(doc.get("first_name").toString(),//da completare con gli altri attributi);
-        System.out.println(doc.toJson());
-        return new Player();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        Date date1 = null;
+        Date date2 = null;
+        try {
+            date1 = df.parse(playerDoc.get("date_of_birth").toString());
+            date2 = df.parse(playerDoc.get("added_date").toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String[] images = playerDoc.get("images").toString().split(",");
+        Player p = null;
+        if (playerDoc.get("position").toString()=="GK") {
+            return new Player(playerDoc.get("futbin_id").toString(), playerDoc.get("player_name").toString(), playerDoc.get("player_extended_name").toString(), playerDoc.get("quality").toString(), playerDoc.get("revision").toString(), Integer.parseInt(playerDoc.get("overall").toString()), playerDoc.get("club").toString(), playerDoc.get("league").toString(), playerDoc.get("nationality").toString(), playerDoc.get("position").toString(), date1, Integer.parseInt(playerDoc.get("height").toString()), Integer.parseInt(playerDoc.get("weight").toString()), date2, Integer.parseInt(playerDoc.get("gk_diving").toString()), Integer.parseInt(playerDoc.get("gk_reflexe").toString()), Integer.parseInt(playerDoc.get("gk_handling").toString()), Integer.parseInt(playerDoc.get("gk_speed").toString()), Integer.parseInt(playerDoc.get("gk_kicking").toString()), Integer.parseInt(playerDoc.get("gk_positioning").toString()), playerDoc.get("pref_foot").toString(), Integer.parseInt(playerDoc.get("weak_foot").toString()), Integer.parseInt(playerDoc.get("skill_moves").toString()), images);
+        }
+        else {
+            return new Player(playerDoc.get("_id").toString(), playerDoc.get("player_name").toString(), playerDoc.get("player_extended_name").toString(), playerDoc.get("quality").toString(), playerDoc.get("revision").toString(), Integer.parseInt(playerDoc.get("overall").toString()), playerDoc.get("club").toString(), playerDoc.get("league").toString(), playerDoc.get("nationality").toString(), playerDoc.get("position").toString(), date1, Integer.parseInt(playerDoc.get("height").toString()), Integer.parseInt(playerDoc.get("weight").toString()), date2, Integer.parseInt(playerDoc.get("pace").toString()), Integer.parseInt(playerDoc.get("dribbling").toString()), Integer.parseInt(playerDoc.get("shooting").toString()), Integer.parseInt(playerDoc.get("passing").toString()), Integer.parseInt(playerDoc.get("defending").toString()), Integer.parseInt(playerDoc.get("physicality").toString()), playerDoc.get("pref_foot").toString(), Integer.parseInt(playerDoc.get("weak_foot").toString()), Integer.parseInt(playerDoc.get("skill_moves").toString()), images);
+        }
     }
 
     public ArrayList<Player> findPlayers (String toFind) {
@@ -106,7 +123,7 @@ public class ProvaQuery {
         ArrayList<Player> results = new ArrayList<>();
         MongoCollection<Document> myColl = db.getCollection("player_cards");
         System.out.println(toFind);
-        try (MongoCursor<Document> cursor = myColl.find(eq("player_name",toFind)).iterator())
+        try (MongoCursor<Document> cursor = myColl.find(eq("player_name", toFind)).iterator())
         {
             while (cursor.hasNext())
             {
@@ -144,7 +161,7 @@ public class ProvaQuery {
     public static void main(String[] args){
         ProvaQuery m = new ProvaQuery();
         //m.show_player_information(1);
-        System.out.println(m.findPlayers("Ronaldo"));
+        System.out.println(m.findById("1"));
     }
 }
 
