@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.UserPageController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.FriendsPageController">
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="900.0">
          <children>
@@ -92,8 +92,8 @@
             </VBox>
             <AnchorPane layoutX="240.0" prefHeight="600.0" prefWidth="661.0">
                <children>
-                  <ListView layoutX="23.0" layoutY="107.0" prefHeight="170.0" prefWidth="606.0" />
-                  <Button layoutX="372.0" layoutY="68.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="57.0" text="Search" />
+                  <ListView fx:id="FriendsList" layoutX="23.0" layoutY="107.0" prefHeight="170.0" prefWidth="606.0" />
+                  <Button fx:id="SearchButton" layoutX="372.0" layoutY="68.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="57.0" text="Search" />
                   <AnchorPane layoutX="23.0" layoutY="286.0" prefHeight="299.0" prefWidth="296.0">
                      <children>
                         <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Suggested friend by like">
@@ -101,7 +101,7 @@
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <TableView layoutX="13.0" layoutY="85.0" prefHeight="200.0" prefWidth="269.0">
+                        <TableView fx:id="SuggestedFriendLike" layoutX="13.0" layoutY="85.0" prefHeight="200.0" prefWidth="269.0">
                           <columns>
                             <TableColumn prefWidth="60.79998779296875" text="UserId" />
                             <TableColumn prefWidth="89.5999755859375" text="Username" />
@@ -117,7 +117,7 @@
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <TableView layoutX="13.0" layoutY="85.0" prefHeight="200.0" prefWidth="269.0">
+                        <TableView fx:id="SuggestedFriend" layoutX="13.0" layoutY="85.0" prefHeight="200.0" prefWidth="269.0">
                            <columns>
                               <TableColumn prefWidth="62.39990234375" text="UserId" />
                               <TableColumn prefWidth="88.0001220703125" text="Username" />
