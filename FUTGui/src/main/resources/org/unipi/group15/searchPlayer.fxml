@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.SearchPlayerController">
+   <children>
+      <AnchorPane prefHeight="600.0" prefWidth="900.0">
+         <children>
+            <VBox fx:id="leftMenu" layoutY="38.0" prefHeight="562.0" prefWidth="240.0" styleClass="leftMenu">
+               <children>
+                  <AnchorPane prefHeight="573.0" prefWidth="186.0">
+                     <children>
+                        <Button layoutX="58.0" layoutY="509.0" mnemonicParsing="false" text="Log Out" />
+                        <Button layoutX="61.0" layoutY="165.0" mnemonicParsing="false" text="Profile" />
+                        <Button layoutX="61.0" layoutY="281.0" mnemonicParsing="false" text="Build My Squad" />
+                        <Text layoutX="24.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player finder">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="usernameLabel" layoutX="53.0" layoutY="83.0" text="Username">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="playerLink" layoutX="61.0" layoutY="202.0" mnemonicParsing="false" text="Players" />
+                        <Button layoutX="61.0" layoutY="243.0" mnemonicParsing="false" text="Friends" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+            <Pane layoutX="-1.0" prefHeight="38.0" prefWidth="900.0">
+               <children>
+                  <Text layoutX="58.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="user id:" />
+                  <Label fx:id="userIdLabel" layoutX="107.0" layoutY="11.0" text="id numerico" textFill="#9099a5" />
+               </children>
+            </Pane>
+            <AnchorPane layoutX="257.0" layoutY="53.0" prefHeight="56.0" prefWidth="618.0">
+               <children>
+                  <Label layoutX="22.0" layoutY="14.0" text="Find a player:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="toFind" layoutX="142.0" layoutY="12.0" prefHeight="26.0" prefWidth="378.0" promptText="Insert here the name of the player" text="Messi">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="toFindButton" layoutX="537.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#findPlayer" prefHeight="26.0" prefWidth="78.0" text="Find" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="275.0" layoutY="119.0" prefHeight="418.0" prefWidth="601.0">
+               <children>
+                  <AnchorPane fx:id="playersWrapper" prefHeight="418.0" prefWidth="602.0" />
+               </children></AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
