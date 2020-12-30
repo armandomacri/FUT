@@ -5,9 +5,14 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Updates;
 import org.bson.Document;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Updates.set;
@@ -22,7 +27,7 @@ public class MongoSquad {
         db = mongoClient.getDatabase("futdb");
     }
 
-    public void add(int userId, int index, Squad squad){
+    public void add(String userId, int index, Squad squad){
         MongoCollection<Document> myColl = db.getCollection("users");
 
         Document squadDoc = new Document();
@@ -31,23 +36,32 @@ public class MongoSquad {
         squadDoc.append("date", squad.getDate());
 
         Document playersDoc = new Document();
-        //squad.
-        for (int i = 0; i < squad.getPlayers().size()-2; i++){
+        Iterator iterator = squad.getPlayers().keySet().iterator();
 
-            String playerID = squad.getPlayers().get(i).getPlayerId();
-            //if(squad.getPlayers().)
-
-
+        while (iterator.hasNext()){
+            String key = iterator.next().toString();
+            String value = squad.getPlayers().get(key).getPlayerId();
+            playersDoc.append(key, value);
         }
 
         squadDoc.append("players", playersDoc);
 
 
         if(index == -1){
-            //add new squad
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            String date = df.format(squad.getDate());
+            squadDoc.append("date", squad.getDate());
+
+            myColl.updateOne(eq("_id", userId),
+                    Updates.addToSet("squads", squadDoc));
         } else{
-            myColl.updateOne(eq("_id", userId), set("age", 25));
+            myColl.updateOne(
+                    new Document("_id", userId),
+                    new Document("$set", new Document("squads."+index, squadDoc))
+            );
         }
+
+
 
     }
 }

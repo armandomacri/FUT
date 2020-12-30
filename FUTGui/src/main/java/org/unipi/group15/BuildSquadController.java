@@ -10,12 +10,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import mongo.MongoSquad;
 import mongo.ProvaQuery;
+import user.UserSessionService;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class BuildSquadController {
+    private static UserSessionService userSession = App.getSession();
     private static int squadIdex = -1;
     private static Squad squad;
 
@@ -148,6 +153,14 @@ public class BuildSquadController {
 
     @FXML
     private void saveSquad(){
-
+        squad.setName(squadNameTextField.getText());
+        MongoSquad mongoSquad = new MongoSquad();
+        mongoSquad.add(userSession.getUserId(), squadIdex, squad);
+        if (squadIdex == -1){
+            squad.setDate(new Date());
+            userSession.getSquads().add(squad);
+        }
+        else
+            userSession.getSquads().add(squadIdex, squad);
     }
 }
