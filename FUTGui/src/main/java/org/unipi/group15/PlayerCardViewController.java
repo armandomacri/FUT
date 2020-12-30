@@ -2,6 +2,7 @@ package org.unipi.group15;
 
 ;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.WritableImage;
 import levelDB.StoreImage;
 import bean.Player;
 import javafx.fxml.FXML;
@@ -157,7 +158,7 @@ public class PlayerCardViewController {
         StoreImage si = new StoreImage();
 
         String[] img = player.getImages();
-        //img1.(img[0], null);
+
         playerCardImg.setImage(SwingFXUtils.toFXImage(si.findImg(img[0]), null));
         nationalityImg.setImage(SwingFXUtils.toFXImage(si.findImg(img[1]), null));
         clubImg.setImage(SwingFXUtils.toFXImage(si.findImg(img[2]), null));
