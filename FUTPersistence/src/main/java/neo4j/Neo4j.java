@@ -47,7 +47,13 @@ public class Neo4j implements AutoCloseable{
         try ( Session session = driver.session() )
         {
             List<String> SuggestedUsers = session.readTransaction((TransactionWork<List<String>>) tx -> {
-                Result result = tx.run( "MATCH p=(n:User{id: $user_id})-[:Like]->(:PlayerCard)<-[:Like]-(u:User) RETURN u.username as Username",
+                Result result = tx.run( "MATCH (u:User{id: 5})-[:Follow]->(u1:User)\n" +
+                                "WITH collect(u1) AS FollowedUserYet\n" +
+                                "MATCH p=(n:User{id: 5})-[:Like]->(:PlayerCard)<-[l:Like]-(u:User)\n" +
+                                "WHERE NOT u  IN FollowedUserYet\n" +
+                                "RETURN u.username as Username ,count(l) as NumLike, FollowedUserYet\n" +
+                                "ORDER BY NumLike DESC\n" +
+                                "LIMIT 5",
                         parameters( "user_id", user_id) );
                 ArrayList<String> users = new ArrayList<>();
                 while(result.hasNext())
@@ -90,7 +96,7 @@ public class Neo4j implements AutoCloseable{
     public static void main( String... args ) throws Exception{
         try ( Neo4j ex = new Neo4j( "bolt://localhost:7687", "neo4j", "fut" ) )
         {
-            ex.SuggestedUserByFriends(5);
+            ex.SuggestedUserByLike(5);
         }
     }
 }
