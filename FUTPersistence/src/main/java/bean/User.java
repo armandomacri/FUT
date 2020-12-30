@@ -41,6 +41,13 @@ public class User {
         this.squads = new ArrayList<>();
     }
 
+    //user constructor only 2 parameter
+    public User(String username, String user_id){
+        this.username = username;
+        this.userId = user_id;
+        this.squads = new ArrayList<>();
+    }
+
     public User(){
 
     }
