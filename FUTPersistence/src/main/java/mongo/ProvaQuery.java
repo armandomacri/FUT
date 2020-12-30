@@ -65,21 +65,10 @@ public class ProvaQuery {
                 String key = iterator.next().toString();
                 String value = map.get(key);
 
-                if(value.split(",").length > 1){
-                    for (int i = 0; i < value.split(",").length; i++){
-
-                        Player x = findById(Integer.parseInt(value.split(",")[i]));
-                        if(x==null) //utente non caricato nel sistema
-                            continue;
-                        pos.put(key+i, x);
-                    }
-                }
-                else{
-                    Player x = findById(Integer.parseInt(value));
-                    if(x==null) //utente non caricato nel sistema
-                        continue;
-                    pos.put(key, x);
-                }
+                Player x = findById(Integer.parseInt(value));
+                if(x==null) //utente non caricato nel sistema
+                    continue;
+                pos.put(key, x);
             }
             try {
                 df = new SimpleDateFormat("dd.MM.yyyy");
