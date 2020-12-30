@@ -9,6 +9,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import user.UserSessionService;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class PlayerCardViewController {
     private static Player player;
 
@@ -132,6 +135,9 @@ public class PlayerCardViewController {
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
 
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String date = df.format(player.getDateOfBirth());
+
         extendedName.setText(player.getPlayerExtendedName());
         playerName.setText(player.getPlayerName());
         overall.setText(player.getOverall().toString());
@@ -139,7 +145,7 @@ public class PlayerCardViewController {
         club.setText(player.getClub());
         league.setText(player.getLeague());
         nationality.setText(player.getNationality());
-        dateOfBirth.setText(player.getDateOfBirth().toString());
+        dateOfBirth.setText(date);
         height.setText(player.getHeight().toString());
         weight.setText(player.getWeight().toString());
         quality.setText(player.getQuality());
@@ -151,42 +157,42 @@ public class PlayerCardViewController {
         if(player.getPosition().equals("GK")){
             attr1.setText("Diving");
             attr1Stat.setText(player.getGkDiving().toString());
-            attr1Bar.setProgress(player.getGkDiving());
+            attr1Bar.setProgress(player.getGkDiving().doubleValue()/100);
             attr2.setText("Reflexes");
             attr2Stat.setText(player.getGkReflexe().toString());
-            attr2Bar.setProgress(player.getGkReflexe());
+            attr2Bar.setProgress(player.getGkReflexe().doubleValue()/100);
             attr3.setText("Handling");
             attr3Stat.setText(player.getGkHandling().toString());
-            attr3Bar.setProgress(player.getGkHandling());
+            attr3Bar.setProgress(player.getGkHandling().doubleValue()/100);
             attr4.setText("Speed");
             attr4Stat.setText(player.getGkSpeed().toString());
-            attr4Bar.setProgress(player.getGkSpeed());
+            attr4Bar.setProgress(player.getGkSpeed().doubleValue()/100);
             attr5.setText("Kicking");
             attr5Stat.setText(player.getGkKicking().toString());
-            attr5Bar.setProgress(player.getGkKicking());
+            attr5Bar.setProgress(player.getGkKicking().doubleValue()/100);
             attr6.setText("Positioning");
             attr6Stat.setText(player.getGkPositioning().toString());
-            attr6Bar.setProgress(player.getGkPositioning());
+            attr6Bar.setProgress(player.getGkPositioning().doubleValue()/100);
         }
         else{
             attr1.setText("Pace");
             attr1Stat.setText(player.getPace().toString());
-            attr1Bar.setProgress(player.getPace());
+            attr1Bar.setProgress(player.getPace().doubleValue()/100);
             attr2.setText("Shooting");
             attr2Stat.setText(player.getShooting().toString());
-            attr2Bar.setProgress(player.getShooting());
+            attr2Bar.setProgress(player.getShooting().doubleValue()/100);
             attr3.setText("Passing");
             attr3Stat.setText(player.getPassing().toString());
-            attr3Bar.setProgress(player.getPassing());
+            attr3Bar.setProgress(player.getPassing().doubleValue()/100);
             attr4.setText("Dribbling");
             attr4Stat.setText(player.getDribbling().toString());
-            attr4Bar.setProgress(player.getDribbling());
+            attr4Bar.setProgress(player.getDribbling().doubleValue()/100);
             attr5.setText("Defending");
             attr5Stat.setText(player.getDefending().toString());
-            attr5Bar.setProgress(player.getDefending());
+            attr5Bar.setProgress(player.getDefending().doubleValue()/100);
             attr6.setText("Physicality");
             attr6Stat.setText(player.getPhysicality().toString());
-            attr6Bar.setProgress(player.getPhysicality());
+            attr6Bar.setProgress(player.getPhysicality().doubleValue()/100);
         }
     }
 

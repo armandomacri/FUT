@@ -134,13 +134,13 @@ public class ProvaQuery {
         ArrayList<Player> results = new ArrayList<>();
         MongoCollection<Document> myColl = db.getCollection("player_cards");
         System.out.println(toFind);
-        try (MongoCursor<Document> cursor = myColl.find(regex("player_name",".*" + Pattern.quote(toFind) + ".*", "-i")).iterator())
+        try (MongoCursor<Document> cursor = myColl.find(regex("player_extended_name",".*" + Pattern.quote(toFind) + ".*", "-i")).iterator())
         {
             while (cursor.hasNext())
             {
                 Document playerDoc = cursor.next();
                 //System.out.println(cursor.next());
-                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 Date date1 = null;
                 Date date2 = null;
                 try {
