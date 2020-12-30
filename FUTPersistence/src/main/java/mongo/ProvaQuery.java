@@ -6,6 +6,7 @@ import org.bson.Document;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static com.mongodb.client.model.Filters.*;
 
@@ -55,7 +56,7 @@ public class ProvaQuery {
 
         //ricostruisco le squadre dell'utente
         ArrayList<Document> squadsDoc = (ArrayList)doc.get("squads");
-        HashMap<String, String> pos = new HashMap<>();
+        HashMap<String, ArrayList<Player>> pos = new HashMap<>();
         ArrayList<Squad> s = new ArrayList<>();
         for (Document squad : squadsDoc){
             Map<String, String> map = (Map)squad.get("players");
@@ -63,7 +64,17 @@ public class ProvaQuery {
             while(iterator.hasNext()) {
                 String key = iterator.next().toString();
                 String value = map.get(key);
-                pos.put(key, value);
+                ArrayList<Player> f = new ArrayList<>();
+                for (int i = 0; i < value.split(",").length; i++){
+
+                    Player x = findById(Integer.parseInt(value.split(",")[i]));
+                    if(x==null) //utente non caricato nel sistema
+                        continue;
+
+                    f.add(x);
+                }
+                pos.put(key, f);
+
             }
             try {
                 df = new SimpleDateFormat("dd.MM.yyyy");
@@ -81,8 +92,6 @@ public class ProvaQuery {
                 doc.get("last_name").toString(), doc.get("_id").toString(),
                 doc.get("country").toString(), date, doc.get("password").toString(), s);
 
-        System.out.println(newUser);
-
         return newUser;
     }
 
@@ -92,15 +101,32 @@ public class ProvaQuery {
         return i;
     }
 
-    public Player show_player_information(Integer id){
+    public Player findById(Integer id){
 
-        MongoCollection<Document> myColl = db.getCollection("players");
+        MongoCollection<Document> myColl = db.getCollection("player_cards");
         //query
-        Document doc = myColl.find(eq("futbin_id",id)).first();
+        Document playerDoc = myColl.find(eq("_id", id)).first();
 
-        //User newUser = new User(doc.get("first_name").toString(),//da completare con gli altri attributi);
-        System.out.println(doc.toJson());
-        return new Player();
+        /**********************************************************************/
+        if(playerDoc == null) //player ancora non caricato
+            return null;
+        /**********************************************************************/
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        Date date1 = null;
+        Date date2 = null;
+        try {
+            date1 = df.parse(playerDoc.get("date_of_birth").toString());
+            date2 = df.parse(playerDoc.get("added_date").toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String[] images = playerDoc.get("images").toString().split(",");
+        Player p = null;
+        if (playerDoc.get("position").toString().equals("GK"))
+            return new Player(playerDoc.get("_id").toString(), playerDoc.get("player_name").toString(), playerDoc.get("player_extended_name").toString(), playerDoc.get("quality").toString(), playerDoc.get("revision").toString(), Integer.parseInt(playerDoc.get("overall").toString()), playerDoc.get("club").toString(), playerDoc.get("league").toString(), playerDoc.get("nationality").toString(), playerDoc.get("position").toString(), date1, playerDoc.get("height").toString(), playerDoc.get("weight").toString(), date2, Integer.parseInt(playerDoc.get("gk_diving").toString()), Integer.parseInt(playerDoc.get("gk_reflexes").toString()), Integer.parseInt(playerDoc.get("gk_handling").toString()), Integer.parseInt(playerDoc.get("gk_speed").toString()), Integer.parseInt(playerDoc.get("gk_kicking").toString()), Integer.parseInt(playerDoc.get("gk_positoning").toString()), playerDoc.get("pref_foot").toString(), Integer.parseInt(playerDoc.get("weak_foot").toString()), Integer.parseInt(playerDoc.get("skill_moves").toString()), images);
+        else
+            return new Player(playerDoc.get("_id").toString(), playerDoc.get("player_name").toString(), playerDoc.get("player_extended_name").toString(), playerDoc.get("quality").toString(), playerDoc.get("revision").toString(), Integer.parseInt(playerDoc.get("overall").toString()), playerDoc.get("club").toString(), playerDoc.get("league").toString(), playerDoc.get("nationality").toString(), playerDoc.get("position").toString(), date1, playerDoc.get("height").toString(), playerDoc.get("weight").toString(), date2, Integer.parseInt(playerDoc.get("pace").toString()), Integer.parseInt(playerDoc.get("dribbling").toString()), Integer.parseInt(playerDoc.get("shooting").toString()), Integer.parseInt(playerDoc.get("passing").toString()), Integer.parseInt(playerDoc.get("defending").toString()), Integer.parseInt(playerDoc.get("physicality").toString()), playerDoc.get("pref_foot").toString(), Integer.parseInt(playerDoc.get("weak_foot").toString()), Integer.parseInt(playerDoc.get("skill_moves").toString()), images);
     }
 
     public ArrayList<Player> findPlayers (String toFind) {
@@ -108,13 +134,13 @@ public class ProvaQuery {
         ArrayList<Player> results = new ArrayList<>();
         MongoCollection<Document> myColl = db.getCollection("player_cards");
         System.out.println(toFind);
-        try (MongoCursor<Document> cursor = myColl.find(eq("player_name",toFind)).iterator())
+        try (MongoCursor<Document> cursor = myColl.find(regex("player_extended_name",".*" + Pattern.quote(toFind) + ".*", "-i")).iterator())
         {
             while (cursor.hasNext())
             {
                 Document playerDoc = cursor.next();
                 //System.out.println(cursor.next());
-                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 Date date1 = null;
                 Date date2 = null;
                 try {
@@ -124,7 +150,14 @@ public class ProvaQuery {
                     e.printStackTrace();
                 }
                 String[] images = playerDoc.get("images").toString().split(",");
-                Player p = new Player(playerDoc.get("futbin_id").toString(), playerDoc.get("player_name").toString(), playerDoc.get("player_extended_name").toString(), playerDoc.get("quality").toString(), playerDoc.get("revision").toString(), playerDoc.get("origin").toString(), Integer.parseInt(playerDoc.get("overall").toString()), playerDoc.get("club").toString(), playerDoc.get("league").toString(), playerDoc.get("nationality").toString(), playerDoc.get("position").toString(), date1, Integer.parseInt(playerDoc.get("height").toString()), Integer.parseInt(playerDoc.get("weight").toString()), date2, Integer.parseInt(playerDoc.get("pace").toString()), Integer.parseInt(playerDoc.get("dribbling").toString()), Integer.parseInt(playerDoc.get("shooting").toString()), Integer.parseInt(playerDoc.get("passing").toString()), Integer.parseInt(playerDoc.get("defending").toString()), Integer.parseInt(playerDoc.get("physicality").toString()), Integer.parseInt(playerDoc.get("gk_diving").toString()), Integer.parseInt(playerDoc.get("gk_reflexe").toString()), Integer.parseInt(playerDoc.get("gk_handling").toString()), Integer.parseInt(playerDoc.get("gk_speed").toString()), Integer.parseInt(playerDoc.get("gk_kicking").toString()), Integer.parseInt(playerDoc.get("gk_positioning").toString()), playerDoc.get("pref_foot").toString(), Integer.parseInt(playerDoc.get("weak_foot").toString()), Integer.parseInt(playerDoc.get("skill_moves").toString()), playerDoc.get("traits").toString(), images);
+                Player p = null;
+                if (playerDoc.get("position").toString().equals("GK")) {
+                    p = new Player(playerDoc.get("_id").toString(), playerDoc.get("player_name").toString(), playerDoc.get("player_extended_name").toString(), playerDoc.get("quality").toString(), playerDoc.get("revision").toString(), Integer.parseInt(playerDoc.get("overall").toString()), playerDoc.get("club").toString(), playerDoc.get("league").toString(), playerDoc.get("nationality").toString(), playerDoc.get("position").toString(), date1, playerDoc.get("height").toString(), playerDoc.get("weight").toString(), date2, Integer.parseInt(playerDoc.get("gk_diving").toString()), Integer.parseInt(playerDoc.get("gk_reflexes").toString()), Integer.parseInt(playerDoc.get("gk_handling").toString()), Integer.parseInt(playerDoc.get("gk_speed").toString()), Integer.parseInt(playerDoc.get("gk_kicking").toString()), Integer.parseInt(playerDoc.get("gk_positoning").toString()), playerDoc.get("pref_foot").toString(), Integer.parseInt(playerDoc.get("weak_foot").toString()), Integer.parseInt(playerDoc.get("skill_moves").toString()), images);
+                }
+                else {
+                    p = new Player(playerDoc.get("_id").toString(), playerDoc.get("player_name").toString(), playerDoc.get("player_extended_name").toString(), playerDoc.get("quality").toString(), playerDoc.get("revision").toString(), Integer.parseInt(playerDoc.get("overall").toString()), playerDoc.get("club").toString(), playerDoc.get("league").toString(), playerDoc.get("nationality").toString(), playerDoc.get("position").toString(), date1, playerDoc.get("height").toString(), playerDoc.get("weight").toString(), date2, Integer.parseInt(playerDoc.get("pace").toString()), Integer.parseInt(playerDoc.get("dribbling").toString()), Integer.parseInt(playerDoc.get("shooting").toString()), Integer.parseInt(playerDoc.get("passing").toString()), Integer.parseInt(playerDoc.get("defending").toString()), Integer.parseInt(playerDoc.get("physicality").toString()), playerDoc.get("pref_foot").toString(), Integer.parseInt(playerDoc.get("weak_foot").toString()), Integer.parseInt(playerDoc.get("skill_moves").toString()), images);
+                }
+
                 results.add(p);
             }
         }
@@ -139,7 +172,7 @@ public class ProvaQuery {
     public static void main(String[] args){
         ProvaQuery m = new ProvaQuery();
         //m.show_player_information(1);
-        System.out.println(m.findPlayers("Ronaldo"));
+        System.out.println(m.findById(1));
     }
 }
 

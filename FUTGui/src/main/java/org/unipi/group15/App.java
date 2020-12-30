@@ -15,11 +15,13 @@ import java.io.IOException;
 public class App extends Application {
     private static UserSessionService session;
     private static Scene scene;
+    private static Stage s;
 
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"));
         stage.setScene(scene);
+        s = stage;
         stage.show();
     }
 
@@ -29,6 +31,8 @@ public class App extends Application {
     public static void setSession(UserSessionService s){
         session = s;
     }
+    public static void setHeight(double height){ s.setHeight(height); }
+    public static void setWidth(double width){ s.setWidth(width); }
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));

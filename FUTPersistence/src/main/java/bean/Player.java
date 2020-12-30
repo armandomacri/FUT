@@ -4,20 +4,19 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Player {
-    private String futbinId;
+    private String playerId;
     private String playerName;
     private String playerExtendedName;
     private String quality;
     private String revision;
-    private String origin;
     private Integer overall;
     private String club;
     private String league;
     private String nationality;
     private String position;
     private Date dateOfBirth;
-    private Integer height;
-    private Integer weight;
+    private String height;
+    private String weight;
     private Date addedDate;
     private Integer pace;
     private Integer dribbling;
@@ -37,13 +36,16 @@ public class Player {
     private String traits;
     private String[] images;
 
-    public Player(String futbin_id, String player_name, String player_extended_name, String quality, String revision, String origin, Integer overall, String club, String league, String nationality, String position, Date date_of_birth, Integer height, Integer weight, Date added_date, Integer pace, Integer dribbling, Integer shooting, Integer passing, Integer defending, Integer physicality, Integer gk_diving, Integer gk_reflexe, Integer gk_handling, Integer gk_speed, Integer gk_kicking, Integer gk_positioning, String pref_foot, Integer weak_foot, Integer skill_moves, String traits, String[] images){
-        this.futbinId = futbin_id;
+    //general constructor
+    public Player(String playerId, String player_name, String player_extended_name, String quality,
+                  String revision, Integer overall, String club, String league, String nationality,
+                  String position, Date date_of_birth, String height, String weight, Date added_date,
+                  String pref_foot, Integer weak_foot, Integer skill_moves, String[] images){
+        this.playerId = playerId;
         this.playerName = player_name;
         this.playerExtendedName = player_extended_name;
         this.quality = quality;
         this.revision = revision;
-        this.origin = origin;
         this.overall = overall;
         this.club = club;
         this.league = league;
@@ -53,31 +55,43 @@ public class Player {
         this.height = height;
         this.weight = weight;
         this.addedDate = added_date;
-        this.pace = pace;
-        this.dribbling = dribbling;
-        this.shooting = shooting;
-        this.passing = passing;
-        this.defending = defending;
-        this.physicality = physicality;
-        this.gkDiving = gk_diving;
-        this.gkReflexe = gk_reflexe;
-        this.gkHandling = gk_handling;
-        this.gkSpeed = gk_speed;
-        this.gkKicking = gk_kicking;
-        this.gkPositioning = gk_positioning;
         this.prefFoot = pref_foot;
         this.weakFoot = weak_foot;
         this.skillMoves = skill_moves;
-        this.traits = traits;
         this.images = images;
     }
 
-    public Player(){
+    //costructor for not GK
+    public Player(String playerId, String player_name, String player_extended_name, String quality,
+                  String revision, Integer overall, String club, String league, String nationality,
+                  String position, Date date_of_birth, String height, String weight, Date added_date,
+                  Integer att1, Integer att2, Integer att3, Integer att4, Integer att5,
+                  Integer att6, String pref_foot, Integer weak_foot, Integer skill_moves, String[] images){
+        this(playerId, player_name, player_extended_name, quality, revision, overall, club, league,
+                nationality, position, date_of_birth, height, weight, added_date, pref_foot, weak_foot,
+                skill_moves, images);
+        if(position.equals("GK")){
+            this.gkDiving = att1;
+            this.gkReflexe = att2;
+            this.gkHandling = att3;
+            this.gkSpeed = att4;
+            this.gkKicking = att5;
+            this.gkPositioning = att6;
+        } else{
+            this.pace = att1;
+            this.dribbling = att2;
+            this.shooting = att3;
+            this.passing = att4;
+            this.defending = att5;
+            this.physicality = att6;
+        }
 
     }
 
-    public String getFutbinId() {
-        return futbinId;
+    public Player(){}
+
+    public String getPlayerId() {
+        return playerId;
     }
 
     public String getPlayerName() {
@@ -94,10 +108,6 @@ public class Player {
 
     public String getRevision() {
         return revision;
-    }
-
-    public String getOrigin() {
-        return origin;
     }
 
     public Integer getOverall() {
@@ -124,11 +134,11 @@ public class Player {
         return dateOfBirth;
     }
 
-    public Integer getHeight() {
+    public String getHeight() {
         return height;
     }
 
-    public Integer getWeight() {
+    public String getWeight() {
         return weight;
     }
 
@@ -204,8 +214,8 @@ public class Player {
         return images;
     }
 
-    public void setFutbinId(String futbinId) {
-        this.futbinId = futbinId;
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
     }
 
     public void setPlayerName(String playerName) {
@@ -222,10 +232,6 @@ public class Player {
 
     public void setRevision(String revision) {
         this.revision = revision;
-    }
-
-    public void setOrigin(String origin) {
-        this.origin = origin;
     }
 
     public void setOverall(Integer overall) {
@@ -252,11 +258,11 @@ public class Player {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public void setHeight(Integer height) {
+    public void setHeight(String height) {
         this.height = height;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 

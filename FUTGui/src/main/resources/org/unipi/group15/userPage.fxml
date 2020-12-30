@@ -80,7 +80,7 @@
                                     <Image url="@../../../img/team.png" />
                                  </image>
                               </ImageView>
-                              <Button mnemonicParsing="false" text="Build My Squad" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Button mnemonicParsing="false" onMouseClicked="#switchToBuildSquad" text="Build My Squad" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
                      </children>

@@ -1,4 +1,5 @@
 package bean;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -6,12 +7,17 @@ public class Squad {
     private String name;
     private String module;
     private Date date;
-    private HashMap<String, String> players;
+    private HashMap<String, ArrayList<Player>> players;
 
-    public Squad(String name, String module, Date date, HashMap<String, String> players){
+    public Squad(String name, String module, Date date){
         this.name = name;
         this.module = module;
         this.date = date;
+        this.players = new HashMap<>();
+    }
+
+    public Squad(String name, String module, Date date, HashMap<String, ArrayList<Player>> players){
+        this(name, module, date);
         this.players = players;
     }
 
@@ -29,7 +35,7 @@ public class Squad {
         return date;
     }
 
-    public HashMap<String, String> getPlayers() {
+    public HashMap<String, ArrayList<Player>> getPlayers() {
         return players;
     }
 
@@ -45,9 +51,11 @@ public class Squad {
         this.date = date;
     }
 
-    public void setPlayers(HashMap<String, String> players) {
+    public void setPlayers(HashMap<String, ArrayList<Player>> players) {
         this.players = players;
     }
+
+    //public void addPlayer(String pos, Player player){ players.put(pos, player); }
 
     @Override
     public String toString(){
@@ -55,7 +63,7 @@ public class Squad {
                 "\t NAME:" + getName() + "\n" +
                 "\t MODULE:" + getModule() + "\n" +
                 "\t DATE:" + getDate() + "\n" +
-                "\t PLAYERS: " + getPlayers() + "\n" +
+                "\t PLAYERS: " + getPlayers().toString() + "\n" +
                 "}";
     }
 }

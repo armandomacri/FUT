@@ -21,7 +21,7 @@
          <children>
             <VBox fx:id="leftMenu" layoutY="38.0" prefHeight="562.0" prefWidth="240.0" styleClass="leftMenu">
                <children>
-                  <AnchorPane prefHeight="573.0" prefWidth="186.0">
+                  <AnchorPane prefHeight="581.0" prefWidth="215.0">
                      <children>
                         <Button layoutX="58.0" layoutY="509.0" mnemonicParsing="false" text="Log Out" />
                         <Button layoutX="61.0" layoutY="165.0" mnemonicParsing="false" text="Profile" />
@@ -63,68 +63,68 @@
                             <RowConstraints maxHeight="27.600012207031256" minHeight="10.0" prefHeight="21.79998779296875" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <ProgressBar id="pace_bar" fx:id="paceBar" prefHeight="17.6" prefWidth="200.0" progress="0.89" GridPane.rowIndex="1" />
-                              <ProgressBar id="shooting_bar" fx:id="shootingBar" prefHeight="17.6" prefWidth="200.0" progress="0.93" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                              <ProgressBar id="passing_bar" fx:id="passingBar" prefHeight="17.6" prefWidth="178.0" progress="0.81" GridPane.rowIndex="3" />
-                              <ProgressBar id="dribbling_bar" fx:id="dribblingBar" prefHeight="17.6" prefWidth="200.0" progress="0.89" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                              <ProgressBar id="defending_bar" fx:id="defendingBar" prefHeight="17.6" prefWidth="200.0" progress="0.35" GridPane.rowIndex="5" />
-                              <ProgressBar id="physicality_bar" fx:id="physicalityBar" prefHeight="17.6" prefWidth="200.0" progress="0.77" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                              <Label prefHeight="27.0" prefWidth="41.0" text="Pace">
+                              <ProgressBar id="pace_bar" fx:id="attr1Bar" prefHeight="17.6" prefWidth="200.0" progress="0.89" GridPane.rowIndex="1" />
+                              <ProgressBar id="shooting_bar" fx:id="attr2Bar" prefHeight="17.6" prefWidth="200.0" progress="0.93" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <ProgressBar id="passing_bar" fx:id="attr3Bar" prefHeight="17.6" prefWidth="178.0" progress="0.81" GridPane.rowIndex="3" />
+                              <ProgressBar id="dribbling_bar" fx:id="attr4Bar" prefHeight="17.6" prefWidth="200.0" progress="0.89" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <ProgressBar id="defending_bar" fx:id="attr5Bar" prefHeight="17.6" prefWidth="200.0" progress="0.35" GridPane.rowIndex="5" />
+                              <ProgressBar id="physicality_bar" fx:id="attr6Bar" prefHeight="17.6" prefWidth="200.0" progress="0.77" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                              <Label fx:id="attr1" prefHeight="27.0" prefWidth="73.0" text="Pace">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label text="Passing" GridPane.rowIndex="2">
+                              <Label fx:id="attr3" text="Passing" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label text="Defending" GridPane.rowIndex="4">
+                              <Label fx:id="attr5" text="Defending" GridPane.rowIndex="4">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label text="Shooting" GridPane.columnIndex="2">
+                              <Label fx:id="attr2" text="Shooting" GridPane.columnIndex="2">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label text="Dribbling" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                              <Label fx:id="attr4" text="Dribbling" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label text="Physicality" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                              <Label fx:id="attr6" text="Physicality" GridPane.columnIndex="2" GridPane.rowIndex="4">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label id="pace_stat" fx:id="paceStat" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="176.0" text="89">
+                              <Label id="pace_stat" fx:id="attr1Stat" alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="175.0" text="89">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label id="shooting_stat" fx:id="shootingStat" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="176.0" text="93" GridPane.columnIndex="2">
+                              <Label id="shooting_stat" fx:id="attr2Stat" alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="159.0" text="93" GridPane.columnIndex="2">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label id="passing_stat" fx:id="passingStat" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="176.0" text="81" GridPane.rowIndex="2">
+                              <Label id="passing_stat" fx:id="attr3Stat" alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="197.0" text="81" textAlignment="CENTER" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label id="dribbling_stat" fx:id="dribblingStat" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="176.0" text="89" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                              <Label id="dribbling_stat" fx:id="attr4Stat" alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="172.0" text="89" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label id="defending_stat" fx:id="defendingStat" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="176.0" text="35" GridPane.rowIndex="4">
+                              <Label id="defending_stat" fx:id="attr5Stat" alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="173.0" text="35" GridPane.rowIndex="4">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label id="physicality_stat" fx:id="physicalityStat" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="176.0" text="77" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                              <Label id="physicality_stat" fx:id="attr6Stat" alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="166.0" text="77" GridPane.columnIndex="2" GridPane.rowIndex="4">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -185,7 +185,7 @@
             </AnchorPane>
             <AnchorPane layoutX="611.0" layoutY="233.0" prefHeight="333.0" prefWidth="274.0">
                <children>
-                  <GridPane layoutY="45.0" prefHeight="262.0" prefWidth="274.0">
+                  <GridPane layoutY="45.0" prefHeight="230.0" prefWidth="274.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
@@ -197,23 +197,18 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quality:" wrappingWidth="92.23052978515625" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Version:" wrappingWidth="95.122314453125" GridPane.rowIndex="1" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Origin:" wrappingWidth="120.290283203125" GridPane.rowIndex="2" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Weak foot:" wrappingWidth="123.7281494140625" GridPane.rowIndex="3" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Skill moves:" wrappingWidth="123.7281494140625" GridPane.rowIndex="4" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Traits:" wrappingWidth="123.7281494140625" GridPane.rowIndex="5" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pref. foot:" wrappingWidth="99.298828125" GridPane.rowIndex="6" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Weak foot:" wrappingWidth="123.7281494140625" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Skill moves:" wrappingWidth="123.7281494140625" GridPane.rowIndex="3" />
                         <Text fx:id="quality" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" />
                         <Text fx:id="revision" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="1" />
-                        <Text fx:id="origin" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="2" />
-                        <Text fx:id="weakFoot" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="3" />
-                        <Text fx:id="skillMoves" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="4" />
-                        <Text fx:id="traits" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="5" />
-                        <Text fx:id="prefFoot" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="6" />
+                        <Text fx:id="weakFoot" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="2" />
+                        <Text fx:id="skillMoves" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.7366943359375" GridPane.rowIndex="3" />
+                        <Text fx:id="prefFoot" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="4" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pref. foot:" wrappingWidth="123.7281494140625" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
                   <Label layoutX="14.0" text="Card Information">
@@ -225,7 +220,7 @@
             </AnchorPane>
             <AnchorPane layoutX="263.0" layoutY="234.0" prefHeight="318.0" prefWidth="274.0">
                <children>
-                  <GridPane layoutY="13.0" prefHeight="292.0" prefWidth="274.0">
+                  <GridPane layoutY="13.0" prefHeight="292.0" prefWidth="309.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
@@ -245,26 +240,26 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="League:" GridPane.rowIndex="3" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nationality:" wrappingWidth="99.38165283203125" GridPane.rowIndex="4" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of birth:" wrappingWidth="85.64453125" GridPane.rowIndex="5" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Height:" GridPane.rowIndex="6" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:" wrappingWidth="56.98162841796875" GridPane.rowIndex="7" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Extended name:" GridPane.rowIndex="1" />
-                        <Text fx:id="extendedName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="1" />
-                        <Text fx:id="club" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="276.53680419921875" GridPane.rowIndex="2" />
-                        <Text fx:id="league" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="3" />
-                        <Text fx:id="nationality" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="4" />
-                        <Text fx:id="height" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="6" />
-                        <Text fx:id="weight" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="7" />
-                        <Text fx:id="dateOfBirth" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="275.73675537109375" GridPane.rowIndex="5" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Heigh (cm):" GridPane.rowIndex="6" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Weight (kg):" wrappingWidth="276.98162841796875" GridPane.rowIndex="7" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ext. name:" wrappingWidth="86.11566162109375" GridPane.rowIndex="1" />
+                        <Text fx:id="extendedName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="310.936767578125" GridPane.rowIndex="1" />
+                        <Text fx:id="club" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="311.73675537109375" GridPane.rowIndex="2" />
+                        <Text fx:id="league" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="311.73675537109375" GridPane.rowIndex="3" />
+                        <Text fx:id="nationality" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="311.73675537109375" GridPane.rowIndex="4" />
+                        <Text fx:id="height" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="313.3367919921875" GridPane.rowIndex="6" />
+                        <Text fx:id="weight" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="313.33673095703125" GridPane.rowIndex="7" />
+                        <Text fx:id="dateOfBirth" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="312.53680419921875" GridPane.rowIndex="5" />
                      </children>
                   </GridPane>
-                  <Label layoutX="14.0" layoutY="-1.0" text="Player Information">
+                  <Label layoutX="54.0" layoutY="-1.0" text="Player Information">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <Button fx:id="showCommentButton" layoutX="459.0" layoutY="553.0" mnemonicParsing="false" onAction="#goToComments" prefHeight="26.0" prefWidth="174.0" text="Go to the comments section!" />
+            <Button fx:id="showComments" layoutX="459.0" layoutY="553.0" mnemonicParsing="false" onMouseClicked="#goToComments" prefHeight="26.0" prefWidth="174.0" text="Go to the comments section!" />
          </children>
       </AnchorPane>
    </children>
