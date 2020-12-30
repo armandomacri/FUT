@@ -1,16 +1,23 @@
 package org.unipi.group15;
 
+;
+import javafx.embed.swing.SwingFXUtils;
+import levelDB.StoreImage;
 import bean.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import user.UserSessionService;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static java.awt.Image.*;
 
 public class PlayerCardViewController {
     private static Player player;
@@ -121,6 +128,15 @@ public class PlayerCardViewController {
     private Text prefFoot;
 
     @FXML
+    private ImageView playerCardImg;
+
+    @FXML
+    private ImageView nationalityImg;
+
+    @FXML
+    private ImageView clubImg;
+
+    @FXML
     private Button showComments;
 
     public void setPlayer(Player p){
@@ -130,7 +146,7 @@ public class PlayerCardViewController {
     }
 
     @FXML
-    private void initialize(){
+    private void initialize() throws IOException {
         UserSessionService userSession = App.getSession();
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
@@ -138,6 +154,13 @@ public class PlayerCardViewController {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(player.getDateOfBirth());
 
+        StoreImage si = new StoreImage();
+
+        String[] img = player.getImages();
+        //img1.(img[0], null);
+        playerCardImg.setImage(SwingFXUtils.toFXImage(si.findImg(img[0]), null));
+        nationalityImg.setImage(SwingFXUtils.toFXImage(si.findImg(img[1]), null));
+        clubImg.setImage(SwingFXUtils.toFXImage(si.findImg(img[2]), null));
         extendedName.setText(player.getPlayerExtendedName());
         playerName.setText(player.getPlayerName());
         overall.setText(player.getOverall().toString());
@@ -199,6 +222,11 @@ public class PlayerCardViewController {
     @FXML
     private void goToComments(){
         // carica tutti i commenti del giocatore
+    }
+
+    @FXML
+    private void goToSearchPlayer() throws IOException{
+        App.setRoot("searchPlayer");
     }
 
 
