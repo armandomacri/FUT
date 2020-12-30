@@ -7,6 +7,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import user.UserSessionService;
 
+import java.io.IOException;
+
 public class FriendsPageController {
 
     private final UserSessionService userSession = App.getSession();
@@ -24,8 +26,8 @@ public class FriendsPageController {
     @FXML private TableView SuggestedFriend;
 
     @FXML
-    private void searchFriend(){
-
+    private void searchFriend() throws IOException {
+        App.setRoot("searchPlayer");
     }
 
 }

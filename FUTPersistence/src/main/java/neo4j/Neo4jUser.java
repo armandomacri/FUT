@@ -5,14 +5,13 @@ import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.neo4j.driver.Values.parameters;
 
-public class Neo4j implements AutoCloseable{
+public class Neo4jUser implements AutoCloseable{
     private final Driver driver;
 
-    public Neo4j(String uri, String user, String password){
+    public Neo4jUser(String uri, String user, String password){
         driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
     }
 
@@ -21,13 +20,13 @@ public class Neo4j implements AutoCloseable{
         driver.close();
     }
 
-    private ArrayList<User> searchUser( final String username ){
+    private ArrayList<User> searchUser(final String username){
         ArrayList<User> matchingUsers;
         try ( Session session = driver.session() )
         {
             matchingUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
                 Result result = tx.run( "MATCH (u:User) WHERE (u.username) CONTAINS $username\n" +
-                                "RETURN u.username as Username, toString(u.id) as Id",
+                                        "RETURN u.username as Username, toString(u.id) as Id",
                         parameters( "username", username) );
                 ArrayList<User> users = new ArrayList<>();
                 while(result.hasNext())
@@ -43,17 +42,17 @@ public class Neo4j implements AutoCloseable{
         return matchingUsers;
     }
 
-    private ArrayList<User> SuggestedUserByLike( final Integer user_id){
+    private ArrayList<User> SuggestedUserByLike(final Integer user_id){
         ArrayList<User> SuggestedUsers;
         try (Session session = driver.session()) {
             SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
                 Result result = tx.run("MATCH (u:User{id: $user_id})-[:Follow]->(u1:User)\n" +
-                                "WITH collect(u1) AS FollowedUserYet\n" +
-                                "MATCH p=(n:User{id: $user_id})-[:Like]->(:PlayerCard)<-[l:Like]-(u:User)\n" +
-                                "WHERE NOT u IN FollowedUserYet\n" +
-                                "RETURN toString(u.id) as Id, u.username as Username, count(l) as NumLike\n" +
-                                "ORDER BY NumLike DESC\n" +
-                                "LIMIT 5",
+                                        "WITH collect(u1) AS FollowedUserYet\n" +
+                                        "MATCH p=(n:User{id: $user_id})-[:Like]->(:PlayerCard)<-[l:Like]-(u:User)\n" +
+                                        "WHERE NOT u IN FollowedUserYet\n" +
+                                        "RETURN toString(u.id) as Id, u.username as Username, count(l) as NumLike\n" +
+                                        "ORDER BY NumLike DESC\n" +
+                                        "LIMIT 5",
                         parameters("user_id", user_id));
                 ArrayList<User> users = new ArrayList<>();
                 while (result.hasNext()){
@@ -68,14 +67,14 @@ public class Neo4j implements AutoCloseable{
         return SuggestedUsers;
     }
 
-    private ArrayList<User> SuggestedUserByFriends( final Integer user_id) {
+    private ArrayList<User> SuggestedUserByFriends(final Integer user_id) {
         ArrayList<User> SuggestedUsers;
         try (Session session = driver.session()) {
             SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
                 Result result = tx.run("MATCH p=(n:User{id: 5})-[:Follow]->(:User)<-[f:Follow]-(u:User)\n" +
-                                "RETURN toString(u.id) as Id, u.username as Username, count(f) as NumFollow\n" +
-                                "ORDER BY NumFollow DESC\n" +
-                                "LIMIT 5",
+                                        "RETURN toString(u.id) as Id, u.username as Username, count(f) as NumFollow\n" +
+                                        "ORDER BY NumFollow DESC\n" +
+                                        "LIMIT 5",
                         parameters("user_id", user_id));
                 ArrayList<User> users = new ArrayList<>();
                 while (result.hasNext()) {
@@ -90,12 +89,33 @@ public class Neo4j implements AutoCloseable{
         return SuggestedUsers;
     }
 
+    public void CreateUser(final Integer user_id, final String username){
+        try (Session session = driver.session()){
+            session.writeTransaction( tx -> {
+                tx.run("CREATE (u:User {id: $user_id, username: $username})",
+                        parameters("user_id", user_id , "username", username));
+               return 1;
+            });
+        }
+    }
+
+    public void CreateFollow(final Integer user_id, final Integer user_id1){
+        try (Session session = driver.session()){
+            session.writeTransaction( tx -> {
+                tx.run("MATCH (u:User{id: 171717}),(u1:User{id: 111111})\n" +
+                        "CREATE (u)-[:Follow]->(u1)",
+                        parameters("user_id", user_id , "user_id1", user_id1));
+                return 1;
+            });
+        }
+    }
+
     public static void main( String... args ) throws Exception{
-        try ( Neo4j ex = new Neo4j( "bolt://localhost:7687", "neo4j", "fut" ) )
+        try ( Neo4jUser ex = new Neo4jUser( "bolt://localhost:7687", "neo4j", "fut" ) )
         {
-            ArrayList<User> utenti = null;
-            utenti = ex.SuggestedUserByLike(5);
-            System.out.println(utenti);
+            ex.CreateUser(171717, "AndreaLagna");
+            ex.CreateUser(111111, "ArmandoMacri");
+            ex.CreateFollow(171717,111111);
         }
     }
 }
