@@ -5,7 +5,7 @@ import java.util.Date;
 public class Comment {
     private Integer id;
     private Integer player_id;
-    // aggiungere anche id user????
+    private String author_username;
     private Date date;
     private String text;
 
@@ -14,6 +14,14 @@ public class Comment {
         this.player_id = player_id;
         this.date = date;
         this.text = text;
+    }
+
+    public Comment (Integer id, Integer player_id, Date date, String text, String author){
+        this.id = id;
+        this.player_id = player_id;
+        this.date = date;
+        this.text = text;
+        this.author_username = author;
     }
 
     public Comment(){
