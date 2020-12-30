@@ -1,6 +1,5 @@
 package org.unipi.group15;
 
-
 import bean.Player;
 import bean.Squad;
 import javafx.beans.binding.Bindings;
@@ -9,35 +8,28 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 import mongo.ProvaQuery;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 public class BuildSquadController {
     private static int squadIdex = -1;
     private static Squad squad;
-    private HashMap<String, AnchorPane> squadPos = new HashMap<>();
-    private TableView<Player> playersTable = new TableView();
 
     @FXML private TextField squadNameTextField;
 
     @FXML private ChoiceBox<String> moduleChoiceBox;
 
-    @FXML private AnchorPane footbalField;
-
     @FXML private ChoiceBox<String> positionChoiceBox;
 
-    @FXML private TextField findPlayerTextField;
+    @FXML private TableView<Player> findPlayersTableView;
 
-    @FXML private ScrollPane playersScrollPane;
+    @FXML private TableView<Player> chosenPlayersTableView;
+
+    @FXML private TextField findPlayerTextField;
 
     @FXML private Button addPlayerButton;
 
@@ -48,18 +40,35 @@ public class BuildSquadController {
         moduleChoiceBox.getItems().addAll(FXCollections.observableArrayList("352",
                                             "4231", "4312", "433", "442"));
 
+        chosenPlayersTableView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("playerName"));
+        chosenPlayersTableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("pace"));
+        chosenPlayersTableView.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("shooting"));
+        chosenPlayersTableView.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("passing"));
+        chosenPlayersTableView.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("defending"));
+        chosenPlayersTableView.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("physicality"));
+
+        findPlayersTableView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("playerExtendedName"));
+        findPlayersTableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("overall"));
+        findPlayersTableView.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("quality"));
+        findPlayersTableView.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("revision"));
+        findPlayersTableView.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("club"));
+
         if(squadIdex != -1) {
             squad = App.getSession().getSquads().get(squadIdex);
             squadNameTextField.setText(squad.getName());
             moduleChoiceBox.getSelectionModel().select(squad.getModule());
             displayModulePositions(squad.getModule());
+            ObservableList<Player> players = FXCollections.observableArrayList(squad.getPlayers().values());
+            chosenPlayersTableView.setItems(players);
         }
-        else
+        else {
             squad = new Squad();
+        }
 
         moduleChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                squad.getPlayers().clear();
                 displayModulePositions(moduleChoiceBox.getItems().get((Integer) newValue));
             }
         });
@@ -73,23 +82,23 @@ public class BuildSquadController {
         squad.setModule(module);
         switch (module){
             case "352":
-                ArrayList<String> m352 = new ArrayList(Arrays.asList("GK", "CB0", "CB1", "CB2", "CDM0", "CDM2", "CAM1", "LM", "RM", "ST0", "ST2"));
+                ArrayList<String> m352 = new ArrayList(Arrays.asList("GK", "CB0", "CB1", "CB2", "CDM0", "CDM1", "CAM1", "LM", "RM", "ST0", "ST1"));
                 displayPosition(m352);
                 break;
             case "4231":
-                ArrayList<String> m4231 = new ArrayList(Arrays.asList("GK","CB0","CB2","LB","RB","CAM1","CDM0","CDM2","CAM0","CAM2","ST1"));
+                ArrayList<String> m4231 = new ArrayList(Arrays.asList("GK","CB0","CB1","LB","RB","CAM1","CDM0","CDM1","CAM0","CAM2","ST"));
                 displayPosition(m4231);
                 break;
             case "4312":
-                ArrayList<String> m4312 = new ArrayList(Arrays.asList("GK","CB0","CB2","LB","RB","CM0","CM1","CM2","CAM1","ST0","ST2"));
+                ArrayList<String> m4312 = new ArrayList(Arrays.asList("GK","CB0","CB1","LB","RB","CM0","CM1","CM2","CAM1","ST0","ST1"));
                 displayPosition(m4312);
                 break;
             case "433":
-                ArrayList<String> m433 = new ArrayList(Arrays.asList("GK","CB0","CB2","LB","RB","CM0","CM1","CM2","ST1","LW","RW"));
+                ArrayList<String> m433 = new ArrayList(Arrays.asList("GK","CB0","CB1","LB","RB","CM0","CM1","CM2","ST0","LW","RW"));
                 displayPosition(m433);
                 break;
             case "442":
-                ArrayList<String> m442 = new ArrayList(Arrays.asList("GK","CB0","CB2","LB","RB","CM0","CM2","LM","RM","ST0","ST2"));
+                ArrayList<String> m442 = new ArrayList(Arrays.asList("GK","CB0","CB1","LB","RB","CM0","CM1","LM","RM","ST0","ST1"));
                 displayPosition(m442);
                 break;
             default: break;
@@ -97,32 +106,17 @@ public class BuildSquadController {
     }
 
     @FXML
-    private void switchToProfile() throws IOException {
-        App.setRoot("userPage");
-        App.setHeight(600);
-        App.setWidth(900);
-    }
+    private void switchToProfile() throws IOException { App.setRoot("userPage"); }
 
     private void displayPosition(ArrayList<String> elem){
-
-        if(squadPos.size() != 0)
-            squadPos.clear();
-
-        for(Node e: footbalField.getChildren()){
-            e.setVisible(false);
-            if(elem.contains(e.getId())){
-                e.setVisible(true);
-                squadPos.put(e.getId(), (AnchorPane) e);
-            }
-        }
-
         choosePlayerBox(elem);
+        chosenPlayersTableView.getItems().clear();
+
     }
 
     private void choosePlayerBox(ArrayList<String> elem){
-        positionChoiceBox.getItems().removeAll(moduleChoiceBox.getItems());
+        positionChoiceBox.getItems().removeAll(positionChoiceBox.getItems());
         positionChoiceBox.getItems().addAll(FXCollections.observableArrayList(elem));
-
     }
 
     @FXML
@@ -132,44 +126,28 @@ public class BuildSquadController {
 
     @FXML
     private void selectPlayer(){
+        if(findPlayerTextField.getText().equals(""))
+            return;
+
         ProvaQuery pq = new ProvaQuery();
-        playersTable.getItems().clear();
+        findPlayersTableView.getItems().clear();
         ObservableList<Player> players = FXCollections.observableArrayList(pq.findPlayers(findPlayerTextField.getText()));
-
-        TableColumn<Player, String> column1 = new TableColumn<>("Name");
-        column1.setCellValueFactory(new PropertyValueFactory<>("playerExtendedName"));
-
-        TableColumn<Player, Integer> column2 = new TableColumn<>("Overall");
-        column2.setCellValueFactory(new PropertyValueFactory<>("overall"));
-
-        TableColumn<Player, String> column3 = new TableColumn<>("Quality");
-        column3.setCellValueFactory(new PropertyValueFactory<>("quality"));
-
-        TableColumn<Player, String> column4 = new TableColumn<>("Revision");
-        column4.setCellValueFactory(new PropertyValueFactory<>("revision"));
-
-        TableColumn<Player, String> column5 = new TableColumn<>("Club");
-        column5.setCellValueFactory(new PropertyValueFactory<>("club"));
-
-        TableColumn<Player, String> column6 = new TableColumn<>("ADD");
-
-        playersTable.getColumns().addAll(column1, column2, column3, column4, column5);
-
-        playersTable.setItems(players);
-
-        playersTable.setFixedCellSize(25);
-        playersTable.prefHeightProperty().bind(Bindings.size(playersTable.getItems()).multiply(playersTable.getFixedCellSize()).add(30));
-
-        playersScrollPane.setContent(playersTable);
+        findPlayersTableView.setItems(players);
+        findPlayersTableView.setFixedCellSize(25);
+        findPlayersTableView.prefHeightProperty().bind(Bindings.size(findPlayersTableView.getItems()).multiply(findPlayersTableView.getFixedCellSize()).add(30));
     }
 
     @FXML
     private void addPlayer(){
-        Player player = (Player) playersTable.getSelectionModel().getSelectedItem();
+        Player player = (Player) findPlayersTableView.getSelectionModel().getSelectedItem();
         String pos = (String) positionChoiceBox.getSelectionModel().getSelectedItem();
+        squad.getPlayers().put(pos, player);
+        ObservableList<Player> players = FXCollections.observableArrayList(squad.getPlayers().values());
+        chosenPlayersTableView.setItems(players);
+    }
 
-        //squad.addPlayer(pos, player);
-        AnchorPane n = squadPos.get(pos);
-        //n.getChildren().add(new Text(p.getPlayerId()));
+    @FXML
+    private void saveSquad(){
+
     }
 }

@@ -7,7 +7,7 @@ public class Squad {
     private String name;
     private String module;
     private Date date;
-    private HashMap<String, ArrayList<Player>> players;
+    private HashMap<String, Player> players;
 
     public Squad(String name, String module, Date date){
         this.name = name;
@@ -16,12 +16,14 @@ public class Squad {
         this.players = new HashMap<>();
     }
 
-    public Squad(String name, String module, Date date, HashMap<String, ArrayList<Player>> players){
+    public Squad(String name, String module, Date date, HashMap<String, Player> players){
         this(name, module, date);
         this.players = players;
     }
 
-    public Squad(){}
+    public Squad(){
+        players = new HashMap<>();
+    }
 
     public String getName() {
         return name;
@@ -35,7 +37,7 @@ public class Squad {
         return date;
     }
 
-    public HashMap<String, ArrayList<Player>> getPlayers() {
+    public HashMap<String, Player> getPlayers() {
         return players;
     }
 
@@ -51,7 +53,7 @@ public class Squad {
         this.date = date;
     }
 
-    public void setPlayers(HashMap<String, ArrayList<Player>> players) {
+    public void setPlayers(HashMap<String, Player> players) {
         this.players = players;
     }
 

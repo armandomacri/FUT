@@ -34,8 +34,6 @@ public class MainViewController {
     @FXML
     private void switchToBuildSquad() throws IOException {
         App.setRoot("buildSquad");
-        App.setHeight(700);
-        App.setWidth(1000);
     }
 
 }

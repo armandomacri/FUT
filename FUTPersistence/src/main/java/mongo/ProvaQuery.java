@@ -56,25 +56,30 @@ public class ProvaQuery {
 
         //ricostruisco le squadre dell'utente
         ArrayList<Document> squadsDoc = (ArrayList)doc.get("squads");
-        HashMap<String, ArrayList<Player>> pos = new HashMap<>();
         ArrayList<Squad> s = new ArrayList<>();
         for (Document squad : squadsDoc){
+            HashMap<String, Player> pos = new HashMap<>();
             Map<String, String> map = (Map)squad.get("players");
             Iterator iterator = map.keySet().iterator();
             while(iterator.hasNext()) {
                 String key = iterator.next().toString();
                 String value = map.get(key);
-                ArrayList<Player> f = new ArrayList<>();
-                for (int i = 0; i < value.split(",").length; i++){
 
-                    Player x = findById(Integer.parseInt(value.split(",")[i]));
+                if(value.split(",").length > 1){
+                    for (int i = 0; i < value.split(",").length; i++){
+
+                        Player x = findById(Integer.parseInt(value.split(",")[i]));
+                        if(x==null) //utente non caricato nel sistema
+                            continue;
+                        pos.put(key+i, x);
+                    }
+                }
+                else{
+                    Player x = findById(Integer.parseInt(value));
                     if(x==null) //utente non caricato nel sistema
                         continue;
-
-                    f.add(x);
+                    pos.put(key, x);
                 }
-                pos.put(key, f);
-
             }
             try {
                 df = new SimpleDateFormat("dd.MM.yyyy");
@@ -91,7 +96,6 @@ public class ProvaQuery {
         User newUser = new User(doc.get("username").toString(), doc.get("first_name").toString(),
                 doc.get("last_name").toString(), doc.get("_id").toString(),
                 doc.get("country").toString(), date, doc.get("password").toString(), s);
-
         return newUser;
     }
 

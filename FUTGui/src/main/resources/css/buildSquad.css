@@ -1,8 +1,8 @@
 
 #footbalField{
-    -fx-background-image: url("../img/footbal-field.png");
+    -fx-background-image: url("../img/footbal-field.jpg");
     -fx-background-repeat: no-repeat;
-    -fx-background-size: cover;
+
     -fx-background-position: center;
 }
 
@@ -13,15 +13,94 @@
 
 .topMenu .button{
     -fx-background-color: #5fd0c0;
+    -fx-background-radius: 10 50 50 10;
     -fx-text-fill: white;
     -fx-font-size: 12;
+}
+
+.button{
     -fx-cursor: hand;
 }
 
-.player-position{
-    -fx-background-image: url("../img/add.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-border-color: white;
-    -fx-border-width: 3;
+.findPlayerBox{
+    -fx-background-color: #2d3d51;
+    -fx-background-radius: 10;
+
+}
+
+.findPlayerBox .button{
+    -fx-background-color: #9099a5;
+    -fx-text-fill: white;
+}
+
+.findPlayerBox .text-field{
+    -fx-border-color: #9099a5;
+    -fx-border-width: 0 0 1 0;
+    -fx-background-color: transparent;
+    -fx-text-fill: #9099a5;
+}
+
+.findPlayerBox .choice-box > .label {
+    -fx-text-fill: #9099a5;
+}
+
+.choice-box {
+    -fx-background-color: transparent;
+    -fx-border-color: #9099a5;
+    -fx-border-width: 0 0 1 0;
+    -fx-mark-color: orange;
+}
+
+.table-view{
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header,
+.table-view .column-header .filler,
+.table-view .column-header .label,
+.table-view .column-header-background .filler {
+    -fx-background-color: #2d3d51;
+    -fx-text-fill: white;
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view .corner {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell{
+    -fx-border-color: transparent;
+    -fx-padding: 2 0 2 10;
+    -fx-text-fill: #9099a5;
+    -fx-font-size: 15;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #93f9b911;
+    -fx-text-background-color: red;
+}
+
+.table-view .virtual-flow .scroll-bar:vertical,
+.table-view .virtual-flow .scroll-bar:vertical .track,
+.table-view .virtual-flow .scroll-bar:vertical .track-background,
+.table-view .virtual-flow .scroll-bar:horizontal,
+.table-view .virtual-flow .scroll-bar:horizontal .track,
+.table-view .virtual-flow .scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .virtual-flow .scroll-bar .increment-button,
+.table-view .virtual-flow .scroll-bar .decrement-button {
+    -fx-opacity: 0;
+    -fx-padding: 0;
+}
+
+.table-view .virtual-flow .scroll-bar:vertical .thumb{
+    -fx-background-color:  linear-gradient(to bottom, #1dbbdd44, #93f9b944);
+}
+.table-view .virtual-flow .scroll-bar:horizontal .thumb {
+    -fx-background-color:  linear-gradient(to right, #1dbbdd44, #93f9b944);
 }

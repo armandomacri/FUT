@@ -80,8 +80,6 @@ public class UserPageController {
                         BuildSquadController bqc = new BuildSquadController();
                         bqc.setSquadIndex(Integer.parseInt(button.getId()));
                         App.setRoot("buildSquad");
-                        App.setHeight(700);
-                        App.setWidth(1000);
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -120,8 +118,6 @@ public class UserPageController {
     @FXML
     private void switchToBuildSquad() throws IOException {
         App.setRoot("buildSquad");
-        App.setHeight(700);
-        App.setWidth(1000);
     }
 
 }
