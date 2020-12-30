@@ -46,25 +46,26 @@ public class Neo4j implements AutoCloseable{
     private void SuggestedUserByLike( final Integer user_id ){
         try ( Session session = driver.session() )
         {
-            List<String> SuggestedUsers = session.readTransaction((TransactionWork<List<String>>) tx -> {
-                Result result = tx.run( "MATCH (u:User{id: 5})-[:Follow]->(u1:User)\n" +
+            List<Integer> SuggestedUsers = session.readTransaction((TransactionWork<List<Integer>>) tx -> {
+                Result result = tx.run( "MATCH (u:User{id: $user_id})-[:Follow]->(u1:User)\n" +
                                 "WITH collect(u1) AS FollowedUserYet\n" +
-                                "MATCH p=(n:User{id: 5})-[:Like]->(:PlayerCard)<-[l:Like]-(u:User)\n" +
-                                "WHERE NOT u  IN FollowedUserYet\n" +
-                                "RETURN u.username as Username ,count(l) as NumLike, FollowedUserYet\n" +
+                                "MATCH p=(n:User{id: $user_id})-[:Like]->(:PlayerCard)<-[l:Like]-(u:User)\n" +
+                                "WHERE NOT u IN FollowedUserYet\n" +
+                                "RETURN u.id as Id ,count(l) as NumLike, FollowedUserYet\n" +
                                 "ORDER BY NumLike DESC\n" +
                                 "LIMIT 5",
                         parameters( "user_id", user_id) );
-                ArrayList<String> users = new ArrayList<>();
+                ArrayList<Integer> users = new ArrayList<>();
                 while(result.hasNext())
                 {
                     Record r = result.next();
-                    users.add(r.get("Username").asString());
+                    //costruttore
+                    users.add(r.get("Id").asInt());
                 }
                 return users;
             });
             System.out.println("Users that like your own players are: '");
-            for (String SuggestedUser: SuggestedUsers)
+            for (Integer SuggestedUser: SuggestedUsers)
             {
                 System.out.println("\t- " + SuggestedUser);
             }
@@ -75,7 +76,8 @@ public class Neo4j implements AutoCloseable{
         try ( Session session = driver.session() )
         {
             List<String> SuggestedUsers = session.readTransaction((TransactionWork<List<String>>) tx -> {
-                Result result = tx.run( "MATCH p=(n:User{id: 5})-[:Follow]->(:User)<-[:Follow]-(u:User) RETURN u.username as Username",
+                Result result = tx.run( "MATCH p=(n:User{id: $user_id})-[:Follow]->(:User)<-[:Follow]-(u:User)\n" +
+                                "RETURN u.username as Username",
                         parameters( "user_id", user_id) );
                 ArrayList<String> users = new ArrayList<>();
                 while(result.hasNext())
