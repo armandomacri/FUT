@@ -15,8 +15,8 @@ public class Player {
     private String nationality;
     private String position;
     private Date dateOfBirth;
-    private Integer height;
-    private Integer weight;
+    private String height;
+    private String weight;
     private Date addedDate;
     private Integer pace;
     private Integer dribbling;
@@ -39,7 +39,7 @@ public class Player {
     //general constructor
     public Player(String playerId, String player_name, String player_extended_name, String quality,
                   String revision, Integer overall, String club, String league, String nationality,
-                  String position, Date date_of_birth, Integer height, Integer weight, Date added_date,
+                  String position, Date date_of_birth, String height, String weight, Date added_date,
                   String pref_foot, Integer weak_foot, Integer skill_moves, String[] images){
         this.playerId = playerId;
         this.playerName = player_name;
@@ -64,7 +64,7 @@ public class Player {
     //costructor for not GK
     public Player(String playerId, String player_name, String player_extended_name, String quality,
                   String revision, Integer overall, String club, String league, String nationality,
-                  String position, Date date_of_birth, Integer height, Integer weight, Date added_date,
+                  String position, Date date_of_birth, String height, String weight, Date added_date,
                   Integer att1, Integer att2, Integer att3, Integer att4, Integer att5,
                   Integer att6, String pref_foot, Integer weak_foot, Integer skill_moves, String[] images){
         this(playerId, player_name, player_extended_name, quality, revision, overall, club, league,
@@ -134,11 +134,11 @@ public class Player {
         return dateOfBirth;
     }
 
-    public Integer getHeight() {
+    public String getHeight() {
         return height;
     }
 
-    public Integer getWeight() {
+    public String getWeight() {
         return weight;
     }
 
@@ -258,11 +258,11 @@ public class Player {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public void setHeight(Integer height) {
+    public void setHeight(String height) {
         this.height = height;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 

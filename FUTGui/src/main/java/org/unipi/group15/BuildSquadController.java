@@ -24,7 +24,7 @@ import java.util.HashMap;
 public class BuildSquadController {
     private static int squadIdex = -1;
     private static Squad squad;
-    private HashMap<String, AnchorPane> squadPos;
+    private HashMap<String, AnchorPane> squadPos = new HashMap<>();
     private TableView<Player> playersTable = new TableView();
 
     @FXML private TextField squadNameTextField;
@@ -45,13 +45,14 @@ public class BuildSquadController {
     private void initialize(){
 
         moduleChoiceBox.getItems().removeAll(moduleChoiceBox.getItems());
-        moduleChoiceBox.getItems().addAll(FXCollections.observableArrayList("3-5-2",
-                                            "4-2-3-1", "4-3-1-2", "4-3-3", "4-4-2"));
+        moduleChoiceBox.getItems().addAll(FXCollections.observableArrayList("352",
+                                            "4231", "4312", "433", "442"));
+
         if(squadIdex != -1) {
             squad = App.getSession().getSquads().get(squadIdex);
+            squadNameTextField.setText(squad.getName());
             moduleChoiceBox.getSelectionModel().select(squad.getModule());
             displayModulePositions(squad.getModule());
-            return;
         }
         else
             squad = new Squad();
@@ -62,36 +63,32 @@ public class BuildSquadController {
                 displayModulePositions(moduleChoiceBox.getItems().get((Integer) newValue));
             }
         });
-        squadPos = new HashMap<>();
+
     }
 
-    public void setSquadIndex(int index){
-        squadIdex = index;
-        //squadNameTextField.setText(squad.getName());
-        //moduleChoiceBox.getSelectionModel().select(squad.getModule());
-    }
+    public void setSquadIndex(int index){ squadIdex = index; }
 
     private void displayModulePositions(String module){
 
         squad.setModule(module);
         switch (module){
-            case "3-5-2":
+            case "352":
                 ArrayList<String> m352 = new ArrayList(Arrays.asList("GK", "CB0", "CB1", "CB2", "CDM0", "CDM2", "CAM1", "LM", "RM", "ST0", "ST2"));
                 displayPosition(m352);
                 break;
-            case "4-2-3-1":
+            case "4231":
                 ArrayList<String> m4231 = new ArrayList(Arrays.asList("GK","CB0","CB2","LB","RB","CAM1","CDM0","CDM2","CAM0","CAM2","ST1"));
                 displayPosition(m4231);
                 break;
-            case "4-3-1-2":
+            case "4312":
                 ArrayList<String> m4312 = new ArrayList(Arrays.asList("GK","CB0","CB2","LB","RB","CM0","CM1","CM2","CAM1","ST0","ST2"));
                 displayPosition(m4312);
                 break;
-            case "4-3-3":
+            case "433":
                 ArrayList<String> m433 = new ArrayList(Arrays.asList("GK","CB0","CB2","LB","RB","CM0","CM1","CM2","ST1","LW","RW"));
                 displayPosition(m433);
                 break;
-            case "4-4-2":
+            case "442":
                 ArrayList<String> m442 = new ArrayList(Arrays.asList("GK","CB0","CB2","LB","RB","CM0","CM2","LM","RM","ST0","ST2"));
                 displayPosition(m442);
                 break;
@@ -107,7 +104,10 @@ public class BuildSquadController {
     }
 
     private void displayPosition(ArrayList<String> elem){
-        squadPos.clear();
+
+        if(squadPos.size() != 0)
+            squadPos.clear();
+
         for(Node e: footbalField.getChildren()){
             e.setVisible(false);
             if(elem.contains(e.getId())){
@@ -168,9 +168,8 @@ public class BuildSquadController {
         Player player = (Player) playersTable.getSelectionModel().getSelectedItem();
         String pos = (String) positionChoiceBox.getSelectionModel().getSelectedItem();
 
-        squad.addPlayer(pos, player);
+        //squad.addPlayer(pos, player);
         AnchorPane n = squadPos.get(pos);
-        System.out.println(squad.toString());
         //n.getChildren().add(new Text(p.getPlayerId()));
     }
 }
