@@ -134,10 +134,10 @@ public class Neo4jUser implements AutoCloseable{
         try ( Neo4jUser ex = new Neo4jUser( "bolt://localhost:7687", "neo4j", "fut" ) )
         {
             ex.CreateUser(171717, "AndreaLagna");
-            ex.CreateUser(111111, "MirkoCasini");
+            /*ex.CreateUser(111111, "MirkoCasini");
             ex.CreateFollow(171717,111111);
             ex.CreateLike(171717,1);
-            ex.CreatePost(171717,1);
+            ex.CreatePost(171717,1);*/
         }
     }
 }
