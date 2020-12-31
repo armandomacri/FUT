@@ -59,11 +59,7 @@
                   <Button fx:id="toFindButton" layoutX="537.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#findPlayer" prefHeight="26.0" prefWidth="78.0" text="Find" />
                </children>
             </AnchorPane>
-            <ScrollPane fx:id="playersWrapper" layoutX="231.0" layoutY="119.0" prefHeight="480.0" prefWidth="667.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-              </content>
-            </ScrollPane>
+            <ScrollPane fx:id="playersWrapper" layoutX="231.0" layoutY="119.0" prefHeight="480.0" prefWidth="667.0" />
          </children>
       </AnchorPane>
    </children>

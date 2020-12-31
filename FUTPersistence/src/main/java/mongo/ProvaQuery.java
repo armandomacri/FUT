@@ -17,7 +17,7 @@ public class ProvaQuery {
     static {
         //open connection
         mongoClient = MongoClients.create("mongodb://localhost:27017");
-        db = mongoClient.getDatabase("futdb");
+        db = mongoClient.getDatabase("futfb");
     }
 
     public String user_registration(String firstName, String lastName, String username, String country, Date joinDate, String password){
