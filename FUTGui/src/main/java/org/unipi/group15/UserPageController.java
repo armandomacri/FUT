@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import mongo.MongoSquad;
 import user.UserSessionService;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ import java.util.*;
 public class UserPageController {
 
     private final UserSessionService userSession = App.getSession();
+    private static MongoSquad mongoSquad = new MongoSquad();
 
     @FXML private Label usernameLabel;
 
@@ -70,17 +72,33 @@ public class UserPageController {
             HBox h2 = new HBox(new Label("Module: "), new Text(squads.get(i).getModule()));
             HBox h3 = new HBox(new Label("Date: "), new Text(df.format(squads.get(i).getDate())));
 
-            Button button = new Button("Modify");
-            button.setId(Integer.toString(i));
-            button.setOnAction(new EventHandler<ActionEvent>() {
+            Button modifybutton = new Button("Modify");
+            Button deleteButton = new Button("Delete");
+            modifybutton.setId(Integer.toString(i));
+            deleteButton.setId(Integer.toString(i));
+
+            modifybutton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    System.out.println();
                     try {
                         BuildSquadController bqc = new BuildSquadController();
-                        bqc.setSquadIndex(Integer.parseInt(button.getId()));
+                        bqc.setSquadIndex(Integer.parseInt(modifybutton.getId()));
                         App.setRoot("buildSquad");
 
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    int index = Integer.parseInt(modifybutton.getId());
+                    squads.remove(index);
+                    mongoSquad.delete(userSession.getUserId(), index);
+                    try {
+                        App.setRoot("userPage");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -90,7 +108,7 @@ public class UserPageController {
             container.getChildren().add(h1);
             container.getChildren().add(h2);
             container.getChildren().add(h3);
-            container.getChildren().add(button);
+            container.getChildren().addAll(modifybutton, deleteButton);
 
             /*
             HashMap<String, String> players = squads.get(i).getPlayers();

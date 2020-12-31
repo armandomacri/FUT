@@ -21,6 +21,7 @@ import java.util.Date;
 
 public class BuildSquadController {
     private static UserSessionService userSession = App.getSession();
+    private static MongoSquad mongoSquad = new MongoSquad();
     private static int squadIdex = -1;
     private static Squad squad;
 
@@ -152,13 +153,14 @@ public class BuildSquadController {
     @FXML
     private void saveSquad(){
         squad.setName(squadNameTextField.getText());
-        MongoSquad mongoSquad = new MongoSquad();
-        mongoSquad.add(userSession.getUserId(), squadIdex, squad);
+
         if (squadIdex == -1){
             squad.setDate(new Date());
             userSession.getSquads().add(squad);
         }
         else
             userSession.getSquads().add(squadIdex, squad);
+
+        mongoSquad.add(userSession.getUserId(), squadIdex, squad);
     }
 }

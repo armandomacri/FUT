@@ -34,7 +34,6 @@ public class MongoSquad {
 
         Document playersDoc = new Document();
         Iterator iterator = squad.getPlayers().keySet().iterator();
-
         while (iterator.hasNext()){
             String key = iterator.next().toString();
             String value = squad.getPlayers().get(key).getPlayerId();
@@ -48,7 +47,7 @@ public class MongoSquad {
                     eq("_id", userId),
                     Updates.addToSet("squads", squadDoc)
             );
-        } else{
+        } else {
             myColl.updateOne(
                     new Document("_id", userId),
                     new Document("$set", new Document("squads."+index, squadDoc))
@@ -56,8 +55,23 @@ public class MongoSquad {
         }
     }
 
+    public void delete(String userId, int index){
+        MongoCollection<Document> myColl = db.getCollection("users");
+
+        myColl.updateOne(
+                new Document("_id", userId),
+                new Document("$unset", new Document("squads."+index, 1))
+        );
+
+        myColl.updateOne(
+                new Document("_id", userId),
+                new Document("$pull", new Document("squads", null))
+        );
+    }
+
     public static void main(String[] args){
         MongoSquad ms = new MongoSquad();
-        ms.add("1", 1,new Squad("CIAOOOO", "7323", new Date()));
+        //ms.add("1", 1,new Squad("CIAOOOO", "7323", new Date()));
+        ms.delete("0", 7);
     }
 }
