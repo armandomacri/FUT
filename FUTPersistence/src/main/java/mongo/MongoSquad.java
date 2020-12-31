@@ -7,15 +7,10 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Updates;
 import org.bson.Document;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-
 import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Updates.set;
 
 public class MongoSquad {
     private static final MongoClient mongoClient;
@@ -33,7 +28,9 @@ public class MongoSquad {
         Document squadDoc = new Document();
         squadDoc.append("name", squad.getName());
         squadDoc.append("module", squad.getModule());
-        squadDoc.append("date", squad.getDate());
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy");
+        String date = df.format(squad.getDate());
+        squadDoc.append("date", date);
 
         Document playersDoc = new Document();
         Iterator iterator = squad.getPlayers().keySet().iterator();
@@ -46,22 +43,21 @@ public class MongoSquad {
 
         squadDoc.append("players", playersDoc);
 
-
         if(index == -1){
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            String date = df.format(squad.getDate());
-            squadDoc.append("date", squad.getDate());
-
-            myColl.updateOne(eq("_id", userId),
-                    Updates.addToSet("squads", squadDoc));
+            myColl.updateOne(
+                    eq("_id", userId),
+                    Updates.addToSet("squads", squadDoc)
+            );
         } else{
             myColl.updateOne(
                     new Document("_id", userId),
                     new Document("$set", new Document("squads."+index, squadDoc))
             );
         }
+    }
 
-
-
+    public static void main(String[] args){
+        MongoSquad ms = new MongoSquad();
+        ms.add("1", 1,new Squad("CIAOOOO", "7323", new Date()));
     }
 }

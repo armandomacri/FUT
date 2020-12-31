@@ -138,9 +138,7 @@ public class BuildSquadController {
         findPlayersTableView.getItems().clear();
         ObservableList<Player> players = FXCollections.observableArrayList(pq.findPlayers(findPlayerTextField.getText()));
         findPlayersTableView.setItems(players);
-        findPlayersTableView.setFixedCellSize(25);
-        findPlayersTableView.prefHeightProperty().bind(Bindings.size(findPlayersTableView.getItems()).multiply(findPlayersTableView.getFixedCellSize()).add(30));
-    }
+   }
 
     @FXML
     private void addPlayer(){
