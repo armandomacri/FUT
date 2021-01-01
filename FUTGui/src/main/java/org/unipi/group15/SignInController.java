@@ -16,17 +16,13 @@ import java.io.IOException;
 
 public class SignInController {
 
-    @FXML
-    private TextField usernameTextField;
+    @FXML private TextField usernameTextField;
 
-    @FXML
-    private TextField passwordTextField;
+    @FXML private TextField passwordTextField;
 
-    @FXML
-    private HBox errorBox;
+    @FXML private HBox errorBox;
 
-    @FXML
-    public void initialize() {
+    @FXML public void initialize() {
         errorBox.setVisible(false);
     }
 

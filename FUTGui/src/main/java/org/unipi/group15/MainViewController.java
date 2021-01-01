@@ -27,7 +27,7 @@ public class MainViewController {
     }
 
     @FXML
-    private void goToPlayer() throws IOException {
+    private void switchToPlayer() throws IOException {
         App.setRoot("searchPlayer");
     }
 
@@ -36,4 +36,12 @@ public class MainViewController {
         App.setRoot("buildSquad");
     }
 
+    @FXML
+    private void switchToChallenge(){
+        try {
+            App.setRoot("challenge");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

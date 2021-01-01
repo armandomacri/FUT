@@ -40,7 +40,7 @@ public class Neo4jUser implements AutoCloseable{
         return matchingUsers;
     }
 
-    private ArrayList<User> SuggestedUserByLike(final Integer user_id){
+    private ArrayList<User> suggestedUserByLike(final Integer user_id){
         ArrayList<User> SuggestedUsers;
         try (Session session = driver.session()) {
             SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {

@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -67,6 +68,7 @@ public class UserPageController {
 
         for(int i = 0; i < squads.size(); i++){
             VBox container = new VBox();
+            container.setAlignment(Pos.CENTER);
             container.getStyleClass().add("squadPane");
             HBox h1 = new HBox(new Label("Name: "), new Text(squads.get(i).getName()));
             HBox h2 = new HBox(new Label("Module: "), new Text(squads.get(i).getModule()));

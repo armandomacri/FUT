@@ -2,32 +2,23 @@ package org.unipi.group15;
 
 import bean.Player;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import levelDB.StoreImage;
-import mongo.ProvaQuery;
-import org.bson.Document;
+import mongo.MongoPlayerCard;
+import mongo.MongoUser;
 import user.UserSessionService;
 
-import javax.swing.plaf.basic.BasicListUI;
-import javax.swing.text.TabableView;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SearchPlayerController {
 
@@ -62,8 +53,8 @@ public class SearchPlayerController {
     private void findPlayer() throws IOException{
 
         playersWrapper.setContent(null);
-        ProvaQuery pq = new ProvaQuery();
-        ArrayList<Player> players = pq.findPlayers(toFind.getText());
+        MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
+        ArrayList<Player> players = mongoPlayerCard.findPlayers(toFind.getText());
         System.out.println(players);
 
         if (players.size() == 0){

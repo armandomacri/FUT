@@ -1,7 +1,7 @@
 package user;
 
 import bean.User;
-import mongo.ProvaQuery;
+import mongo.MongoUser;
 import serviceExceptions.SignInException;
 import serviceExceptions.UserAlreadyExists;
 import serviceExceptions.UserNotFoudException;
@@ -23,8 +23,8 @@ public class AuthenticationService {
 
         String encryptedPwd = encryptPassword(pwd);
 
-        ProvaQuery pq = new ProvaQuery();
-        User u = pq.show_profile_information(username);
+        MongoUser pq = new MongoUser();
+        User u = pq.getUser(username);
 
         if (u == null)
             throw new UserNotFoudException("User not found");
@@ -52,12 +52,12 @@ public class AuthenticationService {
 
         String encryptedPwd = encryptPassword(password);
 
-        ProvaQuery pq = new ProvaQuery();
-        User u = pq.show_profile_information(username);
+        MongoUser pq = new MongoUser();
+        User u = pq.getUser(username);
         if (u != null)
             throw new UserAlreadyExists("User already Exists!");
 
-        String id = pq.user_registration(firstName, lastName, username, country, date, encryptedPwd);
+        String id = pq.add(firstName, lastName, username, country, date, encryptedPwd);
 
         User user = new User(username, firstName, lastName, id, country, date, encryptedPwd);
         UserSessionService s = UserSessionService.getInstace(user);

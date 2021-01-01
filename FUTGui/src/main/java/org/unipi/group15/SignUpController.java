@@ -15,26 +15,19 @@ import java.io.IOException;
 
 public class SignUpController {
 
-    @FXML
-    private TextField usernameTextField;
+    @FXML private TextField usernameTextField;
 
-    @FXML
-    private TextField repeatPasswordTextField;
+    @FXML private TextField repeatPasswordTextField;
 
-    @FXML
-    private TextField passwordTextField;
+    @FXML private TextField passwordTextField;
 
-    @FXML
-    private TextField countryTextField;
+    @FXML private TextField countryTextField;
 
-    @FXML
-    private TextField firstNameTextField;
+    @FXML private TextField firstNameTextField;
 
-    @FXML
-    private TextField lastNameTextField;
+    @FXML private TextField lastNameTextField;
 
-    @FXML
-    private AnchorPane errorBox;
+    @FXML private AnchorPane errorBox;
 
     @FXML
     private void switchToPrimary() throws IOException {

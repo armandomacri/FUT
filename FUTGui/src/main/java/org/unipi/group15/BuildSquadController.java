@@ -2,7 +2,6 @@ package org.unipi.group15;
 
 import bean.Player;
 import bean.Squad;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -10,8 +9,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import mongo.MongoPlayerCard;
 import mongo.MongoSquad;
-import mongo.ProvaQuery;
+import mongo.MongoUser;
 import user.UserSessionService;
 
 import java.io.IOException;
@@ -135,9 +135,9 @@ public class BuildSquadController {
         if(findPlayerTextField.getText().equals(""))
             return;
 
-        ProvaQuery pq = new ProvaQuery();
+        MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
         findPlayersTableView.getItems().clear();
-        ObservableList<Player> players = FXCollections.observableArrayList(pq.findPlayers(findPlayerTextField.getText()));
+        ObservableList<Player> players = FXCollections.observableArrayList(mongoPlayerCard.findPlayers(findPlayerTextField.getText()));
         findPlayersTableView.setItems(players);
    }
 
