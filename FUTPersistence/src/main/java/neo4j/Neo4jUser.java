@@ -21,6 +21,27 @@ public class Neo4jUser{
             new Neo4jUser("bolt://localhost:7687", "neo4j", "fut");
     }
 
+    public static ArrayList<User> checkalreadyfollow(final Integer user_id) throws Exception {
+        openconnection();
+        ArrayList<User> followedusers;
+        try (Session session = driver.session()) {
+            followedusers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
+                Result result = tx.run("MATCH (u:User{id: $user_id})-[:Follow]->(u1:User)\n" +
+                                "RETURN toString(u1.id) AS Id, u1.username AS Username",
+                        parameters("user_id", user_id));
+                ArrayList<User> users = new ArrayList<>();
+                while (result.hasNext()){
+                    User u = null;
+                    Record r = result.next();
+                    u = new User(r.get("Username").asString(), r.get("Id").asString());
+                    users.add(u);
+                }
+                return users;
+            });
+        }
+        return followedusers;
+    }
+
     public static ArrayList<User> searchUser(final String username) throws Exception {
         openconnection();
         ArrayList<User> matchingUsers;
