@@ -29,7 +29,6 @@ public class MongoUser extends MongoConnection{
 
     public User getUser(String username){
         myColl = db.getCollection("users");
-        MongoCollection<Document> myColl = db.getCollection("users");
         //query
         Document doc = myColl.find(eq("username",username)).first();
         return composeUser(doc);

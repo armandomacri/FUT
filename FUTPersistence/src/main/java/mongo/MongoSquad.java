@@ -1,14 +1,19 @@
 package mongo;
 
+import bean.Player;
 import bean.Squad;
 import bean.User;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Updates;
 import org.bson.Document;
+
+import java.lang.reflect.Array;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
+
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Projections.*;
 
 public class MongoSquad extends MongoConnection{
     private MongoCollection<Document> myColl;
@@ -59,17 +64,52 @@ public class MongoSquad extends MongoConnection{
     }
 
     public ArrayList<Squad> getSquads(String username){
-        MongoUser mongoUser = new MongoUser();
-        User user = mongoUser.getUser(username);
-        return user.getSquads();
+        myColl = db.getCollection("users");
+        Document doc = myColl.find(eq("username",username)).projection(fields(include("squads"), excludeId())).first();
+        return composeSquads(doc);
+    }
+
+    private ArrayList<Squad> composeSquads(Document doc){
+        ArrayList<Document> squadsDoc = (ArrayList)doc.get("squads");
+        //inserire se non ha squadra, inizializzatlo vuoto
+        ArrayList<Squad> s = new ArrayList<>();
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = null;
+        for (Document squad : squadsDoc){
+            HashMap<String, Player> pos = new HashMap<>();
+            Map<String, String> map = (Map)squad.get("players");
+            Iterator iterator = map.keySet().iterator();
+            MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
+            while(iterator.hasNext()) {
+                String key = iterator.next().toString();
+                String value = map.get(key);
+
+                Player x = mongoPlayerCard.findById(Integer.parseInt(value));
+                if(x==null) //utente non caricato nel sistema
+                    continue;
+                pos.put(key, x);
+            }
+            try {
+                df = new SimpleDateFormat("dd.MM.yyyy");
+                date = df.parse(squad.get("date").toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Squad sq = new Squad(squad.get("name").toString(), squad.get("module").toString(),
+                    date, pos);
+            s.add(sq);
+        }
+        return s;
     }
 
 
 
     public static void main(String[] args){
         MongoSquad ms = new MongoSquad();
+        ms.getSquads("Arvel");
         //ms.add("1", 1,new Squad("CIAOOOO", "7323", new Date()));
         //ms.delete("0", 7);
-        System.out.println(ms.getSquads("Arvel"));
+        //System.out.println(ms.getSquads("Arvel"));
     }
 }

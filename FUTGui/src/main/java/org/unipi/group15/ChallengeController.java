@@ -115,7 +115,6 @@ public class ChallengeController {
                         userCompetitionHBox.getChildren().remove(2);
                         userCompetitionHBox.getChildren().add(2, container1);
                     }
-
                 }
             });
             container.getChildren().add(h1);
@@ -133,10 +132,9 @@ public class ChallengeController {
 
     private void setTable(TableView<User> table){
 
-        table.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("username"));
-        table.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        table.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        //table.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("score"));
+        table.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("userId"));
+        table.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("username"));
+        table.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("score"));
 
         table.setOnMouseClicked((MouseEvent event) -> {
              if (table.getSelectionModel().getSelectedItem() != null) {
