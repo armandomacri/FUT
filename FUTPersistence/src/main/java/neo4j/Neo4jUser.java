@@ -6,19 +6,23 @@ import org.neo4j.driver.Record;
 import java.util.ArrayList;
 import static org.neo4j.driver.Values.parameters;
 
-public class Neo4jUser implements AutoCloseable{
-    private final Driver driver;
+public class Neo4jUser{
+    public static Driver driver;
 
     public Neo4jUser(String uri, String user, String password){
         driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
     }
 
-    @Override
-    public void close() throws Exception{
+    public static void close() throws Exception {
         driver.close();
     }
 
-    public ArrayList<User> findUsers(final String username){
+    public static void openconnection() throws Exception {
+            new Neo4jUser("bolt://localhost:7687", "neo4j", "fut");
+    }
+
+    public static ArrayList<User> searchUser(final String username) throws Exception {
+        openconnection();
         ArrayList<User> matchingUsers;
         try (Session session = driver.session())
         {
@@ -40,7 +44,8 @@ public class Neo4jUser implements AutoCloseable{
         return matchingUsers;
     }
 
-    private ArrayList<User> suggestedUserByLike(final Integer user_id){
+    public static ArrayList<User> SuggestedUserByLike(final Integer user_id) throws Exception {
+        openconnection();
         ArrayList<User> SuggestedUsers;
         try (Session session = driver.session()) {
             SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
@@ -65,7 +70,7 @@ public class Neo4jUser implements AutoCloseable{
         return SuggestedUsers;
     }
 
-    private ArrayList<User> SuggestedUserByFriends(final Integer user_id) {
+    public static ArrayList<User> SuggestedUserByFriends(final Integer user_id) {
         ArrayList<User> SuggestedUsers;
         try (Session session = driver.session()) {
             SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
@@ -87,7 +92,7 @@ public class Neo4jUser implements AutoCloseable{
         return SuggestedUsers;
     }
 
-    public void CreateUser(final Integer user_id, final String username){
+    public static void CreateUser(final Integer user_id, final String username){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("CREATE (u:User {id: $user_id, username: $username})",
@@ -97,7 +102,7 @@ public class Neo4jUser implements AutoCloseable{
         }
     }
 
-    public void CreateFollow(final Integer user_id, final Integer user_id1){
+    public static void CreateFollow(final Integer user_id, final Integer user_id1){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("MATCH (u:User{id: $user_id}),(u1:User{id: $user_id1})\n" +
@@ -108,7 +113,7 @@ public class Neo4jUser implements AutoCloseable{
         }
     }
 
-    public void CreateLike(final Integer user_id, final Integer playercard){
+    public static void CreateLike(final Integer user_id, final Integer playercard){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("MATCH (u:User{id: $user_id}),(p:PlayerCard{id: $playercard})\n" +
@@ -119,7 +124,7 @@ public class Neo4jUser implements AutoCloseable{
         }
     }
 
-    public void CreatePost(final Integer user_id, final Integer comment_id){
+    public static void CreatePost(final Integer user_id, final Integer comment_id){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("MATCH (u:User{id: $user_id}),(c:Comment{id: $comment_id})\n" +
@@ -131,13 +136,7 @@ public class Neo4jUser implements AutoCloseable{
     }
 
     public static void main( String... args ) throws Exception{
-        try ( Neo4jUser ex = new Neo4jUser( "bolt://localhost:7687", "neo4j", "fut" ) )
-        {
-            ex.CreateUser(171717, "AndreaLagna");
-            /*ex.CreateUser(111111, "MirkoCasini");
-            ex.CreateFollow(171717,111111);
-            ex.CreateLike(171717,1);
-            ex.CreatePost(171717,1);*/
-        }
+        Neo4jUser.searchUser("Arvel");
+        close();
     }
 }

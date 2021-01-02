@@ -32,6 +32,11 @@ public class MainViewController {
     }
 
     @FXML
+    private void switchToFriends() throws IOException {
+        App.setRoot("friends");
+    }
+
+    @FXML
     private void switchToBuildSquad() throws IOException {
         App.setRoot("buildSquad");
     }

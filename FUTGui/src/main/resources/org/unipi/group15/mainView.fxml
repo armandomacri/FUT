@@ -68,9 +68,9 @@
                                     <Image url="@../../../img/player.png" />
                                  </image>
                               </ImageView>
-                              <Button mnemonicParsing="false" onMouseClicked="#switchToPlayer" text="Players" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Button mnemonicParsing="false" text="Friends" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+                              <Button mnemonicParsing="false" text="Players" onMouseClicked="#switchToPlayer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Button mnemonicParsing="false" text="Friends" onMouseClicked="#switchToFriends" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <ImageView fitHeight="20.0" fitWidth="20.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                                  <image>
                                     <Image url="@../../../img/support.png" />
                                  </image>
