@@ -18,7 +18,7 @@ public class Neo4jUser implements AutoCloseable{
         driver.close();
     }
 
-    private ArrayList<User> searchUser(final String username){
+    public ArrayList<User> findUsers(final String username){
         ArrayList<User> matchingUsers;
         try (Session session = driver.session())
         {

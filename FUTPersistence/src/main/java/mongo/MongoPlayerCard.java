@@ -20,7 +20,6 @@ public class MongoPlayerCard extends MongoConnection{
     public ArrayList<Player> findPlayers (String toFind) {
         myColl = db.getCollection("player_cards");
         ArrayList<Player> results = new ArrayList<>();
-        System.out.println(toFind);
         try (MongoCursor<Document> cursor = myColl.find(regex("player_extended_name",".*" + Pattern.quote(toFind) + ".*", "-i")).iterator())
         {
             while (cursor.hasNext())

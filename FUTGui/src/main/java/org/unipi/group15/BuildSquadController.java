@@ -162,5 +162,10 @@ public class BuildSquadController {
             userSession.getSquads().add(squadIdex, squad);
 
         mongoSquad.add(userSession.getUserId(), squadIdex, squad);
+        try {
+            App.setRoot("userPage");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

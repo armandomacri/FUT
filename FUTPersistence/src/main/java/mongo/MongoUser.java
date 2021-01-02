@@ -32,7 +32,29 @@ public class MongoUser extends MongoConnection{
         MongoCollection<Document> myColl = db.getCollection("users");
         //query
         Document doc = myColl.find(eq("username",username)).first();
+        return composeUser(doc);
 
+    }
+
+    public ArrayList<User> findUsers(String toFind) {
+        myColl = db.getCollection("users");
+        ArrayList<User> users = new ArrayList<>();
+
+        try (MongoCursor<Document> cursor = myColl.find(regex("username",".*" + Pattern.quote(toFind) + ".*", "-i")).iterator())
+        {
+            while (cursor.hasNext())
+            {
+                Document userDoc = cursor.next();
+                User user = composeUser(userDoc);
+                users.add(user);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    private User composeUser(Document doc){
         //no user found
         if (doc == null)
             return null;
@@ -40,13 +62,14 @@ public class MongoUser extends MongoConnection{
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Date date = null;
         try {
-             date = df.parse(doc.get("join_date").toString());
+            date = df.parse(doc.get("join_date").toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
         //ricostruisco le squadre dell'utente
         ArrayList<Document> squadsDoc = (ArrayList)doc.get("squads");
+        //inserire se non ha squadra, inizializzatlo vuoto
         ArrayList<Squad> s = new ArrayList<>();
         for (Document squad : squadsDoc){
             HashMap<String, Player> pos = new HashMap<>();
@@ -70,7 +93,7 @@ public class MongoUser extends MongoConnection{
             }
 
             Squad sq = new Squad(squad.get("name").toString(), squad.get("module").toString(),
-                   date, pos);
+                    date, pos);
             s.add(sq);
         }
 
