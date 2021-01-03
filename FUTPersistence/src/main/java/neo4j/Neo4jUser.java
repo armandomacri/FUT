@@ -42,15 +42,16 @@ public class Neo4jUser{
         return followedusers;
     }
 
-    public static ArrayList<User> searchUser(final String username) throws Exception {
+    public static ArrayList<User> searchUser(final String username, final Integer user_id) throws Exception {
         openconnection();
         ArrayList<User> matchingUsers;
         try (Session session = driver.session())
         {
             matchingUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
-                Result result = tx.run( "MATCH (u:User) WHERE (u.username) CONTAINS $username\n" +
-                                        "RETURN u.username AS Username, toString(u.id) AS Id",
-                        parameters( "username", username) );
+                Result result = tx.run( "MATCH (u:User)\n" +
+                                "WHERE (u.username) CONTAINS $username AND (u.id)<>$user_id\n" +
+                                "RETURN u.username AS Username, toString(u.id) AS Id",
+                        parameters( "username", username, "user_id", user_id));
                 ArrayList<User> users = new ArrayList<>();
                 while(result.hasNext())
                 {
@@ -157,7 +158,6 @@ public class Neo4jUser{
     }
 
     public static void main( String... args ) throws Exception{
-        Neo4jUser.searchUser("Arvel");
         close();
     }
 }

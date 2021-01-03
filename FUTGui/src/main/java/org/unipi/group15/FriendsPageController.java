@@ -4,6 +4,7 @@ import bean.User;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -62,16 +63,40 @@ public class FriendsPageController {
     @FXML public Label valueLbl2;
 
     @FXML
+    private void switchToProfile() throws IOException {
+        App.setRoot("userPage");
+    }
+
+    @FXML
+    private void switchToPlayer() throws IOException {
+        App.setRoot("searchPlayer");
+    }
+
+    @FXML
+    private void switchToBuildSquad() throws IOException {
+        App.setRoot("buildSquad");
+    }
+
+    @FXML
+    private void switchToChallenge(){
+        try {
+            App.setRoot("challenge");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void initialize() throws Exception {
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
-        //userToFind.setText(""); non so se va bene
+        userToFind.setText(null);
         follow_button.setDisable(true);
         follow_button1.setDisable(true);
         follow_button2.setDisable(true);
-        valueLbl.setText("");
-        valueLbl1.setText("");
-        valueLbl2.setText("");
+        valueLbl.setText(null);
+        valueLbl1.setText(null);
+        valueLbl2.setText(null);
         FriendsList.getItems().clear();
         followedusers = Neo4jUser.checkalreadyfollow(Integer.valueOf((userSession.getUserId())));
         setSuggestedFriendLike();
@@ -141,11 +166,11 @@ public class FriendsPageController {
 
     @FXML
     private void searchFriend() throws Exception {
-        ArrayList<User> users = Neo4jUser.searchUser(userToFind.getText());
+        ArrayList<User> users = Neo4jUser.searchUser(userToFind.getText(), Integer.valueOf(userSession.getUserId()));
         ObservableList<User> observable_users = FXCollections.observableArrayList(users);
         System.out.println(users);
         if(users.size() == 0){
-            //errore: non sono stati trovati utenti
+            FriendsList.setPlaceholder(new Label("No User found containing "+ userToFind.getText()));
             return;
         }
         FriendsList.setItems(observable_users);
@@ -168,6 +193,12 @@ public class FriendsPageController {
                 }
             }
         });
+        FriendsList.scrollTo(0);
+    }
+
+    @FXML
+    public void onEnter(ActionEvent ae) throws Exception {
+        searchFriend();
     }
 
     @FXML
