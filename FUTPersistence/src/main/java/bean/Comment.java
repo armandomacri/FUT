@@ -59,4 +59,15 @@ public class Comment {
     public void setText(String text) {
         this.text = text;
     }
+
+    @Override
+    public String toString(){
+        String s = "Comment {\n" +
+                "\t ID: " + id + "\n" +
+                "\t PLAYER_ID: " + player_id + "\n" +
+                "\t DATE: " + date + "\n " +
+                "\t TEXT: " + text + "\n" +
+                "\t AUTHOR: " + author_username + "\n";
+        return s;
+    }
 }

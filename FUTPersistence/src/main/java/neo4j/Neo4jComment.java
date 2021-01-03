@@ -13,19 +13,23 @@ import java.util.Date;
 
 import static org.neo4j.driver.Values.parameters;
 
-public class Neo4jComment implements AutoCloseable{
-    private final Driver driver;
+public class Neo4jComment{
+    public static Driver driver;
 
     public Neo4jComment(String uri, String user, String password){
         driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
     }
 
-    @Override
-    public void close() throws Exception {
+    public static void close() throws Exception {
         driver.close();
     }
 
-    private ArrayList<Comment> showComment(final Integer player_id){
+    public static void openconnection() throws Exception {
+        new Neo4jComment("bolt://localhost:7687", "neo4j", "fut");
+    }
+
+    public static ArrayList<Comment> showComment(final Integer player_id) throws Exception {
+        openconnection();
         ArrayList<Comment> comments;
         try (Session session = driver.session())
         {
@@ -55,7 +59,8 @@ public class Neo4jComment implements AutoCloseable{
         return comments;
     }
 
-    public void CreateComment(final Integer id, final Integer player_id, final String text, final Integer user_id){
+    public void CreateComment(final Integer id, final Integer player_id, final String text, final Integer user_id) throws Exception {
+        openconnection();
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("CREATE (:Comment{comment_date: date(), id: $id, player_id: $player_id, text: $text})",
@@ -72,9 +77,6 @@ public class Neo4jComment implements AutoCloseable{
     }
 
     public static void main( String... args ) throws Exception{
-        try ( Neo4jComment ex = new Neo4jComment( "bolt://localhost:7687", "neo4j", "fut" ) )
-        {
-            ex.CreateComment(171717, 1, "Awesome Mirko", 171717);
-        }
+
     }
 }

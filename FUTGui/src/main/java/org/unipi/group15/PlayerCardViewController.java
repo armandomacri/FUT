@@ -21,7 +21,8 @@ import java.util.Date;
 import static java.awt.Image.*;
 
 public class PlayerCardViewController {
-    private static Player player;
+    public static Player player;
+    public static String playerId = null;
 
     @FXML
     private Label usernameLabel;
@@ -151,6 +152,7 @@ public class PlayerCardViewController {
         UserSessionService userSession = App.getSession();
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
+        playerId = player.getPlayerId();
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(player.getDateOfBirth());
@@ -221,7 +223,8 @@ public class PlayerCardViewController {
     }
 
     @FXML
-    private void goToComments(){
+    private void goToComments() throws IOException {
+        App.setRoot("comments");
         // carica tutti i commenti del giocatore
     }
 

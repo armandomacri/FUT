@@ -168,9 +168,8 @@ public class FriendsPageController {
     private void searchFriend() throws Exception {
         ArrayList<User> users = Neo4jUser.searchUser(userToFind.getText(), Integer.valueOf(userSession.getUserId()));
         ObservableList<User> observable_users = FXCollections.observableArrayList(users);
-        System.out.println(users);
         if(users.size() == 0){
-            FriendsList.setPlaceholder(new Label("No User found containing "+ userToFind.getText()));
+            FriendsList.setPlaceholder(new Label("No Users found containing "+ userToFind.getText()));
             return;
         }
         FriendsList.setItems(observable_users);
