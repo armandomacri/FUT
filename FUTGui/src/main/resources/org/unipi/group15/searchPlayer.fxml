@@ -4,8 +4,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -17,23 +23,68 @@
          <children>
             <VBox fx:id="leftMenu" layoutY="38.0" prefHeight="562.0" prefWidth="226.0" styleClass="leftMenu">
                <children>
-                  <AnchorPane prefHeight="562.0" prefWidth="211.0">
+                  <AnchorPane prefHeight="573.0" prefWidth="186.0">
                      <children>
-                        <Button layoutX="58.0" layoutY="509.0" mnemonicParsing="false" text="Log Out" />
-                        <Button layoutX="61.0" layoutY="158.0" mnemonicParsing="false" text="Profile" />
-                        <Button layoutX="58.0" layoutY="281.0" mnemonicParsing="false" text="Build My Squad" />
-                        <Text layoutX="14.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player finder">
+                        <Text layoutX="42.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Find Players" wrappingWidth="155.9285301566124">
                            <font>
-                              <Font size="36.0" />
+                              <Font size="29.0" />
                            </font>
                         </Text>
-                        <Label fx:id="usernameLabel" layoutX="43.0" layoutY="84.0" text="Username">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <Button fx:id="playerLink" layoutX="58.0" layoutY="202.0" mnemonicParsing="false" text="Players" />
-                        <Button layoutX="59.0" layoutY="242.0" mnemonicParsing="false" text="Friends" />
+                        <HBox alignment="TOP_CENTER" layoutX="-1.0" layoutY="76.0" prefHeight="27.0" prefWidth="240.0">
+                           <children>
+                              <Label fx:id="usernameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="0.0" prefWidth="130.0" text="Username">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Button layoutX="58.0" layoutY="509.0" mnemonicParsing="false" text="Log Out" />
+                        <GridPane layoutX="28.0" layoutY="190.0" prefHeight="256.0" prefWidth="184.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.39999389648438" minWidth="9.599985885620118" prefWidth="27.199981689453125" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="191.20001411437988" minWidth="10.0" prefWidth="144.00001831054686" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../img/user.png" />
+                                 </image>
+                              </ImageView>
+                              <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#switchToProfile" text="Profile" GridPane.columnIndex="1" />
+                              <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                                 <image>
+                                    <Image url="@../../../img/player.png" />
+                                 </image>
+                              </ImageView>
+                              <Button disable="true" mnemonicParsing="false" style="-fx-border-color: ffffff; -fx-border-width: 0 0 2 0;" text="Players" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Button mnemonicParsing="false" onMouseClicked="#switchToFriend" text="Friends" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+                                 <image>
+                                    <Image url="@../../../img/support.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
+                                 <image>
+                                    <Image url="@../../../img/team.png" />
+                                 </image>
+                              </ImageView>
+                              <Button graphicTextGap="0.0" mnemonicParsing="false" onMouseClicked="#switchToBuildSquad" prefHeight="31.0" prefWidth="148.0" text="Build My Squad" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Button mnemonicParsing="false" onMouseClicked="#switchToChallenge" text="Challenge" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
+                                 <image>
+                                    <Image url="@../../../img/fighting.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </GridPane>
                      </children>
                   </AnchorPane>
                </children>
@@ -51,7 +102,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="toFind" layoutX="142.0" layoutY="12.0" prefHeight="26.0" prefWidth="378.0" promptText="Insert here the name of the player">
+                  <TextField fx:id="toFind" layoutX="142.0" layoutY="12.0" onAction="#onEnter" prefHeight="26.0" prefWidth="378.0" promptText="Insert here the name of the player">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -59,7 +110,7 @@
                   <Button fx:id="toFindButton" layoutX="537.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#findPlayer" prefHeight="26.0" prefWidth="78.0" text="Find" />
                </children>
             </AnchorPane>
-            <ScrollPane fx:id="playersWrapper" layoutX="231.0" layoutY="119.0" prefHeight="480.0" prefWidth="667.0" />
+            <ScrollPane fx:id="playersWrapper" layoutX="240.0" layoutY="119.0" prefHeight="480.0" prefWidth="658.0" />
          </children>
       </AnchorPane>
    </children>

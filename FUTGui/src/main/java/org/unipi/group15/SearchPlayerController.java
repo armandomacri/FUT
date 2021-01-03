@@ -2,6 +2,7 @@ package org.unipi.group15;
 
 import bean.Player;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -42,11 +43,34 @@ public class SearchPlayerController {
     @FXML
     private ScrollPane playersWrapper;
 
+    @FXML
+    private void switchToProfile() throws IOException {
+        App.setRoot("userPage");
+    }
 
+    @FXML
+    private void switchToFriend() throws IOException {
+        App.setRoot("friends");
+    }
+
+    @FXML
+    private void switchToBuildSquad() throws IOException {
+        App.setRoot("buildSquad");
+    }
+
+    @FXML
+    private void switchToChallenge(){
+        try {
+            App.setRoot("challenge");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void initialize(){
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
-
     }
 
     @FXML
@@ -142,6 +166,11 @@ public class SearchPlayerController {
                 k++;
         }
         playersWrapper.setContent(gridPane);
+    }
+
+    @FXML
+    public void onEnter(ActionEvent ae) throws Exception {
+        findPlayer();
     }
 
 }
