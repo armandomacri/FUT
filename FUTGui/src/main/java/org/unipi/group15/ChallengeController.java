@@ -120,19 +120,19 @@ public class ChallengeController {
                         Challenge result = css.results(App.getSession().getUserId(), selectedUser.getUserId(), mySelectedSquad, selectedSquad);
 
                         VBox container2 = new VBox();
-                        HBox hResult = new HBox(new Label("Result: "), new Text(App.getSession().getUsername() + " " + result.getHomeScore() + ":" + result.getAwayScore() + " " + selectedUser.getUsername()));
+                        HBox hResult = new HBox(new Text(App.getSession().getUsername() + " " + result.getHomeScore() + ":" + result.getAwayScore() + " " + selectedUser.getUsername()));
                         HBox hRecap = null;
                         if(result.getHomeScore() > result.getAwayScore()){
-                            hRecap = new HBox(new Label("Congratulations, you won the match. Points earned: "), new Text(result.getPoints().toString()));
+                            hRecap = new HBox(new Text("Congratulations, you won the match. Points earned: " + result.getPoints().toString()));
                         }
                         else if(result.getHomeScore() < result.getAwayScore()){
-                            hRecap = new HBox(new Label("Sorry, you lost the match. Points lost: "), new Text(result.getPoints().toString()));
+                            hRecap = new HBox(new Text("Sorry, you lost the match. Points lost: " + result.getPoints().toString()));
                         }
                         else{
-                            hRecap =  new HBox(new Label("It's a Draw. Points earned/lost: "), new Text(result.getPoints().toString()));
+                            hRecap =  new HBox(new Text("It's a Draw. Points earned/lost: " + result.getPoints().toString()));
                         }
-                        hResult.setStyle("-fx-font-size: 28");
-                        hRecap.setStyle("-fx-font-size: 20");
+                        hResult.setStyle("-fx-alignment: center ; -fx-font-size: 28 ");
+                        hRecap.setStyle("-fx-alignment: center ; -fx-font-size: 22");
                         container2.getChildren().addAll(hResult, hRecap);
                         userSquadScrollPane.fitToHeightProperty();
                         userSquadScrollPane.fitToWidthProperty();

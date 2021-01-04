@@ -21,7 +21,7 @@
                   <Text layoutX="50.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="user id:" />
                   <Label fx:id="userIdLabel" layoutX="107.0" layoutY="21.0" text="id numerico" textFill="#9099a5" />
                   <Button contentDisplay="CENTER" layoutX="796.0" layoutY="17.0" mnemonicParsing="false" onAction="#switchToProfile" prefWidth="70.0" text="Profile &gt;" />
-                  <Text layoutX="375.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Build My Squad">
+                  <Text layoutX="333.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Build My Squad">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -87,11 +87,21 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="625.0" layoutY="91.0" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane layoutX="651.0" layoutY="91.0" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Text layoutX="52.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUGGESTED USER" />
+                  <Text layoutX="52.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUGGESTED PLAYERS" />
                </children>
             </AnchorPane>
+            <Label layoutX="551.0" layoutY="135.0" prefHeight="19.0" prefWidth="70.0" text="Overall:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Text fx:id="overallText" layoutX="569.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="28.799963378906227">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
    </children>

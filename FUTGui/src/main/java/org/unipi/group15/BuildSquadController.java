@@ -9,6 +9,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import mongo.MongoPlayerCard;
 import mongo.MongoSquad;
 import mongo.MongoUser;
@@ -39,6 +41,8 @@ public class BuildSquadController {
 
     @FXML private Button addPlayerButton;
 
+    @FXML private Text overallText;
+
     @FXML
     private void initialize(){
 
@@ -66,6 +70,7 @@ public class BuildSquadController {
             displayModulePositions(squad.getModule());
             ObservableList<Player> players = FXCollections.observableArrayList(squad.getPlayers().values());
             chosenPlayersTableView.setItems(players);
+            overallText.setText(computeOverall(squad).toString());
         }
         else {
             squad = new Squad();
@@ -85,6 +90,7 @@ public class BuildSquadController {
 
     private void displayModulePositions(String module){
 
+        overallText.setText("");
         squad.setModule(module);
         switch (module){
             case "352":
@@ -117,6 +123,7 @@ public class BuildSquadController {
     private void displayPosition(ArrayList<String> elem){
         choosePlayerBox(elem);
         chosenPlayersTableView.getItems().clear();
+        overallText.setText("");
 
     }
 
@@ -148,6 +155,7 @@ public class BuildSquadController {
         squad.getPlayers().put(pos, player);
         ObservableList<Player> players = FXCollections.observableArrayList(squad.getPlayers().values());
         chosenPlayersTableView.setItems(players);
+        overallText.setText(computeOverall(squad).toString());
     }
 
     @FXML
@@ -167,5 +175,15 @@ public class BuildSquadController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Integer computeOverall (Squad s){
+        Integer sum = 0;
+        Integer overall;
+        for (int i = 0; i<squad.getPlayers().size(); i++){
+            sum += s.getPlayers().get(s.getPlayers().keySet().toArray()[i]).getOverall();
+        }
+        overall = sum/squad.getPlayers().size();
+        return overall;
     }
 }
