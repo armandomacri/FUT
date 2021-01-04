@@ -1,5 +1,6 @@
 package org.unipi.group15;
 
+import bean.Challenge;
 import bean.Player;
 import bean.Squad;
 import bean.User;
@@ -21,6 +22,7 @@ import javafx.scene.text.Text;
 import mongo.MongoSquad;
 import mongo.MongoUser;
 import neo4j.Neo4jUser;
+import user.ComputeScoreService;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -114,6 +116,28 @@ public class ChallengeController {
                         container1.getChildren().addAll(h11, h21, h31);
                         userCompetitionHBox.getChildren().remove(2);
                         userCompetitionHBox.getChildren().add(2, container1);
+                        ComputeScoreService css = new ComputeScoreService();
+                        Challenge result = css.results(App.getSession().getUserId(), selectedUser.getUserId(), mySelectedSquad, selectedSquad);
+
+                        VBox container2 = new VBox();
+                        HBox hResult = new HBox(new Label("Result: "), new Text(App.getSession().getUsername() + " " + result.getHomeScore() + ":" + result.getAwayScore() + " " + selectedUser.getUsername()));
+                        HBox hRecap = null;
+                        if(result.getHomeScore() > result.getAwayScore()){
+                            hRecap = new HBox(new Label("Congratulations, you won the match. Points earned: "), new Text(result.getPoints().toString()));
+                        }
+                        else if(result.getHomeScore() < result.getAwayScore()){
+                            hRecap = new HBox(new Label("Sorry, you lost the match. Points lost: "), new Text(result.getPoints().toString()));
+                        }
+                        else{
+                            hRecap =  new HBox(new Label("It's a Draw. Points earned/lost: "), new Text(result.getPoints().toString()));
+                        }
+                        hResult.setStyle("-fx-font-size: 28");
+                        hRecap.setStyle("-fx-font-size: 20");
+                        container2.getChildren().addAll(hResult, hRecap);
+                        userSquadScrollPane.fitToHeightProperty();
+                        userSquadScrollPane.fitToWidthProperty();
+                        userSquadScrollPane.setContent(null);
+                        userSquadScrollPane.setContent(container2);
                     }
                 }
             });
