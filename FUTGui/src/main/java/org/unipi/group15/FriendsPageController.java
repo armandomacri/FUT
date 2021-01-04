@@ -1,7 +1,6 @@
 package org.unipi.group15;
 
 import bean.User;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,18 +14,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import neo4j.Neo4jUser;
 import user.UserSessionService;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class FriendsPageController {
-
+    Neo4jUser neo4jUser = new Neo4jUser();
     private final UserSessionService userSession = App.getSession();
 
-    String idSelected = null;
-    String idSelected1 = null;
-    String idSelected2 = null;
-    ArrayList<User> followedusers = null;
+    private String idSelected = null;
+    private String idSelected1 = null;
+    private String idSelected2 = null;
+    private ArrayList<User> followedusers = null;
 
     @FXML public TextField userToFind;
 
@@ -87,7 +85,7 @@ public class FriendsPageController {
     }
 
     @FXML
-    private void initialize() throws Exception {
+    private void initialize(){
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
         userToFind.setText(null);
@@ -98,14 +96,14 @@ public class FriendsPageController {
         valueLbl1.setText(null);
         valueLbl2.setText(null);
         FriendsList.getItems().clear();
-        followedusers = Neo4jUser.checkalreadyfollow(Integer.valueOf((userSession.getUserId())));
+        followedusers = neo4jUser.checkalreadyfollow(Integer.valueOf((userSession.getUserId())));
         setSuggestedFriendLike();
         setSuggestedFriend();
     }
 
     @FXML
-    private void setSuggestedFriendLike() throws Exception{
-        ArrayList<User> users = Neo4jUser.SuggestedUserByLike(Integer.valueOf((userSession.getUserId())));
+    private void setSuggestedFriendLike(){
+        ArrayList<User> users = neo4jUser.suggestedUserByLike(Integer.valueOf((userSession.getUserId())));
         userIdLike.setCellValueFactory(new PropertyValueFactory<>("userId"));
         userUsernameLike.setCellValueFactory(new PropertyValueFactory<>("username"));
         PropertyValueFactory factory = new PropertyValueFactory<>("userId");
@@ -134,8 +132,8 @@ public class FriendsPageController {
         });
     }
 
-    private void setSuggestedFriend() throws Exception{
-        ArrayList<User> users = Neo4jUser.SuggestedUserByFriends(Integer.valueOf((userSession.getUserId())));
+    private void setSuggestedFriend(){
+        ArrayList<User> users = neo4jUser.suggestedUserByFriends(Integer.valueOf((userSession.getUserId())));
         userIdFriends.setCellValueFactory(new PropertyValueFactory<>("userId"));
         userUsernameFriends.setCellValueFactory(new PropertyValueFactory<>("username"));
         PropertyValueFactory factory = new PropertyValueFactory<>("userId");
@@ -165,8 +163,8 @@ public class FriendsPageController {
     }
 
     @FXML
-    private void searchFriend() throws Exception {
-        ArrayList<User> users = Neo4jUser.searchUser(userToFind.getText(), Integer.valueOf(userSession.getUserId()));
+    private void searchFriend(){
+        ArrayList<User> users = neo4jUser.searchUser(userToFind.getText(), Integer.valueOf(userSession.getUserId()));
         ObservableList<User> observable_users = FXCollections.observableArrayList(users);
         if(users.size() == 0){
             FriendsList.setPlaceholder(new Label("No Users found containing "+ userToFind.getText()));
@@ -201,27 +199,27 @@ public class FriendsPageController {
     }
 
     @FXML
-    private void createRelationFollow() throws Exception{
-        Neo4jUser.CreateFollow(Integer.valueOf((userSession.getUserId())),Integer.valueOf((idSelected)));
+    private void createRelationFollow(){
+        neo4jUser.createFollow(Integer.valueOf((userSession.getUserId())),Integer.valueOf((idSelected)));
         follow_button.setDisable(true);
         valueLbl.setText("User already followed");
-        followedusers = Neo4jUser.checkalreadyfollow(Integer.valueOf((userSession.getUserId())));
+        followedusers = neo4jUser.checkalreadyfollow(Integer.valueOf((userSession.getUserId())));
     }
 
     @FXML
-    private void createRelationFollow1() throws Exception{
-        Neo4jUser.CreateFollow(Integer.valueOf((userSession.getUserId())),Integer.valueOf((idSelected1)));
+    private void createRelationFollow1(){
+        neo4jUser.createFollow(Integer.valueOf((userSession.getUserId())),Integer.valueOf((idSelected1)));
         follow_button1.setDisable(true);
         valueLbl1.setText("User already followed");
-        followedusers = Neo4jUser.checkalreadyfollow(Integer.valueOf((userSession.getUserId())));
+        followedusers = neo4jUser.checkalreadyfollow(Integer.valueOf((userSession.getUserId())));
     }
 
     @FXML
-    private void createRelationFollow2() throws Exception{
-        Neo4jUser.CreateFollow(Integer.valueOf((userSession.getUserId())),Integer.valueOf((idSelected2)));
+    private void createRelationFollow2(){
+        neo4jUser.createFollow(Integer.valueOf((userSession.getUserId())),Integer.valueOf((idSelected2)));
         follow_button2.setDisable(true);
         valueLbl2.setText("User already followed");
-        followedusers = Neo4jUser.checkalreadyfollow(Integer.valueOf((userSession.getUserId())));
+        followedusers = neo4jUser.checkalreadyfollow(Integer.valueOf((userSession.getUserId())));
     }
 
 }

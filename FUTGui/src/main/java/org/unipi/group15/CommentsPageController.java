@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class CommentsPageController {
-
+    private static Neo4jComment neo4jComment = new Neo4jComment();
     private final UserSessionService userSession = App.getSession();
 
     @FXML private javafx.scene.control.Label usernameLabel;
@@ -69,7 +69,7 @@ public class CommentsPageController {
 
     @FXML
     public void loadComments() throws Exception {
-        ArrayList<Comment> comments = Neo4jComment.showComment(4);
+        ArrayList<Comment> comments = neo4jComment.showComment(4);
         ObservableList<Comment> observable_users = FXCollections.observableArrayList(comments);
         System.out.println(comments.toString());
         if(comments.size() == 0){

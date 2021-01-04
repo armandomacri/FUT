@@ -13,23 +13,15 @@ import java.util.Date;
 
 import static org.neo4j.driver.Values.parameters;
 
-public class Neo4jComment{
-    public static Driver driver;
+public class Neo4jComment implements AutoCloseable{
+    public static Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "fut"));
 
-    public Neo4jComment(String uri, String user, String password){
-        driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
-    }
-
-    public static void close() throws Exception {
+    @Override
+    public void close() throws Exception {
         driver.close();
     }
 
-    public static void openconnection() throws Exception {
-        new Neo4jComment("bolt://localhost:7687", "neo4j", "fut");
-    }
-
-    public static ArrayList<Comment> showComment(final Integer player_id) throws Exception {
-        openconnection();
+    public ArrayList<Comment> showComment(final Integer player_id) throws Exception {
         ArrayList<Comment> comments;
         try (Session session = driver.session())
         {
@@ -59,8 +51,7 @@ public class Neo4jComment{
         return comments;
     }
 
-    public void CreateComment(final Integer id, final Integer player_id, final String text, final Integer user_id) throws Exception {
-        openconnection();
+    public void createComment(final Integer id, final Integer player_id, final String text, final Integer user_id) throws Exception {
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("CREATE (:Comment{comment_date: date(), id: $id, player_id: $player_id, text: $text})",

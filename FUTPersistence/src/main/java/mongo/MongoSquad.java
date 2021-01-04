@@ -2,12 +2,9 @@ package mongo;
 
 import bean.Player;
 import bean.Squad;
-import bean.User;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Updates;
 import org.bson.Document;
-
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -85,7 +82,7 @@ public class MongoSquad extends MongoConnection{
                 String value = map.get(key);
 
                 Player x = mongoPlayerCard.findById(Integer.parseInt(value));
-                if(x==null) //utente non caricato nel sistema
+                if(x==null) //giocatore non caricato nel sistema
                     continue;
                 pos.put(key, x);
             }

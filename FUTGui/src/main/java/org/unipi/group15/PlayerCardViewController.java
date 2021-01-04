@@ -143,7 +143,7 @@ public class PlayerCardViewController {
 
     public void setPlayer(Player p){
         player = p;
-        System.out.println(p.toString());
+        //System.out.println(p.toString());
     }
 
     @FXML

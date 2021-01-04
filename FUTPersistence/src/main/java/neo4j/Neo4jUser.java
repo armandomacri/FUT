@@ -6,23 +6,19 @@ import org.neo4j.driver.Record;
 import java.util.ArrayList;
 import static org.neo4j.driver.Values.parameters;
 
-public class Neo4jUser{
+public class Neo4jUser implements AutoCloseable{
     public static Driver driver;
 
-    public Neo4jUser(String uri, String user, String password){
-        driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
+    public Neo4jUser(){
+        driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "fut"));
     }
 
-    public static void close() throws Exception {
+    @Override
+    public void close(){
         driver.close();
     }
 
-    public static void openconnection() throws Exception {
-            new Neo4jUser("bolt://localhost:7687", "neo4j", "fut");
-    }
-
-    public static ArrayList<User> checkalreadyfollow(final Integer user_id) throws Exception {
-        openconnection();
+    public ArrayList<User> checkalreadyfollow(final Integer user_id){
         ArrayList<User> followedusers;
         try (Session session = driver.session()) {
             followedusers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
@@ -42,8 +38,7 @@ public class Neo4jUser{
         return followedusers;
     }
 
-    public static ArrayList<User> searchUser(final String username, final Integer user_id) throws Exception {
-        openconnection();
+    public ArrayList<User> searchUser(final String username, final Integer user_id){
         ArrayList<User> matchingUsers;
         try (Session session = driver.session())
         {
@@ -66,8 +61,7 @@ public class Neo4jUser{
         return matchingUsers;
     }
 
-    public static ArrayList<User> SuggestedUserByLike(final Integer user_id) throws Exception {
-        openconnection();
+    public ArrayList<User> suggestedUserByLike(final Integer user_id){
         ArrayList<User> SuggestedUsers;
         try (Session session = driver.session()) {
             SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
@@ -92,7 +86,7 @@ public class Neo4jUser{
         return SuggestedUsers;
     }
 
-    public static ArrayList<User> SuggestedUserByFriends(final Integer user_id) {
+    public ArrayList<User> suggestedUserByFriends(final Integer user_id) {
         ArrayList<User> SuggestedUsers;
         try (Session session = driver.session()) {
             SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
@@ -114,7 +108,7 @@ public class Neo4jUser{
         return SuggestedUsers;
     }
 
-    public static void CreateUser(final Integer user_id, final String username){
+    public void createUser(final Integer user_id, final String username){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("CREATE (u:User {id: $user_id, username: $username})",
@@ -124,7 +118,7 @@ public class Neo4jUser{
         }
     }
 
-    public static void CreateFollow(final Integer user_id, final Integer user_id1){
+    public void createFollow(final Integer user_id, final Integer user_id1){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("MATCH (u:User{id: $user_id}),(u1:User{id: $user_id1})\n" +
@@ -135,7 +129,7 @@ public class Neo4jUser{
         }
     }
 
-    public static void CreateLike(final Integer user_id, final Integer playercard){
+    public void createLike(final Integer user_id, final Integer playercard){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("MATCH (u:User{id: $user_id}),(p:PlayerCard{id: $playercard})\n" +
@@ -146,7 +140,7 @@ public class Neo4jUser{
         }
     }
 
-    public static void CreatePost(final Integer user_id, final Integer comment_id){
+    public void createPost(final Integer user_id, final Integer comment_id){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("MATCH (u:User{id: $user_id}),(c:Comment{id: $comment_id})\n" +
@@ -158,6 +152,9 @@ public class Neo4jUser{
     }
 
     public static void main( String... args ) throws Exception{
-
+        try ( Neo4jUser ex = new Neo4jUser( ) )
+        {
+            System.out.println(ex.suggestedUserByLike(0));
+        }
     }
 }
