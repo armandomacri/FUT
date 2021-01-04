@@ -2,12 +2,12 @@ package configuration;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.security.NoTypePermission;
+import com.thoughtworks.xstream.security.NullPermission;
+import com.thoughtworks.xstream.security.PrimitiveTypePermission;
 
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.Collection;
 
 public class LoadXmlConf {
 
@@ -29,13 +29,23 @@ public class LoadXmlConf {
     }
 
     private static final XStream createXStream(){
-        XStream xs = new XStream(new DomDriver());
-        xs.alias("ConfigurationService", MongoConfig.class);
+        XStream xstream = new XStream(new DomDriver());
+        xstream.alias("ConfigurationService", MongoConfig.class);
         /*
         xs.useAttributeFor(ConfigurationService.class, "mongoIp");
         xs.useAttributeFor(ConfigurationService.class, "mongoPort");
          */
-        return xs;
+
+        xstream.addPermission(NoTypePermission.NONE);
+        // allow some basics
+        xstream.addPermission(NullPermission.NULL);
+        xstream.addPermission(PrimitiveTypePermission.PRIMITIVES);
+        xstream.allowTypeHierarchy(Collection.class);
+        // allow any type from the same package
+        xstream.allowTypesByWildcard(new String[] {
+                "configuration.*"
+        });
+        return xstream;
     }
 
     public static void main(String[] args) {

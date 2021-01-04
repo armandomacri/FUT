@@ -2,7 +2,7 @@ package configuration;
 
 import java.io.Serializable;
 
-public class MongoConfig implements Serializable {
+public class MongoConfig {
     public String mongoIp;
     public int mongoPort;
     public String dbName;
