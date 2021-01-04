@@ -12,6 +12,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import neo4j.Neo4jComment;
 import user.UserSessionService;
 
 import java.io.IOException;
@@ -22,7 +23,13 @@ import static java.awt.Image.*;
 
 public class PlayerCardViewController {
     public static Player player;
-    public static String playerId = null;
+    public static Neo4jComment neo4jcomment = new Neo4jComment();
+
+    @FXML
+    private Label likeLabel1;
+
+    @FXML
+    private Button likeButton;
 
     @FXML
     private Label usernameLabel;
@@ -151,7 +158,6 @@ public class PlayerCardViewController {
         UserSessionService userSession = App.getSession();
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
-        playerId = player.getPlayerId();
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(player.getDateOfBirth());
@@ -223,17 +229,15 @@ public class PlayerCardViewController {
 
     @FXML
     private void goToComments() throws IOException {
+        CommentsPageController cpc = new CommentsPageController();
+        cpc.setPlayerId(player);
         App.setRoot("comments");
-        // carica tutti i commenti del giocatore
     }
 
     @FXML
     private void goToSearchPlayer() throws IOException{
         App.setRoot("searchPlayer");
     }
-
-
-
 
 
 }

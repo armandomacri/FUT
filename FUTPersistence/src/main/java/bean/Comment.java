@@ -1,5 +1,6 @@
 package bean;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Comment {
@@ -62,12 +63,11 @@ public class Comment {
 
     @Override
     public String toString(){
-        String s = "Comment {\n" +
-                "\t ID: " + id + "\n" +
-                "\t PLAYER_ID: " + player_id + "\n" +
-                "\t DATE: " + date + "\n " +
-                "\t TEXT: " + text + "\n" +
-                "\t AUTHOR: " + author_username + "\n";
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String date1 = df.format(date);
+        String s = "Comment: " + id + " {\n" +
+                "\t DATE: " + date1 + "\t AUTHOR: " + author_username +
+                "\t TEXT: " + text + "\n";
         return s;
     }
 }

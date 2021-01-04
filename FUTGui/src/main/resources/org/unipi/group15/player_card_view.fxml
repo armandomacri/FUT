@@ -213,6 +213,14 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
+                  <ImageView fitHeight="48.0" fitWidth="60.0" layoutX="4.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../../../../../../Desktop/Thumb_up_icon_2.svg.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="likeLabel" layoutX="83.0" layoutY="258.0" text="Likes: " />
+                  <Button fx:id="likeButton" layoutX="187.0" layoutY="250.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="60.0" text="Like!" />
+                  <Label fx:id="likeLabel1" layoutX="120.0" layoutY="258.0" text="0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="263.0" layoutY="234.0" prefHeight="318.0" prefWidth="274.0">
@@ -256,7 +264,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <Button fx:id="showComments" layoutX="459.0" layoutY="553.0" mnemonicParsing="false" onMouseClicked="#goToComments" prefHeight="26.0" prefWidth="174.0" text="Go to the comments section!" />
+            <Button fx:id="showComments" layoutX="459.0" layoutY="553.0" mnemonicParsing="false" onMouseClicked="#goToComments" prefHeight="26.0" prefWidth="174.0" text="Go to the comments section" />
          </children>
       </AnchorPane>
    </children>
