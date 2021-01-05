@@ -215,7 +215,7 @@
                   </Label>
                   <ImageView fitHeight="48.0" fitWidth="60.0" layoutX="4.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../../Desktop/Thumb_up_icon_2.svg.png" />
+                        <Image url="/img/Thumb_up_icon.png" />
                      </image>
                   </ImageView>
                   <Label fx:id="likeLabel" layoutX="83.0" layoutY="258.0" text="Likes: " />

@@ -63,14 +63,14 @@
                                     <Image url="@../../../img/user.png" />
                                  </image>
                               </ImageView>
-                              <Button alignment="CENTER" mnemonicParsing="false" text="Profile" GridPane.columnIndex="1" />
+                              <Button alignment="CENTER" disable="true" mnemonicParsing="false" style="-fx-border-color: ffffff; -fx-border-width: 0 0 2 0;" text="Profile" GridPane.columnIndex="1" />
                               <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                                  <image>
                                     <Image url="@../../../img/player.png" />
                                  </image>
                               </ImageView>
-                              <Button mnemonicParsing="false" onMouseClicked="#goToPlayer" text="Players" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Button mnemonicParsing="false" text="Friends" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Button mnemonicParsing="false" onMouseClicked="#switchToPlayer" text="Players" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Button mnemonicParsing="false" onMouseClicked="#switchToFriends" text="Friends" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                                  <image>
                                     <Image url="@../../../img/support.png" />
@@ -82,7 +82,7 @@
                                  </image>
                               </ImageView>
                               <Button mnemonicParsing="false" onAction="#switchToBuildSquad" onMouseClicked="#switchToBuildSquad" text="Build My Squad" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <Button mnemonicParsing="false" onMouseClicked="#switchToBuildSquad" text="Challenge" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Button mnemonicParsing="false" onMouseClicked="#switchToChallenge" text="Challenge" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
                                  <image>
                                     <Image url="@../../../img/fighting.png" />

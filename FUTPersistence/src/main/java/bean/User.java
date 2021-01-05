@@ -1,5 +1,7 @@
 package bean;
 
+import org.neo4j.driver.Value;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,6 +12,7 @@ public class User {
     private String lastName;
     private String password;
     private String country;
+    private Integer score;
     private Date joinDate;
     private ArrayList<Squad> squads;
 
@@ -48,6 +51,14 @@ public class User {
         this.squads = new ArrayList<>();
     }
 
+    //user constructor only 3 parameter
+    public User(String username, String user_id, Integer score){
+        this.username = username;
+        this.userId = user_id;
+        this.score = score;
+        this.squads = new ArrayList<>();
+    }
+
     public User(){
 
     }
@@ -78,6 +89,7 @@ public class User {
         return joinDate;
     }
 
+    public Integer getScore() { return score; }
 
     public ArrayList<Squad> getSquads() {
         return squads;
@@ -109,6 +121,8 @@ public class User {
         this.joinDate = join_date;
     }
 
+    public void setScore(Integer score) { this.score = score; }
+
     public void setSquads(ArrayList<Squad> squads) {
         this.squads = squads;
     }
@@ -123,6 +137,7 @@ public class User {
                 "\t JOIN DATE: " + joinDate + "\n" +
                 "\t COUNTRY: " + country + "\n" +
                 "\t PASSWORD: " + password + "\n" +
+                "\t SCORE: " + score + "\n" +
                 "\t SQUADS {\n";
 
         for(Squad squad : squads)

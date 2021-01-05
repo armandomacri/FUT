@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -163,7 +164,7 @@ public class UserPageController {
     }
 
     @FXML
-    private void goToPlayer() throws IOException{
+    private void switchToPlayer() throws IOException{
         App.setRoot("searchPlayer");
     }
 
@@ -172,4 +173,13 @@ public class UserPageController {
         App.setRoot("buildSquad");
     }
 
+    @FXML
+    public void switchToFriends() throws IOException {
+        App.setRoot("friends");
+    }
+
+    @FXML
+    public void switchToChallenge() throws IOException {
+        App.setRoot("challenge");
+    }
 }

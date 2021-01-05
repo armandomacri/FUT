@@ -23,16 +23,24 @@ import mongo.MongoSquad;
 import mongo.MongoUser;
 import neo4j.Neo4jUser;
 import user.ComputeScoreService;
+import user.UserSessionService;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ChallengeController {
+    Neo4jUser neo4jUser = new Neo4jUser();
     private Squad selectedSquad;
     private User selectedUser;
     private MongoUser mongoUser = new MongoUser();
+    private final UserSessionService userSession = App.getSession();
+
     //private Neo4jUser neo4jUser = new Neo4jUser("bolt://localhost:7687", "neo4j", "fut" );
+
+    @FXML private Label userIdLabel;
+
+    @FXML private Label usernameLabel;
 
     @FXML private TextField searchUsersTextField;
 
@@ -42,19 +50,27 @@ public class ChallengeController {
 
     @FXML private TableView<User> suggestedUserTableView;
 
+    @FXML public TableColumn<User, Integer> suggestedUserId;
+
+    @FXML public TableColumn<User, String> suggestedUserUsername;
+
+    @FXML public TableColumn<User, Integer> suggestedUserScore;
+
     @FXML private HBox userCompetitionHBox;
 
     @FXML
     private void initialize(){
+        usernameLabel.setText(userSession.getUsername());
+        userIdLabel.setText(userSession.getUserId());
         selectedSquad = null;
         selectedUser = null;
         setTable(seachUserTableView);
         setTable(suggestedUserTableView);
+        setSuggestedOpponent();
     }
 
     @FXML
     private void serchFriend(){
-
         String text = searchUsersTextField.getText();
         //ObservableList<User> users = FXCollections.observableArrayList(neo4jUser.findUsers(text));
         ObservableList<User> users = FXCollections.observableArrayList(mongoUser.findUsers(text));
@@ -64,10 +80,8 @@ public class ChallengeController {
 
     @FXML
     private void showSelectedUserShads(){
-
         //ottenere l'id dell'utente di cui voglio le squadre
         //le squadre appaiono quando clicco sull'utente
-
         MongoSquad mongoSquad = new MongoSquad();
         ArrayList<Squad> userSquads = mongoSquad.getSquads("Casimir");
         setSquad(userSquads);
@@ -170,6 +184,19 @@ public class ChallengeController {
 
     }
 
+    private void setSuggestedOpponent() {
+        ArrayList<User> users = neo4jUser.suggestedUserChallenge(Integer.valueOf(userSession.getUserId()));
+        suggestedUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        suggestedUserUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
+        suggestedUserScore.setCellValueFactory(new PropertyValueFactory<>("score"));
+        PropertyValueFactory factory = new PropertyValueFactory<>("userId");
+        PropertyValueFactory factory1 = new PropertyValueFactory<>("username");
+        PropertyValueFactory factory2 = new PropertyValueFactory<>("score");
+        for (int i = 0; i < users.size(); i++) {
+            suggestedUserTableView.getItems().add(users.get(i));
+        }
+    }
+
     @FXML
     private void switchToProfile() throws IOException {
         App.setRoot("userPage");
@@ -183,6 +210,11 @@ public class ChallengeController {
     @FXML
     private void switchToBuildSquad() throws IOException {
         App.setRoot("buildSquad");
+    }
+
+    @FXML
+    private void switchToFriends() throws IOException {
+        App.setRoot("friends");
     }
 
 
