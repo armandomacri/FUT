@@ -1,18 +1,15 @@
 package neo4j;
 
-import org.neo4j.driver.AuthTokens;
-import org.neo4j.driver.Driver;
-import org.neo4j.driver.GraphDatabase;
-import org.neo4j.driver.Session;
+import bean.User;
+import org.neo4j.driver.*;
+import org.neo4j.driver.Record;
+
+import java.util.ArrayList;
 
 import static org.neo4j.driver.Values.parameters;
 
 public class Neo4jPlayerCard implements AutoCloseable{
-    private static Driver driver;
-
-    public Neo4jPlayerCard(String uri, String user, String password){
-        driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
-    }
+    public static Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "fut"));
 
     @Override
     public void close() throws Exception {
@@ -29,10 +26,55 @@ public class Neo4jPlayerCard implements AutoCloseable{
         }
     }
 
-    public static void main( String... args ) throws Exception{
-        try ( Neo4jUser ex = new Neo4jUser() )
-        {
-
+    public void createLike(final Integer user_id, final Integer playercard){
+        try (Session session = driver.session()){
+            session.writeTransaction( tx -> {
+                tx.run("MATCH (u:User{id: $user_id}),(p:PlayerCard{id: $playercard})\n" +
+                        "CREATE (u)-[:Like]->(p)",
+                        parameters("user_id", user_id , "playercard", playercard));
+                return 1;
+            });
         }
     }
+
+    public Integer countLikes(final Integer playercard)
+    {
+        try ( Session session = driver.session() )
+        {
+            Integer numLike = session.readTransaction((TransactionWork<Integer>) tx -> {
+
+                String query = "MATCH (p:PlayerCard{id: $playercard})-[l:Like]-(:User)"+
+                        "RETURN COUNT(l) AS numLike";
+                Result result = tx.run( query, parameters("playercard", playercard) );
+                return result.single().get("numLike").asInt();
+            });
+            return numLike;
+        }
+    }
+
+    public boolean checkLikes(final Integer user_id, final Integer playercard) {
+        try ( Session session = driver.session() )
+        {
+            boolean existLike = session.readTransaction((TransactionWork<Boolean>) tx -> {
+
+                String query = "MATCH (c:User{id: $user_id})-[l:Like]->(p:PlayerCard{id: $playercard}) \n" +
+                        "RETURN COUNT(l) > 0 AS boolExist";
+                Result result = tx.run( query, parameters("user_id", user_id , "playercard", playercard));
+                return result.single().get("boolExist").asBoolean();
+            });
+            return existLike;
+        }
+    }
+
+
+
+    public static void main( String... args ) throws Exception{
+        try ( Neo4jPlayerCard ex = new Neo4jPlayerCard() )
+        {
+            boolean prova = ex.checkLikes(8, 541);
+            System.out.println(prova);
+        }
+    }
+
+
 }

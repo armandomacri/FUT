@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import neo4j.Neo4jComment;
+import neo4j.Neo4jPlayerCard;
 import user.UserSessionService;
 
 import java.io.IOException;
@@ -24,6 +25,8 @@ import static java.awt.Image.*;
 public class PlayerCardViewController {
     public static Player player;
     public static Neo4jComment neo4jcomment = new Neo4jComment();
+    public static Neo4jPlayerCard neo4jcard = new Neo4jPlayerCard();
+    public final UserSessionService userSession = App.getSession();
 
     @FXML
     private Label likeLabel1;
@@ -155,9 +158,10 @@ public class PlayerCardViewController {
 
     @FXML
     private void initialize() throws IOException {
-        UserSessionService userSession = App.getSession();
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
+        countLike();
+        checkLike();
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(player.getDateOfBirth());
@@ -225,6 +229,26 @@ public class PlayerCardViewController {
             attr6Stat.setText(player.getPhysicality().toString());
             attr6Bar.setProgress(player.getPhysicality().doubleValue()/100);
         }
+    }
+
+    @FXML
+    private void countLike() {
+        Integer numLikes = neo4jcard.countLikes(Integer.valueOf(player.getPlayerId()));
+        likeLabel1.setText(String.valueOf(numLikes));
+    }
+
+    @FXML
+    private void checkLike() {
+        boolean existLikes = neo4jcard.checkLikes(Integer.valueOf(userSession.getUserId()), Integer.valueOf(player.getPlayerId()));
+        if (existLikes == true)
+            likeButton.setDisable(true);
+    }
+
+    @FXML
+    private void addLike() {
+        neo4jcard.createLike(Integer.valueOf(userSession.getUserId()), Integer.valueOf(player.getPlayerId()));
+        likeButton.setDisable(true);
+        countLike();
     }
 
     @FXML

@@ -129,17 +129,6 @@ public class Neo4jUser implements AutoCloseable{
         }
     }
 
-    public void createLike(final Integer user_id, final Integer playercard){
-        try (Session session = driver.session()){
-            session.writeTransaction( tx -> {
-                tx.run("MATCH (u:User{id: $user_id}),(p:PlayerCard{id: $playercard})\n" +
-                        "CREATE (u)-[:Like]->(p)",
-                        parameters("user_id", user_id , "playercard", playercard));
-                return 1;
-            });
-        }
-    }
-
     public void createPost(final Integer user_id, final Integer comment_id){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
