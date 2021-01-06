@@ -93,6 +93,8 @@ public class ChallengeController {
 
         //mostrare le squadre che hanno lo stesso modulo
         for(int i = 0; i < userSquads.size(); i++) {
+            if(userSquads.get(i).getPlayers().size() < 11)
+                continue;
 
             VBox container = new VBox();
             container.setAlignment(Pos.CENTER);
@@ -130,7 +132,7 @@ public class ChallengeController {
                         userCompetitionHBox.getChildren().remove(2);
                         userCompetitionHBox.getChildren().add(2, container1);
                         ComputeScoreService css = new ComputeScoreService();
-                        Challenge result = css.results(App.getSession().getUserId(), selectedUser.getUserId(), mySelectedSquad, selectedSquad);
+                        Challenge result = css.results(App.getSession().getUser(), selectedUser, mySelectedSquad, selectedSquad);
 
                         VBox container2 = new VBox();
                         HBox hResult = new HBox(new Text(App.getSession().getUsername() + " " + result.getHomeScore() + ":" + result.getAwayScore() + " " + selectedUser.getUsername()));

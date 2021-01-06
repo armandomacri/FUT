@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import user.UserSessionService;
-
 import java.io.IOException;
 
 /**

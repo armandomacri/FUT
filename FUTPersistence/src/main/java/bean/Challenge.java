@@ -1,7 +1,5 @@
 package bean;
 
-import java.util.Date;
-
 public class Challenge {
     private String challengeId;
     private String home;
@@ -13,7 +11,7 @@ public class Challenge {
     private Integer awayScore;
     private Integer points;
 
-    public Challenge(String challengeId, String home, String homeUser, String date, String away, String awayUser, Integer homeScore, Integer awayScore, Integer points){
+    public Challenge(String challengeId, String home, String homeUser, String away, String awayUser, String date, Integer homeScore, Integer awayScore, Integer points){
         this.challengeId = challengeId;
         this.home = home;
         this.homeUser = homeUser;

@@ -10,7 +10,6 @@ import neo4j.Neo4jUser;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 
 public class ComputeScoreService {
 
@@ -27,7 +26,7 @@ public class ComputeScoreService {
         int points = getFinalPoints(home_user, away_user, homeScore, awayScore);
         SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date(System.currentTimeMillis());
-        Challenge result = new Challenge(id.toString(), home_user.getUserId(), home_user.getUsername(), formatter.format(date), away_user.getUserId(), away_user.getUsername(), homeScore, awayScore, points);
+        Challenge result = new Challenge(id.toString(), home_user.getUserId(), home_user.getUsername(),away_user.getUserId(), away_user.getUsername(), formatter.format(date), homeScore, awayScore, points);
         MongoChallenge mc = new MongoChallenge();
         String challID = mc.insertChallenge(result);
         System.out.println("Challenge " + challID + " added");
