@@ -23,7 +23,7 @@ public class LoadXmlConf {
             InputStream in = LoadXmlConf.class.getResource("/conf/"+filename+".xml").openStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-            String xml = new String();
+            String xml = "";
             for (String line; (line = reader.readLine()) != null; xml += line+"\n");
 
             return (MongoConfig) createXStream().fromXML(xml);
@@ -33,7 +33,7 @@ public class LoadXmlConf {
         return null;
     }
 
-    private static final XStream createXStream(){
+    private static XStream createXStream(){
         XStream xstream = new XStream(new StaxDriver());
         xstream.alias("ConfigurationService", MongoConfig.class);
         /*
@@ -52,7 +52,6 @@ public class LoadXmlConf {
     }
 
     public static void main(String[] args) {
-        LoadXmlConf lcf = new LoadXmlConf();
         System.out.println(LoadXmlConf.getConfigIstance("mongoConfig"));
     }
 }

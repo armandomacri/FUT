@@ -15,8 +15,6 @@ public class ComputeScoreService {
 
     private static Integer id = 89976;
 
-    public ComputeScoreService (){};
-
     public Challenge results (User home_user, User away_user, Squad homeSquad, Squad awaySquad){
         ArrayList<Integer> overallPoints = getOverallPoints(homeSquad, awaySquad);
         ArrayList<Integer> iconPoints = getIconPoints(homeSquad, awaySquad);

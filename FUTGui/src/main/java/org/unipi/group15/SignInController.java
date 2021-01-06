@@ -47,7 +47,7 @@ public class SignInController {
             logger.error(unfe);
         }
         App.setSession(userSession);
-        changePage("mainView");
+        changePage();
     }
 
     private void setErrorBox(String text){
@@ -59,13 +59,14 @@ public class SignInController {
         } catch (FileNotFoundException fnfe) {
             logger.error(fnfe);
         }
+        assert fis != null;
         Image i = new Image(fis);
         ImageView iw = new ImageView(i);
         errorBox.getChildren().add(0, new Label(text, iw));
         errorBox.setVisible(true);
     }
 
-    private void changePage(String name){
-        App.setRoot(name);
+    private void changePage(){
+        App.setRoot("mainView");
     }
 }

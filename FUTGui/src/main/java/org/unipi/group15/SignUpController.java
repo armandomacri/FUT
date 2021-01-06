@@ -13,7 +13,6 @@ import user.AuthenticationService;
 import user.UserSessionService;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public class SignUpController {
     private static final Logger logger = LogManager.getLogger(SignUpController.class);
@@ -32,7 +31,7 @@ public class SignUpController {
     @FXML private AnchorPane errorBox;
 
     @FXML
-    private void switchToPrimary() throws IOException {
+    private void switchToPrimary() {
         App.setRoot("primary");
     }
 

@@ -1,7 +1,6 @@
 package org.unipi.group15;
 
 import bean.Challenge;
-import bean.Player;
 import bean.Squad;
 import bean.User;
 import javafx.collections.FXCollections;
@@ -16,7 +15,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import mongo.MongoSquad;
@@ -24,17 +22,14 @@ import mongo.MongoUser;
 import neo4j.Neo4jUser;
 import user.ComputeScoreService;
 import user.UserSessionService;
-
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ChallengeController {
-    private static Neo4jUser neo4jUser = new Neo4jUser();
+    private static final Neo4jUser neo4jUser = new Neo4jUser();
     private Squad selectedSquad;
     private User selectedUser;
-    private static MongoUser mongoUser = new MongoUser();
-    private static MongoSquad mongoSquad = new MongoSquad();
+    private static final MongoUser mongoUser = new MongoUser();
+    private static final MongoSquad mongoSquad = new MongoSquad();
     private final UserSessionService userSession = App.getSession();
 
     @FXML private Label userIdLabel;
@@ -136,7 +131,7 @@ public class ChallengeController {
 
                         VBox container2 = new VBox();
                         HBox hResult = new HBox(new Text(App.getSession().getUsername() + " " + result.getHomeScore() + ":" + result.getAwayScore() + " " + selectedUser.getUsername()));
-                        HBox hRecap = null;
+                        HBox hRecap;
                         if(result.getHomeScore() > result.getAwayScore()){
                             hRecap = new HBox(new Text("Congratulations, you won the match. Points earned: " + result.getPoints().toString()));
                         }
@@ -199,22 +194,22 @@ public class ChallengeController {
     }
 
     @FXML
-    private void switchToProfile() throws IOException {
+    private void switchToProfile() {
         App.setRoot("userPage");
     }
 
     @FXML
-    private void switchToPlayer() throws IOException {
+    private void switchToPlayer() {
         App.setRoot("searchPlayer");
     }
 
     @FXML
-    private void switchToBuildSquad() throws IOException {
+    private void switchToBuildSquad() {
         App.setRoot("buildSquad");
     }
 
     @FXML
-    private void switchToFriends() throws IOException {
+    private void switchToFriends() {
         App.setRoot("friends");
     }
 

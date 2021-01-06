@@ -12,11 +12,10 @@ import neo4j.Neo4jComment;
 import user.UserSessionService;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class CommentsPageController {
-    private static Neo4jComment neo4jComment = new Neo4jComment();
+    private static final Neo4jComment neo4jComment = new Neo4jComment();
     private final UserSessionService userSession = App.getSession();
     public static Player player;
 
@@ -86,7 +85,7 @@ public class CommentsPageController {
     public void createComment() throws Exception {
         String commentText = newCommentText.getText();
         Alert alert = new Alert(Alert.AlertType.WARNING, "The text field is empty, please fill it", ButtonType.OK);
-        if(commentText == "") {
+        if(commentText.equals("")) {
             alert.showAndWait();
             newCommentText.setText("");
         }

@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 
 public class PlayerCardViewController {
     public static Player player;
-    public static Neo4jComment neo4jcomment = new Neo4jComment();
+    public static final Neo4jComment neo4jcomment = new Neo4jComment();
     public static Neo4jPlayerCard neo4jcard = new Neo4jPlayerCard();
     public final UserSessionService userSession = App.getSession();
 
@@ -133,8 +133,8 @@ public class PlayerCardViewController {
         league.setText(player.getLeague());
         nationality.setText(player.getNationality());
         dateOfBirth.setText(date);
-        height.setText(player.getHeight().toString());
-        weight.setText(player.getWeight().toString());
+        height.setText(player.getHeight());
+        weight.setText(player.getWeight());
         quality.setText(player.getQuality());
         revision.setText(player.getRevision());
         weakFoot.setText(player.getWeakFoot().toString());
@@ -192,7 +192,7 @@ public class PlayerCardViewController {
     @FXML
     private void checkLike() {
         boolean existLikes = neo4jcard.checkLikes(Integer.valueOf(userSession.getUserId()), Integer.valueOf(player.getPlayerId()));
-        if (existLikes == true)
+        if (existLikes)
             likeButton.setDisable(true);
     }
 

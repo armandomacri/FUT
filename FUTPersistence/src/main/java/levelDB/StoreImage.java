@@ -54,7 +54,7 @@ public class StoreImage {
         db.delete(bytes(key));
     }
 
-    public boolean checkPresence (String imgUrl) throws IOException{
+    public boolean checkPresence (String imgUrl) {
         openDB();
         if(getValue(imgUrl)==null){
             closeDB();

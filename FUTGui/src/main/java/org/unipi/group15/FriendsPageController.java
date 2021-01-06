@@ -14,11 +14,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import neo4j.Neo4jUser;
 import user.UserSessionService;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class FriendsPageController {
-    private static Neo4jUser neo4jUser = new Neo4jUser();
+    private static final Neo4jUser neo4jUser = new Neo4jUser();
     private final UserSessionService userSession = App.getSession();
 
     private String idSelected = null;
@@ -36,7 +35,7 @@ public class FriendsPageController {
 
     @FXML private Label usernameLabel;
 
-    @FXML private ListView FriendsList;
+    @FXML private ListView<User> FriendsList;
 
     @FXML private Button SearchButton;
 
@@ -50,7 +49,7 @@ public class FriendsPageController {
 
     @FXML public Label valueLbl1;
 
-    @FXML private TableView SuggestedFriend;
+    @FXML private TableView<User> SuggestedFriend;
 
     @FXML public TableColumn<User, String> userIdFriends;
 
@@ -102,23 +101,22 @@ public class FriendsPageController {
         ArrayList<User> users = neo4jUser.suggestedUserByLike(Integer.valueOf((userSession.getUserId())));
         userIdLike.setCellValueFactory(new PropertyValueFactory<>("userId"));
         userUsernameLike.setCellValueFactory(new PropertyValueFactory<>("username"));
-        PropertyValueFactory factory = new PropertyValueFactory<>("userId");
-        PropertyValueFactory factory1 = new PropertyValueFactory<>("username");
-        for(int i = 0; i < users.size(); i++) {
-            SuggestedFriendLike.getItems().add(users.get(i));
+
+        for (User user : users) {
+            SuggestedFriendLike.getItems().add(user);
         }
+
         SuggestedFriendLike.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                User u = (User) SuggestedFriendLike.getSelectionModel().getSelectedItem();
-                int i;
-                for (i = 0; i < followedusers.size(); i++) {
-                    if (followedusers.get(i).getUserId().equals(u.getUserId())) {
+                User u = SuggestedFriendLike.getSelectionModel().getSelectedItem();
+
+                for (User followeduser : followedusers) {
+                    if (followeduser.getUserId().equals(u.getUserId())) {
                         follow_button1.setDisable(true);
                         valueLbl1.setText("User already followed");
                         break;
-                    }
-                    else{
+                    } else {
                         idSelected1 = (u.getUserId());
                         follow_button1.setDisable(false);
                         valueLbl1.setText(u.getUserId());
@@ -132,23 +130,21 @@ public class FriendsPageController {
         ArrayList<User> users = neo4jUser.suggestedUserByFriends(Integer.valueOf((userSession.getUserId())));
         userIdFriends.setCellValueFactory(new PropertyValueFactory<>("userId"));
         userUsernameFriends.setCellValueFactory(new PropertyValueFactory<>("username"));
-        PropertyValueFactory factory = new PropertyValueFactory<>("userId");
-        PropertyValueFactory factory1 = new PropertyValueFactory<>("username");
-        for(int i = 0; i < users.size(); i++) {
-            SuggestedFriend.getItems().add(users.get(i));
+
+        for (User user : users) {
+            SuggestedFriend.getItems().add(user);
         }
+
         SuggestedFriend.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                User u = (User) SuggestedFriend.getSelectionModel().getSelectedItem();
-                int i;
-                for (i = 0; i < followedusers.size(); i++) {
-                    if (followedusers.get(i).getUserId().equals(u.getUserId())) {
+                User u = SuggestedFriend.getSelectionModel().getSelectedItem();
+                for (User followeduser : followedusers) {
+                    if (followeduser.getUserId().equals(u.getUserId())) {
                         follow_button2.setDisable(true);
                         valueLbl2.setText("User already followed");
                         break;
-                    }
-                    else{
+                    } else {
                         idSelected2 = (u.getUserId());
                         follow_button2.setDisable(false);
                         valueLbl2.setText(u.getUserId());
@@ -170,7 +166,7 @@ public class FriendsPageController {
         FriendsList.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                User u = (User) FriendsList.getSelectionModel().getSelectedItem();
+                User u = FriendsList.getSelectionModel().getSelectedItem();
                 int i;
                 for (i = 0; i < followedusers.size(); i++) {
                     if (followedusers.get(i).getUserId().equals(u.getUserId())) {

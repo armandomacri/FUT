@@ -9,12 +9,13 @@ import configuration.MongoConfig;
 class MongoConnection implements AutoCloseable{
 
     private static final String MONGO_CONFIG = "mongoConfig";
-    private static final MongoConfig  mongoConfig = new LoadXmlConf().getConfigIstance(MONGO_CONFIG);
+    private static final MongoConfig  mongoConfig = LoadXmlConf.getConfigIstance(MONGO_CONFIG);
     protected static final MongoClient mongoClient;
     protected static final MongoDatabase db;
 
     static {
         //open connection
+        assert mongoConfig != null;
         mongoClient = MongoClients.create("mongodb://"+mongoConfig.mongoIp+":"+mongoConfig.mongoPort);
         db = mongoClient.getDatabase(mongoConfig.dbName);
         //logger.info("Mongo open connection!");

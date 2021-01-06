@@ -25,7 +25,7 @@ import java.util.*;
 public class UserPageController {
     private static final Logger logger = LogManager.getLogger(UserPageController.class);
     private final UserSessionService userSession = App.getSession();
-    private static MongoSquad mongoSquad = new MongoSquad();
+    private static final MongoSquad mongoSquad = new MongoSquad();
     private static MongoChallenge mongoChallenge = new MongoChallenge();
 
     @FXML private Label usernameLabel;

@@ -1,7 +1,5 @@
 package bean;
 
-import org.neo4j.driver.Value;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -132,7 +130,7 @@ public class User {
 
     @Override
     public String toString(){
-        String s = "USER {\n" +
+        StringBuilder s = new StringBuilder("USER {\n" +
                 "\t ID: " + userId + "\n" +
                 "\t FIRST NAME: " + firstName + "\n" +
                 "\t LAST NAME: " + lastName + "\n " +
@@ -141,13 +139,13 @@ public class User {
                 "\t COUNTRY: " + country + "\n" +
                 "\t PASSWORD: " + password + "\n" +
                 "\t SCORE: " + score + "\n" +
-                "\t SQUADS {\n";
+                "\t SQUADS {\n");
 
         for(Squad squad : squads)
-            s += "\t" + squad.toString();
+            s.append("\t").append(squad.toString());
 
-        s += "\t }\n}";
+        s.append("\t }\n}");
 
-        return s;
+        return s.toString();
     }
 }

@@ -24,8 +24,7 @@ public class MongoUser extends MongoConnection{
                 .append("password", password);
         myColl.insertOne(user);
 
-        String mongoId = user.getObjectId("_id").toString();
-        return mongoId;
+        return user.getObjectId("_id").toString();
     }
 
     public User getUser(String username){
@@ -105,27 +104,25 @@ public class MongoUser extends MongoConnection{
 
     public Integer countElement(String collection){
         myColl = db.getCollection("users");
-        Integer i = Math.toIntExact(myColl.countDocuments());
-        return i;
+        return Math.toIntExact(myColl.countDocuments());
     }
 
     public void updateScore (String userId, int points){
         myColl = db.getCollection("users");
         //query
         myColl.updateOne(eq("_id", userId), inc("score", points));
-        return;
     }
 
     public int getScore (String userId){
         myColl = db.getCollection("users");
         //query
         Document doc = myColl.find(eq("_id", userId)).first();
-        return Integer.valueOf((Integer) doc.get("score"));
+        assert doc != null;
+        return (Integer) doc.get("score");
     }
 
     public static void main(String[] args){
-        MongoUser m = new MongoUser();
-        //m.show_player_information(1);
+
         //System.out.println(m.findById(10));
     }
 }

@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SearchPlayerController {
-    private static MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
+    private static final MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
     private final UserSessionService userSession = App.getSession();
 
     @FXML private Label usernameLabel;
@@ -81,8 +81,8 @@ public class SearchPlayerController {
         gridPane.setHgap(12);
         gridPane.setVgap(12);
 
-        Integer j = 0;
-        Integer k = 0;
+        int j = 0;
+        int k = 0;
         for(int i = 0; i < players.size(); i++){
 
             VBox container = new VBox();

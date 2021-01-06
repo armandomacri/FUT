@@ -25,10 +25,6 @@ public class Comment {
         this.author_username = author;
     }
 
-    public Comment(){
-
-    }
-
     public Integer getId() {
         return id;
     }
@@ -65,9 +61,8 @@ public class Comment {
     public String toString(){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date1 = df.format(date);
-        String s = "Comment: " + id + " {\n" +
+        return "Comment: " + id + " {\n" +
                 "\t DATE: " + date1 + "\t AUTHOR: " + author_username +
                 "\t TEXT: " + text + "\n";
-        return s;
     }
 }

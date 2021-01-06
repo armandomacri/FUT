@@ -12,8 +12,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import mongo.MongoPlayerCard;
 import mongo.MongoSquad;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import user.UserSessionService;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,9 +19,9 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class BuildSquadController {
-    private static UserSessionService userSession = App.getSession();
-    private static MongoSquad mongoSquad = new MongoSquad();
-    private static MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
+    private static final UserSessionService userSession = App.getSession();
+    private static final MongoSquad mongoSquad = new MongoSquad();
+    private static final MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
     private static int squadIdex = -1;
     private static Squad squad;
 
@@ -94,23 +92,23 @@ public class BuildSquadController {
         squad.setModule(module);
         switch (module){
             case "352":
-                ArrayList<String> m352 = new ArrayList(Arrays.asList("GK", "CB0", "CB1", "CB2", "CDM0", "CDM1", "CAM1", "LM", "RM", "ST0", "ST1"));
+                ArrayList<String> m352 = new ArrayList<>(Arrays.asList("GK", "CB0", "CB1", "CB2", "CDM0", "CDM1", "CAM1", "LM", "RM", "ST0", "ST1"));
                 displayPosition(m352);
                 break;
             case "4231":
-                ArrayList<String> m4231 = new ArrayList(Arrays.asList("GK","CB0","CB1","LB","RB","CAM1","CDM0","CDM1","CAM0","CAM2","ST"));
+                ArrayList<String> m4231 = new ArrayList<>(Arrays.asList("GK","CB0","CB1","LB","RB","CAM1","CDM0","CDM1","CAM0","CAM2","ST"));
                 displayPosition(m4231);
                 break;
             case "4312":
-                ArrayList<String> m4312 = new ArrayList(Arrays.asList("GK","CB0","CB1","LB","RB","CM0","CM1","CM2","CAM1","ST0","ST1"));
+                ArrayList<String> m4312 = new ArrayList<>(Arrays.asList("GK","CB0","CB1","LB","RB","CM0","CM1","CM2","CAM1","ST0","ST1"));
                 displayPosition(m4312);
                 break;
             case "433":
-                ArrayList<String> m433 = new ArrayList(Arrays.asList("GK","CB0","CB1","LB","RB","CM0","CM1","CM2","ST0","LW","RW"));
+                ArrayList<String> m433 = new ArrayList<>(Arrays.asList("GK","CB0","CB1","LB","RB","CM0","CM1","CM2","ST0","LW","RW"));
                 displayPosition(m433);
                 break;
             case "442":
-                ArrayList<String> m442 = new ArrayList(Arrays.asList("GK","CB0","CB1","LB","RB","CM0","CM1","LM","RM","ST0","ST1"));
+                ArrayList<String> m442 = new ArrayList<>(Arrays.asList("GK","CB0","CB1","LB","RB","CM0","CM1","LM","RM","ST0","ST1"));
                 displayPosition(m442);
                 break;
             default: break;
@@ -118,7 +116,7 @@ public class BuildSquadController {
     }
 
     @FXML
-    private void switchToProfile() throws IOException { App.setRoot("userPage"); }
+    private void switchToProfile() { App.setRoot("userPage"); }
 
     private void displayPosition(ArrayList<String> elem){
         choosePlayerBox(elem);
@@ -149,8 +147,8 @@ public class BuildSquadController {
 
     @FXML
     private void addPlayer(){
-        Player player = (Player) findPlayersTableView.getSelectionModel().getSelectedItem();
-        String pos = (String) positionChoiceBox.getSelectionModel().getSelectedItem();
+        Player player = findPlayersTableView.getSelectionModel().getSelectedItem();
+        String pos = positionChoiceBox.getSelectionModel().getSelectedItem();
         squad.getPlayers().put(pos, player);
         ObservableList<Player> players = FXCollections.observableArrayList(squad.getPlayers().values());
         chosenPlayersTableView.setItems(players);
@@ -174,7 +172,7 @@ public class BuildSquadController {
 
     private Integer computeOverall (Squad s){
         Integer sum = 0;
-        Integer overall;
+        int overall;
         for (int i = 0; i<squad.getPlayers().size(); i++){
             sum += s.getPlayers().get(s.getPlayers().keySet().toArray()[i]).getOverall();
         }

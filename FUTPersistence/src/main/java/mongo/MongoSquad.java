@@ -70,7 +70,7 @@ public class MongoSquad extends MongoConnection{
         ArrayList<Document> squadsDoc = (ArrayList)doc.get("squads");
         //inserire se non ha squadra, inizializzatlo vuoto
         ArrayList<Squad> s = new ArrayList<>();
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat df;
         Date date = null;
         for (Document squad : squadsDoc){
             HashMap<String, Player> pos = new HashMap<>();
