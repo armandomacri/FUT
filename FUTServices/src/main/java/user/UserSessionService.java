@@ -46,9 +46,13 @@ public class UserSessionService {
 
     public int getScore() { return user.getScore(); }
 
+    public User getUser() { return user; }
+
     public void cleanUserSession() {
         this.user = null;
     }
+
+    public void setScore(Integer new_score){ user.setScore(new_score); }
 
     @Override
     public String toString() {

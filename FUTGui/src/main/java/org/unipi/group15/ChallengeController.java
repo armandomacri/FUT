@@ -77,16 +77,16 @@ public class ChallengeController {
         seachUserTableView.setItems(users);
 
     }
-
+/*
     @FXML
     private void showSelectedUserShads(){
         //ottenere l'id dell'utente di cui voglio le squadre
         //le squadre appaiono quando clicco sull'utente
         MongoSquad mongoSquad = new MongoSquad();
-        ArrayList<Squad> userSquads = mongoSquad.getSquads("Casimir");
+        ArrayList<Squad> userSquads = mongoSquad.getSquads(userSession.getUsername());
         setSquad(userSquads);
     }
-
+*/
     private void setSquad(ArrayList<Squad> userSquads){
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 10, 10, 10));
@@ -131,16 +131,17 @@ public class ChallengeController {
                         userCompetitionHBox.getChildren().remove(2);
                         userCompetitionHBox.getChildren().add(2, container1);
                         ComputeScoreService css = new ComputeScoreService();
-                        Challenge result = css.results(App.getSession().getUserId(), App.getSession().getUsername(), selectedUser.getUserId(), selectedUser.getUsername(), mySelectedSquad, selectedSquad);
-
+                        Challenge result = css.results(App.getSession().getUser(), selectedUser, mySelectedSquad, selectedSquad);
                         VBox container2 = new VBox();
                         HBox hResult = new HBox(new Text(App.getSession().getUsername() + " " + result.getHomeScore() + ":" + result.getAwayScore() + " " + selectedUser.getUsername()));
                         HBox hRecap = null;
                         if(result.getHomeScore() > result.getAwayScore()){
                             hRecap = new HBox(new Text("Congratulations, you won the match. Points earned: " + result.getPoints().toString()));
+                            userSession.setScore(userSession.getScore() + result.getPoints());
                         }
                         else if(result.getHomeScore() < result.getAwayScore()){
                             hRecap = new HBox(new Text("Sorry, you lost the match. Points lost: " + result.getPoints().toString()));
+                            userSession.setScore(userSession.getScore() - result.getPoints());
                         }
                         else{
                             hRecap =  new HBox(new Text("It's a Draw. Points earned/lost: " + result.getPoints().toString()));
