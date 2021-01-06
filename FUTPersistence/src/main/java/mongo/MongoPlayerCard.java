@@ -3,9 +3,6 @@ package mongo;
 import bean.Player;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-
-
-
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import java.text.ParseException;

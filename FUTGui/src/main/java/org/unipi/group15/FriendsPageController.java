@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class FriendsPageController {
-    Neo4jUser neo4jUser = new Neo4jUser();
+    private static Neo4jUser neo4jUser = new Neo4jUser();
     private final UserSessionService userSession = App.getSession();
 
     private String idSelected = null;
@@ -61,27 +61,23 @@ public class FriendsPageController {
     @FXML public Label valueLbl2;
 
     @FXML
-    private void switchToProfile() throws IOException {
+    private void switchToProfile() {
         App.setRoot("userPage");
     }
 
     @FXML
-    private void switchToPlayer() throws IOException {
+    private void switchToPlayer() {
         App.setRoot("searchPlayer");
     }
 
     @FXML
-    private void switchToBuildSquad() throws IOException {
+    private void switchToBuildSquad() {
         App.setRoot("buildSquad");
     }
 
     @FXML
-    private void switchToChallenge(){
-        try {
-            App.setRoot("challenge");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void switchToChallenge() {
+        App.setRoot("challenge");
     }
 
     @FXML
@@ -194,7 +190,7 @@ public class FriendsPageController {
     }
 
     @FXML
-    public void onEnter(ActionEvent ae) throws Exception {
+    public void onEnter(ActionEvent ae) {
         searchFriend();
     }
 

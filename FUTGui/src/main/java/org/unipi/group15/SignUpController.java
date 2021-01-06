@@ -6,6 +6,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import serviceExceptions.UserAlreadyExists;
 import user.AuthenticationService;
 import user.UserSessionService;
@@ -14,7 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class SignUpController {
-
+    private static final Logger logger = LogManager.getLogger(SignUpController.class);
     @FXML private TextField usernameTextField;
 
     @FXML private TextField repeatPasswordTextField;
@@ -48,7 +50,7 @@ public class SignUpController {
         try {
             uss = as.signUp(usernameTextField.getText(), passwordTextField.getText(), countryTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText());
         } catch (UserAlreadyExists uae) {
-            uae.printStackTrace();
+            logger.error("Exeption happened! ", uae);
             setErrorBox("Username already exists!");
         }
 
@@ -64,8 +66,8 @@ public class SignUpController {
 
         try {
             fis = new FileInputStream("src/main/resources/img/warning.png");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException fnfe) {
+            logger.error("Exeption happened! ", fnfe);
         }
         Image i = new Image(fis);
         ImageView iw = new ImageView(i);

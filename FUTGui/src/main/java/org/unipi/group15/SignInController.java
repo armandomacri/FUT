@@ -6,15 +6,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import serviceExceptions.SignInException;
 import serviceExceptions.UserNotFoudException;
 import user.AuthenticationService;
 import user.UserSessionService;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public class SignInController {
+    private static final Logger logger = LogManager.getLogger(SignInController.class);
 
     @FXML private TextField usernameTextField;
 
@@ -27,7 +29,7 @@ public class SignInController {
     }
 
     @FXML
-    private void switchToSecondary() throws IOException {
+    private void switchToSecondary() {
         App.setRoot("secondary");
     }
 
@@ -37,12 +39,12 @@ public class SignInController {
         UserSessionService userSession = null;
         try {
             userSession = as.signIn(usernameTextField.getText(), passwordTextField.getText());
-        } catch (SignInException e) {
+        } catch (SignInException sie) {
             setErrorBox("Username or Password are wrong!");
-            e.printStackTrace();
+            logger.error("Exception happened! ", sie);
         } catch (UserNotFoudException unfe){
             setErrorBox("Username not registered!");
-            unfe.printStackTrace();
+            logger.error(unfe);
         }
         App.setSession(userSession);
         changePage("mainView");
@@ -54,8 +56,8 @@ public class SignInController {
 
         try {
             fis = new FileInputStream("src/main/resources/img/warning.png");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException fnfe) {
+            logger.error(fnfe);
         }
         Image i = new Image(fis);
         ImageView iw = new ImageView(i);
@@ -64,10 +66,6 @@ public class SignInController {
     }
 
     private void changePage(String name){
-        try {
-            App.setRoot(name);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        App.setRoot(name);
     }
 }

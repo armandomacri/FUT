@@ -1,26 +1,19 @@
 package org.unipi.group15;
 
-;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.WritableImage;
 import levelDB.StoreImage;
 import bean.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import neo4j.Neo4jComment;
 import neo4j.Neo4jPlayerCard;
 import user.UserSessionService;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import static java.awt.Image.*;
 
 public class PlayerCardViewController {
     public static Player player;
@@ -28,128 +21,87 @@ public class PlayerCardViewController {
     public static Neo4jPlayerCard neo4jcard = new Neo4jPlayerCard();
     public final UserSessionService userSession = App.getSession();
 
-    @FXML
-    private Label likeLabel1;
+    @FXML private Label likeLabel1;
 
-    @FXML
-    private Button likeButton;
+    @FXML private Button likeButton;
 
-    @FXML
-    private Label usernameLabel;
+    @FXML private Label usernameLabel;
 
-    @FXML
-    private Label userIdLabel;
+    @FXML private Label userIdLabel;
 
-    @FXML
-    private Text playerName;
+    @FXML private Text playerName;
 
-    @FXML
-    private Text overall;
+    @FXML private Text overall;
 
-    @FXML
-    private Text position;
+    @FXML private Text position;
 
-    @FXML
-    private Label attr1;
+    @FXML private Label attr1;
 
-    @FXML
-    private Label attr1Stat;
+    @FXML private Label attr1Stat;
 
-    @FXML
-    private ProgressBar attr1Bar;
+    @FXML private ProgressBar attr1Bar;
 
-    @FXML
-    private Label attr2;
+    @FXML private Label attr2;
 
-    @FXML
-    private Label attr2Stat;
+    @FXML private Label attr2Stat;
 
-    @FXML
-    private ProgressBar attr2Bar;
+    @FXML private ProgressBar attr2Bar;
 
-    @FXML
-    private Label attr3;
+    @FXML private Label attr3;
 
-    @FXML
-    private Label attr3Stat;
+    @FXML private Label attr3Stat;
 
-    @FXML
-    private ProgressBar attr3Bar;
+    @FXML private ProgressBar attr3Bar;
 
-    @FXML
-    private Label attr4;
+    @FXML private Label attr4;
 
-    @FXML
-    private Label attr4Stat;
+    @FXML private Label attr4Stat;
 
-    @FXML
-    private ProgressBar attr4Bar;
+    @FXML private ProgressBar attr4Bar;
 
-    @FXML
-    private Label attr5;
+    @FXML private Label attr5;
 
-    @FXML
-    private Label attr5Stat;
+    @FXML private Label attr5Stat;
 
-    @FXML
-    private ProgressBar attr5Bar;
+    @FXML private ProgressBar attr5Bar;
 
-    @FXML
-    private Label attr6;
+    @FXML private Label attr6;
 
-    @FXML
-    private Label attr6Stat;
+    @FXML private Label attr6Stat;
 
-    @FXML
-    private ProgressBar attr6Bar;
+    @FXML private ProgressBar attr6Bar;
 
-    @FXML
-    private Text extendedName;
+    @FXML private Text extendedName;
 
-    @FXML
-    private Text club;
+    @FXML private Text club;
 
-    @FXML
-    private Text league;
+    @FXML private Text league;
 
-    @FXML
-    private Text nationality;
+    @FXML private Text nationality;
 
-    @FXML
-    private Text dateOfBirth;
+    @FXML private Text dateOfBirth;
 
-    @FXML
-    private Text height;
+    @FXML private Text height;
 
-    @FXML
-    private Text weight;
+    @FXML private Text weight;
 
-    @FXML
-    private Text quality;
+    @FXML private Text quality;
 
-    @FXML
-    private Text revision;
+    @FXML private Text revision;
 
-    @FXML
-    private Text weakFoot;
+    @FXML private Text weakFoot;
 
-    @FXML
-    private Text skillMoves;
+    @FXML private Text skillMoves;
 
-    @FXML
-    private Text prefFoot;
+    @FXML private Text prefFoot;
 
-    @FXML
-    private ImageView playerCardImg;
+    @FXML private ImageView playerCardImg;
 
-    @FXML
-    private ImageView nationalityImg;
+    @FXML private ImageView nationalityImg;
 
-    @FXML
-    private ImageView clubImg;
+    @FXML private ImageView clubImg;
 
-    @FXML
-    private Button showComments;
+    @FXML private Button showComments;
 
     public void setPlayer(Player p){
         player = p;
@@ -252,14 +204,14 @@ public class PlayerCardViewController {
     }
 
     @FXML
-    private void goToComments() throws IOException {
+    private void goToComments() {
         CommentsPageController cpc = new CommentsPageController();
         cpc.setPlayerId(player);
         App.setRoot("comments");
     }
 
     @FXML
-    private void goToSearchPlayer() throws IOException{
+    private void goToSearchPlayer() {
         App.setRoot("searchPlayer");
     }
 

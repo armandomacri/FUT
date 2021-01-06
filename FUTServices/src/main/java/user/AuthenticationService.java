@@ -5,16 +5,16 @@ import mongo.MongoUser;
 import serviceExceptions.SignInException;
 import serviceExceptions.UserAlreadyExists;
 import serviceExceptions.UserNotFoudException;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AuthenticationService {
-
-    public AuthenticationService(){}
+    private static final Logger logger = LogManager.getLogger(AuthenticationService.class);
 
     public UserSessionService signIn(String username, String pwd) throws SignInException, UserNotFoudException {
 
@@ -36,7 +36,7 @@ public class AuthenticationService {
          */
 
         UserSessionService s = UserSessionService.getInstace(u);
-
+        logger.info("User logged!");
         return s;
     }
 
@@ -46,8 +46,8 @@ public class AuthenticationService {
         Date date = null;
         try {
             date = df.parse(df.format(new Date()));
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (ParseException pe) {
+            logger.error("Exception happened! ", pe);
         }
 
         String encryptedPwd = encryptPassword(password);
@@ -78,14 +78,15 @@ public class AuthenticationService {
             //This bytes[] has bytes in decimal format;
             //Convert it to hexadecimal format
             StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++)
-            {
+            for(int i=0; i< bytes.length ;i++) {
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
             //Get complete hashed password in hex format
             generatedPassword = sb.toString();
         }
-        catch (NoSuchAlgorithmException e) { e.printStackTrace(); }
+        catch (NoSuchAlgorithmException nsae) {
+            logger.error("Exception happened! ", nsae);
+        }
 
         return generatedPassword;
     }

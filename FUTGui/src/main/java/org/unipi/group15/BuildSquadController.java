@@ -9,13 +9,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import mongo.MongoPlayerCard;
 import mongo.MongoSquad;
-import mongo.MongoUser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import user.UserSessionService;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +23,7 @@ import java.util.Date;
 public class BuildSquadController {
     private static UserSessionService userSession = App.getSession();
     private static MongoSquad mongoSquad = new MongoSquad();
+    private static MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
     private static int squadIdex = -1;
     private static Squad squad;
 
@@ -142,7 +142,6 @@ public class BuildSquadController {
         if(findPlayerTextField.getText().equals(""))
             return;
 
-        MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
         findPlayersTableView.getItems().clear();
         ObservableList<Player> players = FXCollections.observableArrayList(mongoPlayerCard.findPlayers(findPlayerTextField.getText()));
         findPlayersTableView.setItems(players);
@@ -170,11 +169,7 @@ public class BuildSquadController {
             userSession.getSquads().add(squadIdex, squad);
 
         mongoSquad.add(userSession.getUserId(), squadIdex, squad);
-        try {
-            App.setRoot("userPage");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        App.setRoot("userPage");
     }
 
     private Integer computeOverall (Squad s){

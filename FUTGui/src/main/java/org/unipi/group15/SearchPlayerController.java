@@ -15,56 +15,45 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import levelDB.StoreImage;
 import mongo.MongoPlayerCard;
-import mongo.MongoUser;
 import user.UserSessionService;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class SearchPlayerController {
-
+    private static MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
     private final UserSessionService userSession = App.getSession();
 
-    @FXML
-    private Label usernameLabel;
+    @FXML private Label usernameLabel;
+
+    @FXML private Label userIdLabel;
+
+    @FXML private TextField toFind;
+
+    @FXML private Button toFindButton;
+
+    @FXML private Button playerLink;
+
+    @FXML private ScrollPane playersWrapper;
 
     @FXML
-    private Label userIdLabel;
-
-    @FXML
-    private TextField toFind;
-
-    @FXML
-    private Button toFindButton;
-
-    @FXML
-    private Button playerLink;
-
-    @FXML
-    private ScrollPane playersWrapper;
-
-    @FXML
-    private void switchToProfile() throws IOException {
+    private void switchToProfile(){
         App.setRoot("userPage");
     }
 
     @FXML
-    private void switchToFriend() throws IOException {
+    private void switchToFriend() {
         App.setRoot("friends");
     }
 
     @FXML
-    private void switchToBuildSquad() throws IOException {
+    private void switchToBuildSquad() {
         App.setRoot("buildSquad");
     }
 
     @FXML
     private void switchToChallenge(){
-        try {
-            App.setRoot("challenge");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        App.setRoot("challenge");
     }
 
     @FXML
@@ -77,7 +66,7 @@ public class SearchPlayerController {
     private void findPlayer() throws IOException{
 
         playersWrapper.setContent(null);
-        MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
+
         ArrayList<Player> players = mongoPlayerCard.findPlayers(toFind.getText());
         System.out.println(players);
 
@@ -112,13 +101,9 @@ public class SearchPlayerController {
                 @Override
                 public void handle(MouseEvent event) {
                     System.out.println(container.getId());
-                    try {
-                        PlayerCardViewController pCVC = new PlayerCardViewController();
-                        pCVC.setPlayer(players.get(Integer.parseInt(container.getId())));
-                        App.setRoot("player_card_view");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    PlayerCardViewController pCVC = new PlayerCardViewController();
+                    pCVC.setPlayer(players.get(Integer.parseInt(container.getId())));
+                    App.setRoot("player_card_view");
                 }
             });
             HBox h1 = new HBox(new Label("Name: "), new Text(players.get(i).getPlayerName()));

@@ -2,23 +2,16 @@ package org.unipi.group15;
 
 import bean.Comment;
 import bean.Player;
-import bean.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
 import neo4j.Neo4jComment;
-import neo4j.Neo4jUser;
 import user.UserSessionService;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
-
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -40,32 +33,28 @@ public class CommentsPageController {
     @FXML private Button PostButton;
 
     @FXML
-    private void switchToProfile() throws IOException {
+    private void switchToProfile() {
         App.setRoot("userPage");
     }
 
     @FXML
-    private void switchToPlayer() throws IOException {
+    private void switchToPlayer() {
         App.setRoot("searchPlayer");
     }
 
     @FXML
-    private void switchToFriends() throws IOException {
+    private void switchToFriends() {
         App.setRoot("friends");
     }
 
     @FXML
-    private void switchToBuildSquad() throws IOException {
+    private void switchToBuildSquad() {
         App.setRoot("buildSquad");
     }
 
     @FXML
-    private void switchToChallenge(){
-        try {
-            App.setRoot("challenge");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void switchToChallenge() {
+        App.setRoot("challenge");
     }
 
 

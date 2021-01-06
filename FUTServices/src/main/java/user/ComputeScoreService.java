@@ -13,8 +13,6 @@ public class ComputeScoreService {
 
     private static Integer id = 89972;
 
-    public ComputeScoreService (){};
-
     public Challenge results (String homeId, String awayId, Squad homeSquad, Squad awaySquad){
         ArrayList<Integer> overallPoints = getOverallPoints(homeSquad, awaySquad);
         ArrayList<Integer> iconPoints = getIconPoints(homeSquad, awaySquad);
@@ -26,7 +24,7 @@ public class ComputeScoreService {
         Challenge result = new Challenge(id.toString(), homeId, formatter.format(date), awayId, homeScore, awayScore, homeScore-awayScore);
         MongoChallenge mc = new MongoChallenge();
         String challID = mc.insertChallenge(result);
-        System.out.println("Challenge " + challID + " added");
+        //System.out.println("Challenge " + challID + " added");
         addId();
         return result;
     }

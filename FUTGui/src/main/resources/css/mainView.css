@@ -13,6 +13,7 @@
     -fx-background-color: transparent;
     -fx-font-size: 16;
     -fx-text-fill: white;
+    -fx-cursor: hand;
 }
 
 .leftMenu .label{

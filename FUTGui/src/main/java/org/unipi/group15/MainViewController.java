@@ -42,11 +42,7 @@ public class MainViewController {
     }
 
     @FXML
-    private void switchToChallenge(){
-        try {
-            App.setRoot("challenge");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void switchToChallenge() {
+        App.setRoot("challenge");
     }
 }

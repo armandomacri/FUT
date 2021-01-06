@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import user.UserSessionService;
 
 import java.io.IOException;
@@ -13,16 +15,16 @@ import java.io.IOException;
  * JavaFX App
  */
 public class App extends Application {
+    private static final Logger logger = LogManager.getLogger(App.class);
     private static UserSessionService session;
     private static Scene scene;
-    private static Stage s;
 
     @Override
     public void start(Stage stage) throws IOException {
+        logger.info("Start application!");
         scene = new Scene(loadFXML("primary"));
         stage.setOnCloseRequest(e -> close());
         stage.setScene(scene);
-        s = stage;
         stage.show();
     }
 
@@ -32,11 +34,13 @@ public class App extends Application {
     public static void setSession(UserSessionService s){
         session = s;
     }
-    public static void setHeight(double height){ s.setHeight(height); }
-    public static void setWidth(double width){ s.setWidth(width); }
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+    static void setRoot(String fxml) {
+        try {
+            scene.setRoot(loadFXML(fxml));
+        } catch (IOException e) {
+            logger.error("Exceptions happen!", e);
+        }
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
@@ -49,7 +53,6 @@ public class App extends Application {
     }
 
     public void close(){
-
+        session.clear();
     }
-
 }

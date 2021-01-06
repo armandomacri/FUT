@@ -6,15 +6,20 @@ import com.thoughtworks.xstream.security.NoTypePermission;
 import com.thoughtworks.xstream.security.NullPermission;
 import com.thoughtworks.xstream.security.PrimitiveTypePermission;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Collection;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class LoadXmlConf {
+    private static final Logger logger = LogManager.getLogger(LoadXmlConf.class);
 
-    public MongoConfig getConfigIstance(String filename){
+    public static MongoConfig getConfigIstance(String filename){
 
         try {
-
             InputStream in = LoadXmlConf.class.getResource("/conf/"+filename+".xml").openStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
@@ -22,8 +27,8 @@ public class LoadXmlConf {
             for (String line; (line = reader.readLine()) != null; xml += line+"\n");
 
             return (MongoConfig) createXStream().fromXML(xml);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ioe) {
+            logger.error("Exception happened! ", ioe);
         }
         return null;
     }
@@ -48,6 +53,6 @@ public class LoadXmlConf {
 
     public static void main(String[] args) {
         LoadXmlConf lcf = new LoadXmlConf();
-        System.out.println(lcf.getConfigIstance("mongoConfig"));
+        System.out.println(LoadXmlConf.getConfigIstance("mongoConfig"));
     }
 }

@@ -5,29 +5,28 @@ import bean.Squad;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import mongo.MongoChallenge;
 import mongo.MongoSquad;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import user.UserSessionService;
-
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class UserPageController {
-
+    private static final Logger logger = LogManager.getLogger(UserPageController.class);
     private final UserSessionService userSession = App.getSession();
     private static MongoSquad mongoSquad = new MongoSquad();
+    private static MongoChallenge mongoChallenge = new MongoChallenge();
 
     @FXML private Label usernameLabel;
 
@@ -87,14 +86,10 @@ public class UserPageController {
             modifybutton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    try {
-                        BuildSquadController bqc = new BuildSquadController();
-                        bqc.setSquadIndex(Integer.parseInt(modifybutton.getId()));
-                        App.setRoot("buildSquad");
+                    BuildSquadController bqc = new BuildSquadController();
+                    bqc.setSquadIndex(Integer.parseInt(modifybutton.getId()));
+                    App.setRoot("buildSquad");
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 }
             });
 
@@ -104,11 +99,7 @@ public class UserPageController {
                     int index = Integer.parseInt(modifybutton.getId());
                     squads.remove(index);
                     mongoSquad.delete(userSession.getUserId(), index);
-                    try {
-                        App.setRoot("userPage");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    App.setRoot("userPage");
                 }
             });
 
@@ -117,24 +108,12 @@ public class UserPageController {
             container.getChildren().add(h3);
             container.getChildren().addAll(modifybutton, deleteButton);
 
-            /*
-            HashMap<String, String> players = squads.get(i).getPlayers();
-
-            Iterator iterator = players.keySet().iterator();
-            while(iterator.hasNext()) {
-                String key = iterator.next().toString();
-                HBox h4 = new HBox(new Label(key+": "), new Text(players.get(key)));
-                container.getChildren().add(h4);
-            }
-
-             */
-
             gridPane.add(container, i, 0);
         }
         squadsWrapper.setContent(gridPane);
 
-        MongoChallenge mc = new MongoChallenge();
-        ArrayList<Challenge> challenges = mc.findUserChallenge(userSession.getUserId());
+
+        ArrayList<Challenge> challenges = mongoChallenge.findUserChallenge(userSession.getUserId());
         if (challenges.size() == 0){
             //non ci sono squadre
             //inserire pannello vuoto
@@ -164,22 +143,28 @@ public class UserPageController {
     }
 
     @FXML
-    private void switchToPlayer() throws IOException{
+    private void switchToPlayer() {
         App.setRoot("searchPlayer");
     }
 
     @FXML
-    private void switchToBuildSquad() throws IOException {
+    private void switchToBuildSquad() {
         App.setRoot("buildSquad");
     }
 
     @FXML
-    public void switchToFriends() throws IOException {
+    public void switchToFriends(){
         App.setRoot("friends");
     }
 
     @FXML
-    public void switchToChallenge() throws IOException {
+    public void switchToChallenge(){
         App.setRoot("challenge");
+    }
+
+    @FXML
+    public void logOut() {
+        App.getSession().clear();
+        App.setRoot("primary");
     }
 }

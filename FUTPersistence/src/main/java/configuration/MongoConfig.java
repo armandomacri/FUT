@@ -1,7 +1,5 @@
 package configuration;
 
-import java.io.Serializable;
-
 public class MongoConfig {
     public String mongoIp;
     public int mongoPort;

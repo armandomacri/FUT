@@ -7,7 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Base64;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.iq80.leveldb.DB;
 import org.iq80.leveldb.Options;
 
@@ -17,6 +18,7 @@ import static org.iq80.leveldb.impl.Iq80DBFactory.*;
 import static org.iq80.leveldb.impl.Iq80DBFactory.bytes;
 
 public class StoreImage {
+    private static final Logger logger = LogManager.getLogger(StoreImage.class);
     private DB db = null;
 
     public void openDB() {
@@ -25,7 +27,9 @@ public class StoreImage {
 
         try {
             db = factory.open(new File("db"), options);
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException ioe) {
+            logger.error("Exception happened! ", ioe);
+        }
     }
 
     public void closeDB () {
@@ -34,7 +38,9 @@ public class StoreImage {
                 db.close();
                 db = null;
             }
-        } catch (IOException io) { io.printStackTrace(); }
+        } catch (IOException ioe) {
+            logger.error("Exception happened! ", ioe);
+        }
     }
 
     public DB getDB() { return db; }

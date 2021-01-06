@@ -44,7 +44,7 @@ public class UserSessionService {
 
     public ArrayList<Squad> getSquads() { return user.getSquads(); }
 
-    public void cleanUserSession() {
+    public void clear() {
         this.user = null;
     }
 
