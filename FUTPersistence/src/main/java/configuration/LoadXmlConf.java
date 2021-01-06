@@ -1,7 +1,7 @@
 package configuration;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
 import com.thoughtworks.xstream.security.NoTypePermission;
 import com.thoughtworks.xstream.security.NullPermission;
 import com.thoughtworks.xstream.security.PrimitiveTypePermission;
@@ -29,7 +29,7 @@ public class LoadXmlConf {
     }
 
     private static final XStream createXStream(){
-        XStream xstream = new XStream(new DomDriver());
+        XStream xstream = new XStream(new StaxDriver());
         xstream.alias("ConfigurationService", MongoConfig.class);
         /*
         xs.useAttributeFor(ConfigurationService.class, "mongoIp");
@@ -42,9 +42,7 @@ public class LoadXmlConf {
         xstream.addPermission(PrimitiveTypePermission.PRIMITIVES);
         xstream.allowTypeHierarchy(Collection.class);
         // allow any type from the same package
-        xstream.allowTypesByWildcard(new String[] {
-                "configuration.*"
-        });
+        xstream.allowTypesByWildcard(new String[] {"configuration.*"});
         return xstream;
     }
 
