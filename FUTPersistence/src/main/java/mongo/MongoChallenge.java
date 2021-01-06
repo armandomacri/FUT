@@ -1,10 +1,18 @@
 package mongo;
 
+
 import bean.Challenge;
+import bean.Player;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.regex.Pattern;
+
 import static com.mongodb.client.model.Filters.*;
 
 public class MongoChallenge extends MongoConnection{
@@ -12,7 +20,7 @@ public class MongoChallenge extends MongoConnection{
 
     public String insertChallenge (Challenge newChallenge){
         myColl = db.getCollection("challenge");
-        Document doc = new Document("_id", Integer.parseInt(newChallenge.getChallengeId())).append("home", newChallenge.getHome()).append("date", newChallenge.getDate()).append("away", newChallenge.getAway()).append("home_score", newChallenge.getHomeScore()).append("away_score", newChallenge.getAwayScore()).append("points_earned/lost", newChallenge.getPoints());
+        Document doc = new Document("_id", Integer.parseInt(newChallenge.getChallengeId())).append("home", newChallenge.getHome()).append("home_user", newChallenge.getHomeUser()).append("date", newChallenge.getDate()).append("away", newChallenge.getAway()).append("away_user", newChallenge.getAwayUser()).append("home_score", newChallenge.getHomeScore()).append("away_score", newChallenge.getAwayScore()).append("points_earned/lost", newChallenge.getPoints());
         myColl.insertOne(doc);
         String mongoId = doc.get("_id").toString();
         return mongoId;

@@ -81,7 +81,7 @@ public class ChallengeController {
     private void showSelectedUserShads(){
         //ottenere l'id dell'utente di cui voglio le squadre
         //le squadre appaiono quando clicco sull'utente
-
+        MongoSquad mongoSquad = new MongoSquad();
         ArrayList<Squad> userSquads = mongoSquad.getSquads("Casimir");
         setSquad(userSquads);
     }
@@ -197,22 +197,24 @@ public class ChallengeController {
     }
 
     @FXML
-    private void switchToProfile() {
+    private void switchToProfile() throws IOException {
         App.setRoot("userPage");
     }
 
     @FXML
-    private void switchToPlayer() {
+    private void switchToPlayer() throws IOException {
         App.setRoot("searchPlayer");
     }
 
     @FXML
-    private void switchToBuildSquad() {
+    private void switchToBuildSquad() throws IOException {
         App.setRoot("buildSquad");
     }
 
     @FXML
-    private void switchToFriends() {
+    private void switchToFriends() throws IOException {
         App.setRoot("friends");
     }
+
+
 }

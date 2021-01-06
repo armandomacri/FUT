@@ -164,6 +164,17 @@ public class Neo4jUser implements AutoCloseable{
         }
     }
 
+    public void updateScore(final String user_id, final Integer score){
+        try (Session session = driver.session()){
+            session.writeTransaction( tx -> {
+                tx.run("MATCH (u:User{id: toInteger($user_id)})\n" +
+                        "SET u.score = u.score + $score",
+                        parameters("user_id", user_id , "score", score));
+                return 1;
+            });
+        }
+    }
+
     public static void main( String... args ) throws Exception{
         try ( Neo4jUser ex = new Neo4jUser( ) )
         {

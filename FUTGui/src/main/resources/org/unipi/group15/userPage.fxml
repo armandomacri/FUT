@@ -100,21 +100,23 @@
                      <children>
                         <Label fx:id="registrationDaysLabel" layoutX="144.0" layoutY="80.0" text="Registration Days" />
                         <Label fx:id="countryLabel" layoutX="144.0" layoutY="122.0" text="Country" />
-                        <Label fx:id="passwordLabel" layoutX="144.0" layoutY="167.0" text="Password" />
+                        <Label fx:id="passwordLabel" layoutX="70.0" layoutY="163.0" text="Password" />
                         <Text layoutX="277.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My Profile">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Text>
-                        <Label fx:id="nameLabel" layoutX="384.0" layoutY="80.0" text="Name" />
-                        <Label fx:id="lastNameLabel" layoutX="384.0" layoutY="122.0" text="Last Name" />
-                        <Text layoutX="32.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registration Date:" />
-                        <Text layoutX="32.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country:" />
-                        <Text layoutX="32.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
-                        <Text layoutX="291.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
-                        <Text layoutX="291.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" />
+                        <Label fx:id="nameLabel" layoutX="396.0" layoutY="80.0" text="Name" />
+                        <Label fx:id="lastNameLabel" layoutX="396.0" layoutY="123.0" text="Last Name" />
+                        <Text layoutX="11.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registration Date:" />
+                        <Text layoutX="10.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country:" />
+                        <Text layoutX="10.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" />
+                        <Text layoutX="308.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
+                        <Text layoutX="307.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" />
                         <Label layoutX="505.0" layoutY="80.0" text="Numero amici" />
                         <Label layoutX="505.0" layoutY="131.0" text="Numero squadre" />
+                        <Text layoutX="308.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Score:" />
+                        <Label fx:id="scoreLabel" layoutX="397.0" layoutY="163.0" prefHeight="17.0" prefWidth="32.0" />
                      </children>
                   </Pane>
                   <ScrollPane fx:id="squadsWrapper" layoutX="14.0" layoutY="231.0" prefHeight="179.0" prefWidth="631.0" />

@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Updates.inc;
 
 public class MongoUser extends MongoConnection{
     private MongoCollection<Document> myColl;
@@ -98,7 +99,7 @@ public class MongoUser extends MongoConnection{
 
         User newUser = new User(doc.get("username").toString(), doc.get("first_name").toString(),
                 doc.get("last_name").toString(), doc.get("_id").toString(),
-                doc.get("country").toString(), date, doc.get("password").toString(), s);
+                doc.get("country").toString(), date, doc.get("password").toString(), s, Integer.parseInt(doc.get("score").toString()));
         return newUser;
     }
 
@@ -106,6 +107,20 @@ public class MongoUser extends MongoConnection{
         myColl = db.getCollection("users");
         Integer i = Math.toIntExact(myColl.countDocuments());
         return i;
+    }
+
+    public void updateScore (String userId, int points){
+        myColl = db.getCollection("users");
+        //query
+        myColl.updateOne(eq("_id", userId), inc("score", points));
+        return;
+    }
+
+    public int getScore (String userId){
+        myColl = db.getCollection("users");
+        //query
+        Document doc = myColl.find(eq("_id", userId)).first();
+        return Integer.valueOf((Integer) doc.get("score"));
     }
 
     public static void main(String[] args){

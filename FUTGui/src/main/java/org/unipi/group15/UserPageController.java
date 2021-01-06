@@ -42,6 +42,8 @@ public class UserPageController {
 
     @FXML private Label lastNameLabel;
 
+    @FXML private Label scoreLabel;
+
     @FXML private ScrollPane squadsWrapper;
 
     @FXML private ScrollPane challengesWrapper;
@@ -57,6 +59,7 @@ public class UserPageController {
         countryLabel.setText(userSession.getCountry());
         nameLabel.setText(userSession.getFirstName());
         lastNameLabel.setText(userSession.getLastName());
+        scoreLabel.setText(String.valueOf(userSession.getScore()));
 
         ArrayList<Squad> squads = userSession.getSquads();
 
@@ -128,7 +131,7 @@ public class UserPageController {
             VBox container = new VBox();
             container.setAlignment(Pos.CENTER);
             container.getStyleClass().add("challengePane");
-            HBox h1 = new HBox(new Label("Match: "), new Text(challenges.get(i).getHome() + " vs " + challenges.get(i).getAway()));
+            HBox h1 = new HBox(new Label("Match: "), new Text(challenges.get(i).getHomeUser() + " vs " + challenges.get(i).getAwayUser()));
             HBox h2 = new HBox(new Label("Result: "), new Text(challenges.get(i).getHomeScore().toString() + "-" + challenges.get(i).getAwayScore().toString()));
             HBox h3 = new HBox(new Label("Date: "), new Text(challenges.get(i).getDate()));
             HBox h4 = new HBox(new Label("Points earned/lost: "), new Text(challenges.get(i).getPoints().toString()));

@@ -2,7 +2,10 @@ package user;
 
 import bean.Challenge;
 import bean.Squad;
+import bean.User;
 import mongo.MongoChallenge;
+import mongo.MongoUser;
+import neo4j.Neo4jUser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,21 +14,50 @@ import java.util.Map;
 
 public class ComputeScoreService {
 
-    private static Integer id = 89972;
+    private static Integer id = 89976;
 
-    public Challenge results (String homeId, String awayId, Squad homeSquad, Squad awaySquad){
+    public ComputeScoreService (){};
+
+    public Challenge results (User home_user, User away_user, Squad homeSquad, Squad awaySquad){
         ArrayList<Integer> overallPoints = getOverallPoints(homeSquad, awaySquad);
         ArrayList<Integer> iconPoints = getIconPoints(homeSquad, awaySquad);
         ArrayList<Integer> bestPlayerPoints = getBestPlayerPoints(homeSquad, awaySquad);
         int homeScore = getPositioningPoints(homeSquad) + getNationalityPoints(homeSquad) + getLeaguePoints(homeSquad) + overallPoints.get(0)+ iconPoints.get(0) + bestPlayerPoints.get(0);
         int awayScore = getPositioningPoints(awaySquad) + getNationalityPoints(awaySquad) + getLeaguePoints(awaySquad) + overallPoints.get(1)+ iconPoints.get(1) + bestPlayerPoints.get(1);
+        int points = getFinalPoints(home_user, away_user, homeScore, awayScore);
         SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date(System.currentTimeMillis());
-        Challenge result = new Challenge(id.toString(), homeId, formatter.format(date), awayId, homeScore, awayScore, homeScore-awayScore);
+        Challenge result = new Challenge(id.toString(), home_user.getUserId(), home_user.getUsername(), formatter.format(date), away_user.getUserId(), away_user.getUsername(), homeScore, awayScore, points);
         MongoChallenge mc = new MongoChallenge();
         String challID = mc.insertChallenge(result);
-        //System.out.println("Challenge " + challID + " added");
+        System.out.println("Challenge " + challID + " added");
         addId();
+        MongoUser mu = new MongoUser();
+        Neo4jUser n4u = new Neo4jUser();
+        if(homeScore>awayScore){
+            mu.updateScore(home_user.getUserId(), points);
+            n4u.updateScore(home_user.getUserId(), points);
+            if(away_user.getScore() < points){
+                mu.updateScore(away_user.getUserId(), -away_user.getScore());
+                n4u.updateScore(away_user.getUserId(), -away_user.getScore());
+            }
+            else {
+                mu.updateScore(away_user.getUserId(), -points);
+                n4u.updateScore(away_user.getUserId(), -points);
+            }
+        }
+        else{
+            mu.updateScore(away_user.getUserId(), points);
+            n4u.updateScore(away_user.getUserId(), points);
+            if(home_user.getScore() < points){
+                mu.updateScore(home_user.getUserId(), -home_user.getScore());
+                n4u.updateScore(home_user.getUserId(), -home_user.getScore());
+            }
+            else {
+                mu.updateScore(home_user.getUserId(), -points);
+                n4u.updateScore(home_user.getUserId(), -points);
+            }
+        }
         return result;
     }
 
@@ -87,8 +119,8 @@ public class ComputeScoreService {
             points.add(1,0);
         }
         else if(overallHome<overallAway){
-            points.add(1, 0);
-            points.add(0,1);
+            points.add(0,0);
+            points.add(1, 1);
         }
         else{
             points.add(0, 0);
@@ -113,8 +145,8 @@ public class ComputeScoreService {
             points.add(1,0);
         }
         else if(sumHome<sumAway){
-            points.add(1, 0);
-            points.add(0,1);
+            points.add(0, 0);
+            points.add(1,1);
         }
         else{
             points.add(0, 0);
@@ -138,12 +170,45 @@ public class ComputeScoreService {
             points.add(1,0);
         }
         else if(bestOverallHome<bestOverallAway){
-            points.add(1, 0);
-            points.add(0,1);
+            points.add(0, 0);
+            points.add(1,1);
         }
         else{
             points.add(0, 0);
             points.add(0,0);
+        }
+        return points;
+    }
+
+
+    public int getFinalPoints(User home_user, User away_user, int homePoints, int awayPoints){
+        int points=0;
+        int homeSc = home_user.getScore();
+        int awaySc = away_user.getScore();
+        int diffScore = homeSc - awaySc;
+        int diffPoints = homePoints - awayPoints;
+        if(Math.abs(diffScore) > 20){
+            if(diffPoints < 0 && awaySc<homeSc)
+                points = Math.abs(diffPoints) + 2;
+            if(diffPoints > 0 && awaySc>homeSc)
+                points = Math.abs(diffPoints) + 2;
+            if (diffPoints > 0 && awaySc<homeSc)
+                points = Math.abs(diffPoints);
+            if (diffPoints < 0 && awaySc>homeSc)
+                points = Math.abs(diffPoints);
+        }
+        if(Math.abs(diffScore) > 10 && Math.abs(diffScore)<=20){
+            if(diffPoints < 0 && awaySc<homeSc)
+                points = Math.abs(diffPoints) + 1;
+            if(diffPoints > 0 && awaySc>homeSc)
+                points = Math.abs(diffPoints) + 1;
+            if (diffPoints > 0 && awaySc<homeSc)
+                points = Math.abs(diffPoints);
+            if (diffPoints < 0 && awaySc>homeSc)
+                points = Math.abs(diffPoints);
+        }
+        if(Math.abs(diffScore) > 0 && Math.abs(diffScore)<=10){
+            points = Math.abs(diffPoints);
         }
         return points;
     }
