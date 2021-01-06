@@ -19,7 +19,7 @@ public class User {
     //user constructor with squads
     public User(String username, String first_name, String last_name,
                 String user_id, String country, Date join_date, String password,
-                ArrayList<Squad> squads){
+                ArrayList<Squad> squads, int score){
         this.username = username;
         this.firstName = first_name;
         this.lastName = last_name;
@@ -28,6 +28,7 @@ public class User {
         this.country = country;
         this.joinDate = join_date;
         this.squads = squads;
+        this.score = score;
     }
 
     //user constructor without squads
@@ -42,6 +43,7 @@ public class User {
         this.joinDate = join_date;
 
         this.squads = new ArrayList<>();
+        this.score = 0;
     }
 
     //user constructor only 2 parameter
@@ -126,6 +128,7 @@ public class User {
     public void setSquads(ArrayList<Squad> squads) {
         this.squads = squads;
     }
+
 
     @Override
     public String toString(){

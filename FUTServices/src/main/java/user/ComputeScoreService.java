@@ -3,6 +3,7 @@ package user;
 import bean.Challenge;
 import bean.Squad;
 import mongo.MongoChallenge;
+import mongo.MongoUser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,23 +12,33 @@ import java.util.Map;
 
 public class ComputeScoreService {
 
-    private static Integer id = 89972;
+    private static Integer id = 89974;
 
     public ComputeScoreService (){};
 
-    public Challenge results (String homeId, String awayId, Squad homeSquad, Squad awaySquad){
+    public Challenge results (String homeId, String homeUser, String awayId, String awayUser, Squad homeSquad, Squad awaySquad){
         ArrayList<Integer> overallPoints = getOverallPoints(homeSquad, awaySquad);
         ArrayList<Integer> iconPoints = getIconPoints(homeSquad, awaySquad);
         ArrayList<Integer> bestPlayerPoints = getBestPlayerPoints(homeSquad, awaySquad);
         int homeScore = getPositioningPoints(homeSquad) + getNationalityPoints(homeSquad) + getLeaguePoints(homeSquad) + overallPoints.get(0)+ iconPoints.get(0) + bestPlayerPoints.get(0);
         int awayScore = getPositioningPoints(awaySquad) + getNationalityPoints(awaySquad) + getLeaguePoints(awaySquad) + overallPoints.get(1)+ iconPoints.get(1) + bestPlayerPoints.get(1);
+        int points = getFinalPoints(homeId, awayId, homeScore, awayScore);
         SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date(System.currentTimeMillis());
-        Challenge result = new Challenge(id.toString(), homeId, formatter.format(date), awayId, homeScore, awayScore, homeScore-awayScore);
+        Challenge result = new Challenge(id.toString(), homeId, homeUser, formatter.format(date), awayId, awayUser, homeScore, awayScore, points);
         MongoChallenge mc = new MongoChallenge();
         String challID = mc.insertChallenge(result);
         System.out.println("Challenge " + challID + " added");
         addId();
+        MongoUser mu = new MongoUser();
+        if(homeScore>awayScore){
+            mu.updateScore(homeId, points);
+            mu.updateScore(awayId, -points);
+        }
+        else{
+            mu.updateScore(homeId, -points);
+            mu.updateScore(awayId, points);
+        }
         return result;
     }
 
@@ -89,8 +100,8 @@ public class ComputeScoreService {
             points.add(1,0);
         }
         else if(overallHome<overallAway){
-            points.add(1, 0);
-            points.add(0,1);
+            points.add(0,0);
+            points.add(1, 1);
         }
         else{
             points.add(0, 0);
@@ -115,8 +126,8 @@ public class ComputeScoreService {
             points.add(1,0);
         }
         else if(sumHome<sumAway){
-            points.add(1, 0);
-            points.add(0,1);
+            points.add(0, 0);
+            points.add(1,1);
         }
         else{
             points.add(0, 0);
@@ -140,12 +151,37 @@ public class ComputeScoreService {
             points.add(1,0);
         }
         else if(bestOverallHome<bestOverallAway){
-            points.add(1, 0);
-            points.add(0,1);
+            points.add(0, 0);
+            points.add(1,1);
         }
         else{
             points.add(0, 0);
             points.add(0,0);
+        }
+        return points;
+    }
+
+    // da completare
+    public int getFinalPoints(String homeId, String awayId, int homePoints, int awayPoints){
+        int points=0;
+        MongoUser mu = new MongoUser();
+        int homeSc = mu.getScore(homeId);
+        int awaySc = mu.getScore(awayId);
+        int diff = homeSc - awaySc;
+        if (diff<=10 && diff>=-10){
+            points = homePoints - awayPoints;
+        }
+        else if(diff<=20 && diff>10) {
+            points = homePoints - awayPoints - 1;
+        }
+        else if (diff>=-20 && diff <-10){
+            points = awayPoints - homePoints - 1;
+        }
+        else if (diff>20){
+            points = homePoints - awayPoints - 2;
+        }
+        else{
+            points = awayPoints - homePoints - 2;
         }
         return points;
     }

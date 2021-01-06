@@ -131,7 +131,7 @@ public class ChallengeController {
                         userCompetitionHBox.getChildren().remove(2);
                         userCompetitionHBox.getChildren().add(2, container1);
                         ComputeScoreService css = new ComputeScoreService();
-                        Challenge result = css.results(App.getSession().getUserId(), selectedUser.getUserId(), mySelectedSquad, selectedSquad);
+                        Challenge result = css.results(App.getSession().getUserId(), App.getSession().getUsername(), selectedUser.getUserId(), selectedUser.getUsername(), mySelectedSquad, selectedSquad);
 
                         VBox container2 = new VBox();
                         HBox hResult = new HBox(new Text(App.getSession().getUsername() + " " + result.getHomeScore() + ":" + result.getAwayScore() + " " + selectedUser.getUsername()));

@@ -5,17 +5,21 @@ import java.util.Date;
 public class Challenge {
     private String challengeId;
     private String home;
+    private String homeUser;
     private String date;
     private String away;
+    private String awayUser;
     private Integer homeScore;
     private Integer awayScore;
     private Integer points;
 
-    public Challenge(String challengeId, String home, String date, String away, Integer homeScore, Integer awayScore, Integer points){
+    public Challenge(String challengeId, String home, String homeUser, String date, String away, String awayUser, Integer homeScore, Integer awayScore, Integer points){
         this.challengeId = challengeId;
         this.home = home;
+        this.homeUser = homeUser;
         this.date = date;
         this.away = away;
+        this.awayUser = awayUser;
         this.homeScore = homeScore;
         this.awayScore = awayScore;
         this.points = points;
@@ -29,12 +33,20 @@ public class Challenge {
         return home;
     }
 
+    public String getHomeUser() {
+        return homeUser;
+    }
+
     public String getDate() {
         return date;
     }
 
     public String getAway() {
         return away;
+    }
+
+    public String getAwayUser() {
+        return awayUser;
     }
 
     public Integer getHomeScore() {
@@ -57,12 +69,20 @@ public class Challenge {
         this.home = home;
     }
 
+    public void setHomeUser(String homeUser) {
+        this.homeUser = homeUser;
+    }
+
     public void setDate(String date) {
         this.date = date;
     }
 
     public void setAway(String away) {
         this.away = away;
+    }
+
+    public void setAwayUser(String awayUser) {
+        this.awayUser = awayUser;
     }
 
     public void setHomeScore(Integer homeScore) {

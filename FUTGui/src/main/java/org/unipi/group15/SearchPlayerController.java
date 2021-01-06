@@ -82,8 +82,8 @@ public class SearchPlayerController {
         System.out.println(players);
 
         if (players.size() == 0){
-            HBox errorBox = new HBox(new Text("Player not found, Try again!"));
-            playersWrapper.setContent(errorBox);
+            Alert alert = new Alert(Alert.AlertType.WARNING, "No player cards were found", ButtonType.OK);
+            alert.showAndWait();
             return;
         }
 

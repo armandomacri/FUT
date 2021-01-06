@@ -44,6 +44,8 @@ public class UserSessionService {
 
     public ArrayList<Squad> getSquads() { return user.getSquads(); }
 
+    public int getScore() { return user.getScore(); }
+
     public void cleanUserSession() {
         this.user = null;
     }

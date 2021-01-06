@@ -20,7 +20,7 @@ public class MongoChallenge extends MongoConnection{
 
     public String insertChallenge (Challenge newChallenge){
         myColl = db.getCollection("challenge");
-        Document doc = new Document("_id", Integer.parseInt(newChallenge.getChallengeId())).append("home", newChallenge.getHome()).append("date", newChallenge.getDate()).append("away", newChallenge.getAway()).append("home_score", newChallenge.getHomeScore()).append("away_score", newChallenge.getAwayScore()).append("points_earned/lost", newChallenge.getPoints());
+        Document doc = new Document("_id", Integer.parseInt(newChallenge.getChallengeId())).append("home", newChallenge.getHome()).append("home_user", newChallenge.getHomeUser()).append("date", newChallenge.getDate()).append("away", newChallenge.getAway()).append("away_user", newChallenge.getAwayUser()).append("home_score", newChallenge.getHomeScore()).append("away_score", newChallenge.getAwayScore()).append("points_earned/lost", newChallenge.getPoints());
         myColl.insertOne(doc);
         String mongoId = doc.get("_id").toString();
         return mongoId;
@@ -37,7 +37,7 @@ public class MongoChallenge extends MongoConnection{
                 Document challenge = cursor.next();
                 System.out.println(challenge);
                 Challenge c = null;
-                c = new Challenge(challenge.get("_id").toString(), challenge.get("home").toString(), challenge.get("date").toString(), challenge.get("away").toString(), Integer.parseInt(challenge.get("home_score").toString()), Integer.parseInt(challenge.get("away_score").toString()), Integer.parseInt(challenge.get("points_earned/lost").toString()));
+                c = new Challenge(challenge.get("_id").toString(), challenge.get("home").toString(), challenge.get("home_user").toString(), challenge.get("date").toString(), challenge.get("away").toString(), challenge.get("away_user").toString(), Integer.parseInt(challenge.get("home_score").toString()), Integer.parseInt(challenge.get("away_score").toString()), Integer.parseInt(challenge.get("points_earned/lost").toString()));
                 results.add(c);
             }
         }
