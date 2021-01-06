@@ -90,7 +90,7 @@ public class Neo4jUser implements AutoCloseable{
         ArrayList<User> SuggestedUsers;
         try (Session session = driver.session()) {
             SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
-                Result result = tx.run("MATCH p=(n:User{id: 5})-[:Follow]->(:User)<-[f:Follow]-(u:User)\n" +
+                Result result = tx.run("MATCH p=(n:User{id: $user_id})-[:Follow]->(:User)<-[f:Follow]-(u:User)\n" +
                                         "RETURN toString(u.id) AS Id, u.username AS Username, count(f) AS NumFollow\n" +
                                         "ORDER BY NumFollow DESC\n" +
                                         "LIMIT 5",
@@ -100,6 +100,30 @@ public class Neo4jUser implements AutoCloseable{
                     User u = null;
                     Record r = result.next();
                     u = new User(r.get("Username").asString(), r.get("Id").asString());
+                    users.add(u);
+                }
+                return users;
+            });
+        }
+        return SuggestedUsers;
+    }
+
+    public ArrayList<User> suggestedUserChallenge(final Integer user_id) {
+        ArrayList<User> SuggestedUsers;
+        try (Session session = driver.session()) {
+            SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
+                Result result = tx.run("MATCH (u:User{id: 5})\n" +
+                                        "WITH toInteger(u.score) as userscore\n" +
+                                        "MATCH (u1:User)\n" +
+                                        "WHERE userscore-2 <= u1.score <= userscore+2\n" +
+                                        "RETURN toString(u1.id) AS Id, u1.username AS Username, u1.score AS Score\n" +
+                                        "LIMIT 5",
+                        parameters("user_id", user_id));
+                ArrayList<User> users = new ArrayList<>();
+                while (result.hasNext()) {
+                    User u = null;
+                    Record r = result.next();
+                    u = new User(r.get("Username").asString(), r.get("Id").asString(), r.get("Score").asInt());
                     users.add(u);
                 }
                 return users;
@@ -124,17 +148,6 @@ public class Neo4jUser implements AutoCloseable{
                 tx.run("MATCH (u:User{id: $user_id}),(u1:User{id: $user_id1})\n" +
                         "CREATE (u)-[:Follow]->(u1)",
                         parameters("user_id", user_id , "user_id1", user_id1));
-                return 1;
-            });
-        }
-    }
-
-    public void createLike(final Integer user_id, final Integer playercard){
-        try (Session session = driver.session()){
-            session.writeTransaction( tx -> {
-                tx.run("MATCH (u:User{id: $user_id}),(p:PlayerCard{id: $playercard})\n" +
-                        "CREATE (u)-[:Like]->(p)",
-                        parameters("user_id", user_id , "playercard", playercard));
                 return 1;
             });
         }

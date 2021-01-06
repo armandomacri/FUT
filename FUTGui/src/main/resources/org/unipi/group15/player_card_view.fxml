@@ -215,11 +215,11 @@
                   </Label>
                   <ImageView fitHeight="48.0" fitWidth="60.0" layoutX="4.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../../Desktop/Thumb_up_icon_2.svg.png" />
+                        <Image url="/img/Thumb_up_icon.png" />
                      </image>
                   </ImageView>
                   <Label fx:id="likeLabel" layoutX="83.0" layoutY="258.0" text="Likes: " />
-                  <Button fx:id="likeButton" layoutX="187.0" layoutY="250.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="60.0" text="Like!" />
+                  <Button fx:id="likeButton" layoutX="187.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#addLike" prefHeight="31.0" prefWidth="60.0" text="Like!" />
                   <Label fx:id="likeLabel1" layoutX="120.0" layoutY="258.0" text="0" />
                </children>
             </AnchorPane>

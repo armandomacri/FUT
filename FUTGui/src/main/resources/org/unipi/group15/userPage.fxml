@@ -63,14 +63,14 @@
                                     <Image url="@../../../img/user.png" />
                                  </image>
                               </ImageView>
-                              <Button alignment="CENTER" mnemonicParsing="false" text="Profile" GridPane.columnIndex="1" />
+                              <Button alignment="CENTER" disable="true" mnemonicParsing="false" style="-fx-border-color: ffffff; -fx-border-width: 0 0 2 0;" text="Profile" GridPane.columnIndex="1" />
                               <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                                  <image>
                                     <Image url="@../../../img/player.png" />
                                  </image>
                               </ImageView>
-                              <Button mnemonicParsing="false" onMouseClicked="#goToPlayer" text="Players" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Button mnemonicParsing="false" text="Friends" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Button mnemonicParsing="false" onMouseClicked="#switchToPlayer" text="Players" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Button mnemonicParsing="false" onMouseClicked="#switchToFriends" text="Friends" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                                  <image>
                                     <Image url="@../../../img/support.png" />
@@ -82,7 +82,7 @@
                                  </image>
                               </ImageView>
                               <Button mnemonicParsing="false" onAction="#switchToBuildSquad" onMouseClicked="#switchToBuildSquad" text="Build My Squad" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <Button mnemonicParsing="false" onMouseClicked="#switchToBuildSquad" text="Challenge" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Button mnemonicParsing="false" onMouseClicked="#switchToChallenge" text="Challenge" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
                                  <image>
                                     <Image url="@../../../img/fighting.png" />
@@ -117,7 +117,18 @@
                         <Label layoutX="505.0" layoutY="131.0" text="Numero squadre" />
                      </children>
                   </Pane>
-                  <ScrollPane fx:id="squadsWrapper" layoutX="15.0" layoutY="218.0" prefWidth="631.0" />
+                  <ScrollPane fx:id="squadsWrapper" layoutX="14.0" layoutY="231.0" prefHeight="179.0" prefWidth="631.0" />
+                  <ScrollPane fx:id="challengesWrapper" layoutX="14.0" layoutY="446.0" prefHeight="140.0" prefWidth="631.0" />
+                  <Label layoutX="14.0" layoutY="201.0" prefHeight="18.0" prefWidth="107.0" text="My squads">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="412.0" prefHeight="30.0" prefWidth="130.0" text="My Challenges">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
          </children>

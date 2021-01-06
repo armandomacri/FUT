@@ -42,6 +42,12 @@
     -fx-background-color: #cacaca;
 }
 
+.challengePane {
+    -fx-background-radius: 20;
+    -fx-padding: 15;
+    -fx-background-color: #cacaca;
+}
+
 .goldPlayer {
     -fx-background-radius: 13;
     -fx-padding: 8;

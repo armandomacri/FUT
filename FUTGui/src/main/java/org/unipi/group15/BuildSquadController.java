@@ -183,7 +183,7 @@ public class BuildSquadController {
         for (int i = 0; i<squad.getPlayers().size(); i++){
             sum += s.getPlayers().get(s.getPlayers().keySet().toArray()[i]).getOverall();
         }
-        overall = sum/squad.getPlayers().size();
+        overall = sum/11;
         return overall;
     }
 }
