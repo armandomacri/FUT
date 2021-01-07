@@ -52,7 +52,7 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="findPlayerTextField" layoutX="264.0" layoutY="11.0" promptText="Player Name" />
+                  <TextField fx:id="findPlayerTextField" layoutX="264.0" layoutY="11.0" onAction="#onEnter" promptText="Player Name" />
                   <Button layoutX="430.0" layoutY="11.0" mnemonicParsing="false" onAction="#selectPlayer" prefWidth="70.0" text="Find" />
                   <Button fx:id="addPlayerButton" layoutX="179.0" layoutY="199.0" mnemonicParsing="false" onAction="#addPlayer" prefWidth="70.0" text="Add" />
                   <TableView fx:id="findPlayersTableView" layoutX="15.0" layoutY="56.0" prefHeight="134.0" prefWidth="498.0">

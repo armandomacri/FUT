@@ -1,5 +1,6 @@
 package org.unipi.group15;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -67,6 +68,9 @@ public class SignInController {
     }
 
     private void changePage(){
-        App.setRoot("mainView");
+        App.setRoot("userPage");
     }
+
+    @FXML
+    public void onEnter(ActionEvent ae) { signIn(); }
 }

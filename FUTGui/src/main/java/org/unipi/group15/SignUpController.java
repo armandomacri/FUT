@@ -54,6 +54,7 @@ public class SignUpController {
         }
 
         App.setSession(uss);
+        App.setRoot("userPage");
     }
 
     @FXML

@@ -21,7 +21,7 @@ public class Neo4jComment implements AutoCloseable{
         driver.close();
     }
 
-    public ArrayList<Comment> showComment(final Integer player_id) throws Exception {
+    public ArrayList<Comment> showComment(final String player_id) throws Exception {
         ArrayList<Comment> comments;
         try (Session session = driver.session())
         {
@@ -41,7 +41,7 @@ public class Neo4jComment implements AutoCloseable{
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    c = new Comment(r.get("Id").asInt(), player_id, date, r.get("Text").asString(), r.get("Username").asString());
+                    c = new Comment(r.get("Id").asString(), player_id, date, r.get("Text").asString(), r.get("Username").asString());
                     commentsResult.add(c);
                     //String date1 = parserSDF.format(c.getDate()); per avere data nel formato corretto in output
                 }
@@ -51,7 +51,7 @@ public class Neo4jComment implements AutoCloseable{
         return comments;
     }
 
-    public void createComment(final Integer id, final Integer player_id, final String text, final Integer user_id) throws Exception {
+    public void createComment(final String id, final String player_id, final String text, final String user_id) throws Exception {
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("CREATE (:Comment{comment_date: date(), id: $id, player_id: $player_id, text: $text})",

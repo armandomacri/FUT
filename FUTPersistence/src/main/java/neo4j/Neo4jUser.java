@@ -18,7 +18,7 @@ public class Neo4jUser implements AutoCloseable{
         driver.close();
     }
 
-    public ArrayList<User> checkalreadyfollow(final Integer user_id){
+    public ArrayList<User> checkalreadyfollow(final String user_id){
         ArrayList<User> followedusers;
         try (Session session = driver.session()) {
             followedusers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
@@ -38,7 +38,7 @@ public class Neo4jUser implements AutoCloseable{
         return followedusers;
     }
 
-    public ArrayList<User> searchUser(final String username, final Integer user_id){
+    public ArrayList<User> searchUser(final String username, final String user_id){
         ArrayList<User> matchingUsers;
         try (Session session = driver.session())
         {
@@ -61,7 +61,7 @@ public class Neo4jUser implements AutoCloseable{
         return matchingUsers;
     }
 
-    public ArrayList<User> suggestedUserByLike(final Integer user_id){
+    public ArrayList<User> suggestedUserByLike(final String user_id){
         ArrayList<User> SuggestedUsers;
         try (Session session = driver.session()) {
             SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
@@ -86,7 +86,7 @@ public class Neo4jUser implements AutoCloseable{
         return SuggestedUsers;
     }
 
-    public ArrayList<User> suggestedUserByFriends(final Integer user_id) {
+    public ArrayList<User> suggestedUserByFriends(final String user_id) {
         ArrayList<User> SuggestedUsers;
         try (Session session = driver.session()) {
             SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
@@ -108,7 +108,7 @@ public class Neo4jUser implements AutoCloseable{
         return SuggestedUsers;
     }
 
-    public ArrayList<User> suggestedUserChallenge(final Integer user_id) {
+    public ArrayList<User> suggestedUserChallenge(final String user_id) {
         ArrayList<User> SuggestedUsers;
         try (Session session = driver.session()) {
             SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
@@ -132,7 +132,7 @@ public class Neo4jUser implements AutoCloseable{
         return SuggestedUsers;
     }
 
-    public void createUser(final Integer user_id, final String username){
+    public void createUser(final String user_id, final String username){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("CREATE (u:User {id: $user_id, username: $username})",
@@ -142,7 +142,7 @@ public class Neo4jUser implements AutoCloseable{
         }
     }
 
-    public void createFollow(final Integer user_id, final Integer user_id1){
+    public void createFollow(final String user_id, final String user_id1){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("MATCH (u:User{id: $user_id}),(u1:User{id: $user_id1})\n" +
@@ -153,7 +153,7 @@ public class Neo4jUser implements AutoCloseable{
         }
     }
 
-    public void createPost(final Integer user_id, final Integer comment_id){
+    public void createPost(final String user_id, final Integer comment_id){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("MATCH (u:User{id: $user_id}),(c:Comment{id: $comment_id})\n" +
@@ -178,7 +178,7 @@ public class Neo4jUser implements AutoCloseable{
     public static void main( String... args ) throws Exception{
         try ( Neo4jUser ex = new Neo4jUser( ) )
         {
-            System.out.println(ex.suggestedUserByLike(0));
+            System.out.println(ex.suggestedUserByLike("0"));
         }
     }
 }

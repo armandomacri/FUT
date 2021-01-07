@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class ComputeScoreService {
 
-    private static Integer id = 89976;
+    private static Integer id = 89977;
 
     public Challenge results (User home_user, User away_user, Squad homeSquad, Squad awaySquad){
         ArrayList<Integer> overallPoints = getOverallPoints(homeSquad, awaySquad);

@@ -69,7 +69,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <children>
-                              <TextField fx:id="passwordTextField" prefHeight="26.0" prefWidth="248.0" promptText="Enter your password" />
+                              <TextField fx:id="passwordTextField" onAction="#onEnter" prefHeight="26.0" prefWidth="248.0" promptText="Enter your password" />
                            </children>
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">

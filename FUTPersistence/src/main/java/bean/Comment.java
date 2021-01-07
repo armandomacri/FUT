@@ -4,20 +4,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Comment {
-    private Integer id;
-    private Integer player_id;
+    private String id;
+    private String player_id;
     private String author_username;
     private Date date;
     private String text;
 
-    public Comment (Integer id, Integer player_id, Date date, String text){
+    public Comment (String id, String player_id, Date date, String text){
         this.id = id;
         this.player_id = player_id;
         this.date = date;
         this.text = text;
     }
 
-    public Comment (Integer id, Integer player_id, Date date, String text, String author){
+    public Comment (String id, String player_id, Date date, String text, String author){
         this.id = id;
         this.player_id = player_id;
         this.date = date;
@@ -25,11 +25,11 @@ public class Comment {
         this.author_username = author;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public Integer getPlayer_id() {
+    public String getPlayer_id() {
         return player_id;
     }
 
@@ -41,11 +41,11 @@ public class Comment {
         return text;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public void setPlayer_id(Integer player_id) {
+    public void setPlayer_id(String player_id) {
         this.player_id = player_id;
     }
 

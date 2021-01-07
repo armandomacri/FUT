@@ -2,6 +2,7 @@ package user;
 
 import bean.User;
 import mongo.MongoUser;
+import neo4j.Neo4jUser;
 import serviceExceptions.SignInException;
 import serviceExceptions.UserAlreadyExists;
 import serviceExceptions.UserNotFoudException;
@@ -29,7 +30,7 @@ public class AuthenticationService {
         if (u == null)
             throw new UserNotFoudException("User not found");
 
-        /* tigliere commento appena creato un profilo
+        /* togliere commento appena creato un profilo
         if (!u.getPassword().equals(encryptedPwd))
             throw new SignInException("Password or Username are incorrect!");
 
@@ -53,14 +54,17 @@ public class AuthenticationService {
         String encryptedPwd = encryptPassword(password);
 
         MongoUser pq = new MongoUser();
+        Neo4jUser n4u = new Neo4jUser();
         User u = pq.getUser(username);
         if (u != null)
             throw new UserAlreadyExists("User already Exists!");
 
         String id = pq.add(firstName, lastName, username, country, date, encryptedPwd);
+        n4u.createUser(id, username);
 
         User user = new User(username, firstName, lastName, id, country, date, encryptedPwd);
-        return UserSessionService.getInstace(user);
+        UserSessionService s = UserSessionService.getInstace(user);
+        return s;
 
     }
 

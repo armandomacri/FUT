@@ -70,30 +70,35 @@ public class MongoUser extends MongoConnection{
         ArrayList<Document> squadsDoc = (ArrayList)doc.get("squads");
         //inserire se non ha squadra, inizializzatlo vuoto
         ArrayList<Squad> s = new ArrayList<>();
-        for (Document squad : squadsDoc){
-            HashMap<String, Player> pos = new HashMap<>();
-            Map<String, String> map = (Map)squad.get("players");
-            Iterator iterator = map.keySet().iterator();
-            MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
-            while(iterator.hasNext()) {
-                String key = iterator.next().toString();
-                String value = map.get(key);
+        if(squadsDoc == null){
+            s = null;
+        }
+        else {
+            for (Document squad : squadsDoc) {
+                HashMap<String, Player> pos = new HashMap<>();
+                Map<String, String> map = (Map) squad.get("players");
+                Iterator iterator = map.keySet().iterator();
+                MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
+                while (iterator.hasNext()) {
+                    String key = iterator.next().toString();
+                    String value = map.get(key);
 
-                Player x = mongoPlayerCard.findById(Integer.parseInt(value));
-                if(x==null) //utente non caricato nel sistema
-                    continue;
-                pos.put(key, x);
-            }
-            try {
-                df = new SimpleDateFormat("dd.MM.yyyy");
-                date = df.parse(squad.get("date").toString());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+                    Player x = mongoPlayerCard.findById(Integer.parseInt(value));
+                    if (x == null) //utente non caricato nel sistema
+                        continue;
+                    pos.put(key, x);
+                }
+                try {
+                    df = new SimpleDateFormat("dd.MM.yyyy");
+                    date = df.parse(squad.get("date").toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
-            Squad sq = new Squad(squad.get("name").toString(), squad.get("module").toString(),
-                    date, pos);
-            s.add(sq);
+                Squad sq = new Squad(squad.get("name").toString(), squad.get("module").toString(),
+                        date, pos);
+                s.add(sq);
+            }
         }
 
         User newUser = new User(doc.get("username").toString(), doc.get("first_name").toString(),

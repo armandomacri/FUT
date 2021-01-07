@@ -16,7 +16,7 @@ public class Neo4jPlayerCard implements AutoCloseable{
         driver.close();
     }
 
-    public void createPlayer(final Integer id, final String player_name, final String position, final String images, final Integer overall){
+    public void createPlayer(final String id, final String player_name, final String position, final String images, final Integer overall){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("CREATE (:PlayerCard{name: $player_name, overall: $overall, images: $images, position:$position, id: $id})",
@@ -26,7 +26,7 @@ public class Neo4jPlayerCard implements AutoCloseable{
         }
     }
 
-    public void createLike(final Integer user_id, final Integer playercard){
+    public void createLike(final String user_id, final String playercard){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("MATCH (u:User{id: $user_id}),(p:PlayerCard{id: $playercard})\n" +
@@ -37,7 +37,7 @@ public class Neo4jPlayerCard implements AutoCloseable{
         }
     }
 
-    public Integer countLikes(final Integer playercard)
+    public Integer countLikes(final String playercard)
     {
         try ( Session session = driver.session() )
         {
@@ -52,7 +52,7 @@ public class Neo4jPlayerCard implements AutoCloseable{
         }
     }
 
-    public boolean checkLikes(final Integer user_id, final Integer playercard) {
+    public boolean checkLikes(final String user_id, final String playercard) {
         try ( Session session = driver.session() )
         {
             boolean existLike = session.readTransaction((TransactionWork<Boolean>) tx -> {
@@ -71,7 +71,7 @@ public class Neo4jPlayerCard implements AutoCloseable{
     public static void main( String... args ) throws Exception{
         try ( Neo4jPlayerCard ex = new Neo4jPlayerCard() )
         {
-            boolean prova = ex.checkLikes(8, 541);
+            boolean prova = ex.checkLikes("8", "541");
             System.out.println(prova);
         }
     }

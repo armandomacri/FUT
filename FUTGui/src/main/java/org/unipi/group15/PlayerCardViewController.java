@@ -185,20 +185,20 @@ public class PlayerCardViewController {
 
     @FXML
     private void countLike() {
-        Integer numLikes = neo4jcard.countLikes(Integer.valueOf(player.getPlayerId()));
+        Integer numLikes = neo4jcard.countLikes(player.getPlayerId());
         likeLabel1.setText(String.valueOf(numLikes));
     }
 
     @FXML
     private void checkLike() {
-        boolean existLikes = neo4jcard.checkLikes(Integer.valueOf(userSession.getUserId()), Integer.valueOf(player.getPlayerId()));
+        boolean existLikes = neo4jcard.checkLikes(userSession.getUserId(), player.getPlayerId());
         if (existLikes)
             likeButton.setDisable(true);
     }
 
     @FXML
     private void addLike() {
-        neo4jcard.createLike(Integer.valueOf(userSession.getUserId()), Integer.valueOf(player.getPlayerId()));
+        neo4jcard.createLike(userSession.getUserId(), player.getPlayerId());
         likeButton.setDisable(true);
         countLike();
     }

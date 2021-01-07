@@ -65,9 +65,14 @@ public class ChallengeController {
 
     @FXML
     private void serchFriend(){
+        seachUserTableView.getItems().clear();
         String text = searchUsersTextField.getText();
         //ObservableList<User> users = FXCollections.observableArrayList(neo4jUser.findUsers(text));
         ObservableList<User> users = FXCollections.observableArrayList(mongoUser.findUsers(text));
+        if(users.size() == 0){
+            seachUserTableView.setPlaceholder(new Label("No Users found containing "+ searchUsersTextField.getText()));
+            return;
+        }
         seachUserTableView.setItems(users);
 
     }
@@ -181,7 +186,7 @@ public class ChallengeController {
     }
 
     private void setSuggestedOpponent() {
-        ArrayList<User> users = neo4jUser.suggestedUserChallenge(Integer.valueOf(userSession.getUserId()));
+        ArrayList<User> users = neo4jUser.suggestedUserChallenge(userSession.getUserId());
         suggestedUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
         suggestedUserUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
         suggestedUserScore.setCellValueFactory(new PropertyValueFactory<>("score"));
@@ -192,6 +197,9 @@ public class ChallengeController {
             suggestedUserTableView.getItems().add(users.get(i));
         }
     }
+
+    @FXML
+    public void onEnter(ActionEvent ae) { serchFriend(); }
 
     @FXML
     private void switchToProfile() {

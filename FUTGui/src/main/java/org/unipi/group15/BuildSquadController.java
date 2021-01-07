@@ -6,6 +6,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -25,6 +26,8 @@ public class BuildSquadController {
     private static int squadIdex = -1;
     private static Squad squad;
 
+    @FXML private Label userIdLabel;
+
     @FXML private TextField squadNameTextField;
 
     @FXML private ChoiceBox<String> moduleChoiceBox;
@@ -43,7 +46,7 @@ public class BuildSquadController {
 
     @FXML
     private void initialize(){
-
+        userIdLabel.setText(userSession.getUserId());
         moduleChoiceBox.getItems().removeAll(moduleChoiceBox.getItems());
         moduleChoiceBox.getItems().addAll(FXCollections.observableArrayList("352",
                                             "4231", "4312", "433", "442"));
@@ -178,5 +181,10 @@ public class BuildSquadController {
         }
         overall = sum/11;
         return overall;
+    }
+
+    @FXML
+    public void onEnter(ActionEvent ae) {
+        selectPlayer();
     }
 }

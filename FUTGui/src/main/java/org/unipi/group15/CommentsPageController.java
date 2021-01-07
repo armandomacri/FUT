@@ -71,7 +71,7 @@ public class CommentsPageController {
 
     @FXML
     public void loadComments() throws Exception {
-        ArrayList<Comment> comments = neo4jComment.showComment(Integer.valueOf(player.getPlayerId()));
+        ArrayList<Comment> comments = neo4jComment.showComment(player.getPlayerId());
         ObservableList<Comment> observable_users = FXCollections.observableArrayList(comments);
         System.out.println(comments.toString());
         if(comments.size() == 0){
@@ -90,6 +90,6 @@ public class CommentsPageController {
             newCommentText.setText("");
         }
         else
-            neo4jComment.createComment(171717, Integer.parseInt(player.getPlayerId()), commentText, Integer.parseInt(userSession.getUserId()));
+            neo4jComment.createComment("171717", player.getPlayerId(), commentText, userSession.getUserId());
     }
 }
