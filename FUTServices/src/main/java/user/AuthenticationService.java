@@ -44,13 +44,7 @@ public class AuthenticationService {
     public UserSessionService signUp(String username, String password, String country, String firstName, String lastName) throws UserAlreadyExists {
 
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = null;
-        try {
-            date = df.parse(df.format(new Date()));
-        } catch (ParseException pe) {
-            logger.error("Exception happened! ", pe);
-        }
-
+        Date date = new Date();
         String encryptedPwd = encryptPassword(password);
 
         MongoUser pq = new MongoUser();
@@ -59,7 +53,7 @@ public class AuthenticationService {
         if (u != null)
             throw new UserAlreadyExists("User already Exists!");
 
-        String id = pq.add(firstName, lastName, username, country, date, encryptedPwd);
+        String id = pq.add(firstName, lastName, username, country, df.format(date), encryptedPwd);
         n4u.createUser(id, username);
 
         User user = new User(username, firstName, lastName, id, country, date, encryptedPwd);

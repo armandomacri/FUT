@@ -35,7 +35,12 @@ public class LoadXmlConf {
 
     private static XStream createXStream(){
         XStream xstream = new XStream(new StaxDriver());
-        xstream.alias("ConfigurationService", MongoConfig.class);
+        xstream.processAnnotations(MongoConfig.class);
+        xstream.processAnnotations(MongoConfig.Replica.class);
+        xstream.useAttributeFor(MongoConfig.class, "mode");
+        xstream.useAttributeFor(MongoConfig.Replica.class, "ip");
+        xstream.useAttributeFor(MongoConfig.Replica.class, "port");
+        //xstream.alias("ConfigurationService", MongoConfig.class);
         /*
         xs.useAttributeFor(ConfigurationService.class, "mongoIp");
         xs.useAttributeFor(ConfigurationService.class, "mongoPort");

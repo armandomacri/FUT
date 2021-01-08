@@ -20,7 +20,7 @@ public class MongoSquad extends MongoConnection{
         Document squadDoc = new Document();
         squadDoc.append("name", squad.getName());
         squadDoc.append("module", squad.getModule());
-        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yy");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         String date = df.format(squad.getDate());
         squadDoc.append("date", date);
 
@@ -87,7 +87,7 @@ public class MongoSquad extends MongoConnection{
                 pos.put(key, x);
             }
             try {
-                df = new SimpleDateFormat("dd.MM.yyyy");
+                df = new SimpleDateFormat("dd/MM/yyyy");
                 date = df.parse(squad.get("date").toString());
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -104,7 +104,7 @@ public class MongoSquad extends MongoConnection{
 
     public static void main(String[] args){
         MongoSquad ms = new MongoSquad();
-        ms.getSquads("Arvel");
+        System.out.println(ms.getSquads("Arvel"));
         //ms.add("1", 1,new Squad("CIAOOOO", "7323", new Date()));
         //ms.delete("0", 7);
         //System.out.println(ms.getSquads("Arvel"));

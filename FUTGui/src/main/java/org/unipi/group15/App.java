@@ -52,6 +52,8 @@ public class App extends Application {
     }
 
     public void close(){
+        if (session == null)
+            return;
         session.clear();
     }
 }

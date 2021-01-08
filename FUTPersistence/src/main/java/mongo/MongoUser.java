@@ -1,20 +1,31 @@
 package mongo;
 
 import bean.*;
+import com.mongodb.ReadConcern;
 import com.mongodb.client.*;
+import com.mongodb.client.model.Aggregates;
 import org.bson.Document;
+import org.bson.conversions.Bson;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
+import static com.mongodb.client.model.Accumulators.avg;
+import static com.mongodb.client.model.Accumulators.sum;
+import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Projections.include;
+import static com.mongodb.client.model.Sorts.descending;
 import static com.mongodb.client.model.Updates.inc;
 
 public class MongoUser extends MongoConnection{
     private MongoCollection<Document> myColl;
 
-    public String add(String firstName, String lastName, String username, String country, Date joinDate, String password){
+    public String add(String firstName, String lastName, String username, String country, String joinDate, String password){
         myColl = db.getCollection("users");
         Document user = new Document("username", username)
                 .append("first_name", firstName)
@@ -89,7 +100,7 @@ public class MongoUser extends MongoConnection{
                     pos.put(key, x);
                 }
                 try {
-                    df = new SimpleDateFormat("dd.MM.yyyy");
+                    df = new SimpleDateFormat("dd/MM/yyyy");
                     date = df.parse(squad.get("date").toString());
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -125,6 +136,48 @@ public class MongoUser extends MongoConnection{
         assert doc != null;
         return (Integer) doc.get("score");
     }
+/*
+    public void analyticsOne(String nationality){
+        myColl = db.getCollection("users").withReadConcern(ReadConcern.AVAILABLE);
+
+        Consumer<Document> printDocuments = doc -> {System.out.println(doc.toJson());};
+
+        Bson unwindSquad = unwind("$squads");
+        Bson convertDate = addFields("squads.date");
+
+        Bson subtractDate =
+        Bson matchNationality = match(and(eq("nationality", nationality), ne("league", "Icons")));
+        Bson groupLeague = group("$league",
+                sum("numPlayers", 1),
+                avg("paceAvg", "$pace"),
+                avg("dribblingAvg", "$dribbling"),
+                avg("shootingAvg", "$shooting"),
+                avg("passingAvg", "$passing"),
+                avg("defendingAvg", "$defending"),
+                avg("physicalityAvg", "$physicality")
+        );
+        Bson sort = sort(descending("numPlayers"));
+        Bson limit = limit(3);
+        Bson project = project(fields(excludeId(),
+                computed("league", "$_id"),
+                include("numPlayers"),
+                include("paceAvg"),
+                include("dribblingAvg"),
+                include("shootingAvg"),
+                include("passingAvg"),
+                include("defendingAvg"),
+                include("physicalityAvg")
+                )
+        );
+
+        Aggregates.project(fields(computed()))
+
+        myColl.aggregate(Arrays.asList(matchNationality, groupLeague, sort, limit, project)).forEach(printDocuments);
+    }
+
+ */
+
+
 
     public static void main(String[] args){
 
