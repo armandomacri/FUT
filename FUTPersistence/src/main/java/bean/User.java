@@ -29,21 +29,6 @@ public class User {
         this.score = score;
     }
 
-    //user constructor without squads
-    public User(String username, String first_name, String last_name, String user_id,
-                String country, Date join_date, String password){
-        this.username = username;
-        this.firstName = first_name;
-        this.lastName = last_name;
-        this.userId = user_id;
-        this.password = password;
-        this.country = country;
-        this.joinDate = join_date;
-
-        this.squads = new ArrayList<>();
-        this.score = 0;
-    }
-
     //user constructor only 2 parameter
     public User(String username, String user_id){
         this.username = username;

@@ -5,12 +5,18 @@ import bean.Squad;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Updates;
 import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import static com.mongodb.client.model.Filters.eq;
+import java.util.function.Consumer;
+import static com.mongodb.client.model.Accumulators.sum;
+import static com.mongodb.client.model.Aggregates.*;
+import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Sorts.descending;
 
 public class MongoSquad extends MongoConnection{
     private MongoCollection<Document> myColl;
@@ -21,8 +27,7 @@ public class MongoSquad extends MongoConnection{
         squadDoc.append("name", squad.getName());
         squadDoc.append("module", squad.getModule());
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        String date = df.format(squad.getDate());
-        squadDoc.append("date", date);
+        squadDoc.append("date", df.format(squad.getDate()));
 
         Document playersDoc = new Document();
         Iterator iterator = squad.getPlayers().keySet().iterator();
@@ -33,11 +38,10 @@ public class MongoSquad extends MongoConnection{
         }
 
         squadDoc.append("players", playersDoc);
-
         if(index == -1){
             myColl.updateOne(
                     eq("_id", userId),
-                    Updates.addToSet("squads", squadDoc)
+                    Updates.push("squads", squadDoc)
             );
         } else {
             myColl.updateOne(
@@ -100,11 +104,35 @@ public class MongoSquad extends MongoConnection{
         return s;
     }
 
+    public void analyticsThree(String country){
+        myColl = db.getCollection("users");
+
+        Consumer<Document> printDocuments = doc -> {System.out.println(doc.toJson());};
+
+        Bson matchCountry = match(and(eq("country", country)));
+        Bson unqindSquads = unwind("$squads");
+
+        Bson distinctUserModules = new Document("$group", new Document("_id", new Document("user", "$_id").append("module", "$squads.module")));
+
+        Bson groupModules = group("$_id.module", sum("use", 1));
+        Bson sort = sort(descending("use"));
+        Bson limit = limit(3);
+        Bson project = project(fields(excludeId(),
+                include("use"),
+                computed("module", "$_id")
+                )
+        );
+
+        myColl.aggregate(Arrays.asList(matchCountry, unqindSquads, distinctUserModules, groupModules, sort, limit, project)).forEach(printDocuments);
+
+    }
+
 
 
     public static void main(String[] args){
         MongoSquad ms = new MongoSquad();
-        System.out.println(ms.getSquads("Arvel"));
+        ms.analyticsThree("Italy");
+        //System.out.println(ms.getSquads("Arvel"));
         //ms.add("1", 1,new Squad("CIAOOOO", "7323", new Date()));
         //ms.delete("0", 7);
         //System.out.println(ms.getSquads("Arvel"));

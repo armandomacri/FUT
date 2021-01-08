@@ -46,6 +46,8 @@ public class UserSessionService {
 
     public User getUser() { return user; }
 
+    public void setSquads(ArrayList<Squad> squads) { user.setSquads(squads); }
+
     public void clear() {
         this.user = null;
     }

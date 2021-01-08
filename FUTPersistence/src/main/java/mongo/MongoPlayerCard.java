@@ -205,7 +205,9 @@ public class MongoPlayerCard extends MongoConnection{
                 include("physicalityAvg")
                 )
         );
+
         List<Document> results = myColl.aggregate(Arrays.asList(matchLeague, groupQuality, project)).into(new ArrayList<>());
+        System.out.println(results);
     }
 
 

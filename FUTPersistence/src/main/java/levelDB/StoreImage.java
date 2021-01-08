@@ -76,7 +76,7 @@ public class StoreImage {
             String encodedImg = Base64.getEncoder().encodeToString(imgArray);
             putValue(imgURL, encodedImg);
             closeDB();
-            System.out.println("L'ho messa!");
+            //System.out.println("L'ho messa!");
         }
 
 
@@ -86,7 +86,7 @@ public class StoreImage {
         ByteArrayInputStream bis = new ByteArrayInputStream(c);
         BufferedImage image2 = ImageIO.read(bis);
         bis.close();
-        System.out.println("L'ho presa!");
+        //System.out.println("L'ho presa!");
         closeDB();
         return image2;
     }

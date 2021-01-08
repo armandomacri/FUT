@@ -11,9 +11,22 @@ public class MongoChallenge extends MongoConnection{
     private MongoCollection<Document> myColl;
 
     public String insertChallenge (Challenge newChallenge){
-        myColl = db.getCollection("challenge");
-        Document doc = new Document("_id", Integer.parseInt(newChallenge.getChallengeId())).append("home", newChallenge.getHome()).append("home_user", newChallenge.getHomeUser()).append("date", newChallenge.getDate()).append("away", newChallenge.getAway()).append("away_user", newChallenge.getAwayUser()).append("home_score", newChallenge.getHomeScore()).append("away_score", newChallenge.getAwayScore()).append("points_earned/lost", newChallenge.getPoints());
+        myColl = db.getCollection("challengeId");
+
+        MongoCollection<Document> counter = db.getCollection("counters");
+
+        Document idDoc = counter.find(eq("_id","challengeId")).first();
+
+        int id = (int)idDoc.get("sequence_value");
+        Document doc = new Document("_id", id).append("home", newChallenge.getHome()).append("home_user", newChallenge.getHomeUser()).append("date", newChallenge.getDate()).append("away", newChallenge.getAway()).append("away_user", newChallenge.getAwayUser()).append("home_score", newChallenge.getHomeScore()).append("away_score", newChallenge.getAwayScore()).append("points_earned/lost", newChallenge.getPoints());
         myColl.insertOne(doc);
+
+        id +=1;
+        counter.updateOne(
+                new Document("_id", "challengeId"),
+                new Document("$set", new Document("sequence_value", id))
+        );
+
         return doc.get("_id").toString();
     }
 

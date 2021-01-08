@@ -56,7 +56,7 @@ public class AuthenticationService {
         String id = pq.add(firstName, lastName, username, country, df.format(date), encryptedPwd);
         n4u.createUser(id, username);
 
-        User user = new User(username, firstName, lastName, id, country, date, encryptedPwd);
+        User user = new User(username, firstName, lastName, id, country, date, encryptedPwd, null, 0);
         UserSessionService s = UserSessionService.getInstace(user);
         return s;
 

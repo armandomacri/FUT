@@ -24,7 +24,7 @@ import java.util.*;
 
 public class UserPageController {
     private static final Logger logger = LogManager.getLogger(UserPageController.class);
-    private final UserSessionService userSession = App.getSession();
+    private static UserSessionService userSession = App.getSession();
     private static final MongoSquad mongoSquad = new MongoSquad();
     private static MongoChallenge mongoChallenge = new MongoChallenge();
 
@@ -63,7 +63,7 @@ public class UserPageController {
 
         ArrayList<Squad> squads = userSession.getSquads();
 
-        if (squads.size() == 0){
+        if (squads == null){
             //non ci sono squadre
             //inserire pannello vuoto
             return;

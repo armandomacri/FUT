@@ -14,7 +14,6 @@ import javafx.scene.text.Text;
 import mongo.MongoPlayerCard;
 import mongo.MongoSquad;
 import user.UserSessionService;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -52,7 +51,7 @@ public class BuildSquadController {
     private void initialize(){
         findButton.setDisable(true);
         addPlayerButton.setDisable(true);
-        SaveButton.setDisable(true);
+        //SaveButton.setDisable(true);
         userIdLabel.setText(userSession.getUserId());
         moduleChoiceBox.getItems().removeAll(moduleChoiceBox.getItems());
         moduleChoiceBox.getItems().addAll(FXCollections.observableArrayList("352",
@@ -66,8 +65,6 @@ public class BuildSquadController {
         chosenPlayersTableView.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("defending"));
         chosenPlayersTableView.getColumns().get(6).setCellValueFactory(new PropertyValueFactory<>("passing"));
         chosenPlayersTableView.getColumns().get(7).setCellValueFactory(new PropertyValueFactory<>("physicality"));
-
-
         findPlayersTableView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("playerExtendedName"));
         findPlayersTableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("position"));
         findPlayersTableView.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("overall"));
@@ -97,6 +94,8 @@ public class BuildSquadController {
             }
         });
 
+        if (userSession.getSquads() == null)
+            userSession.setSquads(new ArrayList<>());
     }
 
     public void setSquadIndex(int index){ squadIndex = index; }
@@ -165,14 +164,19 @@ public class BuildSquadController {
     @FXML
     private void addPlayer(){
         Player player = findPlayersTableView.getSelectionModel().getSelectedItem();
+        if(player==null)
+            return;
         String pos = positionChoiceBox.getSelectionModel().getSelectedItem();
         squad.getPlayers().put(pos, player);
         ObservableList<Player> players = FXCollections.observableArrayList(squad.getPlayers().values());
         chosenPlayersTableView.setItems(players);
         overallText.setText(computeOverall(squad).toString());
         findPlayersTableView.getItems().clear();
+        /*
         if(squad.getPlayers().size() == 11 )
             SaveButton.setDisable(false);
+
+         */
         addPlayerButton.setDisable(true);
     }
 

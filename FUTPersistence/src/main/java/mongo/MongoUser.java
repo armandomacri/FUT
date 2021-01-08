@@ -1,41 +1,50 @@
 package mongo;
 
 import bean.*;
-import com.mongodb.ReadConcern;
 import com.mongodb.client.*;
-import com.mongodb.client.model.Aggregates;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 
+import javax.print.Doc;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.regex.Pattern;
-
-import static com.mongodb.client.model.Accumulators.avg;
-import static com.mongodb.client.model.Accumulators.sum;
-import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.*;
-import static com.mongodb.client.model.Projections.*;
-import static com.mongodb.client.model.Projections.include;
-import static com.mongodb.client.model.Sorts.descending;
 import static com.mongodb.client.model.Updates.inc;
 
 public class MongoUser extends MongoConnection{
     private MongoCollection<Document> myColl;
 
     public String add(String firstName, String lastName, String username, String country, String joinDate, String password){
+        MongoCollection<Document> counter = db.getCollection("counters");
         myColl = db.getCollection("users");
+
+        Document idDoc = counter.find(eq("_id","userId")).first();
+
+        int id = (int)idDoc.get("sequence_value");
+
         Document user = new Document("username", username)
+                .append("_id", Integer.toString(id))
                 .append("first_name", firstName)
                 .append("last_name", lastName)
                 .append("country", country)
                 .append("join_date", joinDate)
-                .append("password", password);
-        myColl.insertOne(user);
+                .append("password", password)
+                .append("score", 0)
+                .append("squads", new ArrayList<>());
+        try {
+            myColl.insertOne(user);
+        } catch (Exception e){
 
-        return user.getObjectId("_id").toString();
+        }
+
+        id +=1;
+        counter.updateOne(
+                new Document("_id", "userId"),
+                new Document("$set", new Document("sequence_value", id))
+        );
+
+        return user.get("_id").toString();
     }
 
     public User getUser(String username){
@@ -46,11 +55,11 @@ public class MongoUser extends MongoConnection{
 
     }
 
-    public ArrayList<User> findUsers(String toFind) {
+    public ArrayList<User> findUsers(String toFind, String userId) {
         myColl = db.getCollection("users");
         ArrayList<User> users = new ArrayList<>();
 
-        try (MongoCursor<Document> cursor = myColl.find(regex("username",".*" + Pattern.quote(toFind) + ".*", "-i")).iterator())
+        try (MongoCursor<Document> cursor = myColl.find(and(regex("username",".*" + Pattern.quote(toFind) + ".*", "-i"), ne("_id", userId))).iterator())
         {
             while (cursor.hasNext())
             {
@@ -81,8 +90,8 @@ public class MongoUser extends MongoConnection{
         ArrayList<Document> squadsDoc = (ArrayList)doc.get("squads");
         //inserire se non ha squadra, inizializzatlo vuoto
         ArrayList<Squad> s = new ArrayList<>();
-        if(squadsDoc == null){
-            s = null;
+        if(squadsDoc.size() == 0){
+          s = null;
         }
         else {
             for (Document squad : squadsDoc) {
@@ -112,13 +121,12 @@ public class MongoUser extends MongoConnection{
             }
         }
 
-        User newUser = new User(doc.get("username").toString(), doc.get("first_name").toString(),
+        return new User(doc.get("username").toString(), doc.get("first_name").toString(),
                 doc.get("last_name").toString(), doc.get("_id").toString(),
-                doc.get("country").toString(), date, doc.get("password").toString(), s, 0);
-        return newUser;
+                doc.get("country").toString(), date, doc.get("password").toString(), s, (int)Double.parseDouble(doc.get("score").toString()));
     }
 
-    public Integer countElement(String collection){
+    public Integer countElement(){
         myColl = db.getCollection("users");
         return Math.toIntExact(myColl.countDocuments());
     }
@@ -180,7 +188,18 @@ public class MongoUser extends MongoConnection{
 
 
     public static void main(String[] args){
+        MongoUser mongoUser = new MongoUser();
+        MongoCollection<Document> counter = db.getCollection("counters");
+        Document idDoc = counter.find(eq("_id","userId")).first();
 
+        int id = (int)idDoc.get("sequence_value");
+        System.out.println(id);
+        id +=1;
+        counter.updateOne(
+                new Document("_id", "userId"),
+                new Document("$set", new Document("sequence_value", id))
+        );
+        //mongoUser.add("armando", "armando", "armando1", "italy", "8/01/2021", "armando");
         //System.out.println(m.findById(10));
     }
 }

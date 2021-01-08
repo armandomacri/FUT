@@ -68,7 +68,7 @@ public class ChallengeController {
         seachUserTableView.getItems().clear();
         String text = searchUsersTextField.getText();
         //ObservableList<User> users = FXCollections.observableArrayList(neo4jUser.findUsers(text));
-        ObservableList<User> users = FXCollections.observableArrayList(mongoUser.findUsers(text));
+        ObservableList<User> users = FXCollections.observableArrayList(mongoUser.findUsers(text, userSession.getUserId()));
         if(users.size() == 0){
             seachUserTableView.setPlaceholder(new Label("No Users found containing "+ searchUsersTextField.getText()));
             return;
