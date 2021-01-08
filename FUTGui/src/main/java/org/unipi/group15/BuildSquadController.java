@@ -42,10 +42,17 @@ public class BuildSquadController {
 
     @FXML private Button addPlayerButton;
 
+    @FXML private Button findButton;
+
+    @FXML private Button SaveButton;
+
     @FXML private Text overallText;
 
     @FXML
     private void initialize(){
+        findButton.setDisable(true);
+        addPlayerButton.setDisable(true);
+        SaveButton.setDisable(true);
         userIdLabel.setText(userSession.getUserId());
         moduleChoiceBox.getItems().removeAll(moduleChoiceBox.getItems());
         moduleChoiceBox.getItems().addAll(FXCollections.observableArrayList("352",
@@ -121,6 +128,7 @@ public class BuildSquadController {
                 break;
             default: break;
         }
+        findButton.setDisable(false);
     }
 
     @FXML
@@ -139,7 +147,7 @@ public class BuildSquadController {
     }
 
     @FXML
-    private void setSquadNane(){
+    private void setSquadName(){
         squad.setName(squadNameTextField.getText());
     }
 
@@ -151,6 +159,7 @@ public class BuildSquadController {
         findPlayersTableView.getItems().clear();
         ObservableList<Player> players = FXCollections.observableArrayList(mongoPlayerCard.findPlayers(findPlayerTextField.getText()));
         findPlayersTableView.setItems(players);
+        addPlayerButton.setDisable(false);
    }
 
     @FXML
@@ -162,6 +171,9 @@ public class BuildSquadController {
         chosenPlayersTableView.setItems(players);
         overallText.setText(computeOverall(squad).toString());
         findPlayersTableView.getItems().clear();
+        if(squad.getPlayers().size() == 11 )
+            SaveButton.setDisable(false);
+        addPlayerButton.setDisable(true);
     }
 
     @FXML

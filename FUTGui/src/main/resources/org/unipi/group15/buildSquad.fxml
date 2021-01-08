@@ -53,7 +53,7 @@
                      </font>
                   </Label>
                   <TextField fx:id="findPlayerTextField" layoutX="264.0" layoutY="11.0" onAction="#onEnter" promptText="Player Name" />
-                  <Button layoutX="430.0" layoutY="11.0" mnemonicParsing="false" onAction="#selectPlayer" prefWidth="70.0" text="Find" />
+                  <Button fx:id="findButton" layoutX="430.0" layoutY="11.0" mnemonicParsing="false" onAction="#selectPlayer" prefWidth="70.0" text="Find" />
                   <Button fx:id="addPlayerButton" layoutX="179.0" layoutY="199.0" mnemonicParsing="false" onAction="#addPlayer" prefWidth="70.0" text="Add" />
                   <TableView fx:id="findPlayersTableView" layoutX="15.0" layoutY="56.0" prefHeight="134.0" prefWidth="498.0">
                     <columns>
@@ -69,7 +69,7 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <Button layoutX="261.0" layoutY="199.0" mnemonicParsing="false" onAction="#saveSquad" prefWidth="70.0" text="Save" />
+                  <Button fx:id="SaveButton" layoutX="261.0" layoutY="199.0" mnemonicParsing="false" onAction="#saveSquad" prefWidth="70.0" text="Save" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="footbalField" layoutX="14.0" layoutY="135.0" prefHeight="198.0" prefWidth="528.0">
