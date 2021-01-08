@@ -153,6 +153,17 @@ public class Neo4jUser implements AutoCloseable{
         }
     }
 
+    public void deleteFollow(final String user_id, final String user_id1){
+        try (Session session = driver.session()){
+            session.writeTransaction( tx -> {
+                tx.run("MATCH path=(u:User{id: $user_id})-[f:Follow]-(u1:User{id: $user_id1})\n" +
+                        "DELETE f",
+                        parameters("user_id", user_id , "user_id1", user_id1));
+                return 1;
+            });
+        }
+    }
+
     public void createPost(final String user_id, final Integer comment_id){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
@@ -178,7 +189,7 @@ public class Neo4jUser implements AutoCloseable{
     public static void main( String... args ) throws Exception{
         try ( Neo4jUser ex = new Neo4jUser( ) )
         {
-            System.out.println(ex.suggestedUserByLike("0"));
+            ex.deleteFollow("1", "3");
         }
     }
 }

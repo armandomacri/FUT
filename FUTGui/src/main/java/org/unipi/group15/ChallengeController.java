@@ -78,11 +78,11 @@ public class ChallengeController {
     }
 
     @FXML
-    private void showSelectedUserSquads(){
+    private void showSelectedUserSquads(final String user_id){
         //ottenere l'id dell'utente di cui voglio le squadre
         //le squadre appaiono quando clicco sull'utente
         MongoSquad mongoSquad = new MongoSquad();
-        ArrayList<Squad> userSquads = mongoSquad.getSquads("Casimir");
+        ArrayList<Squad> userSquads = mongoSquad.getSquads(user_id);
         setSquad(userSquads);
     }
 
@@ -196,12 +196,8 @@ public class ChallengeController {
             suggestedUserTableView.getItems().add(users.get(i));
         }
         suggestedUserTableView.setOnMouseClicked((MouseEvent event) -> {
-            if (suggestedUserTableView.getSelectionModel().getSelectedItem() != null) {
-                selectedUser = suggestedUserTableView.getSelectionModel().getSelectedItem();
-                setSquad(suggestedUserTableView.getSelectionModel().getSelectedItem().getSquads());
-            }
-            System.out.println(selectedUser.getUserId());
-            System.out.println(selectedUser.getSquads());
+            selectedUser = suggestedUserTableView.getSelectionModel().getSelectedItem();
+            showSelectedUserSquads(suggestedUserTableView.getSelectionModel().getSelectedItem().getUserId());
         });
     }
 
