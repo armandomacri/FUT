@@ -30,9 +30,7 @@ public class UserSessionService {
         return user.getLastName();
     }
 
-    public String getUsername() {
-        return user.getUsername();
-    }
+    public String getUsername() { return user.getUsername(); }
 
     public String getUserId(){ return user.getUserId(); }
 

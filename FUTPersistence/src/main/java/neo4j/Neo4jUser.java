@@ -112,12 +112,12 @@ public class Neo4jUser implements AutoCloseable{
         ArrayList<User> SuggestedUsers;
         try (Session session = driver.session()) {
             SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
-                Result result = tx.run("MATCH (u:User{id: 5})\n" +
+                Result result = tx.run("MATCH (u:User{id: $user_id})\n" +
                                         "WITH toInteger(u.score) as userscore\n" +
                                         "MATCH (u1:User)\n" +
-                                        "WHERE userscore-2 <= u1.score <= userscore+2\n" +
+                                        "WHERE userscore-2 <= u1.score <= userscore+2 AND (u1.id)<>$user_id\n" +
                                         "RETURN toString(u1.id) AS Id, u1.username AS Username, u1.score AS Score\n" +
-                                        "LIMIT 5",
+                                        "LIMIT 10",
                         parameters("user_id", user_id));
                 ArrayList<User> users = new ArrayList<>();
                 while (result.hasNext()) {
@@ -135,7 +135,7 @@ public class Neo4jUser implements AutoCloseable{
     public void createUser(final String user_id, final String username){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
-                tx.run("CREATE (u:User {id: $user_id, username: $username})",
+                tx.run("CREATE (u:User {id: $user_id, username: $username, score: 0})",
                         parameters("user_id", user_id , "username", username));
                return 1;
             });

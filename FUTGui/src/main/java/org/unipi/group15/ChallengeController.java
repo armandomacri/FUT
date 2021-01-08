@@ -78,7 +78,7 @@ public class ChallengeController {
     }
 
     @FXML
-    private void showSelectedUserShads(){
+    private void showSelectedUserSquads(){
         //ottenere l'id dell'utente di cui voglio le squadre
         //le squadre appaiono quando clicco sull'utente
         MongoSquad mongoSquad = new MongoSquad();
@@ -174,7 +174,6 @@ public class ChallengeController {
         table.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("userId"));
         table.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("username"));
         table.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("score"));
-
         table.setOnMouseClicked((MouseEvent event) -> {
              if (table.getSelectionModel().getSelectedItem() != null) {
                  selectedUser = table.getSelectionModel().getSelectedItem();
@@ -190,12 +189,20 @@ public class ChallengeController {
         suggestedUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
         suggestedUserUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
         suggestedUserScore.setCellValueFactory(new PropertyValueFactory<>("score"));
-        PropertyValueFactory factory = new PropertyValueFactory<>("userId");
-        PropertyValueFactory factory1 = new PropertyValueFactory<>("username");
-        PropertyValueFactory factory2 = new PropertyValueFactory<>("score");
+        //PropertyValueFactory factory = new PropertyValueFactory<>("userId");
+        //PropertyValueFactory factory1 = new PropertyValueFactory<>("username");
+        //PropertyValueFactory factory2 = new PropertyValueFactory<>("score");
         for (int i = 0; i < users.size(); i++) {
             suggestedUserTableView.getItems().add(users.get(i));
         }
+        suggestedUserTableView.setOnMouseClicked((MouseEvent event) -> {
+            if (suggestedUserTableView.getSelectionModel().getSelectedItem() != null) {
+                selectedUser = suggestedUserTableView.getSelectionModel().getSelectedItem();
+                setSquad(suggestedUserTableView.getSelectionModel().getSelectedItem().getSquads());
+            }
+            System.out.println(selectedUser.getUserId());
+            System.out.println(selectedUser.getSquads());
+        });
     }
 
     @FXML

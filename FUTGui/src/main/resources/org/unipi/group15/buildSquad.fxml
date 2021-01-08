@@ -57,11 +57,13 @@
                   <Button fx:id="addPlayerButton" layoutX="179.0" layoutY="199.0" mnemonicParsing="false" onAction="#addPlayer" prefWidth="70.0" text="Add" />
                   <TableView fx:id="findPlayersTableView" layoutX="15.0" layoutY="56.0" prefHeight="134.0" prefWidth="498.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="Name" />
-                      <TableColumn prefWidth="75.0" text="Overall" />
-                        <TableColumn prefWidth="75.0" text="Quality" />
-                        <TableColumn prefWidth="75.0" text="Revision" />
-                        <TableColumn prefWidth="75.0" text="Club" />
+                      <TableColumn prefWidth="120.0" resizable="false" text="Name" />
+                        <TableColumn prefWidth="50.0" resizable="false" text="Position" />
+                      <TableColumn prefWidth="45.0" resizable="false" text="Overall" />
+                        <TableColumn prefWidth="60.0" resizable="false" text="Revision" />
+                        <TableColumn prefWidth="75.0" resizable="false" text="Club" />
+                        <TableColumn prefWidth="75.0" resizable="false" text="League" />
+                        <TableColumn prefWidth="75.0" resizable="false" text="Nation" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -74,12 +76,14 @@
                <children>
                   <TableView fx:id="chosenPlayersTableView" prefHeight="200.0" prefWidth="528.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="Name" />
-                        <TableColumn prefWidth="75.0" text="Pace" />
-                        <TableColumn prefWidth="75.0" text="Shooting" />
-                        <TableColumn prefWidth="75.0" text="Passing" />
-                        <TableColumn prefWidth="75.0" text="Defending" />
-                        <TableColumn prefWidth="75.0" text="Physicality" />
+                      <TableColumn prefWidth="150.0" resizable="false" text="Name" />
+                        <TableColumn prefWidth="60.0" resizable="false" text="Overall" />
+                        <TableColumn prefWidth="52.5" resizable="false" text="PAC" />
+                        <TableColumn prefWidth="52.5" resizable="false" text="DRI" />
+                        <TableColumn prefWidth="52.5" resizable="false" text="SHO" />
+                        <TableColumn prefWidth="52.5" resizable="false" text="DEF" />
+                        <TableColumn prefWidth="52.5" resizable="false" text="PAS" />
+                        <TableColumn prefWidth="52.5" resizable="false" text="PHY" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
