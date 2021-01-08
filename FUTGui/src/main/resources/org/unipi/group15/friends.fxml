@@ -138,8 +138,9 @@
                      </children>
                   </AnchorPane>
                   <TextField fx:id="userToFind" layoutX="23.0" layoutY="69.0" onAction="#onEnter" prefHeight="26.0" prefWidth="333.0" promptText="Search new friend" />
-                  <Button fx:id="follow_button" layoutX="531.0" layoutY="172.0" mnemonicParsing="false" onMouseClicked="#createRelationFollow" prefHeight="39.0" prefWidth="78.0" text="Follow" />
-                  <Label fx:id="valueLbl" alignment="CENTER" layoutX="546.0" layoutY="218.0" prefHeight="39.0" prefWidth="50.0" text="Label" />
+                  <Label fx:id="valueLbl" alignment="CENTER" layoutX="528.0" layoutY="219.0" prefHeight="39.0" prefWidth="86.0" text="Label" />
+                  <Button fx:id="unfollow_button" layoutX="532.0" layoutY="172.0" mnemonicParsing="false" onMouseClicked="#deleteRelationFollow" prefHeight="39.0" prefWidth="78.0" text="Unfollow" />
+                  <Button fx:id="follow_button" layoutX="532.0" layoutY="172.0" mnemonicParsing="false" onMouseClicked="#createRelationFollow" prefHeight="39.0" prefWidth="78.0" text="Follow" />
                </children>
             </AnchorPane>
          </children>
