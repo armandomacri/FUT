@@ -24,11 +24,11 @@ public class ComputeScoreService {
         int points = getFinalPoints(home_user, away_user, homeScore, awayScore);
         SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date(System.currentTimeMillis());
-        Challenge result = new Challenge(id.toString(), home_user.getUserId(), home_user.getUsername(),away_user.getUserId(), away_user.getUsername(), formatter.format(date), homeScore, awayScore, points);
+        Challenge result = new Challenge(null, home_user.getUserId(), home_user.getUsername(),away_user.getUserId(), away_user.getUsername(), formatter.format(date), homeScore, awayScore, points);
         MongoChallenge mc = new MongoChallenge();
         String challID = mc.insertChallenge(result);
+        result.setChallengeId(challID);
         System.out.println("Challenge " + challID + " added");
-        addId();
         MongoUser mu = new MongoUser();
         Neo4jUser n4u = new Neo4jUser();
         if(homeScore>awayScore){
@@ -56,14 +56,6 @@ public class ComputeScoreService {
             }
         }
         return result;
-    }
-
-    public static void addId() {
-         id++;
-    }
-
-    public static Integer getId() {
-        return id;
     }
 
     public int getPositioningPoints (Squad homeSquad){
