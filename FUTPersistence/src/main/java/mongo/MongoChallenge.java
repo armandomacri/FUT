@@ -11,13 +11,13 @@ public class MongoChallenge extends MongoConnection{
     private MongoCollection<Document> myColl;
 
     public String insertChallenge (Challenge newChallenge){
-        myColl = db.getCollection("challengeId");
-
+        myColl = db.getCollection("challenge");
         MongoCollection<Document> counter = db.getCollection("counters");
 
         Document idDoc = counter.find(eq("_id","challengeId")).first();
 
         int id = (int)idDoc.get("sequence_value");
+
         Document doc = new Document("_id", id).append("home", newChallenge.getHome()).append("home_user", newChallenge.getHomeUser()).append("date", newChallenge.getDate()).append("away", newChallenge.getAway()).append("away_user", newChallenge.getAwayUser()).append("home_score", newChallenge.getHomeScore()).append("away_score", newChallenge.getAwayScore()).append("points_earned/lost", newChallenge.getPoints());
         myColl.insertOne(doc);
 
