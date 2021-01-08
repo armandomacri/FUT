@@ -41,7 +41,7 @@ public class Neo4jComment implements AutoCloseable{
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    c = new Comment(r.get("Id").asString(), player_id, date, r.get("Text").asString(), r.get("Username").asString());
+                    c = new Comment(r.get("Id").asString(), date, r.get("Text").asString(), r.get("Username").asString());
                     commentsResult.add(c);
                     //String date1 = parserSDF.format(c.getDate()); per avere data nel formato corretto in output
                 }
@@ -51,23 +51,35 @@ public class Neo4jComment implements AutoCloseable{
         return comments;
     }
 
-    public void createComment(final String id, final String player_id, final String text, final String user_id) throws Exception {
+    public void createComment(final String player_id,  final String text, final String user_id) throws Exception {
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
-                tx.run("CREATE (:Comment{comment_date: date(), id: $id, player_id: $player_id, text: $text})",
-                        parameters("id", id, "player_id", player_id, "text", text));
-                tx.run("MATCH (c:Comment{id: $id}), (u:User{id: $user_id})\n" +
-                        "CREATE (u)-[:Post]->(c)",
-                        parameters("id", id, "user_id", user_id));
-                tx.run("MATCH (c:Comment{id: $id}), (p:PlayerCard{id: $player_id})\n" +
+                Result result = tx.run("CREATE (c:Comment{text: $text}) RETURN toString(id(c)) AS commentId",
+                        parameters( "text", text));
+                String commentId = null;
+                while(result.hasNext())
+                {
+                    Record r = result.next();
+                    commentId = r.get("commentId").asString();
+                }
+                System.out.println(commentId);
+                tx.run("MATCH (u:User{id: $user_id}), (c:Comment)\n" +
+                        "WHERE id(c) = toInteger($commentId)\n" +
+                        "CREATE (u)-[:Post{date: date()}]->(c)",
+                        parameters("commentId", commentId, "user_id", user_id));
+                tx.run("MATCH (p:PlayerCard{id: $player_id}), (c:Comment)\n" +
+                        "WHERE id(c) = toInteger($commentId)\n" +
                         "CREATE (c)-[:Related]->(p)",
-                        parameters("id", id, "player_id", player_id));
+                        parameters("commentId", commentId, "player_id", player_id));
                 return 1;
             });
         }
     }
 
     public static void main( String... args ) throws Exception{
-
+        try ( Neo4jComment ex = new Neo4jComment() )
+        {
+            ex.createComment("1", "che forte", "10");
+        }
     }
 }

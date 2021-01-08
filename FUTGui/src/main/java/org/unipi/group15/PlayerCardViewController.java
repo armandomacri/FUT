@@ -1,6 +1,7 @@
 package org.unipi.group15;
 
 import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.input.MouseEvent;
 import levelDB.StoreImage;
 import bean.Player;
 import javafx.fxml.FXML;
@@ -211,9 +212,23 @@ public class PlayerCardViewController {
     }
 
     @FXML
-    private void goToSearchPlayer() {
+    private void switchToProfile() {
+        App.setRoot("userPage");
+    }
+
+    @FXML
+    private void switchToPlayer() {
         App.setRoot("searchPlayer");
     }
 
+    @FXML
+    private void switchToBuildSquad() {
+        App.setRoot("buildSquad");
+    }
+
+    @FXML
+    private void switchToChallenge() {
+        App.setRoot("challenge");
+    }
 
 }

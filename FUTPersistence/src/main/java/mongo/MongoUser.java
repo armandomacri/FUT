@@ -114,7 +114,7 @@ public class MongoUser extends MongoConnection{
 
         User newUser = new User(doc.get("username").toString(), doc.get("first_name").toString(),
                 doc.get("last_name").toString(), doc.get("_id").toString(),
-                doc.get("country").toString(), date, doc.get("password").toString(), s, Integer.parseInt(doc.get("score").toString()));
+                doc.get("country").toString(), date, doc.get("password").toString(), s, 0);
         return newUser;
     }
 

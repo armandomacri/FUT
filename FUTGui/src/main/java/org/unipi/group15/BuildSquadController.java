@@ -23,7 +23,7 @@ public class BuildSquadController {
     private static final UserSessionService userSession = App.getSession();
     private static final MongoSquad mongoSquad = new MongoSquad();
     private static final MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
-    private static int squadIdex = -1;
+    private static int squadIndex = -1;
     private static Squad squad;
 
     @FXML private Label userIdLabel;
@@ -42,30 +42,42 @@ public class BuildSquadController {
 
     @FXML private Button addPlayerButton;
 
+    @FXML private Button findButton;
+
+    @FXML private Button SaveButton;
+
     @FXML private Text overallText;
 
     @FXML
     private void initialize(){
+        findButton.setDisable(true);
+        addPlayerButton.setDisable(true);
+        SaveButton.setDisable(true);
         userIdLabel.setText(userSession.getUserId());
         moduleChoiceBox.getItems().removeAll(moduleChoiceBox.getItems());
         moduleChoiceBox.getItems().addAll(FXCollections.observableArrayList("352",
                                             "4231", "4312", "433", "442"));
 
         chosenPlayersTableView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("playerName"));
-        chosenPlayersTableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("pace"));
-        chosenPlayersTableView.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("shooting"));
-        chosenPlayersTableView.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("passing"));
-        chosenPlayersTableView.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("defending"));
-        chosenPlayersTableView.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("physicality"));
+        chosenPlayersTableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("overall"));
+        chosenPlayersTableView.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("pace"));
+        chosenPlayersTableView.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("dribbling"));
+        chosenPlayersTableView.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("shooting"));
+        chosenPlayersTableView.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("defending"));
+        chosenPlayersTableView.getColumns().get(6).setCellValueFactory(new PropertyValueFactory<>("passing"));
+        chosenPlayersTableView.getColumns().get(7).setCellValueFactory(new PropertyValueFactory<>("physicality"));
+
 
         findPlayersTableView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("playerExtendedName"));
-        findPlayersTableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("overall"));
-        findPlayersTableView.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("quality"));
+        findPlayersTableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("position"));
+        findPlayersTableView.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("overall"));
         findPlayersTableView.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("revision"));
         findPlayersTableView.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("club"));
+        findPlayersTableView.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("league"));
+        findPlayersTableView.getColumns().get(6).setCellValueFactory(new PropertyValueFactory<>("nationality"));
 
-        if(squadIdex != -1) {
-            squad = App.getSession().getSquads().get(squadIdex);
+        if(squadIndex != -1) {
+            squad = App.getSession().getSquads().get(squadIndex);
             squadNameTextField.setText(squad.getName());
             moduleChoiceBox.getSelectionModel().select(squad.getModule());
             displayModulePositions(squad.getModule());
@@ -87,7 +99,7 @@ public class BuildSquadController {
 
     }
 
-    public void setSquadIndex(int index){ squadIdex = index; }
+    public void setSquadIndex(int index){ squadIndex = index; }
 
     private void displayModulePositions(String module){
 
@@ -116,6 +128,7 @@ public class BuildSquadController {
                 break;
             default: break;
         }
+        findButton.setDisable(false);
     }
 
     @FXML
@@ -134,7 +147,7 @@ public class BuildSquadController {
     }
 
     @FXML
-    private void setSquadNane(){
+    private void setSquadName(){
         squad.setName(squadNameTextField.getText());
     }
 
@@ -146,6 +159,7 @@ public class BuildSquadController {
         findPlayersTableView.getItems().clear();
         ObservableList<Player> players = FXCollections.observableArrayList(mongoPlayerCard.findPlayers(findPlayerTextField.getText()));
         findPlayersTableView.setItems(players);
+        addPlayerButton.setDisable(false);
    }
 
     @FXML
@@ -156,20 +170,24 @@ public class BuildSquadController {
         ObservableList<Player> players = FXCollections.observableArrayList(squad.getPlayers().values());
         chosenPlayersTableView.setItems(players);
         overallText.setText(computeOverall(squad).toString());
+        findPlayersTableView.getItems().clear();
+        if(squad.getPlayers().size() == 11 )
+            SaveButton.setDisable(false);
+        addPlayerButton.setDisable(true);
     }
 
     @FXML
     private void saveSquad(){
         squad.setName(squadNameTextField.getText());
 
-        if (squadIdex == -1){
+        if (squadIndex == -1){
             squad.setDate(new Date());
             userSession.getSquads().add(squad);
         }
         else
-            userSession.getSquads().add(squadIdex, squad);
+            userSession.getSquads().add(squadIndex, squad);
 
-        mongoSquad.add(userSession.getUserId(), squadIdex, squad);
+        mongoSquad.add(userSession.getUserId(), squadIndex, squad);
         App.setRoot("userPage");
     }
 

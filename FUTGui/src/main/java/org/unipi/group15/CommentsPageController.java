@@ -85,11 +85,15 @@ public class CommentsPageController {
     public void createComment() throws Exception {
         String commentText = newCommentText.getText();
         Alert alert = new Alert(Alert.AlertType.WARNING, "The text field is empty, please fill it", ButtonType.OK);
+        Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Comments insert correctly", ButtonType.CLOSE);
         if(commentText.equals("")) {
             alert.showAndWait();
             newCommentText.setText("");
         }
-        else
-            neo4jComment.createComment("171717", player.getPlayerId(), commentText, userSession.getUserId());
+        else {
+            neo4jComment.createComment(player.getPlayerId(), commentText, userSession.getUserId());
+            alert1.showAndWait();
+            App.setRoot("player_card_view");
+        }
     }
 }
