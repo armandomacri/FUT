@@ -12,9 +12,9 @@ public class MongoChallenge extends MongoConnection{
 
     public String insertChallenge (Challenge newChallenge){
         myColl = db.getCollection("challenge");
-        Document doc = new Document("_id", Integer.parseInt(newChallenge.getChallengeId())).append("home", newChallenge.getHome()).append("home_user", newChallenge.getHomeUser()).append("date", newChallenge.getDate()).append("away", newChallenge.getAway()).append("away_user", newChallenge.getAwayUser()).append("home_score", newChallenge.getHomeScore()).append("away_score", newChallenge.getAwayScore()).append("points_earned/lost", newChallenge.getPoints());
+        Document doc = new Document("home", newChallenge.getHome()).append("home_user", newChallenge.getHomeUser()).append("date", newChallenge.getDate()).append("away", newChallenge.getAway()).append("away_user", newChallenge.getAwayUser()).append("home_score", newChallenge.getHomeScore()).append("away_score", newChallenge.getAwayScore()).append("points_earned/lost", newChallenge.getPoints());
         myColl.insertOne(doc);
-        return doc.get("_id").toString();
+        return doc.getObjectId("_id").toString();
     }
 
     public ArrayList<Challenge> findUserChallenge (String userID){
