@@ -139,9 +139,17 @@ public class ChallengeController {
                         HBox hRecap;
                         if(result.getHomeScore() > result.getAwayScore()){
                             hRecap = new HBox(new Text("Congratulations, you won the match. Points earned: " + result.getPoints().toString()));
+                            userSession.setScore(userSession.getScore()+result.getPoints());
                         }
                         else if(result.getHomeScore() < result.getAwayScore()){
                             hRecap = new HBox(new Text("Sorry, you lost the match. Points lost: " + result.getPoints().toString()));
+                            if(userSession.getScore()-result.getPoints()<0){
+                                userSession.setScore(0);
+                            }
+                            else{
+                                userSession.setScore(userSession.getScore()-result.getPoints());
+                            }
+
                         }
                         else{
                             hRecap =  new HBox(new Text("It's a Draw. Points earned/lost: " + result.getPoints().toString()));

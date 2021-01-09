@@ -4,7 +4,11 @@ import bean.Challenge;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
+
+import javax.print.Doc;
 import java.util.ArrayList;
+import java.util.function.DoubleBinaryOperator;
+
 import static com.mongodb.client.model.Filters.*;
 
 public class MongoChallenge extends MongoConnection{
@@ -18,7 +22,9 @@ public class MongoChallenge extends MongoConnection{
 
         //int id = (int)idDoc.get("sequence_value");
 
-        Document doc = new Document("home", newChallenge.getHome()).append("home_user", newChallenge.getHomeUser()).append("date", newChallenge.getDate()).append("away", newChallenge.getAway()).append("away_user", newChallenge.getAwayUser()).append("home_score", newChallenge.getHomeScore()).append("away_score", newChallenge.getAwayScore()).append("points_earned/lost", newChallenge.getPoints());
+        Document homeDoc = new Document("id", newChallenge.getHome()).append("username", newChallenge.getHomeUser()).append("score", newChallenge.getHomeScore());
+        Document awayDoc = new Document("id", newChallenge.getAway()).append("username", newChallenge.getAwayUser()).append("score", newChallenge.getAwayScore());
+        Document doc = new Document("date", newChallenge.getDate()).append("home", homeDoc).append("away", awayDoc).append("points_earned/lost", newChallenge.getPoints());
         myColl.insertOne(doc);
 /*
         id +=1;
@@ -34,13 +40,17 @@ public class MongoChallenge extends MongoConnection{
         myColl = db.getCollection("challenge");
         ArrayList<Challenge> results = new ArrayList<>();
 
-        try (MongoCursor<Document> cursor = myColl.find(or(eq("home", userID), eq("away", userID))).iterator())
+        try (MongoCursor<Document> cursor = myColl.find(or(eq("home.id", userID), eq("away.id", userID))).iterator())
         {
             while (cursor.hasNext())
             {
                 Document challenge = cursor.next();
                 System.out.println(challenge);
-                Challenge c = new Challenge(challenge.get("_id").toString(), challenge.get("home").toString(), challenge.get("home_user").toString(),challenge.get("away").toString(), challenge.get("away_user").toString(), challenge.get("date").toString(), Integer.parseInt(challenge.get("home_score").toString()), Integer.parseInt(challenge.get("away_score").toString()), Integer.parseInt(challenge.get("points_earned/lost").toString()));
+                Document homeDoc = (Document) challenge.get("home");
+                Document awayDoc = (Document) challenge.get("away");
+                //Document homeDoc = (Document) challenge.get("home");
+                //Document awayDoc = (Document) challenge.get("away");
+                Challenge c = new Challenge(challenge.getObjectId("_id").toString(), homeDoc.get("id").toString(), homeDoc.get("username").toString(),awayDoc.get("id").toString(), awayDoc.get("username").toString(), challenge.get("date").toString(), Integer.parseInt(homeDoc.get("score").toString()), Integer.parseInt(awayDoc.get("score").toString()), Integer.parseInt(challenge.get("points_earned/lost").toString()));
                 results.add(c);
             }
         }

@@ -3,6 +3,7 @@ package mongo;
 import bean.*;
 import com.mongodb.client.*;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import javax.print.Doc;
 import java.text.ParseException;
@@ -122,7 +123,7 @@ public class MongoUser extends MongoConnection{
         }
 
         return new User(doc.get("username").toString(), doc.get("first_name").toString(),
-                doc.get("last_name").toString(), doc.get("_id").toString(),
+                doc.get("last_name").toString(), doc.getObjectId("_id").toString(),
                 doc.get("country").toString(), date, doc.get("password").toString(), s, (int)Double.parseDouble(doc.get("score").toString()));
     }
 
@@ -134,13 +135,13 @@ public class MongoUser extends MongoConnection{
     public void updateScore (String userId, int points){
         myColl = db.getCollection("users");
         //query
-        myColl.updateOne(eq("_id", userId), inc("score", points));
+        myColl.updateOne(eq("_id", new ObjectId(userId)), inc("score", points));
     }
 
     public int getScore (String userId){
         myColl = db.getCollection("users");
         //query
-        Document doc = myColl.find(eq("_id", userId)).first();
+        Document doc = myColl.find(eq("_id", new ObjectId(userId))).first();
         assert doc != null;
         return (Integer) doc.get("score");
     }

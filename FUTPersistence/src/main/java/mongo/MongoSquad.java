@@ -91,7 +91,7 @@ public class MongoSquad extends MongoConnection{
                 pos.put(key, x);
             }
             try {
-                df = new SimpleDateFormat("dd/MM/yyyy");
+                df = new SimpleDateFormat("dd/MM/yy");
                 date = df.parse(squad.get("date").toString());
             } catch (ParseException e) {
                 e.printStackTrace();
