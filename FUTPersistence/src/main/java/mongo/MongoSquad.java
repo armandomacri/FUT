@@ -66,7 +66,7 @@ public class MongoSquad extends MongoConnection{
 
     public ArrayList<Squad> getSquads(String id){
         myColl = db.getCollection("users");
-        Document doc = myColl.find(eq("_id",id)).projection(fields(include("squads"), excludeId())).first();
+        Document doc = myColl.find(eq("_id",new ObjectId(id))).projection(fields(include("squads"), excludeId())).first();
         return composeSquads(doc);
     }
 
