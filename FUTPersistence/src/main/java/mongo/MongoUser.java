@@ -16,15 +16,15 @@ public class MongoUser extends MongoConnection{
     private MongoCollection<Document> myColl;
 
     public String add(String firstName, String lastName, String username, String country, String joinDate, String password){
-        MongoCollection<Document> counter = db.getCollection("counters");
+        //MongoCollection<Document> counter = db.getCollection("counters");
         myColl = db.getCollection("users");
 
-        Document idDoc = counter.find(eq("_id","userId")).first();
+        //Document idDoc = counter.find(eq("_id","userId")).first();
 
-        int id = (int)idDoc.get("sequence_value");
+        //int id = (int)idDoc.get("sequence_value");
 
         Document user = new Document("username", username)
-                .append("_id", Integer.toString(id))
+                //.append("_id", Integer.toString(id))
                 .append("first_name", firstName)
                 .append("last_name", lastName)
                 .append("country", country)
@@ -37,14 +37,14 @@ public class MongoUser extends MongoConnection{
         } catch (Exception e){
 
         }
-
+/*
         id +=1;
         counter.updateOne(
                 new Document("_id", "userId"),
                 new Document("$set", new Document("sequence_value", id))
         );
-
-        return user.get("_id").toString();
+*/
+        return user.getObjectId("_id").toString();
     }
 
     public User getUser(String username){
