@@ -5,6 +5,7 @@ import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.neo4j.driver.Values.parameters;
 
@@ -66,12 +67,32 @@ public class Neo4jPlayerCard implements AutoCloseable{
         }
     }
 
+    public HashMap<String, String> mostLikedPlayer(){
+        HashMap<String, String> playerMap = new HashMap<>();
+        try (Session session = driver.session()) {
+            playerMap = session.readTransaction((TransactionWork<HashMap<String, String>>) tx -> {
+                Result result = tx.run("MATCH path=(p:PlayerCard)-[l:Like]-(u:User)\n" +
+                                        "RETURN p.name AS PlayerName, p.id, COUNT(l) AS numLike \n" +
+                                        "ORDER BY numLike DESC\n" +
+                                        "LIMIT 25");
+                HashMap<String, String> playerMapResult = new HashMap<>();
+                while (result.hasNext()) {
+                    Record r = result.next();
+                    playerMapResult.put(r.get("PlayerName").asString(), r.get("numLike").toString());
+
+                }
+                return playerMapResult;
+            });
+        }
+        return playerMap;
+    }
 
 
     public static void main( String... args ) throws Exception{
         try ( Neo4jPlayerCard ex = new Neo4jPlayerCard() )
         {
-            boolean prova = ex.checkLikes("8", "541");
+            HashMap<String, String> prova = new HashMap<>();
+            prova = ex.mostLikedPlayer();
             System.out.println(prova);
         }
     }

@@ -4,6 +4,8 @@ import bean.User;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import static org.neo4j.driver.Values.parameters;
 
 public class Neo4jUser implements AutoCloseable{
@@ -184,6 +186,25 @@ public class Neo4jUser implements AutoCloseable{
                 return 1;
             });
         }
+    }
+
+    public HashMap<String, String> mostActiveUser(){
+        HashMap<String, String> userMap = new HashMap<>();
+        try (Session session = driver.session()) {
+            userMap = session.readTransaction((TransactionWork<HashMap<String, String>>) tx -> {
+                Result result = tx.run("MATCH (u:User)-[r]->()\n" +
+                                        "RETURN u.id, u.username AS Username, COUNT(r) AS numAction\n" +
+                                        "ORDER BY numAction DESC\n" +
+                                        "LIMIT 25");
+                HashMap<String, String> userMapResult = new HashMap<>();
+                while (result.hasNext()) {
+                    Record r = result.next();
+                    userMapResult.put(r.get("Username").asString(), r.get("numAction").toString());
+                }
+                return userMapResult;
+            });
+        }
+        return userMap;
     }
 
     public static void main( String... args ) throws Exception{
