@@ -13,8 +13,8 @@ import java.util.Date;
 
 import static org.neo4j.driver.Values.parameters;
 
-public class Neo4jComment implements AutoCloseable{
-    public static Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "fut"));
+public class Neo4jComment extends Neo4jConnection{
+
 
     @Override
     public void close() throws Exception {

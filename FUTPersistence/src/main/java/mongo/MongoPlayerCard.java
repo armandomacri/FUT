@@ -210,6 +210,12 @@ public class MongoPlayerCard extends MongoConnection{
         System.out.println(results);
     }
 
+    @Override
+    public void close(){
+        mongoClient.close();
+        //logger.info("Mongo close connection!");
+    }
+
 
     public static void main(String[] args){
         MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();

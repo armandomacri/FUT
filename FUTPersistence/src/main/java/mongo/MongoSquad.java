@@ -7,7 +7,6 @@ import com.mongodb.client.model.Updates;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -40,12 +39,12 @@ public class MongoSquad extends MongoConnection{
         squadDoc.append("players", playersDoc);
         if(index == -1){
             myColl.updateOne(
-                    eq("_id", userId),
+                    eq("_id", new ObjectId(userId)),
                     Updates.push("squads", squadDoc)
             );
         } else {
             myColl.updateOne(
-                    new Document("_id", userId),
+                    new Document("_id", new ObjectId(userId)),
                     new Document("$set", new Document("squads."+index, squadDoc))
             );
         }
@@ -54,12 +53,12 @@ public class MongoSquad extends MongoConnection{
     public void delete(String userId, int index){
         myColl = db.getCollection("users");
         myColl.updateOne(
-                new Document("_id", userId),
+                new Document("_id", new ObjectId(userId)),
                 new Document("$unset", new Document("squads."+index, 1))
         );
 
         myColl.updateOne(
-                new Document("_id", userId),
+                new Document("_id", new ObjectId(userId)),
                 new Document("$pull", new Document("squads", null))
         );
     }
@@ -127,7 +126,11 @@ public class MongoSquad extends MongoConnection{
 
     }
 
-
+    @Override
+    public void close(){
+        mongoClient.close();
+        //logger.info("Mongo close connection!");
+    }
 
     public static void main(String[] args){
         MongoSquad ms = new MongoSquad();

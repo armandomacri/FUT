@@ -8,12 +8,7 @@ import java.util.HashMap;
 
 import static org.neo4j.driver.Values.parameters;
 
-public class Neo4jUser implements AutoCloseable{
-    public static Driver driver;
-
-    public Neo4jUser(){
-        driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "fut"));
-    }
+public class Neo4jUser extends Neo4jConnection{
 
     @Override
     public void close(){

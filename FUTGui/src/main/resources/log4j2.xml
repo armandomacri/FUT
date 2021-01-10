@@ -21,11 +21,8 @@
     </Appenders>
     <Loggers>
         <Root level="debug">
-            <AppenderRef ref="ConsoleAppender" level="debug"/>
-            <AppenderRef ref="FileAppender" level="debug"/>
+            <AppenderRef ref="ConsoleAppender" level="error"/>
+            <AppenderRef ref="FileAppender" level="info"/>
         </Root>
-        <Logger name="org.mongodb.driver" level="debug" additivity="true">
-            <AppenderRef ref="Mongo"/>
-        </Logger>
     </Loggers>
 </Configuration>

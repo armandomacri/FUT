@@ -17,12 +17,7 @@ public class MongoUser extends MongoConnection{
     private MongoCollection<Document> myColl;
 
     public String add(String firstName, String lastName, String username, String country, String joinDate, String password){
-        //MongoCollection<Document> counter = db.getCollection("counters");
         myColl = db.getCollection("users");
-
-        //Document idDoc = counter.find(eq("_id","userId")).first();
-
-        //int id = (int)idDoc.get("sequence_value");
 
         Document user = new Document("username", username)
                 //.append("_id", Integer.toString(id))
@@ -38,20 +33,13 @@ public class MongoUser extends MongoConnection{
         } catch (Exception e){
 
         }
-/*
-        id +=1;
-        counter.updateOne(
-                new Document("_id", "userId"),
-                new Document("$set", new Document("sequence_value", id))
-        );
-*/
+
         return user.getObjectId("_id").toString();
     }
 
     public User getUser(String username){
         myColl = db.getCollection("users");
-        //query
-        Document doc = myColl.find(eq("username",username)).first();
+        Document doc = myColl.find(eq("username", username)).first();
         return composeUser(doc);
 
     }
@@ -60,7 +48,7 @@ public class MongoUser extends MongoConnection{
         myColl = db.getCollection("users");
         ArrayList<User> users = new ArrayList<>();
 
-        try (MongoCursor<Document> cursor = myColl.find(and(regex("username",".*" + Pattern.quote(toFind) + ".*", "-i"), ne("_id", userId))).iterator())
+        try (MongoCursor<Document> cursor = myColl.find(and(regex("username",".*" + Pattern.quote(toFind) + ".*", "-i"), ne("_id", new ObjectId(userId)))).iterator())
         {
             while (cursor.hasNext())
             {
@@ -89,7 +77,6 @@ public class MongoUser extends MongoConnection{
 
         //ricostruisco le squadre dell'utente
         ArrayList<Document> squadsDoc = (ArrayList)doc.get("squads");
-        //inserire se non ha squadra, inizializzatlo vuoto
         ArrayList<Squad> s = new ArrayList<>();
         if(squadsDoc.size() == 0){
           s = null;
@@ -145,61 +132,15 @@ public class MongoUser extends MongoConnection{
         assert doc != null;
         return (Integer) doc.get("score");
     }
-/*
-    public void analyticsOne(String nationality){
-        myColl = db.getCollection("users").withReadConcern(ReadConcern.AVAILABLE);
 
-        Consumer<Document> printDocuments = doc -> {System.out.println(doc.toJson());};
-
-        Bson unwindSquad = unwind("$squads");
-        Bson convertDate = addFields("squads.date");
-
-        Bson subtractDate =
-        Bson matchNationality = match(and(eq("nationality", nationality), ne("league", "Icons")));
-        Bson groupLeague = group("$league",
-                sum("numPlayers", 1),
-                avg("paceAvg", "$pace"),
-                avg("dribblingAvg", "$dribbling"),
-                avg("shootingAvg", "$shooting"),
-                avg("passingAvg", "$passing"),
-                avg("defendingAvg", "$defending"),
-                avg("physicalityAvg", "$physicality")
-        );
-        Bson sort = sort(descending("numPlayers"));
-        Bson limit = limit(3);
-        Bson project = project(fields(excludeId(),
-                computed("league", "$_id"),
-                include("numPlayers"),
-                include("paceAvg"),
-                include("dribblingAvg"),
-                include("shootingAvg"),
-                include("passingAvg"),
-                include("defendingAvg"),
-                include("physicalityAvg")
-                )
-        );
-
-        Aggregates.project(fields(computed()))
-
-        myColl.aggregate(Arrays.asList(matchNationality, groupLeague, sort, limit, project)).forEach(printDocuments);
+    @Override
+    public void close(){
+        mongoClient.close();
+        //logger.info("Mongo close connection!");
     }
-
- */
-
-
 
     public static void main(String[] args){
         MongoUser mongoUser = new MongoUser();
-        MongoCollection<Document> counter = db.getCollection("counters");
-        Document idDoc = counter.find(eq("_id","userId")).first();
-
-        int id = (int)idDoc.get("sequence_value");
-        System.out.println(id);
-        id +=1;
-        counter.updateOne(
-                new Document("_id", "userId"),
-                new Document("$set", new Document("sequence_value", id))
-        );
         //mongoUser.add("armando", "armando", "armando1", "italy", "8/01/2021", "armando");
         //System.out.println(m.findById(10));
     }

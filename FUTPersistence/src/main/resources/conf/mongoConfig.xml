@@ -6,7 +6,7 @@
     <ReplicaSet>
         <Replica ip="localhost" port="27018"></Replica>
         <Replica ip="localhost" port="27019"></Replica>
-        <Replica ip="localhost" port="27010"></Replica>
+        <Replica ip="localhost" port="27020"></Replica>
     </ReplicaSet>
     <DBName>futdb</DBName>
 </ConfigurationService>

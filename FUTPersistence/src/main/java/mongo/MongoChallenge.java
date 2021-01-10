@@ -16,23 +16,12 @@ public class MongoChallenge extends MongoConnection{
 
     public String insertChallenge (Challenge newChallenge){
         myColl = db.getCollection("challenge");
-        //MongoCollection<Document> counter = db.getCollection("counters");
-
-        //Document idDoc = counter.find(eq("_id","challengeId")).first();
-
-        //int id = (int)idDoc.get("sequence_value");
 
         Document homeDoc = new Document("id", newChallenge.getHome()).append("username", newChallenge.getHomeUser()).append("score", newChallenge.getHomeScore());
         Document awayDoc = new Document("id", newChallenge.getAway()).append("username", newChallenge.getAwayUser()).append("score", newChallenge.getAwayScore());
         Document doc = new Document("date", newChallenge.getDate()).append("home", homeDoc).append("away", awayDoc).append("points_earned/lost", newChallenge.getPoints());
         myColl.insertOne(doc);
-/*
-        id +=1;
-        counter.updateOne(
-                new Document("_id", "challengeId"),
-                new Document("$set", new Document("sequence_value", id))
-        );
-*/
+
         return doc.getObjectId("_id").toString();
     }
 
@@ -48,13 +37,17 @@ public class MongoChallenge extends MongoConnection{
                 System.out.println(challenge);
                 Document homeDoc = (Document) challenge.get("home");
                 Document awayDoc = (Document) challenge.get("away");
-                //Document homeDoc = (Document) challenge.get("home");
-                //Document awayDoc = (Document) challenge.get("away");
                 Challenge c = new Challenge(challenge.getObjectId("_id").toString(), homeDoc.get("id").toString(), homeDoc.get("username").toString(),awayDoc.get("id").toString(), awayDoc.get("username").toString(), challenge.get("date").toString(), Integer.parseInt(homeDoc.get("score").toString()), Integer.parseInt(awayDoc.get("score").toString()), Integer.parseInt(challenge.get("points_earned/lost").toString()));
                 results.add(c);
             }
         }
         return results;
+    }
+
+    @Override
+    public void close(){
+        mongoClient.close();
+        //logger.info("Mongo close connection!");
     }
 
 }
