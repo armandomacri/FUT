@@ -4,19 +4,27 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import javafx.util.Callback;
+import mongo.MongoPlayerCard;
+import mongo.MongoSquad;
+import mongo.MongoUser;
 import neo4j.Neo4jPlayerCard;
 import neo4j.Neo4jUser;
+import org.apache.commons.io.FilenameUtils;
+import org.bson.Document;
 import user.UserSessionService;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +32,93 @@ public class MainViewController {
 
     private static final Neo4jPlayerCard neo4jPlayerCard = new Neo4jPlayerCard();
     private static final Neo4jUser neo4jUser = new Neo4jUser();
+    private static final MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
+    private static final MongoSquad mongoSquad = new MongoSquad();
+
+
+    @FXML
+    private TableView<Document> nationAnalyticsTable;
+
+    @FXML
+    private TableColumn<Document, String> LeagueColumn;
+
+    @FXML
+    private TableColumn<Document, String> numPlayersLeagueColumn;
+
+    @FXML
+    private TableColumn<Document, String> pacLeagueColumn;
+
+    @FXML
+    private TableColumn<Document, String> driLeagueColumn;
+
+    @FXML
+    private TableColumn<Document, String> shoLeagueColumn;
+
+    @FXML
+    private TableColumn<Document, String> defLeagueColumn;
+
+    @FXML
+    private TableColumn<Document, String> pasLeagueColumn;
+
+    @FXML
+    private TableColumn<Document, String> phyLeagueColumn;
+
+    @FXML
+    private TableView<Document> leagueAnalyticsTable;
+
+    @FXML
+    private TableColumn<Document, String> QualityColumn;
+
+    @FXML
+    private TableColumn<Document, String> numPlayersQualityColumn;
+
+    @FXML
+    private TableColumn<Document, String> pacQualityColumn;
+
+    @FXML
+    private TableColumn<Document, String> driQualityColumn;
+
+    @FXML
+    private TableColumn<Document, String> shoQualityColumn;
+
+    @FXML
+    private TableColumn<Document, String> defQualityColumn;
+
+    @FXML
+    private TableColumn<Document, String> pasQualityColumn;
+
+    @FXML
+    private TableColumn<Document, String> phyQualityColumn;
+
+    @FXML
+    private TableView<Document> SquadAnalyticsTable;
+
+    @FXML
+    private TableColumn<Document, String> ModuleColumn;
+
+    @FXML
+    private TableColumn<Document, String> UsageColumn;
+
+    @FXML
+    private TextField NationSelector;
+
+    @FXML
+    private TextField LeagueSelector;
+
+    @FXML
+    private TextField NationSelector1;
+
+    @FXML
+    private Label errorLabel;
+
+    @FXML
+    private Button uploadButton;
+
+    @FXML
+    private TextField choosedFileLabel;
+
+    @FXML
+    private Button chooseFileButton;
 
     @FXML
     private TableView<Map.Entry<String,String>> likedPlayers;
@@ -51,36 +146,169 @@ public class MainViewController {
 
     @FXML
     private void initialize(){
-        UserSessionService userSession = App.getSession();
-        usernameLabel.setText(userSession.getUsername());
-        userIdLabel.setText(userSession.getUserId());
+        uploadButton.setDisable(true);
         setLikedPlayers();
         setActiveUsers();
     }
 
     @FXML
-    private void switchToProfile() throws IOException {
-        App.setRoot("userPage");
-    }
+    public void onEnter(ActionEvent ae) { nationAnalytics(); }
 
     @FXML
-    private void switchToPlayer() throws IOException {
-        App.setRoot("searchPlayer");
-    }
+    public void onEnter1(ActionEvent ae) { leagueAnalytics(); }
 
     @FXML
-    private void switchToFriends() throws IOException {
-        App.setRoot("friends");
+    public void onEnter2(ActionEvent ae) { squadAnalytics(); }
+
+    private void nationAnalytics(){
+        ArrayList<Document> result = mongoPlayerCard.nationalityAnalytics(NationSelector.getText());
+
+        LeagueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty((String) d.getValue().get("league"));
+            }
+        });
+
+        numPlayersLeagueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty(d.getValue().get("numPlayers").toString());
+            }
+        });
+
+        pacLeagueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty((d.getValue().get("paceAvg").toString()));
+            }
+        });
+
+        driLeagueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty((d.getValue().get("dribblingAvg").toString()));
+            }
+        });
+
+        shoLeagueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty((d.getValue().get("shootingAvg").toString()));
+            }
+        });
+
+        defLeagueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty((d.getValue().get("defendingAvg").toString()));
+            }
+        });
+
+        pasLeagueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty((d.getValue().get("passingAvg").toString()));
+            }
+        });
+
+        phyLeagueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty((d.getValue().get("physicalityAvg").toString()));
+            }
+        });
+
+        ObservableList<Document> items = FXCollections.observableArrayList(result);
+        nationAnalyticsTable.setItems(items);
+        nationAnalyticsTable.getColumns().setAll(LeagueColumn, numPlayersLeagueColumn, pacLeagueColumn, driLeagueColumn, shoLeagueColumn, defLeagueColumn, pasLeagueColumn, phyLeagueColumn);
     }
 
-    @FXML
-    private void switchToBuildSquad() throws IOException {
-        App.setRoot("buildSquad");
+    private void leagueAnalytics(){
+        ArrayList<Document> result = mongoPlayerCard.leagueAnalytics(LeagueSelector.getText());
+
+        QualityColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty((String) d.getValue().get("league"));
+            }
+        });
+
+        numPlayersQualityColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty(d.getValue().get("numPlayers").toString());
+            }
+        });
+
+        pacQualityColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty((d.getValue().get("paceAvg").toString()));
+            }
+        });
+
+        driQualityColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty((d.getValue().get("dribblingAvg").toString()));
+            }
+        });
+
+        shoQualityColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty((d.getValue().get("shootingAvg").toString()));
+            }
+        });
+
+        defQualityColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty((d.getValue().get("defendingAvg").toString()));
+            }
+        });
+
+        pasQualityColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty((d.getValue().get("passingAvg").toString()));
+            }
+        });
+
+        phyQualityColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty((d.getValue().get("physicalityAvg").toString()));
+            }
+        });
+
+        ObservableList<Document> items = FXCollections.observableArrayList(result);
+        leagueAnalyticsTable.setItems(items);
+        leagueAnalyticsTable.getColumns().setAll(QualityColumn, numPlayersQualityColumn, pacQualityColumn, driQualityColumn, shoQualityColumn, defQualityColumn, pasQualityColumn, phyQualityColumn);
     }
 
-    @FXML
-    private void switchToChallenge() throws IOException {
-        App.setRoot("challenge");
+    private void squadAnalytics(){
+        ArrayList<Document> result = mongoSquad.SquadAnalytics(NationSelector1.getText());
+
+        ModuleColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty((String) d.getValue().get("module"));
+            }
+        });
+
+        UsageColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
+                return new SimpleStringProperty(d.getValue().get("use").toString());
+            }
+        });
+
+
+        ObservableList<Document> items = FXCollections.observableArrayList(result);
+        SquadAnalyticsTable.setItems(items);
+        SquadAnalyticsTable.getColumns().setAll(ModuleColumn, UsageColumn);
     }
 
     private void setLikedPlayers(){
@@ -124,5 +352,28 @@ public class MainViewController {
         numOperations.setSortType(TableColumn.SortType.DESCENDING);
         activeUser.getSortOrder().setAll(numOperations);
     }
+
+    @FXML
+    private void chooseFile(ActionEvent event) {
+        Window window = ((Node) (event.getSource())).getScene().getWindow();
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(window);
+        event.consume();
+        choosedFileLabel.setText(file.getAbsolutePath());
+        if (FilenameUtils.getExtension(String.valueOf(file)).equals("json")) {
+            uploadButton.setDisable(false);
+            errorLabel.setVisible(false);
+        }
+        else {
+            errorLabel.setText("Extension file not allowed, convert file to json or change file");
+            errorLabel.setVisible(true);
+        }
+    }
+
+    @FXML
+    private void uploadFile(){
+        System.out.println("prova");
+    }
+
 
 }

@@ -103,10 +103,11 @@ public class MongoSquad extends MongoConnection{
         return s;
     }
 
-    public void analyticsThree(String country){
+    public ArrayList<Document> SquadAnalytics(String country){
+        ArrayList<Document> result = new ArrayList<>();
         myColl = db.getCollection("users");
 
-        Consumer<Document> printDocuments = doc -> {System.out.println(doc.toJson());};
+        Consumer<Document> createDocuments = doc -> {result.add(doc);};
 
         Bson matchCountry = match(and(eq("country", country)));
         Bson unqindSquads = unwind("$squads");
@@ -122,8 +123,8 @@ public class MongoSquad extends MongoConnection{
                 )
         );
 
-        myColl.aggregate(Arrays.asList(matchCountry, unqindSquads, distinctUserModules, groupModules, sort, limit, project)).forEach(printDocuments);
-
+        myColl.aggregate(Arrays.asList(matchCountry, unqindSquads, distinctUserModules, groupModules, sort, limit, project)).forEach(createDocuments);
+        return result;
     }
 
     @Override
@@ -134,8 +135,9 @@ public class MongoSquad extends MongoConnection{
 
     public static void main(String[] args){
         MongoSquad ms = new MongoSquad();
-        ms.analyticsThree("Italy");
-        //System.out.println(ms.getSquads("Arvel"));
+        ArrayList<Document> prova = new ArrayList<>();
+        prova  = ms.SquadAnalytics("Italy");
+        System.out.println(prova);
         //ms.add("1", 1,new Squad("CIAOOOO", "7323", new Date()));
         //ms.delete("0", 7);
         //System.out.println(ms.getSquads("Arvel"));

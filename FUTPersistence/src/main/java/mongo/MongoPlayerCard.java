@@ -5,6 +5,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 import org.bson.conversions.Bson;
+
+import javax.print.Doc;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -110,7 +112,7 @@ public class MongoPlayerCard extends MongoConnection{
 				_id: 0,
 				league: "$_id.league",
 				numPlayers: "$numPlayers",
-				feture: { paceAvg : "$paceAvg", dribblingAvg: "$dribblingAvg", shootingAvg: "$shootingAvg", passingAvg: "$passingAvg",
+				feature: { paceAvg : "$paceAvg", dribblingAvg: "$dribblingAvg", shootingAvg: "$shootingAvg", passingAvg: "$passingAvg",
 							defendingAvg: "$defendingAvg", physicalityAvg: "$physicalityAvg"},
 			}
 		}
@@ -118,10 +120,10 @@ public class MongoPlayerCard extends MongoConnection{
 ).pretty()
      */
 
-    public void analyticsOne(String nationality){
+    public ArrayList<Document> nationalityAnalytics(String nationality){
+        ArrayList<Document> result = new ArrayList<>();
         myColl = db.getCollection("player_cards");
-
-        Consumer<Document> printDocuments = doc -> {System.out.println(doc.toJson());};
+        Consumer<Document> createDocuments = doc -> {result.add(doc);};
 
         Bson matchNationality = match(and(eq("nationality", nationality), ne("league", "Icons")));
         Bson groupLeague = group("$league",
@@ -147,7 +149,8 @@ public class MongoPlayerCard extends MongoConnection{
                                     )
                                 );
 
-        myColl.aggregate(Arrays.asList(matchNationality, groupLeague, sort, limit, project)).forEach(printDocuments);
+        myColl.aggregate(Arrays.asList(matchNationality, groupLeague, sort, limit, project)).forEach(createDocuments);
+        return result;
     }
 
 
@@ -181,9 +184,11 @@ public class MongoPlayerCard extends MongoConnection{
 ).pretty()
      */
 
-    public void anlyticsTwo(String legue){
+    public ArrayList<Document> leagueAnalytics(String legue){
+        ArrayList<Document> result = new ArrayList<>();
         myColl = db.getCollection("player_cards");
-        Consumer<Document> printDocuments = doc -> {System.out.println(doc.toJson());};
+        Consumer<Document> createDocuments = doc -> {result.add(doc);};
+
         Bson matchLeague = match(eq("league", legue));
         Bson groupQuality = group("$quality",
                                 sum("numPlayers", 1),
@@ -206,8 +211,8 @@ public class MongoPlayerCard extends MongoConnection{
                 )
         );
 
-        List<Document> results = myColl.aggregate(Arrays.asList(matchLeague, groupQuality, project)).into(new ArrayList<>());
-        System.out.println(results);
+        myColl.aggregate(Arrays.asList(matchLeague, groupQuality, project)).forEach(createDocuments);
+        return result;
     }
 
     @Override
@@ -219,7 +224,9 @@ public class MongoPlayerCard extends MongoConnection{
 
     public static void main(String[] args){
         MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
-        mongoPlayerCard.analyticsOne("Italy");
-        mongoPlayerCard.anlyticsTwo("Serie A TIM");
+        ArrayList<Document> prova = new ArrayList<>();
+        prova  = mongoPlayerCard.leagueAnalytics("Serie A TIM");
+        System.out.println(prova);
+        //mongoPlayerCard.leagueAnalytics("Serie A TIM");
     }
 }
