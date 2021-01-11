@@ -8,7 +8,6 @@ import serviceExceptions.UserAlreadyExists;
 import serviceExceptions.UserNotFoudException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.apache.logging.log4j.LogManager;
@@ -47,14 +46,15 @@ public class AuthenticationService {
         Date date = new Date();
         String encryptedPwd = encryptPassword(password);
 
-        MongoUser pq = new MongoUser();
-        Neo4jUser n4u = new Neo4jUser();
-        User u = pq.getUser(username);
-        if (u != null)
+        MongoUser mongoUser = new MongoUser();
+        Neo4jUser neo4jUser = new Neo4jUser();
+        String id = mongoUser.add(firstName, lastName, username, country, df.format(date), encryptedPwd);
+        if (id == null)
             throw new UserAlreadyExists("User already Exists!");
 
-        String id = pq.add(firstName, lastName, username, country, df.format(date), encryptedPwd);
-        n4u.createUser(id, username);
+        if(!neo4jUser.createUser(id, username)){
+            mongoUser.delete(id);
+        }
 
         User user = new User(username, firstName, lastName, id, country, date, encryptedPwd, null, 0);
         UserSessionService s = UserSessionService.getInstace(user);
@@ -87,4 +87,14 @@ public class AuthenticationService {
 
         return generatedPassword;
     }
+
+    public static void main(String[] args){
+        AuthenticationService authenticationService = new AuthenticationService();
+        try {
+            authenticationService.signUp("Armando", "ciao", "Iatly", "armando", "armando");
+        } catch (UserAlreadyExists userAlreadyExists) {
+            userAlreadyExists.printStackTrace();
+        }
+    }
+
 }

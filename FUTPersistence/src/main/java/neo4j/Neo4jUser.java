@@ -129,14 +129,17 @@ public class Neo4jUser extends Neo4jConnection{
         return SuggestedUsers;
     }
 
-    public void createUser(final String user_id, final String username){
+    public boolean createUser(final String user_id, final String username){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("CREATE (u:User {id: $user_id, username: $username, score: 0})",
                         parameters("user_id", user_id , "username", username));
                return 1;
             });
+        } catch (Exception e){
+            return false;
         }
+        return true;
     }
 
     public void createFollow(final String user_id, final String user_id1){
@@ -203,9 +206,7 @@ public class Neo4jUser extends Neo4jConnection{
     }
 
     public static void main( String... args ) throws Exception{
-        try ( Neo4jUser ex = new Neo4jUser( ) )
-        {
-            ex.deleteFollow("1", "3");
-        }
+        Neo4jUser ex = new Neo4jUser();
+        System.out.println(ex.createUser("3243234", "Armando"));
     }
 }

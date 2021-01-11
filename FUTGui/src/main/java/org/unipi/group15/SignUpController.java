@@ -44,16 +44,17 @@ public class SignUpController {
         }
 
         AuthenticationService as = new AuthenticationService();
-        UserSessionService uss = null;
+        UserSessionService userSessionService = null;
 
         try {
-            uss = as.signUp(usernameTextField.getText(), passwordTextField.getText(), countryTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText());
+            userSessionService = as.signUp(usernameTextField.getText(), passwordTextField.getText(), countryTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText());
         } catch (UserAlreadyExists uae) {
             logger.error("Exeption happened! ", uae);
             setErrorBox("Username already exists!");
+            return;
         }
 
-        App.setSession(uss);
+        App.setSession(userSessionService);
         App.setRoot("userPage");
     }
 

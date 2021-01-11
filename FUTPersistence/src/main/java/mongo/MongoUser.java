@@ -20,7 +20,6 @@ public class MongoUser extends MongoConnection{
         myColl = db.getCollection("users");
 
         Document user = new Document("username", username)
-                //.append("_id", Integer.toString(id))
                 .append("first_name", firstName)
                 .append("last_name", lastName)
                 .append("country", country)
@@ -31,10 +30,15 @@ public class MongoUser extends MongoConnection{
         try {
             myColl.insertOne(user);
         } catch (Exception e){
-
+            return null;
         }
 
         return user.getObjectId("_id").toString();
+    }
+
+    public void delete(String id){
+        myColl = db.getCollection("users");
+        myColl.deleteOne(eq("_id", new ObjectId(id)));
     }
 
     public User getUser(String username){
@@ -141,9 +145,12 @@ public class MongoUser extends MongoConnection{
 
     public static void main(String[] args){
         MongoUser mongoUser = new MongoUser();
-        //mongoUser.add("armando", "armando", "armando1", "italy", "8/01/2021", "armando");
-        //System.out.println(m.findById(10));
+        String id = mongoUser.add("armando", "armando", "Armando9876", "italy", "8/01/2021", "armando");
+        mongoUser.delete(id);
+        System.out.println(id);
     }
+
+
 }
 
 
