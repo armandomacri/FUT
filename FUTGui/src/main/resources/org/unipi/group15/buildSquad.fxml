@@ -52,7 +52,7 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="findPlayerTextField" layoutX="264.0" layoutY="11.0" onAction="#onEnter" promptText="Player Name" />
+                  <TextField fx:id="findPlayerTextField" layoutX="179.0" layoutY="11.0" onAction="#onEnter" prefHeight="26.0" prefWidth="235.0" promptText="Player Name" />
                   <Button fx:id="findButton" layoutX="430.0" layoutY="11.0" mnemonicParsing="false" onAction="#selectPlayer" prefHeight="65.0" prefWidth="70.0" text="Find" />
                   <Button fx:id="addPlayerButton" layoutX="179.0" layoutY="230.0" mnemonicParsing="false" onAction="#addPlayer" prefWidth="70.0" text="Add" />
                   <TableView fx:id="findPlayersTableView" layoutX="15.0" layoutY="90.0" prefHeight="134.0" prefWidth="498.0">
@@ -75,7 +75,9 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="positionPlayerTextField" layoutX="264.0" layoutY="50.0" onAction="#onEnter" promptText="Position" />
+                  <TextField fx:id="positionPlayerTextField" layoutX="349.0" layoutY="50.0" onAction="#onEnter" prefHeight="26.0" prefWidth="63.0" promptText="Position" />
+                  <TextField fx:id="qualityPlayerTextField" layoutX="264.0" layoutY="50.0" onAction="#onEnter" prefHeight="26.0" prefWidth="70.0" promptText="Quality" />
+                  <TextField fx:id="nationPlayerTextField" layoutX="180.0" layoutY="50.0" onAction="#onEnter" prefHeight="26.0" prefWidth="70.0" promptText="Nation" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="footbalField" layoutX="14.0" layoutY="115.0" prefHeight="198.0" prefWidth="528.0">

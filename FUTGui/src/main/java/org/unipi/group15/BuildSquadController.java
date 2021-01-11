@@ -47,6 +47,10 @@ public class BuildSquadController {
 
     @FXML private TextField positionPlayerTextField;
 
+    @FXML private TextField qualityPlayerTextField;
+
+    @FXML private TextField nationPlayerTextField;
+
     @FXML
     private void initialize(){
         findButton.setDisable(true);
@@ -152,13 +156,15 @@ public class BuildSquadController {
 
     @FXML
     private void selectPlayer(){
+
+
         ObservableList<Player> players = null;
-        if(findPlayerTextField.getText().equals("") & positionPlayerTextField.getText().equals(""))
-            return;
-        else if (!findPlayerTextField.getText().equals(""))
+        if (!findPlayerTextField.getText().equals(""))
             players = FXCollections.observableArrayList(mongoPlayerCard.findPlayers(findPlayerTextField.getText()));
-        else if (!positionPlayerTextField.getText().equals(""))
-            players = FXCollections.observableArrayList(mongoPlayerCard.findByPosition(positionPlayerTextField.getText()));
+        else if (!positionPlayerTextField.getText().equals("") & !nationPlayerTextField.getText().equals("") & !qualityPlayerTextField.getText().equals(""))
+            players = FXCollections.observableArrayList(mongoPlayerCard.filterBy(positionPlayerTextField.getText(), nationPlayerTextField.getText(), qualityPlayerTextField.getText()));
+        else
+            return;
 
         findPlayersTableView.getItems().clear();
         findPlayersTableView.setItems(players);

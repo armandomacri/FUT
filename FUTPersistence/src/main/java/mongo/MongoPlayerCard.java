@@ -70,6 +70,23 @@ public class MongoPlayerCard extends MongoConnection{
         return results;
     }
 
+    public ArrayList<Player> filterBy(String position, String nation, String quality){
+        myColl = db.getCollection("player_cards");
+        ArrayList<Player> results = new ArrayList<>();
+        try (MongoCursor<Document> cursor = myColl.find(and(and(eq("position", position), eq("nationality", nation)), eq("quality", quality))).iterator())
+        {
+            while (cursor.hasNext())
+            {
+                Document playerDoc = cursor.next();
+                if (playerDoc == null)
+                    return null;
+                results.add(composePlayer(playerDoc));
+            }
+        }
+
+        return results;
+    }
+
     private Player composePlayer(Document playerDoc){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date date1 = null;
