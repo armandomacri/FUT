@@ -1,5 +1,8 @@
 package org.unipi.group15;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
+import com.opencsv.exceptions.CsvValidationException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -22,11 +25,10 @@ import org.apache.commons.io.FilenameUtils;
 import org.bson.Document;
 import user.UserSessionService;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class MainViewController {
 
@@ -353,26 +355,35 @@ public class MainViewController {
         activeUser.getSortOrder().setAll(numOperations);
     }
 
+
+    public File file = null;
     @FXML
     private void chooseFile(ActionEvent event) {
         Window window = ((Node) (event.getSource())).getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
-        File file = fileChooser.showOpenDialog(window);
+        file = fileChooser.showOpenDialog(window);
         event.consume();
         choosedFileLabel.setText(file.getAbsolutePath());
-        if (FilenameUtils.getExtension(String.valueOf(file)).equals("json")) {
+        if (FilenameUtils.getExtension(String.valueOf(file)).equals("csv")) {
             uploadButton.setDisable(false);
             errorLabel.setVisible(false);
         }
         else {
-            errorLabel.setText("Extension file not allowed, convert file to json or change file");
+            errorLabel.setText("Extension file not allowed, convert file to csv or change file");
             errorLabel.setVisible(true);
         }
     }
 
     @FXML
-    private void uploadFile(){
-        System.out.println("prova");
+    private void uploadFile() throws IOException, CsvValidationException {
+        CSVReader reader = new CSVReader(new FileReader(file));
+        String [] nextLine;
+        while ((nextLine = reader.readNext()) != null) {
+            // nextLine[] is an array of values from the line
+            neo4jPlayerCard.createPlayer(nextLine[0], nextLine[1], nextLine[2], nextLine[3], nextLine[4]);
+
+        }
+
     }
 
 

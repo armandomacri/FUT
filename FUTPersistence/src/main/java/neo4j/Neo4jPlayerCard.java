@@ -16,7 +16,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         driver.close();
     }
 
-    public void createPlayer(final String id, final String player_name, final String position, final String images, final Integer overall){
+    public void createPlayer(final String id, final String player_name, final String position, final String images, final String overall){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("CREATE (:PlayerCard{name: $player_name, overall: $overall, images: $images, position:$position, id: $id})",

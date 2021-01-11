@@ -25,6 +25,45 @@ import static com.mongodb.client.model.Sorts.descending;
 public class MongoPlayerCard extends MongoConnection{
     private MongoCollection<Document> myColl;
 
+    public String add(Integer _id, String player_name, String player_extended_name, String quality, String revision, String origin, Integer overall,
+                      String club, String league, String nationality, String position, String date_of_birth, Integer weight, Integer height,
+                      String added_date, Integer pace, Integer dribbling, Integer shooting, Integer passing, Integer defending,
+                      Integer physicality, String pref_foot, Integer weak_foot, Integer skill_moves, String images){
+        myColl = db.getCollection("player_cards");
+
+        Document player = new Document("_id", _id)
+                .append("player_name", player_name)
+                .append("player_extended_name", player_extended_name)
+                .append("quality", quality)
+                .append("revision", revision)
+                .append("origin", origin)
+                .append("overall", overall)
+                .append("club", club)
+                .append("league", league)
+                .append("nationality", nationality)
+                .append("position", position)
+                .append("date_of_birth", date_of_birth)
+                .append("weight", weight)
+                .append("height", height)
+                .append("added_date", added_date)
+                .append("pace", pace)
+                .append("dribbling", dribbling)
+                .append("shooting", shooting)
+                .append("passing", passing)
+                .append("defending", defending)
+                .append("physicality", physicality)
+                .append("pref_foot", pref_foot)
+                .append("weak_foot", weak_foot)
+                .append("skill_moves", skill_moves)
+                .append("images", images);
+        try {
+            myColl.insertOne(player);
+        } catch (Exception e){
+
+        }
+        return player.getObjectId("_id").toString();
+    }
+
     public ArrayList<Player> findPlayers (String toFind) {
         myColl = db.getCollection("player_cards");
         ArrayList<Player> results = new ArrayList<>();
