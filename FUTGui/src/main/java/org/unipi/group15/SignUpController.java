@@ -1,6 +1,7 @@
 package org.unipi.group15;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -51,6 +52,11 @@ public class SignUpController {
         } catch (UserAlreadyExists uae) {
             logger.error("Exeption happened! ", uae);
             setErrorBox("Username already exists!");
+            return;
+        }
+
+        if (userSessionService == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Something Wrong!");
             return;
         }
 

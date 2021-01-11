@@ -175,7 +175,8 @@ public class Neo4jUser extends Neo4jConnection{
         }
     }
 
-    public void updateScore(final String user_id, final Integer score){
+    public boolean updateScore(final String user_id, final Integer score){
+        boolean result = true;
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("MATCH (u:User{id: toInteger($user_id)})\n" +
@@ -183,7 +184,11 @@ public class Neo4jUser extends Neo4jConnection{
                         parameters("user_id", user_id , "score", score));
                 return 1;
             });
+        } catch (Exception e){
+            result = false;
         }
+
+        return result;
     }
 
     public HashMap<String, String> mostActiveUser(){

@@ -123,10 +123,17 @@ public class MongoUser extends MongoConnection{
         return Math.toIntExact(myColl.countDocuments());
     }
 
-    public void updateScore (String userId, int points){
+    public boolean updateScore (String userId, int points){
         myColl = db.getCollection("users");
-        //query
-        myColl.updateOne(eq("_id", new ObjectId(userId)), inc("score", points));
+        boolean result = true;
+        try {
+            myColl.updateOne(eq("_id", new ObjectId(userId)), inc("score", points));
+        } catch (Exception e){
+            result = false;
+        }
+
+        return result;
+
     }
 
     public int getScore (String userId){

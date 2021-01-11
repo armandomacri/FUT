@@ -54,6 +54,7 @@ public class AuthenticationService {
 
         if(!neo4jUser.createUser(id, username)){
             mongoUser.delete(id);
+            return null;
         }
 
         User user = new User(username, firstName, lastName, id, country, date, encryptedPwd, null, 0);
