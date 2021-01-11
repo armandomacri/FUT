@@ -44,18 +44,18 @@
                   </Label>
                </children>
             </Pane>
-            <AnchorPane layoutX="14.0" layoutY="347.0" prefHeight="238.0" prefWidth="528.0" styleClass="findPlayerBox">
+            <AnchorPane layoutX="14.0" layoutY="318.0" prefHeight="267.0" prefWidth="528.0" styleClass="findPlayerBox">
                <children>
-                  <ChoiceBox fx:id="positionChoiceBox" layoutX="147.0" layoutY="11.0" prefHeight="25.0" prefWidth="103.0" />
+                  <ChoiceBox fx:id="positionChoiceBox" layoutX="19.0" layoutY="37.0" prefHeight="25.0" prefWidth="103.0" />
                   <Label layoutX="14.0" layoutY="11.0" text="Choose Position" textFill="#9099a5">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
                   <TextField fx:id="findPlayerTextField" layoutX="264.0" layoutY="11.0" onAction="#onEnter" promptText="Player Name" />
-                  <Button fx:id="findButton" layoutX="430.0" layoutY="11.0" mnemonicParsing="false" onAction="#selectPlayer" prefWidth="70.0" text="Find" />
-                  <Button fx:id="addPlayerButton" layoutX="179.0" layoutY="199.0" mnemonicParsing="false" onAction="#addPlayer" prefWidth="70.0" text="Add" />
-                  <TableView fx:id="findPlayersTableView" layoutX="15.0" layoutY="56.0" prefHeight="134.0" prefWidth="498.0">
+                  <Button fx:id="findButton" layoutX="430.0" layoutY="11.0" mnemonicParsing="false" onAction="#selectPlayer" prefHeight="65.0" prefWidth="70.0" text="Find" />
+                  <Button fx:id="addPlayerButton" layoutX="179.0" layoutY="230.0" mnemonicParsing="false" onAction="#addPlayer" prefWidth="70.0" text="Add" />
+                  <TableView fx:id="findPlayersTableView" layoutX="15.0" layoutY="90.0" prefHeight="134.0" prefWidth="498.0">
                     <columns>
                       <TableColumn prefWidth="120.0" resizable="false" text="Name" />
                         <TableColumn prefWidth="50.0" resizable="false" text="Position" />
@@ -69,10 +69,16 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <Button fx:id="SaveButton" layoutX="261.0" layoutY="199.0" mnemonicParsing="false" onAction="#saveSquad" prefWidth="70.0" text="Save" />
+                  <Button fx:id="SaveButton" layoutX="264.0" layoutY="230.0" mnemonicParsing="false" onAction="#saveSquad" prefWidth="70.0" text="Save" />
+                  <Label layoutX="359.0" layoutY="229.0" prefHeight="19.0" prefWidth="70.0" text="Overall:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="positionPlayerTextField" layoutX="264.0" layoutY="50.0" onAction="#onEnter" promptText="Position" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="footbalField" layoutX="14.0" layoutY="135.0" prefHeight="198.0" prefWidth="528.0">
+            <AnchorPane fx:id="footbalField" layoutX="14.0" layoutY="115.0" prefHeight="198.0" prefWidth="528.0">
                <children>
                   <TableView fx:id="chosenPlayersTableView" prefHeight="200.0" prefWidth="528.0">
                     <columns>
@@ -91,16 +97,11 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="651.0" layoutY="91.0" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane layoutX="615.0" layoutY="245.0" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Text layoutX="52.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUGGESTED PLAYERS" />
                </children>
             </AnchorPane>
-            <Label layoutX="551.0" layoutY="135.0" prefHeight="19.0" prefWidth="70.0" text="Overall:">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
             <Text fx:id="overallText" layoutX="569.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="28.799963378906227">
                <font>
                   <Font size="18.0" />
