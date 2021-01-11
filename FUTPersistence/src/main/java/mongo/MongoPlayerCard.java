@@ -152,32 +152,38 @@ public class MongoPlayerCard extends MongoConnection{
     db.player_cards.aggregate(
 	[
 		//first step
+
 		{
 			$match: { nationality: "Italy", league: {$ne: "Icons"} }
 		},
 
 		//second step
+
 		{
 			$group: {_id: {league: "$league"}, paceAvg : {$avg: "$pace"}, dribblingAvg: {$avg: "$dribbling"},
-			shootingAvg: {$avg: "$shooting"}, passingAvg: {$avg: "$passing"}, defendingAvg: {$avg: "$defending"}, physicalityAvg: {$avg: "$physicality"},
+			shootingAvg: {$avg: "$shooting"}, passingAvg: {$avg: "$passing"}, defendingAvg: {$avg: "$defending"},
+			physicalityAvg: {$avg: "$physicality"},
 			numPlayers: {$sum: 1}}
 		},
 
 		//third step
+
 		{$sort: {numPlayers: -1}},
 
 		//Forth step
+
 		{$limit: 3},
 
 		//formatted
+
 		{
 			$project:
 			{
 				_id: 0,
 				league: "$_id.league",
 				numPlayers: "$numPlayers",
-				feature: { paceAvg : "$paceAvg", dribblingAvg: "$dribblingAvg", shootingAvg: "$shootingAvg", passingAvg: "$passingAvg",
-							defendingAvg: "$defendingAvg", physicalityAvg: "$physicalityAvg"},
+				feature: { paceAvg : "$paceAvg", dribblingAvg: "$dribblingAvg", shootingAvg: "$shootingAvg",
+				passingAvg: "$passingAvg",defendingAvg: "$defendingAvg", physicalityAvg: "$physicalityAvg"},
 			}
 		}
 	]
@@ -222,25 +228,30 @@ public class MongoPlayerCard extends MongoConnection{
     db.player_cards.aggregate(
 	[
 		//first step
+
 		{
 			$match: { league: "Serie A TIM"}
 		},
 
 		//second step
+
 		{
 			$group: {_id: {quality: "$quality"}, paceAvg : {$avg: "$pace"}, dribblingAvg: {$avg: "$dribbling"},
-			shootingAvg: {$avg: "$shooting"}, passingAvg: {$avg: "$passing"}, defendingAvg: {$avg: "$defending"}, physicalityAvg: {$avg: "$physicality"},
+			shootingAvg: {$avg: "$shooting"}, passingAvg: {$avg: "$passing"}, defendingAvg: {$avg: "$defending"},
+			physicalityAvg: {$avg: "$physicality"},
 			numPlayers: {$sum: 1}}
 		},
 
 		//formatted
+
 		{
 			$project:
 			{
 				_id: 0,
 				quality: "$_id.quality",
 				numPlayers: "$numPlayers"
-				feture: { paceAvg : "$paceAvg", dribblingAvg: "$dribblingAvg", shootingAvg: "$shootingAvg", passingAvg: "$passingAvg",
+				feture: { paceAvg : "$paceAvg", dribblingAvg: "$dribblingAvg", shootingAvg: "$shootingAvg",
+				passingAvg: "$passingAvg",
 							defendingAvg: "$defendingAvg", physicalityAvg: "$physicalityAvg"},
 			}
 		}

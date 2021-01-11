@@ -112,7 +112,8 @@ public class MongoSquad extends MongoConnection{
         Bson matchCountry = match(and(eq("country", country)));
         Bson unqindSquads = unwind("$squads");
 
-        Bson distinctUserModules = new Document("$group", new Document("_id", new Document("user", "$_id").append("module", "$squads.module")));
+        Bson distinctUserModules = new Document("$group", new Document("_id", new Document("user", "$_id").append("module",
+                "$squads.module")));
 
         Bson groupModules = group("$_id.module", sum("use", 1));
         Bson sort = sort(descending("use"));
@@ -123,9 +124,57 @@ public class MongoSquad extends MongoConnection{
                 )
         );
 
-        myColl.aggregate(Arrays.asList(matchCountry, unqindSquads, distinctUserModules, groupModules, sort, limit, project)).forEach(createDocuments);
+        myColl.aggregate(Arrays.asList(matchCountry, unqindSquads, distinctUserModules, groupModules, sort, limit, project)).
+                forEach(createDocuments);
         return result;
     }
+
+    /*
+    db.users.aggregate(
+  [
+    //first step
+
+        { $match: {"country": "Italy"}},
+
+    //second step
+
+        {$unwind: "$squads"},
+
+    //forth step (distinct)
+
+        {
+          $group: {
+            _id: { module: "$squads.module", user: "$_id"}
+          }
+        },
+
+    //fifth step
+
+        {
+          $group: {
+            _id: { module: "$_id.module"},
+            num: {$sum: 1}
+          }
+        },
+
+    //sixth step
+
+        { $sort: {num:-1} },
+
+    //seventh step
+
+        { $limit: 3 },
+
+    //formatting
+        {
+          $project: {
+            _id:0,
+            module: "$_id.module", use: "$num"
+          }
+        }
+      ]
+    );
+ */
 
     @Override
     public void close(){
