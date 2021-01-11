@@ -61,10 +61,27 @@ public class ComputeScoreService {
         }
         MongoUser mongoUser = new MongoUser();
         Neo4jUser neo4jUser = new Neo4jUser();
-        mongoUser.updateScore(home_user.getUserId(), homePointsToAdd);
-        mongoUser.updateScore(away_user.getUserId(), awayPointsToAdd);
-        neo4jUser.updateScore(home_user.getUserId(), homePointsToAdd);
-        neo4jUser.updateScore(home_user.getUserId(), awayPointsToAdd);
+
+        if (!mongoUser.updateScore(home_user.getUserId(), homePointsToAdd))
+            return null;
+        if (!mongoUser.updateScore(away_user.getUserId(), awayPointsToAdd)){
+            mongoUser.updateScore(home_user.getUserId(), -homePointsToAdd);
+            return null;
+        }
+
+        if(!neo4jUser.updateScore(home_user.getUserId(), homePointsToAdd)){
+            mongoUser.updateScore(home_user.getUserId(), -homePointsToAdd);
+            mongoUser.updateScore(home_user.getUserId(), -homePointsToAdd);
+            return null;
+        }
+
+        if (!neo4jUser.updateScore(home_user.getUserId(), awayPointsToAdd)){
+            neo4jUser.updateScore(home_user.getUserId(), -homePointsToAdd);
+            mongoUser.updateScore(home_user.getUserId(), -homePointsToAdd);
+            mongoUser.updateScore(home_user.getUserId(), -homePointsToAdd);
+            return null;
+        }
+
         return result;
     }
 

@@ -57,6 +57,7 @@ public class SignUpController {
 
         if (userSessionService == null){
             Alert alert = new Alert(Alert.AlertType.ERROR, "Something Wrong!");
+            alert.show();
             return;
         }
 

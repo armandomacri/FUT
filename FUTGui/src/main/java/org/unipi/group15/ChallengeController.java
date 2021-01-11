@@ -133,7 +133,11 @@ public class ChallengeController {
                         userCompetitionHBox.getChildren().add(2, container1);
                         ComputeScoreService css = new ComputeScoreService();
                         Challenge result = css.results(App.getSession().getUser(), selectedUser, mySelectedSquad, selectedSquad);
-
+                        if(result == null){
+                            Alert a = new Alert(Alert.AlertType.ERROR, "Something Wrong! This challenge is not valid.");
+                            a.show();
+                            return;
+                        }
                         VBox container2 = new VBox();
                         HBox hResult = new HBox(new Text(App.getSession().getUsername() + " " + result.getHomeScore() + ":" + result.getAwayScore() + " " + selectedUser.getUsername()));
                         HBox hRecap;
@@ -197,9 +201,6 @@ public class ChallengeController {
         suggestedUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
         suggestedUserUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
         suggestedUserScore.setCellValueFactory(new PropertyValueFactory<>("score"));
-        //PropertyValueFactory factory = new PropertyValueFactory<>("userId");
-        //PropertyValueFactory factory1 = new PropertyValueFactory<>("username");
-        //PropertyValueFactory factory2 = new PropertyValueFactory<>("score");
         for (int i = 0; i < users.size(); i++) {
             suggestedUserTableView.getItems().add(users.get(i));
         }
