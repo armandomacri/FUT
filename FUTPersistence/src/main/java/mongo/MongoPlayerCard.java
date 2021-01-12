@@ -26,12 +26,12 @@ import static com.mongodb.client.model.Sorts.descending;
 public class MongoPlayerCard extends MongoConnection{
     private MongoCollection<Document> myColl;
 
-    public int add(Integer _id, String player_name, String player_extended_name, String quality, String revision, String origin, Integer overall,
+    public boolean add(Integer _id, String player_name, String player_extended_name, String quality, String revision, String origin, Integer overall,
                       String club, String league, String nationality, String position, String date_of_birth, Integer weight, Integer height,
                       String added_date, Integer pace, Integer dribbling, Integer shooting, Integer passing, Integer defending,
                       Integer physicality, String pref_foot, Integer weak_foot, Integer skill_moves, String images){
+        boolean x = true;
         myColl = db.getCollection("player_cards");
-
         Document player = new Document("_id", _id)
                 .append("player_name", player_name)
                 .append("player_extended_name", player_extended_name)
@@ -60,9 +60,9 @@ public class MongoPlayerCard extends MongoConnection{
         try {
             myColl.insertOne(player);
         } catch (Exception e){
-            return 0;
+            x = false;
         }
-        return Integer.parseInt(player.get("_id").toString());
+        return x;
     }
 
     public ArrayList<Player> findPlayers (String toFind) {
@@ -128,16 +128,15 @@ public class MongoPlayerCard extends MongoConnection{
         return results;
     }
 
-    public long deletePlayer (int id){
+    public boolean deletePlayer (int id){
+        boolean x = true;
         myColl = db.getCollection("player_cards");
-        long deleted = 0;
         try{
-            DeleteResult dr = myColl.deleteOne(eq("_id", id));
-            deleted = dr.getDeletedCount();
+            myColl.deleteOne(eq("_id", id));
         } catch (Exception e){
-
+            x = false;
         }
-        return deleted;
+        return x;
     }
 
     private Player composePlayer(Document playerDoc){

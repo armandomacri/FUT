@@ -17,6 +17,21 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         driver.close();
     }
 
+    public boolean createPlayer(final String id, final String playername) {
+        boolean x = true;
+        try (Session session = driver.session()) {
+            session.writeTransaction(tx -> {
+                tx.run("CREATE (:PlayerCard {id: $id, name: $playername})",
+                        parameters("id", id, "playername", playername));
+                return 1;
+            });
+
+        } catch (Exception e) {
+            x = false;
+        }
+        return false;
+    }
+
     public ArrayList<Player> searchPlayerCard(final String name){
         ArrayList<Player> matchingPlayers;
         try (Session session = driver.session())
@@ -39,7 +54,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         }
         return matchingPlayers;
     }
-
+/*
     public void createPlayer(final String player_name, final String quality, final String revision, final String images, final Integer id){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
@@ -49,7 +64,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
             });
         }
     }
-
+*/
     public void createLike(final String user_id, final String playercard){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
@@ -95,7 +110,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         try (Session session = driver.session()) {
             playerMap = session.readTransaction((TransactionWork<HashMap<String, String>>) tx -> {
                 Result result = tx.run("MATCH path=(p:PlayerCard)-[l:Like]-(u:User)\n" +
-                                        "RETURN p.name AS PlayerName, id(p), COUNT(l) AS numLike \n" +
+                                        "RETURN p.name AS PlayerName, p.id, COUNT(l) AS numLike \n" +
                                         "ORDER BY numLike DESC\n" +
                                         "LIMIT 25");
                 HashMap<String, String> playerMapResult = new HashMap<>();
@@ -115,7 +130,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         try ( Neo4jPlayerCard ex = new Neo4jPlayerCard() )
         {
             HashMap<String, String> prova = new HashMap<>();
-            prova = ex.mostLikedPlayer();
+            //prova = ex.mostLikedPlayer();
             System.out.println(prova);
         }
     }
