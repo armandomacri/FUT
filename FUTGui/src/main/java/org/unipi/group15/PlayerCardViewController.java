@@ -1,8 +1,6 @@
 package org.unipi.group15;
 
 import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.input.MouseEvent;
-import levelDB.StoreImage;
 import bean.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,15 +8,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-import neo4j.Neo4jComment;
 import neo4j.Neo4jPlayerCard;
+import player.ImageService;
 import user.UserSessionService;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 public class PlayerCardViewController {
     public static Player player;
-    public static final Neo4jComment neo4jcomment = new Neo4jComment();
     public static Neo4jPlayerCard neo4jcard = new Neo4jPlayerCard();
     public final UserSessionService userSession = App.getSession();
 
@@ -102,15 +98,14 @@ public class PlayerCardViewController {
 
     @FXML private ImageView clubImg;
 
-    @FXML private Button showComments;
+    //@FXML private Button showComments;
 
     public void setPlayer(Player p){
         player = p;
-        //System.out.println(p.toString());
     }
 
     @FXML
-    private void initialize() throws IOException {
+    private void initialize() {
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
         countLike();
@@ -119,13 +114,12 @@ public class PlayerCardViewController {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(player.getDateOfBirth());
 
-        StoreImage si = new StoreImage();
-
         String[] img = player.getImages();
+        ImageService imageService = new ImageService();
 
-        playerCardImg.setImage(SwingFXUtils.toFXImage(si.findImg(img[0]), null));
-        nationalityImg.setImage(SwingFXUtils.toFXImage(si.findImg(img[1]), null));
-        clubImg.setImage(SwingFXUtils.toFXImage(si.findImg(img[2]), null));
+        playerCardImg.setImage(SwingFXUtils.toFXImage(imageService.get(img[0]), null));
+        nationalityImg.setImage(SwingFXUtils.toFXImage(imageService.get(img[1]), null));
+        clubImg.setImage(SwingFXUtils.toFXImage(imageService.get(img[0]), null));
         extendedName.setText(player.getPlayerExtendedName());
         playerName.setText(player.getPlayerName());
         overall.setText(player.getOverall().toString());

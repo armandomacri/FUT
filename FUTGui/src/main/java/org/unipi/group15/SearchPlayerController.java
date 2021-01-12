@@ -13,11 +13,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import levelDB.StoreImage;
 import mongo.MongoPlayerCard;
+import player.ImageService;
 import user.UserSessionService;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class SearchPlayerController {
@@ -30,9 +28,8 @@ public class SearchPlayerController {
 
     @FXML private TextField toFind;
 
-    @FXML private Button toFindButton;
+    //@FXML private Button toFindButton;
 
-    @FXML private Button playerLink;
 
     @FXML private ScrollPane playersWrapper;
 
@@ -63,7 +60,7 @@ public class SearchPlayerController {
     }
 
     @FXML
-    private void findPlayer() throws IOException{
+    private void findPlayer() {
 
         playersWrapper.setContent(null);
 
@@ -112,27 +109,13 @@ public class SearchPlayerController {
             HBox h4 = new HBox(new Label("Club: "), new Text(players.get(i).getClub()));
             HBox h5 = new HBox(new Label("Quality: "), new Text(players.get(i).getQuality()));
             HBox h6 = new HBox(new Label("Revision: "), new Text(players.get(i).getRevision()));
-            StoreImage si = new StoreImage();
             ImageView plImg = new ImageView();
             plImg.setPreserveRatio(true);
             plImg.setFitHeight(150);
             plImg.setFitWidth(150);
-            plImg.setImage(SwingFXUtils.toFXImage(si.findImg(players.get(i).getImages()[0]), null));
-            //Button button = new Button("Modify");
-            //button.setId(Integer.toString(i));
-            /*button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    System.out.println();
-                    try {
-                        App.setRoot("buildSquad");
-                        BuildSquadController bqc = new BuildSquadController();
-                        bqc.setSquad(squads.get(Integer.parseInt(button.getId())));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }); */
+            ImageService imageService = new ImageService();
+            plImg.setImage(SwingFXUtils.toFXImage(imageService.get(players.get(i).getImages()[0]), null));
+
 
             container.getChildren().add(h1);
             container.getChildren().add(h2);
@@ -141,7 +124,6 @@ public class SearchPlayerController {
             container.getChildren().add(h5);
             container.getChildren().add(h6);
             container.getChildren().add(plImg);
-            //container.getChildren().add(button);
             gridPane.add(container, k, j);
             if (k==2) {
                 k=0;
