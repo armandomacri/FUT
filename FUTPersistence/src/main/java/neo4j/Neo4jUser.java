@@ -87,7 +87,10 @@ public class Neo4jUser extends Neo4jConnection{
         ArrayList<User> SuggestedUsers;
         try (Session session = driver.session()) {
             SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
-                Result result = tx.run("MATCH p=(n:User{id: $user_id})-[:Follow]->(:User)<-[f:Follow]-(u:User)\n" +
+                Result result = tx.run("MATCH (u:User{id: $user_id})-[:Follow]->(u1:User)\n" +
+                                        "WITH collect(u1) AS FollowedUserYet\n" +
+                                        "MATCH p=(n:User{id: $user_id})-[:Follow]->(:User)<-[f:Follow]-(u:User)\n" +
+                                        "WHERE NOT u IN FollowedUserYet\n" +
                                         "RETURN toString(u.id) AS Id, u.username AS Username, count(f) AS NumFollow\n" +
                                         "ORDER BY NumFollow DESC\n" +
                                         "LIMIT 5",

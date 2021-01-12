@@ -1,5 +1,6 @@
 package neo4j;
 
+import bean.Player;
 import bean.User;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
@@ -16,23 +17,36 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         driver.close();
     }
 
-    public boolean createPlayer(final String id, final String player_name){
-        try (Session session = driver.session()){
-            boolean insertDone = session.writeTransaction( tx -> {
-                Result result = tx.run("CREATE (:PlayerCard{id: $id, name: $player_name})",
-                        parameters("id", id, "player_name", player_name));
-                String playerId = null;
+    public ArrayList<Player> searchPlayerCard(final String name){
+        ArrayList<Player> matchingPlayers;
+        try (Session session = driver.session())
+        {
+            matchingPlayers = session.readTransaction((TransactionWork<ArrayList<Player>>) tx -> {
+                Result result = tx.run( "MATCH (p:PlayerCard)\n" +
+                                "WHERE (p.name) CONTAINS $name \n" +
+                                "RETURN p.name AS Name, id(p) AS PlayerId",
+                        parameters( "name", name));
+                ArrayList<Player> Players = new ArrayList<>();
                 while(result.hasNext())
                 {
+                    Player p = null;
                     Record r = result.next();
-                    playerId = r.get("id").asString();
+                    p = new Player(r.get("Name").asString());
+                    Players.add(p);
                 }
-                if(playerId.equals(id))
-                    return true;
-                else
-                    return false;
+                return Players;
             });
-            return insertDone;
+        }
+        return matchingPlayers;
+    }
+
+    public void createPlayer(final String player_name, final String quality, final String revision, final String images, final Integer id){
+        try (Session session = driver.session()){
+            session.writeTransaction( tx -> {
+                tx.run("CREATE (:PlayerCard{name: $player_name, quality: $quality, revision: $revision, images: $images})",
+                        parameters("player_name", player_name, "quality", quality, "images", images, "revision", revision));
+                return 1;
+            });
         }
     }
 
@@ -81,7 +95,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         try (Session session = driver.session()) {
             playerMap = session.readTransaction((TransactionWork<HashMap<String, String>>) tx -> {
                 Result result = tx.run("MATCH path=(p:PlayerCard)-[l:Like]-(u:User)\n" +
-                                        "RETURN p.name AS PlayerName, p.id, COUNT(l) AS numLike \n" +
+                                        "RETURN p.name AS PlayerName, id(p), COUNT(l) AS numLike \n" +
                                         "ORDER BY numLike DESC\n" +
                                         "LIMIT 25");
                 HashMap<String, String> playerMapResult = new HashMap<>();

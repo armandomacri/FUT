@@ -35,6 +35,12 @@ public class Player {
     private String traits;
     private String[] images;
 
+    //constructor for neo4j
+    public Player(String player_name){
+        this.playerName = player_name;
+    }
+
+
     //general constructor
     public Player(String playerId, String player_name, String player_extended_name, String quality,
                   String revision, Integer overall, String club, String league, String nationality,
