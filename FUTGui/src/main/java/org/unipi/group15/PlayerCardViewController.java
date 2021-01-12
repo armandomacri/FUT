@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import mongo.MongoPlayerCard;
 import neo4j.Neo4jPlayerCard;
 import player.ImageService;
 import user.UserSessionService;
@@ -15,6 +16,7 @@ import java.text.SimpleDateFormat;
 
 public class PlayerCardViewController {
     public static Player player;
+    public static MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
     public static Neo4jPlayerCard neo4jcard = new Neo4jPlayerCard();
     public final UserSessionService userSession = App.getSession();
 
@@ -101,7 +103,7 @@ public class PlayerCardViewController {
     //@FXML private Button showComments;
 
     public void setPlayer(Player p){
-        player = p;
+        player = mongoPlayerCard.findById(Integer.parseInt(p.getPlayerId()));
     }
 
     @FXML
@@ -119,7 +121,7 @@ public class PlayerCardViewController {
 
         playerCardImg.setImage(SwingFXUtils.toFXImage(imageService.get(img[0]), null));
         nationalityImg.setImage(SwingFXUtils.toFXImage(imageService.get(img[1]), null));
-        clubImg.setImage(SwingFXUtils.toFXImage(imageService.get(img[0]), null));
+        clubImg.setImage(SwingFXUtils.toFXImage(imageService.get(img[2]), null));
         extendedName.setText(player.getPlayerExtendedName());
         playerName.setText(player.getPlayerName());
         overall.setText(player.getOverall().toString());

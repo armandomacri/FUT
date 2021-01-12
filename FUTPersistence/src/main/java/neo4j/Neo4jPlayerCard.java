@@ -46,6 +46,8 @@ public class Neo4jPlayerCard extends Neo4jConnection{
                 {
                     Player p = null;
                     Record r = result.next();
+                    System.out.println(r.get("Name").asString());
+                    System.out.println(r.get("Img0").asString());
                     p = new Player(r.get("PlayerId").asString(), r.get("Name").asString(), r.get("Quality").asString(),  r.get("Revision").asString(),  r.get("Img0").asString());
                     Players.add(p);
                 }

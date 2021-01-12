@@ -34,14 +34,15 @@ public class Player {
     private Integer skillMoves;
     private String traits;
     private String[] images;
+    private String img0;
 
     //constructor for neo4j
-    public Player(String playerId, String playerExtName, String quality, String revision, String img0 ){
+    public Player(String playerId, String playerExtName, String quality, String revision, String img0){
         this.playerId = playerId;
         this.playerExtendedName = playerExtName;
         this.quality = quality;
         this.revision = revision;
-        this.images[0] = img0;
+        this.img0 = img0;
     }
 
 
@@ -221,6 +222,10 @@ public class Player {
 
     public String[] getImages() {
         return images;
+    }
+
+    public String getImg0() {
+        return img0;
     }
 
     public void setPlayerId(String playerId) {

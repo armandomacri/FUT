@@ -14,12 +14,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import mongo.MongoPlayerCard;
+import neo4j.Neo4jPlayerCard;
 import player.ImageService;
 import user.UserSessionService;
 import java.util.ArrayList;
 
 public class SearchPlayerController {
-    private static final MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
+    private static final Neo4jPlayerCard neo4jPlayerCard = new Neo4jPlayerCard();
     private final UserSessionService userSession = App.getSession();
 
     @FXML private Label usernameLabel;
@@ -64,7 +65,7 @@ public class SearchPlayerController {
 
         playersWrapper.setContent(null);
 
-        ArrayList<Player> players = mongoPlayerCard.findPlayers(toFind.getText());
+        ArrayList<Player> players = neo4jPlayerCard.searchPlayerCard(toFind.getText());
         System.out.println(players);
 
         if (players.size() == 0){
@@ -104,9 +105,6 @@ public class SearchPlayerController {
                 }
             });
             HBox h1 = new HBox(new Label("Name: "), new Text(players.get(i).getPlayerName()));
-            HBox h2 = new HBox(new Label("Overall: "), new Text(players.get(i).getOverall().toString()));
-            HBox h3 = new HBox(new Label("Position: "), new Text(players.get(i).getPosition()));
-            HBox h4 = new HBox(new Label("Club: "), new Text(players.get(i).getClub()));
             HBox h5 = new HBox(new Label("Quality: "), new Text(players.get(i).getQuality()));
             HBox h6 = new HBox(new Label("Revision: "), new Text(players.get(i).getRevision()));
             ImageView plImg = new ImageView();
@@ -114,13 +112,10 @@ public class SearchPlayerController {
             plImg.setFitHeight(150);
             plImg.setFitWidth(150);
             ImageService imageService = new ImageService();
-            plImg.setImage(SwingFXUtils.toFXImage(imageService.get(players.get(i).getImages()[0]), null));
+            plImg.setImage(SwingFXUtils.toFXImage(imageService.get(players.get(i).getImg0()), null));
 
 
             container.getChildren().add(h1);
-            container.getChildren().add(h2);
-            container.getChildren().add(h3);
-            container.getChildren().add(h4);
             container.getChildren().add(h5);
             container.getChildren().add(h6);
             container.getChildren().add(plImg);

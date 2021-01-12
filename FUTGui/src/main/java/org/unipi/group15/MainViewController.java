@@ -378,7 +378,6 @@ public class MainViewController {
     @FXML
     private void uploadFile() throws IOException, CsvValidationException {
         CSVReader reader = new CSVReader(new FileReader(file));
-        //System.out.println(file);
         String [] nextLine;
 
         boolean result;
@@ -386,7 +385,7 @@ public class MainViewController {
             // nextLine[] is an array of values from the line
 
             UpdatePlayerCardsList upcd = new UpdatePlayerCardsList();
-            result = upcd.insertPlayerCards(nextLine);
+            result = upcd.insertPlayerCards(nextLine, file.getParent());
             if(result){
                 errorLabel.setText("Player cards added correctly");
                 errorLabel.setVisible(true);
