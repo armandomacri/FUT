@@ -207,6 +207,8 @@ public class ChallengeController {
         suggestedUserTableView.setOnMouseClicked((MouseEvent event) -> {
             selectedUser = suggestedUserTableView.getSelectionModel().getSelectedItem();
             showSelectedUserSquads(suggestedUserTableView.getSelectionModel().getSelectedItem().getUserId());
+            suggestedUserScore.setSortType(TableColumn.SortType.DESCENDING);
+            suggestedUserTableView.getSortOrder().setAll(suggestedUserScore);
         });
     }
 
