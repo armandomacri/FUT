@@ -36,8 +36,12 @@ public class Player {
     private String[] images;
 
     //constructor for neo4j
-    public Player(String player_name){
-        this.playerName = player_name;
+    public Player(String playerId, String playerExtName, String quality, String revision, String img0 ){
+        this.playerId = playerId;
+        this.playerExtendedName = playerExtName;
+        this.quality = quality;
+        this.revision = revision;
+        this.images[0] = img0;
     }
 
 

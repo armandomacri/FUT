@@ -17,19 +17,19 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         driver.close();
     }
 
-    public boolean createPlayer(final String id, final String playername) {
+    public boolean createPlayer(final String id, final String playername, final String quality, final String revision, final String images) {
         boolean x = true;
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> {
-                tx.run("CREATE (:PlayerCard {id: $id, name: $playername})",
-                        parameters("id", id, "playername", playername));
+                tx.run("CREATE (:PlayerCard {id: $id, name: $playername, quality: $quality, revision: $revision, images: $images})",
+                        parameters("id", id, "playername", playername, "quality", quality, "revision", revision, "images", images));
                 return 1;
             });
 
         } catch (Exception e) {
             x = false;
         }
-        return false;
+        return x;
     }
 
     public ArrayList<Player> searchPlayerCard(final String name){
@@ -39,14 +39,14 @@ public class Neo4jPlayerCard extends Neo4jConnection{
             matchingPlayers = session.readTransaction((TransactionWork<ArrayList<Player>>) tx -> {
                 Result result = tx.run( "MATCH (p:PlayerCard)\n" +
                                 "WHERE (p.name) CONTAINS $name \n" +
-                                "RETURN p.name AS Name, id(p) AS PlayerId",
+                                "RETURN p.name AS Name, p.id AS PlayerId, p.quality AS Quality, p.revision AS Revision, p.images AS Img0",
                         parameters( "name", name));
                 ArrayList<Player> Players = new ArrayList<>();
                 while(result.hasNext())
                 {
                     Player p = null;
                     Record r = result.next();
-                    p = new Player(r.get("Name").asString());
+                    p = new Player(r.get("PlayerId").asString(), r.get("Name").asString(), r.get("Quality").asString(),  r.get("Revision").asString(),  r.get("Img0").asString());
                     Players.add(p);
                 }
                 return Players;
@@ -54,17 +54,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         }
         return matchingPlayers;
     }
-/*
-    public void createPlayer(final String player_name, final String quality, final String revision, final String images, final Integer id){
-        try (Session session = driver.session()){
-            session.writeTransaction( tx -> {
-                tx.run("CREATE (:PlayerCard{name: $player_name, quality: $quality, revision: $revision, images: $images})",
-                        parameters("player_name", player_name, "quality", quality, "images", images, "revision", revision));
-                return 1;
-            });
-        }
-    }
-*/
+
     public void createLike(final String user_id, final String playercard){
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
