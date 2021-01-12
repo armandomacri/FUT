@@ -14,7 +14,7 @@ public class UpdatePlayerCardsList {
         boolean neo4jinsert = false;
         if(mongoInsert!=0){
             Neo4jPlayerCard n4pc = new Neo4jPlayerCard();
-            neo4jinsert = n4pc.createPlayer(reader[0], reader[1]);
+            //neo4jinsert = n4pc.createPlayer(reader[0], reader[1]);
             if(neo4jinsert){
                 return true;
             }
