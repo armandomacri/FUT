@@ -3,6 +3,7 @@ package mongo;
 import bean.Player;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.result.DeleteResult;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -25,7 +26,7 @@ import static com.mongodb.client.model.Sorts.descending;
 public class MongoPlayerCard extends MongoConnection{
     private MongoCollection<Document> myColl;
 
-    public String add(Integer _id, String player_name, String player_extended_name, String quality, String revision, String origin, Integer overall,
+    public int add(Integer _id, String player_name, String player_extended_name, String quality, String revision, String origin, Integer overall,
                       String club, String league, String nationality, String position, String date_of_birth, Integer weight, Integer height,
                       String added_date, Integer pace, Integer dribbling, Integer shooting, Integer passing, Integer defending,
                       Integer physicality, String pref_foot, Integer weak_foot, Integer skill_moves, String images){
@@ -59,9 +60,9 @@ public class MongoPlayerCard extends MongoConnection{
         try {
             myColl.insertOne(player);
         } catch (Exception e){
-
+            return 0;
         }
-        return player.getObjectId("_id").toString();
+        return Integer.parseInt(player.get("_id").toString());
     }
 
     public ArrayList<Player> findPlayers (String toFind) {
@@ -109,6 +110,7 @@ public class MongoPlayerCard extends MongoConnection{
         return results;
     }
 
+
     public ArrayList<Player> filterBy(String position, String nation, String quality){
         myColl = db.getCollection("player_cards");
         ArrayList<Player> results = new ArrayList<>();
@@ -124,6 +126,18 @@ public class MongoPlayerCard extends MongoConnection{
         }
 
         return results;
+    }
+
+    public long deletePlayer (int id){
+        myColl = db.getCollection("player_cards");
+        long deleted = 0;
+        try{
+            DeleteResult dr = myColl.deleteOne(eq("_id", id));
+            deleted = dr.getDeletedCount();
+        } catch (Exception e){
+
+        }
+        return deleted;
     }
 
     private Player composePlayer(Document playerDoc){

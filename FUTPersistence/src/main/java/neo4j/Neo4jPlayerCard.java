@@ -16,13 +16,23 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         driver.close();
     }
 
-    public void createPlayer(final String id, final String player_name, final String position, final String images, final String overall){
+    public boolean createPlayer(final String id, final String player_name){
         try (Session session = driver.session()){
-            session.writeTransaction( tx -> {
-                tx.run("CREATE (:PlayerCard{name: $player_name, overall: $overall, images: $images, position:$position, id: $id})",
-                        parameters("player_name", player_name, "overall", overall, "images", images, "position", position, "id", id));
-                return 1;
+            boolean insertDone = session.writeTransaction( tx -> {
+                Result result = tx.run("CREATE (:PlayerCard{id: $id, name: $player_name})",
+                        parameters("id", id, "player_name", player_name));
+                String playerId = null;
+                while(result.hasNext())
+                {
+                    Record r = result.next();
+                    playerId = r.get("id").asString();
+                }
+                if(playerId.equals(id))
+                    return true;
+                else
+                    return false;
             });
+            return insertDone;
         }
     }
 

@@ -1,5 +1,6 @@
 package org.unipi.group15;
 
+import admin.UpdatePlayerCardsList;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
@@ -378,13 +379,19 @@ public class MainViewController {
     private void uploadFile() throws IOException, CsvValidationException {
         CSVReader reader = new CSVReader(new FileReader(file));
         String [] nextLine;
+
+        boolean result;
         while ((nextLine = reader.readNext()) != null) {
             // nextLine[] is an array of values from the line
-            neo4jPlayerCard.createPlayer(nextLine[0], nextLine[1], nextLine[2], nextLine[3], nextLine[4]);
 
+            UpdatePlayerCardsList upcd = new UpdatePlayerCardsList();
+            result = upcd.insertPlayerCards(nextLine);
+            if(result){
+                System.out.println("Giocatore inserito");
+            }
+            else{
+                System.out.println("Giocatore non inserito");
+            }
         }
-
     }
-
-
 }

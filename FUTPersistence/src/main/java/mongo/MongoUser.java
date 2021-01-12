@@ -81,6 +81,7 @@ public class MongoUser extends MongoConnection{
 
         //ricostruisco le squadre dell'utente
         ArrayList<Document> squadsDoc = (ArrayList)doc.get("squads");
+        //inserire se non ha squadra, inizializzatlo vuoto
         ArrayList<Squad> s = new ArrayList<>();
         if(squadsDoc.size() == 0){
           s = null;
