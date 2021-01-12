@@ -18,7 +18,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import mongo.MongoSquad;
-import mongo.MongoUser;
 import neo4j.Neo4jUser;
 import user.ComputeScoreService;
 import user.UserSessionService;
@@ -28,7 +27,6 @@ public class ChallengeController {
     private static final Neo4jUser neo4jUser = new Neo4jUser();
     private Squad selectedSquad;
     private User selectedUser;
-    private static final MongoUser mongoUser = new MongoUser();
     private static final MongoSquad mongoSquad = new MongoSquad();
     private final UserSessionService userSession = App.getSession();
 
@@ -52,6 +50,8 @@ public class ChallengeController {
 
     @FXML private HBox userCompetitionHBox;
 
+    @FXML private Button findPlayerButton;
+
     @FXML
     private void initialize(){
         usernameLabel.setText(userSession.getUsername());
@@ -60,6 +60,12 @@ public class ChallengeController {
         selectedUser = null;
         setTable(seachUserTableView);
         setTable(suggestedUserTableView);
+        if (!neo4jUser.checkConnection()){
+            Alert a = new Alert(Alert.AlertType.WARNING, "This service is not currently available");
+            a.show();
+            findPlayerButton.setDisable(true);
+            return;
+        }
         setSuggestedOpponent();
     }
 
@@ -67,8 +73,7 @@ public class ChallengeController {
     private void serchFriend(){
         seachUserTableView.getItems().clear();
         String text = searchUsersTextField.getText();
-        //ObservableList<User> users = FXCollections.observableArrayList(neo4jUser.findUsers(text));
-        ObservableList<User> users = FXCollections.observableArrayList(mongoUser.findUsers(text, userSession.getUserId()));
+        ObservableList<User> users = FXCollections.observableArrayList(neo4jUser.searchUser(text, userSession.getUserId()));
         if(users.size() == 0){
             seachUserTableView.setPlaceholder(new Label("No Users found containing "+ searchUsersTextField.getText()));
             return;
@@ -147,12 +152,7 @@ public class ChallengeController {
                         }
                         else if(result.getHomeScore() < result.getAwayScore()){
                             hRecap = new HBox(new Text("Sorry, you lost the match. Points lost: " + result.getPoints().toString()));
-                            if(userSession.getScore()-result.getPoints()<0){
-                                userSession.setScore(0);
-                            }
-                            else{
-                                userSession.setScore(userSession.getScore()-result.getPoints());
-                            }
+                            userSession.setScore(Math.max(userSession.getScore() - result.getPoints(), 0));
 
                         }
                         else{
@@ -189,7 +189,8 @@ public class ChallengeController {
         table.setOnMouseClicked((MouseEvent event) -> {
              if (table.getSelectionModel().getSelectedItem() != null) {
                  selectedUser = table.getSelectionModel().getSelectedItem();
-                 setSquad(table.getSelectionModel().getSelectedItem().getSquads());
+                 selectedUser.setSquads(mongoSquad.getSquads(selectedUser.getUserId()));
+                 setSquad(selectedUser.getSquads());
              }
 
         });
@@ -197,13 +198,11 @@ public class ChallengeController {
     }
 
     private void setSuggestedOpponent() {
-        ArrayList<User> users = neo4jUser.suggestedUserChallenge(userSession.getUserId());
         suggestedUserId.setCellValueFactory(new PropertyValueFactory<>("userId"));
         suggestedUserUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
         suggestedUserScore.setCellValueFactory(new PropertyValueFactory<>("score"));
-        for (int i = 0; i < users.size(); i++) {
-            suggestedUserTableView.getItems().add(users.get(i));
-        }
+        ObservableList<User> users = FXCollections.observableArrayList(neo4jUser.suggestedUserChallenge(userSession.getUserId()));
+        suggestedUserTableView.setItems(users);
         suggestedUserTableView.setOnMouseClicked((MouseEvent event) -> {
             selectedUser = suggestedUserTableView.getSelectionModel().getSelectedItem();
             showSelectedUserSquads(suggestedUserTableView.getSelectionModel().getSelectedItem().getUserId());
@@ -213,7 +212,7 @@ public class ChallengeController {
     }
 
     @FXML
-    public void onEnter(ActionEvent ae) { serchFriend(); }
+    public void onEnter() { serchFriend(); }
 
     @FXML
     private void switchToProfile() {

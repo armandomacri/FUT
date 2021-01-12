@@ -17,6 +17,7 @@ import user.UserSessionService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Map;
 
 public class BuildSquadController {
     private static final UserSessionService userSession = App.getSession();
@@ -82,8 +83,17 @@ public class BuildSquadController {
             squadNameTextField.setText(squad.getName());
             moduleChoiceBox.getSelectionModel().select(squad.getModule());
             displayModulePositions(squad.getModule());
-            ObservableList<Player> players = FXCollections.observableArrayList(squad.getPlayers().values());
-            chosenPlayersTableView.setItems(players);
+
+            ArrayList<Player> players = new ArrayList<>();
+            for (Map.Entry<String, String> item : squad.getPlayers().entrySet()) {
+                Player p = mongoPlayerCard.findById(Integer.parseInt(item.getValue()));
+                if (p == null)
+                    continue;
+                players.add(p);
+            }
+            ObservableList<Player> comp = FXCollections.observableArrayList(players);
+
+            chosenPlayersTableView.setItems(comp);
             overallText.setText(computeOverall(squad).toString());
         }
         else {
@@ -177,9 +187,14 @@ public class BuildSquadController {
         if(player==null)
             return;
         String pos = positionChoiceBox.getSelectionModel().getSelectedItem();
-        squad.getPlayers().put(pos, player);
-        ObservableList<Player> players = FXCollections.observableArrayList(squad.getPlayers().values());
-        chosenPlayersTableView.setItems(players);
+        squad.getPlayers().put(pos, player.getPlayerId());
+
+        ArrayList<Player> players = new ArrayList<>();
+        for (Map.Entry<String, String> item : squad.getPlayers().entrySet()) {
+            players.add(mongoPlayerCard.findById(Integer.parseInt(item.getValue())));
+        }
+        ObservableList<Player> comp = FXCollections.observableArrayList(players);
+        chosenPlayersTableView.setItems(comp);
         overallText.setText(computeOverall(squad).toString());
         findPlayersTableView.getItems().clear();
         /*
@@ -208,9 +223,11 @@ public class BuildSquadController {
     private Integer computeOverall (Squad s){
         Integer sum = 0;
         int overall;
-        for (int i = 0; i<squad.getPlayers().size(); i++){
-            sum += s.getPlayers().get(s.getPlayers().keySet().toArray()[i]).getOverall();
+
+        for (Map.Entry<String, String> item : squad.getPlayers().entrySet()) {
+            sum +=mongoPlayerCard.findById(Integer.parseInt(item.getValue())).getOverall();
         }
+
         overall = sum/11;
         return overall;
     }

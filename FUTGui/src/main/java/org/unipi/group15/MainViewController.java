@@ -11,24 +11,18 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import javafx.util.Callback;
 import mongo.MongoPlayerCard;
 import mongo.MongoSquad;
-import mongo.MongoUser;
 import neo4j.Neo4jPlayerCard;
 import neo4j.Neo4jUser;
 import org.apache.commons.io.FilenameUtils;
 import org.bson.Document;
-import user.UserSessionService;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class MainViewController {
@@ -141,11 +135,7 @@ public class MainViewController {
     @FXML
     private TableColumn<Map.Entry<String, String>, String> numOperations;
 
-    @FXML
-    private Label usernameLabel;
-
-    @FXML
-    private Label userIdLabel;
+    private File file;
 
     @FXML
     private void initialize(){
@@ -357,7 +347,7 @@ public class MainViewController {
     }
 
 
-    public File file = null;
+
     @FXML
     private void chooseFile(ActionEvent event) {
         Window window = ((Node) (event.getSource())).getScene().getWindow();

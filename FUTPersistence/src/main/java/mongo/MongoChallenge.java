@@ -47,7 +47,6 @@ public class MongoChallenge extends MongoConnection{
     @Override
     public void close(){
         mongoClient.close();
-        //logger.info("Mongo close connection!");
     }
 
 }

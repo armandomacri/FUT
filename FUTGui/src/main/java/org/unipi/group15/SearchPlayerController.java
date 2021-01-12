@@ -13,7 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import mongo.MongoPlayerCard;
 import neo4j.Neo4jPlayerCard;
 import player.ImageService;
 import user.UserSessionService;
@@ -29,8 +28,7 @@ public class SearchPlayerController {
 
     @FXML private TextField toFind;
 
-    //@FXML private Button toFindButton;
-
+    @FXML private Button toFindButton;
 
     @FXML private ScrollPane playersWrapper;
 
@@ -58,6 +56,11 @@ public class SearchPlayerController {
     private void initialize(){
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
+        if (!neo4jPlayerCard.checkConnection()){
+            Alert alert = new Alert(Alert.AlertType.WARNING, "This service is not currently available");
+            alert.show();
+            toFindButton.setDisable(true);
+        }
     }
 
     @FXML

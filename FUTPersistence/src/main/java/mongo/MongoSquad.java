@@ -32,7 +32,7 @@ public class MongoSquad extends MongoConnection{
         Iterator iterator = squad.getPlayers().keySet().iterator();
         while (iterator.hasNext()){
             String key = iterator.next().toString();
-            String value = squad.getPlayers().get(key).getPlayerId();
+            String value = squad.getPlayers().get(key);
             playersDoc.append(key, value);
         }
 
@@ -75,29 +75,22 @@ public class MongoSquad extends MongoConnection{
         ArrayList<Squad> s = new ArrayList<>();
         SimpleDateFormat df;
         Date date = null;
-        for (Document squad : squadsDoc){
-            HashMap<String, Player> pos = new HashMap<>();
-            Map<String, String> map = (Map)squad.get("players");
-            Iterator iterator = map.keySet().iterator();
-            MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
-            while(iterator.hasNext()) {
-                String key = iterator.next().toString();
-                String value = map.get(key);
-
-                Player x = mongoPlayerCard.findById(Integer.parseInt(value));
-                if(x==null) //giocatore non caricato nel sistema
-                    continue;
-                pos.put(key, x);
+        for (Document squad : squadsDoc) {
+            Document playersDoc = (Document) squad.get("players");
+            HashMap<String, String> x = new HashMap<>();
+            for (Map.Entry<String, Object> curEntry : playersDoc.entrySet()) {
+                x.put(curEntry.getKey(), (String) curEntry.getValue());
             }
+
             try {
-                df = new SimpleDateFormat("dd/MM/yy");
+                df = new SimpleDateFormat("dd/MM/yyyy");
                 date = df.parse(squad.get("date").toString());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
             Squad sq = new Squad(squad.get("name").toString(), squad.get("module").toString(),
-                    date, pos);
+                    date, x);
             s.add(sq);
         }
         return s;

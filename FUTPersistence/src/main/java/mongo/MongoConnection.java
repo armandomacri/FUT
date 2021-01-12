@@ -1,7 +1,5 @@
 package mongo;
 
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
 import com.mongodb.ReadPreference;
 import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoClient;
@@ -25,25 +23,11 @@ abstract class MongoConnection implements AutoCloseable{
                 mongoClient = MongoClients.create("mongodb://"+mongoConfig.mongoIp+":"+mongoConfig.mongoPort);
                 break;
             case "replica":
-                ConnectionString uri = new ConnectionString("mongodb://"+mongoConfig.getReplicaIp(0)+":"+mongoConfig.getReplicaPort(0)+","+mongoConfig.getReplicaIp(1)+":"+mongoConfig.getReplicaPort(1)+","+mongoConfig.getReplicaIp(2)+":"+mongoConfig.getReplicaPort(2));
-                MongoClientSettings mongoClientSettings = MongoClientSettings.builder().
-                        applyConnectionString(uri).
-                        retryWrites(true).
-                        writeConcern(WriteConcern.MAJORITY).
-                        readPreference(ReadPreference.nearest()).build();
-                mongoClient = MongoClients.create(mongoClientSettings);
+                mongoClient = MongoClients.create("mongodb://"+mongoConfig.getReplicaIp(0)+":"+mongoConfig.getReplicaPort(0)+","+mongoConfig.getReplicaIp(1)+":"+mongoConfig.getReplicaPort(1)+","+mongoConfig.getReplicaIp(2)+":"+mongoConfig.getReplicaPort(2)+"/?retryWrites=true&w=majority&wtimeoutMS=5000&readPreference=nearest");
                 break;
             default:
                 mongoClient = MongoClients.create("mongodb://localhost:27017");
         }
-
-        //aggiungere impostazioni per lettura e scrittura nel db
-        db = mongoClient.getDatabase(mongoConfig.dbName);
-    }
-
-    @Override
-    public void close(){
-        mongoClient.close();
-        //logger.info("Mongo close connection!");
+        db = mongoClient.getDatabase(mongoConfig.dbName).withWriteConcern(WriteConcern.MAJORITY).withReadPreference(ReadPreference.nearest());
     }
 }

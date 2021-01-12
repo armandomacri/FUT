@@ -119,9 +119,8 @@ public class Neo4jUser extends Neo4jConnection{
                         parameters("user_id", user_id));
                 ArrayList<User> users = new ArrayList<>();
                 while (result.hasNext()) {
-                    User u = null;
                     Record r = result.next();
-                    u = new User(r.get("Username").asString(), r.get("Id").asString(), r.get("Score").asInt());
+                    User u = new User(r.get("Username").asString(), r.get("Id").asString(), r.get("Score").asInt());
                     users.add(u);
                 }
                 return users;
