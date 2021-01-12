@@ -15,4 +15,14 @@ abstract class Neo4jConnection implements AutoCloseable{
         driver =  GraphDatabase.driver("bolt://"+neo4JConfig.neo4jIp+":"+neo4JConfig.neo4jPort, AuthTokens.basic(neo4JConfig.username, neo4JConfig.password));
     }
 
+    public boolean checkConnection(){
+        boolean result = true;
+        try {
+            driver.verifyConnectivity();
+        } catch (Exception e){
+            result = false;
+        }
+        return result;
+    }
+
 }

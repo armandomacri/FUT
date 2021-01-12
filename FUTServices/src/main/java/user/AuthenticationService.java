@@ -23,8 +23,8 @@ public class AuthenticationService {
 
         String encryptedPwd = encryptPassword(pwd);
 
-        MongoUser pq = new MongoUser();
-        User u = pq.getUser(username);
+        MongoUser mongoUser = new MongoUser();
+        User u = mongoUser.getUser(username);
 
         if (u == null)
             throw new UserNotFoudException("User not found");
@@ -35,9 +35,8 @@ public class AuthenticationService {
 
          */
 
-        UserSessionService s = UserSessionService.getInstace(u);
         logger.info("User logged!");
-        return s;
+        return UserSessionService.getInstace(u);
     }
 
     public UserSessionService signUp(String username, String password, String country, String firstName, String lastName) throws UserAlreadyExists {
@@ -58,8 +57,8 @@ public class AuthenticationService {
         }
 
         User user = new User(username, firstName, lastName, id, country, date, encryptedPwd, null, 0);
-        UserSessionService s = UserSessionService.getInstace(user);
-        return s;
+
+        return UserSessionService.getInstace(user);
 
     }
 
@@ -92,9 +91,12 @@ public class AuthenticationService {
     public static void main(String[] args){
         AuthenticationService authenticationService = new AuthenticationService();
         try {
-            authenticationService.signUp("Armando", "ciao", "Iatly", "armando", "armando");
-        } catch (UserAlreadyExists userAlreadyExists) {
-            userAlreadyExists.printStackTrace();
+            authenticationService.signIn("Armando", "oijd");
+            //authenticationService.signUp("Armando", "ciao", "Iatly", "armando", "armando");
+        }  catch (SignInException e) {
+            e.printStackTrace();
+        } catch (UserNotFoudException e) {
+            e.printStackTrace();
         }
     }
 

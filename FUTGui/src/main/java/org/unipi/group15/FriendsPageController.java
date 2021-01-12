@@ -17,9 +17,8 @@ import user.UserSessionService;
 import java.util.ArrayList;
 
 public class FriendsPageController {
-    private static final Neo4jUser neo4jUser = new Neo4jUser();
+    private static Neo4jUser neo4jUser = new Neo4jUser();;
     private final UserSessionService userSession = App.getSession();
-
     private String idSelected = null;
     private String idSelected1 = null;
     private String idSelected2 = null;
@@ -39,7 +38,7 @@ public class FriendsPageController {
 
     @FXML private ListView<User> FriendsList;
 
-    @FXML private Button SearchButton;
+    @FXML private Button searchButton;
 
     @FXML private TableView<User> SuggestedFriendLike;
 
@@ -95,9 +94,18 @@ public class FriendsPageController {
         valueLbl1.setText(null);
         valueLbl2.setText(null);
         FriendsList.getItems().clear();
+
+        if (!neo4jUser.checkConnection()){
+            Alert a = new Alert(Alert.AlertType.WARNING, "This service is not currently available!");
+            a.show();
+            searchButton.setDisable(true);
+            return;
+        }
+
         followedusers = neo4jUser.checkalreadyfollow(userSession.getUserId());
         setSuggestedFriendLike();
         setSuggestedFriend();
+
     }
 
     @FXML
@@ -202,7 +210,7 @@ public class FriendsPageController {
     }
 
     @FXML
-    private void createRelationFollow(){
+    private void createRelationFollow() throws Exception {
         neo4jUser.createFollow(userSession.getUserId(),idSelected);
         follow_button.setDisable(true);
         follow_button.setVisible(false);
@@ -213,7 +221,7 @@ public class FriendsPageController {
     }
 
     @FXML
-    private void createRelationFollow1(){
+    private void createRelationFollow1() throws Exception {
         neo4jUser.createFollow(userSession.getUserId(),idSelected1);
         follow_button1.setDisable(true);
         valueLbl1.setText("User already followed");
@@ -221,7 +229,7 @@ public class FriendsPageController {
     }
 
     @FXML
-    private void createRelationFollow2(){
+    private void createRelationFollow2() throws Exception {
         neo4jUser.createFollow(userSession.getUserId(),idSelected2);
         follow_button2.setDisable(true);
         valueLbl2.setText("User already followed");
@@ -229,7 +237,7 @@ public class FriendsPageController {
     }
 
     @FXML
-    private void deleteRelationFollow(){
+    private void deleteRelationFollow() throws Exception {
         neo4jUser.deleteFollow(userSession.getUserId(),idSelected);
         unfollow_button.setDisable(true);
         unfollow_button.setVisible(false);

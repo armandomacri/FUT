@@ -36,16 +36,18 @@ public class SignInController {
 
     @FXML
     private void signIn(){
-        AuthenticationService as = new AuthenticationService();
+        AuthenticationService authenticationService = new AuthenticationService();
         UserSessionService userSession = null;
         try {
-            userSession = as.signIn(usernameTextField.getText(), passwordTextField.getText());
+            userSession = authenticationService.signIn(usernameTextField.getText(), passwordTextField.getText());
         } catch (SignInException sie) {
             setErrorBox("Username or Password are wrong!");
             logger.error("Exception happened! ", sie);
+            return;
         } catch (UserNotFoudException unfe){
             setErrorBox("Username not registered!");
             logger.error(unfe);
+            return;
         }
         App.setSession(userSession);
         changePage();

@@ -19,6 +19,7 @@ public class Neo4jComment extends Neo4jConnection{
     @Override
     public void close() throws Exception {
         driver.close();
+        driver = null;
     }
 
     public ArrayList<Comment> showComment(final String player_id) throws Exception {

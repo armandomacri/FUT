@@ -126,8 +126,9 @@ public class User {
                 "\t SCORE: " + score + "\n" +
                 "\t SQUADS {\n");
 
-        for(Squad squad : squads)
-            s.append("\t").append(squad.toString());
+        if (squads != null)
+            for(Squad squad : squads)
+                s.append("\t").append(squad.toString());
 
         s.append("\t }\n}");
 

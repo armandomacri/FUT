@@ -47,9 +47,8 @@ public class Neo4jUser extends Neo4jConnection{
                 ArrayList<User> users = new ArrayList<>();
                 while(result.hasNext())
                 {
-                    User u = null;
                     Record r = result.next();
-                    u = new User(r.get("Username").asString(), r.get("Id").asString());
+                    User u = new User(r.get("Username").asString(), r.get("Id").asString());
                     users.add(u);
                 }
                 return users;
@@ -72,9 +71,8 @@ public class Neo4jUser extends Neo4jConnection{
                         parameters("user_id", user_id));
                 ArrayList<User> users = new ArrayList<>();
                 while (result.hasNext()){
-                    User u = null;
                     Record r = result.next();
-                    u = new User(r.get("Username").asString(), r.get("Id").asString());
+                    User u = new User(r.get("Username").asString(), r.get("Id").asString());
                     users.add(u);
                 }
                 return users;
@@ -133,6 +131,7 @@ public class Neo4jUser extends Neo4jConnection{
     }
 
     public boolean createUser(final String user_id, final String username){
+        boolean result = true;
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("CREATE (u:User {id: $user_id, username: $username, score: 0})",
@@ -140,9 +139,9 @@ public class Neo4jUser extends Neo4jConnection{
                return 1;
             });
         } catch (Exception e){
-            return false;
+            result = false;
         }
-        return true;
+        return result;
     }
 
     public void createFollow(final String user_id, final String user_id1){

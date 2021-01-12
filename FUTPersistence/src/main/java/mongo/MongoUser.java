@@ -153,9 +153,9 @@ public class MongoUser extends MongoConnection{
 
     public static void main(String[] args){
         MongoUser mongoUser = new MongoUser();
-        String id = mongoUser.add("armando", "armando", "Armando9876", "italy", "8/01/2021", "armando");
-        mongoUser.delete(id);
-        System.out.println(id);
+        //String id = mongoUser.add("armando", "armando", "Armando9876", "italy", "8/01/2021", "armando");
+        //mongoUser.delete(id);
+        System.out.println(mongoUser.getUser("Armando"));
     }
 
 

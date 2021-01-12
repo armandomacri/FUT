@@ -28,7 +28,6 @@ public class UserPageController {
     private static final MongoSquad mongoSquad = new MongoSquad();
     private static MongoChallenge mongoChallenge = new MongoChallenge();
 
-
     @FXML private Button admin;
 
     @FXML private Label usernameLabel;
