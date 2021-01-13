@@ -149,7 +149,7 @@
                         <TableColumn fx:id="userUsernameYourFriends" prefWidth="110.0" text="Username" />
                      </columns>
                   </TableView>
-                  <Button fx:id="YourFriendButton" layoutX="539.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#deleteFollow" prefHeight="39.0" prefWidth="78.0" text="Unfollow" />
+                  <Button fx:id="yourFriendButton" layoutX="539.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#deleteFollow" prefHeight="39.0" prefWidth="78.0" text="Unfollow" />
                   <Label fx:id="YourFriendLabel" alignment="CENTER" layoutX="553.0" layoutY="180.0" prefHeight="39.0" prefWidth="50.0" text="Label" />
                </children>
             </AnchorPane>

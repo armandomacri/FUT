@@ -29,8 +29,6 @@ public class FriendsPageController {
 
     @FXML public Button follow_button;
 
-    @FXML public Button unfollow_button;
-
     @FXML public Label valueLbl;
 
     @FXML private Label userIdLabel;
@@ -47,7 +45,7 @@ public class FriendsPageController {
 
     @FXML public TableColumn<User, String> userUsernameYourFriends;
 
-    @FXML public Button YourFriendButton;
+    @FXML public Button yourFriendButton;
 
     @FXML public Label YourFriendLabel;
 
@@ -97,8 +95,6 @@ public class FriendsPageController {
         userIdLabel.setText(userSession.getUserId());
         userToFind.setText(null);
         follow_button.setDisable(true);
-        unfollow_button.setDisable(true);
-        unfollow_button.setVisible(false);
         follow_button1.setDisable(true);
         follow_button2.setDisable(true);
         YourFriendLabel.setText(null);
@@ -132,7 +128,7 @@ public class FriendsPageController {
             public void handle(MouseEvent mouseEvent) {
                 User u = yourFriends.getSelectionModel().getSelectedItem();
                 idSelectedFriend = (u.getUserId());
-                YourFriendButton.setDisable(false);
+                yourFriendButton.setDisable(false);
                 YourFriendLabel.setText(u.getUsername());
 
             }
@@ -255,7 +251,7 @@ public class FriendsPageController {
             checkService("Connection problem!");
             return;
         }
-        YourFriendButton.setDisable(true);
+        yourFriendButton.setDisable(true);
         YourFriendLabel.setText("Unfollow " +idSelectedFriend);
         followedusers = neo4jUser.checkalreadyfollow(userSession.getUserId());
         yourFriends.getItems().clear();
@@ -315,6 +311,10 @@ public class FriendsPageController {
             suggestedFriend.getItems().clear();
             suggestedFriendLike.getItems().clear();
             searchButton.setDisable(true);
+            follow_button.setDisable(true);
+            follow_button1.setDisable(true);
+            follow_button2.setDisable(true);
+            yourFriendButton.setDisable(true);
             a.show();
             return false;
         }
