@@ -7,12 +7,22 @@ import neo4j.Neo4jUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import javax.print.Doc;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.function.Consumer;
 import java.util.function.DoubleBinaryOperator;
 
+import static com.mongodb.client.model.Accumulators.avg;
+import static com.mongodb.client.model.Accumulators.sum;
+import static com.mongodb.client.model.Aggregates.*;
+import static com.mongodb.client.model.Aggregates.project;
 import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Projections.computed;
+import static com.mongodb.client.model.Sorts.descending;
 
 public class MongoChallenge extends MongoConnection{
     private MongoCollection<Document> myColl;
@@ -54,12 +64,34 @@ public class MongoChallenge extends MongoConnection{
         return results;
     }
 
+    public ArrayList<Document> ChallengesPerDay(){
+        ArrayList<Document> result = new ArrayList<>();
+        myColl = db.getCollection("challenge");
+        Consumer<Document> createDocuments = doc -> {result.add(doc);};
 
+        Bson groupDate = group("$date",
+                sum("numChallenges", 1)
+        );
+        Bson sort = sort(descending("numChallenges"));
+        Bson limit = limit(30);
+        Bson project = project(fields(excludeId(),
+                computed("date", "$_id"),
+                include("numChallenges")
+                )
+        );
+
+        myColl.aggregate(Arrays.asList(groupDate, sort, limit, project)).forEach(createDocuments);
+        return result;
+    }
 
     @Override
     public void close(){
         mongoClient.close();
     }
 
+    public static void main(String[] args) {
+        MongoChallenge mc = new MongoChallenge();
+        System.out.println(mc.ChallengesPerDay());
+    }
 }
 
