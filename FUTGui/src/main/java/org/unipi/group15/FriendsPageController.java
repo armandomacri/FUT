@@ -116,7 +116,6 @@ public class FriendsPageController {
         setAlreadyFollowed();
         setSuggestedFriendLike();
         setSuggestedFriend();
-
     }
 
     @FXML
@@ -215,19 +214,12 @@ public class FriendsPageController {
                 int i;
                 for (i = 0; i < followedusers.size(); i++) {
                     if (followedusers.get(i).getUserId().equals(u.getUserId())) {
-                        follow_button.setDisable(true);
-                        follow_button.setVisible(false);
-                        unfollow_button.setDisable(false);
-                        unfollow_button.setVisible(true);
-                        valueLbl.setText("Unfollow " + u.getUsername());
+                        valueLbl.setText("User already followed");
                         break;
                     }
                     else{
                         idSelected = (u.getUserId());
-                        unfollow_button.setDisable(true);
-                        unfollow_button.setVisible(false);
                         follow_button.setDisable(false);
-                        follow_button.setVisible(true);
                         valueLbl.setText("Follow " + u.getUsername());
                     }
                 }
@@ -248,11 +240,13 @@ public class FriendsPageController {
             return;
         }
         follow_button.setDisable(true);
-        follow_button.setVisible(false);
-        unfollow_button.setDisable(false);
-        unfollow_button.setVisible(true);
-        valueLbl.setText("Unfollow " +idSelected);
+        //follow_button.setVisible(false);
+       // unfollow_button.setDisable(false);
+      //  unfollow_button.setVisible(true);
+        valueLbl.setText("User already followed");
         followedusers = neo4jUser.checkalreadyfollow(userSession.getUserId());
+        yourFriends.getItems().clear();
+        setAlreadyFollowed();
     }
 
     @FXML
@@ -264,6 +258,8 @@ public class FriendsPageController {
         YourFriendButton.setDisable(true);
         YourFriendLabel.setText("Unfollow " +idSelectedFriend);
         followedusers = neo4jUser.checkalreadyfollow(userSession.getUserId());
+        yourFriends.getItems().clear();
+        setAlreadyFollowed();
     }
 
     @FXML
@@ -275,6 +271,8 @@ public class FriendsPageController {
         follow_button1.setDisable(true);
         valueLbl1.setText("User already followed");
         followedusers = neo4jUser.checkalreadyfollow(userSession.getUserId());
+        yourFriends.getItems().clear();
+        setAlreadyFollowed();
     }
 
     @FXML
@@ -286,8 +284,10 @@ public class FriendsPageController {
         follow_button2.setDisable(true);
         valueLbl2.setText("User already followed");
         followedusers = neo4jUser.checkalreadyfollow(userSession.getUserId());
+        yourFriends.getItems().clear();
+        setAlreadyFollowed();
     }
-
+/*
     @FXML
     private void deleteRelationFollow() {
         if (!neo4jUser.deleteFollow(userSession.getUserId(),idSelected)){
@@ -301,7 +301,11 @@ public class FriendsPageController {
         follow_button.setVisible(true);
         valueLbl.setText("Follow " +idSelected);
         followedusers = neo4jUser.checkalreadyfollow(userSession.getUserId());
+        YourFriends.getItems().clear();
+        setAlreadyFollowed();
     }
+
+ */
 
     private boolean checkService(String text){
         if (!neo4jUser.checkConnection()){

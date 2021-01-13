@@ -362,6 +362,7 @@ public class MainViewController {
         else {
             errorLabel.setText("Extension file not allowed, convert file to csv or change file");
             errorLabel.setVisible(true);
+            uploadButton.setDisable(true);
         }
     }
 
