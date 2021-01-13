@@ -32,7 +32,6 @@ public class ComputeScoreService {
         MongoChallenge mongoChallenge = new MongoChallenge();
         String challID = mongoChallenge.insertChallenge(result);
         result.setChallengeId(challID);
-        System.out.println("Challenge " + challID + " added");
         int homePointsToAdd;
         int awayPointsToAdd;
         if(homeScore>awayScore){

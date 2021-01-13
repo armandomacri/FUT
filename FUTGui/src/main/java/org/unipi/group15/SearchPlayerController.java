@@ -66,7 +66,6 @@ public class SearchPlayerController {
         playersWrapper.setContent(null);
 
         ArrayList<Player> players = neo4jPlayerCard.searchPlayerCard(toFind.getText());
-        System.out.println(players);
 
         if (players.size() == 0){
             Alert alert = new Alert(Alert.AlertType.WARNING, "No player cards were found", ButtonType.OK);
@@ -98,7 +97,6 @@ public class SearchPlayerController {
             container.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    System.out.println(container.getId());
                     PlayerCardViewController pCVC = new PlayerCardViewController();
                     pCVC.setPlayer(players.get(Integer.parseInt(container.getId())));
                     App.setRoot("player_card_view");

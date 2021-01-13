@@ -70,7 +70,6 @@ public class Neo4jComment extends Neo4jConnection{
                     Record r = result.next();
                     commentId = r.get("commentId").asString();
                 }
-                System.out.println(commentId);
                 tx.run("MATCH (u:User{id: $user_id}), (c:Comment)\n" +
                         "WHERE id(c) = toInteger($commentId)\n" +
                         "CREATE (u)-[:Post{date: date()}]->(c)",

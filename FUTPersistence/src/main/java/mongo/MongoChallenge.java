@@ -42,7 +42,6 @@ public class MongoChallenge extends MongoConnection{
             while (cursor.hasNext())
             {
                 Document challenge = cursor.next();
-                System.out.println(challenge);
                 Document homeDoc = (Document) challenge.get("home");
                 Document awayDoc = (Document) challenge.get("away");
                 Challenge c = new Challenge(challenge.getObjectId("_id").toString(), homeDoc.get("id").toString(), homeDoc.get("username").toString(),awayDoc.get("id").toString(), awayDoc.get("username").toString(), challenge.get("date").toString(), Integer.parseInt(homeDoc.get("score").toString()), Integer.parseInt(awayDoc.get("score").toString()), Integer.parseInt(challenge.get("points_earned/lost").toString()));
