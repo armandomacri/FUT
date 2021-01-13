@@ -2,7 +2,8 @@ package mongo;
 
 import bean.*;
 import com.mongodb.client.*;
-import com.mongodb.connection.ClusterType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -11,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
-
 import static com.mongodb.client.model.Accumulators.sum;
 import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.*;
@@ -19,11 +19,12 @@ import static com.mongodb.client.model.Sorts.descending;
 import static com.mongodb.client.model.Updates.inc;
 
 public class MongoUser extends MongoConnection{
+    private static final Logger logger = LogManager.getLogger(MongoUser.class);
     private MongoCollection<Document> myColl;
 
     public String add(String firstName, String lastName, String username, String country, String joinDate, String password){
         myColl = db.getCollection("users");
-
+        String id;
         Document user = new Document("username", username)
                 .append("first_name", firstName)
                 .append("last_name", lastName)
@@ -34,11 +35,12 @@ public class MongoUser extends MongoConnection{
                 .append("squads", new ArrayList<>());
         try {
             myColl.insertOne(user);
+            id = user.getObjectId("_id").toString();
         } catch (Exception e){
-            return null;
+            logger.error("Exception occurred: ", e);
+            id = null;
         }
-
-        return user.getObjectId("_id").toString();
+        return id;
     }
 
     public void delete(String id){
@@ -159,7 +161,7 @@ public class MongoUser extends MongoConnection{
         System.out.println(mongoUser.getUserPerCountryLastYear());
         //String id = mongoUser.add("armando", "armando", "Armando9876", "italy", "8/01/2021", "armando");
         //mongoUser.delete(id);
-        //System.out.println(mongoUser.checkConnection());
+        System.out.println(mongoClient.getClusterDescription().getType());
 
         //System.out.println(mongoClient.getClusterDescription().getType().compareTo(ClusterType.UNKNOWN));
     }

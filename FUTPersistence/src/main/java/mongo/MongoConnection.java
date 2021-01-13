@@ -5,12 +5,13 @@ import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.connection.ClusterType;
 import configuration.LoadXmlConf;
 import configuration.MongoConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 abstract class MongoConnection implements AutoCloseable{
-
+    private static final Logger logger = LogManager.getLogger(MongoConnection.class);
     private static final String MONGO_CONFIG = "mongoConfig";
     private static final MongoConfig  mongoConfig = LoadXmlConf.getMongoConfigIstance(MONGO_CONFIG);
     protected static MongoClient mongoClient;
@@ -28,15 +29,14 @@ abstract class MongoConnection implements AutoCloseable{
                     break;
                 default:
                     mongoClient = MongoClients.create("mongodb://localhost:27017");
+                    break;
+
             }
+            db = mongoClient.getDatabase(mongoConfig.dbName).withWriteConcern(WriteConcern.MAJORITY).withReadPreference(ReadPreference.nearest());
+
         } catch (Exception e){
 
         }
 
-        db = mongoClient.getDatabase(mongoConfig.dbName).withWriteConcern(WriteConcern.MAJORITY).withReadPreference(ReadPreference.nearest());
-    }
-
-    public boolean checkConnection(){
-        return (mongoClient.getClusterDescription().getType().compareTo(ClusterType.UNKNOWN) == 0) ? false : true;
     }
 }
