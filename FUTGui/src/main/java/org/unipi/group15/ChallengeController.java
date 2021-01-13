@@ -25,10 +25,10 @@ import java.util.ArrayList;
 
 public class ChallengeController {
     private static final Neo4jUser neo4jUser = new Neo4jUser();
-    private Squad selectedSquad;
-    private User selectedUser;
     private static final MongoSquad mongoSquad = new MongoSquad();
     private final UserSessionService userSession = App.getSession();
+    private Squad selectedSquad;
+    private User selectedUser;
 
     @FXML private Label userIdLabel;
 
@@ -61,8 +61,7 @@ public class ChallengeController {
         setTable(seachUserTableView);
         setTable(suggestedUserTableView);
         if (!neo4jUser.checkConnection()){
-            Alert a = new Alert(Alert.AlertType.WARNING, "This service is not currently available");
-            a.show();
+            showError("This service is not currently available");
             findPlayerButton.setDisable(true);
             return;
         }
@@ -73,7 +72,8 @@ public class ChallengeController {
     private void serchFriend(){
         seachUserTableView.getItems().clear();
         String text = searchUsersTextField.getText();
-        ObservableList<User> users = FXCollections.observableArrayList(neo4jUser.searchUser(text, userSession.getUserId()));
+        ArrayList<User> u = neo4jUser.searchUser(text, userSession.getUserId());
+        ObservableList<User> users = FXCollections.observableArrayList();
         if(users.size() == 0){
             seachUserTableView.setPlaceholder(new Label("No Users found containing "+ searchUsersTextField.getText()));
             return;
@@ -86,9 +86,7 @@ public class ChallengeController {
     private void showSelectedUserSquads(final String user_id){
         //ottenere l'id dell'utente di cui voglio le squadre
         //le squadre appaiono quando clicco sull'utente
-        MongoSquad mongoSquad = new MongoSquad();
-        ArrayList<Squad> userSquads = mongoSquad.getSquads(user_id);
-        setSquad(userSquads);
+        setSquad(mongoSquad.getSquads(user_id));
     }
 
     private void setSquad(ArrayList<Squad> userSquads){
@@ -234,5 +232,9 @@ public class ChallengeController {
         App.setRoot("friends");
     }
 
+    private void showError(String text){
+        Alert a = new Alert(Alert.AlertType.WARNING, text);
+        a.show();
+    }
 
 }

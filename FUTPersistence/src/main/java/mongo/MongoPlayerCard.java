@@ -4,6 +4,8 @@ import bean.Player;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.result.DeleteResult;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -24,13 +26,14 @@ import static com.mongodb.client.model.Projections.*;
 import static com.mongodb.client.model.Sorts.descending;
 
 public class MongoPlayerCard extends MongoConnection{
+    private static final Logger logger = LogManager.getLogger(MongoPlayerCard.class);
     private MongoCollection<Document> myColl;
 
     public boolean add(Integer _id, String player_name, String player_extended_name, String quality, String revision, String origin, Integer overall,
                       String club, String league, String nationality, String position, String date_of_birth, Integer weight, Integer height,
                       String added_date, Integer pace, Integer dribbling, Integer shooting, Integer passing, Integer defending,
                       Integer physicality, String pref_foot, Integer weak_foot, Integer skill_moves, String images){
-        boolean x = true;
+        boolean result = true;
         myColl = db.getCollection("player_cards");
         Document player = new Document("_id", _id)
                 .append("player_name", player_name)
@@ -60,9 +63,10 @@ public class MongoPlayerCard extends MongoConnection{
         try {
             myColl.insertOne(player);
         } catch (Exception e){
-            x = false;
+            logger.error("Exception occurred: ", e);
+            result = false;
         }
-        return x;
+        return result;
     }
 
     public ArrayList<Player> findPlayers (String toFind) {
@@ -77,20 +81,31 @@ public class MongoPlayerCard extends MongoConnection{
                     return null;
                 results.add(composePlayer(playerDoc));
             }
+        }catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            results = null;
         }
         return results;
     }
 
     public Player findById(Integer id){
         myColl = db.getCollection("player_cards");
-        Document playerDoc = myColl.find(eq("_id", id)).first();
+        Document playerDoc;
+        Player player;
 
-        /**********************************************************************/
-        if(playerDoc == null) //player ancora non caricato
-            return null;
-        /**********************************************************************/
+        try{
+            playerDoc = myColl.find(eq("_id", id)).first();
+            /**********************************************************************/
+            if(playerDoc == null) //player ancora non caricato
+                return null;
+            /**********************************************************************/
+            player = composePlayer(playerDoc);
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            player = null;
+        }
 
-        return composePlayer(playerDoc);
+        return player;
     }
 
     public ArrayList<Player> findByPosition(String position){

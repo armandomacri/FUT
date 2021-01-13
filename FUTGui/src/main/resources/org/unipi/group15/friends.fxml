@@ -99,8 +99,8 @@
             </VBox>
             <AnchorPane layoutX="240.0" prefHeight="600.0" prefWidth="661.0">
                <children>
-                  <ListView fx:id="FriendsList" layoutX="35.0" layoutY="80.0" prefHeight="200.0" prefWidth="171.0" />
-                  <Button fx:id="SearchButton" layoutX="231.0" layoutY="44.0" mnemonicParsing="false" onAction="#searchFriend" prefHeight="26.0" prefWidth="57.0" text="Search" />
+                  <ListView fx:id="friendsList" layoutX="35.0" layoutY="80.0" prefHeight="200.0" prefWidth="171.0" />
+                  <Button fx:id="searchButton" layoutX="231.0" layoutY="44.0" mnemonicParsing="false" onAction="#searchFriend" prefHeight="26.0" prefWidth="57.0" text="Search" />
                   <AnchorPane layoutX="23.0" layoutY="286.0" prefHeight="299.0" prefWidth="296.0">
                      <children>
                         <Text layoutX="14.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Suggested friend by like">
@@ -108,7 +108,7 @@
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <TableView fx:id="SuggestedFriendLike" layoutX="13.0" layoutY="69.0" prefHeight="200.0" prefWidth="171.0">
+                        <TableView fx:id="suggestedFriendLike" layoutX="13.0" layoutY="69.0" prefHeight="200.0" prefWidth="171.0">
                           <columns>
                             <TableColumn fx:id="userIdLike" prefWidth="60.0" text="UserId" />
                             <TableColumn fx:id="userUsernameLike" prefWidth="110.0" text="Username" />
@@ -125,7 +125,7 @@
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <TableView fx:id="SuggestedFriend" layoutX="13.0" layoutY="69.0" prefHeight="200.0" prefWidth="171.0">
+                        <TableView fx:id="suggestedFriend" layoutX="13.0" layoutY="69.0" prefHeight="200.0" prefWidth="171.0">
                            <columns>
                               <TableColumn fx:id="userIdFriends" prefWidth="60.0" text="UserId" />
                               <TableColumn fx:id="userUsernameFriends" prefWidth="110.0" text="Username" />
@@ -144,7 +144,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TableView fx:id="YourFriends" layoutX="346.0" layoutY="80.0" prefHeight="200.0" prefWidth="171.0">
+                  <TableView fx:id="yourFriends" layoutX="346.0" layoutY="80.0" prefHeight="200.0" prefWidth="171.0">
                      <columns>
                         <TableColumn fx:id="userIdYourFriends" prefWidth="60.0" text="UserId" />
                         <TableColumn fx:id="userUsernameYourFriends" prefWidth="110.0" text="Username" />

@@ -2,6 +2,9 @@ package neo4j;
 
 import bean.Comment;
 import bean.User;
+import configuration.LoadXmlConf;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
 
@@ -14,7 +17,7 @@ import java.util.Date;
 import static org.neo4j.driver.Values.parameters;
 
 public class Neo4jComment extends Neo4jConnection{
-
+    private static final Logger logger = LogManager.getLogger(Neo4jComment.class);
 
     @Override
     public void close() throws Exception {
@@ -48,11 +51,15 @@ public class Neo4jComment extends Neo4jConnection{
                 }
                 return commentsResult;
             });
+        } catch (Exception e){
+            logger.error("Exeption appened: ", e);
+            comments = null;
         }
         return comments;
     }
 
-    public void createComment(final String player_id,  final String text, final String user_id) throws Exception {
+    public boolean createComment(final String player_id,  final String text, final String user_id) throws Exception {
+        boolean check = true;
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 Result result = tx.run("CREATE (c:Comment{text: $text}) RETURN toString(id(c)) AS commentId",
@@ -74,7 +81,11 @@ public class Neo4jComment extends Neo4jConnection{
                         parameters("commentId", commentId, "player_id", player_id));
                 return 1;
             });
+        } catch (Exception e){
+            logger.error("Exeption appened: ", e);
+            check = false;
         }
+        return check;
     }
 
     public static void main( String... args ) throws Exception{

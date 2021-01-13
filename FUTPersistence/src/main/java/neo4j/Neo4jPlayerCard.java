@@ -2,6 +2,8 @@ package neo4j;
 
 import bean.Player;
 import bean.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
 
@@ -11,6 +13,7 @@ import java.util.HashMap;
 import static org.neo4j.driver.Values.parameters;
 
 public class Neo4jPlayerCard extends Neo4jConnection{
+    private static final Logger logger = LogManager.getLogger(Neo4jPlayerCard.class);
 
     @Override
     public void close() throws Exception {
@@ -18,7 +21,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
     }
 
     public boolean createPlayer(final String id, final String playername, final String quality, final String revision, final String images) {
-        boolean x = true;
+        boolean result = true;
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> {
                 tx.run("CREATE (:PlayerCard {id: $id, name: $playername, quality: $quality, revision: $revision, images: $images})",
@@ -26,10 +29,11 @@ public class Neo4jPlayerCard extends Neo4jConnection{
                 return 1;
             });
 
-        } catch (Exception e) {
-            x = false;
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            result = false;
         }
-        return x;
+        return result;
     }
 
     public ArrayList<Player> searchPlayerCard(final String name){
@@ -53,11 +57,15 @@ public class Neo4jPlayerCard extends Neo4jConnection{
                 }
                 return Players;
             });
+        }catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            matchingPlayers = null;
         }
         return matchingPlayers;
     }
 
-    public void createLike(final String user_id, final String playercard){
+    public boolean createLike(final String user_id, final String playercard){
+        boolean result = true;
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("MATCH (u:User{id: $user_id}),(p:PlayerCard{id: $playercard})\n" +
@@ -65,40 +73,53 @@ public class Neo4jPlayerCard extends Neo4jConnection{
                         parameters("user_id", user_id , "playercard", playercard));
                 return 1;
             });
+        }catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            result = false;
         }
+        return result;
     }
 
-    public Integer countLikes(final String playercard)
-    {
+    public int countLikes(final String playercard) {
+        int numLike = 0;
         try ( Session session = driver.session() )
         {
-            Integer numLike = session.readTransaction((TransactionWork<Integer>) tx -> {
+            numLike = session.readTransaction((TransactionWork<Integer>) tx -> {
 
                 String query = "MATCH (p:PlayerCard{id: $playercard})-[l:Like]-(:User)"+
                         "RETURN COUNT(l) AS numLike";
                 Result result = tx.run( query, parameters("playercard", playercard) );
                 return result.single().get("numLike").asInt();
             });
-            return numLike;
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            numLike = -1;
         }
+
+        return numLike;
     }
 
     public boolean checkLikes(final String user_id, final String playercard) {
+        boolean existLike;
         try ( Session session = driver.session() )
         {
-            boolean existLike = session.readTransaction((TransactionWork<Boolean>) tx -> {
+             existLike = session.readTransaction((TransactionWork<Boolean>) tx -> {
 
                 String query = "MATCH (c:User{id: $user_id})-[l:Like]->(p:PlayerCard{id: $playercard}) \n" +
                         "RETURN COUNT(l) > 0 AS boolExist";
                 Result result = tx.run( query, parameters("user_id", user_id , "playercard", playercard));
                 return result.single().get("boolExist").asBoolean();
             });
-            return existLike;
+
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            existLike = false;
         }
+        return existLike;
     }
 
     public HashMap<String, String> mostLikedPlayer(){
-        HashMap<String, String> playerMap = new HashMap<>();
+        HashMap<String, String> playerMap;
         try (Session session = driver.session()) {
             playerMap = session.readTransaction((TransactionWork<HashMap<String, String>>) tx -> {
                 Result result = tx.run("MATCH path=(p:PlayerCard)-[l:Like]-(u:User)\n" +
@@ -113,6 +134,9 @@ public class Neo4jPlayerCard extends Neo4jConnection{
                 }
                 return playerMapResult;
             });
+        }catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            playerMap = null;
         }
         return playerMap;
     }

@@ -97,10 +97,10 @@
             </VBox>
             <AnchorPane layoutX="240.0" prefHeight="600.0" prefWidth="661.0">
                <children>
-                  <ListView fx:id="CommentsList" layoutX="23.0" layoutY="93.0" prefHeight="348.0" prefWidth="623.0" />
+                  <ListView fx:id="commentsList" layoutX="23.0" layoutY="93.0" prefHeight="348.0" prefWidth="623.0" />
                   <Label fx:id="upLabel" layoutX="23.0" layoutY="61.0" prefHeight="31.0" prefWidth="623.0" text="Label" />
                   <TextArea fx:id="newCommentText" layoutX="23.0" layoutY="462.0" prefHeight="119.0" prefWidth="460.0" promptText="Insert here your comment..." />
-                  <Button fx:id="PostButton" layoutX="523.0" layoutY="499.0" mnemonicParsing="false" onMouseClicked="#createComment" prefHeight="45.0" prefWidth="78.0" text="Post" />
+                  <Button fx:id="postButton" layoutX="523.0" layoutY="499.0" mnemonicParsing="false" onMouseClicked="#createComment" prefHeight="45.0" prefWidth="78.0" text="Post" />
                </children>
             </AnchorPane>
          </children>

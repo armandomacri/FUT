@@ -25,11 +25,11 @@ public class CommentsPageController {
 
     @FXML public Label upLabel;
 
-    @FXML private ListView CommentsList;
+    @FXML private ListView commentsList;
 
     @FXML private TextArea newCommentText;
 
-    @FXML private Button PostButton;
+    @FXML private Button postButton;
 
     @FXML
     private void switchToProfile() {
@@ -66,19 +66,22 @@ public class CommentsPageController {
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
         upLabel.setText("Comments related to " + player.getPlayerExtendedName() + " player card. Position: " + player.getPosition() + " Overall: " + player.getOverall() );
+        if (!neo4jComment.checkConnection()){
+            showError("This service is not currently available");
+            return;
+        }
         loadComments();
     }
 
     @FXML
     public void loadComments() throws Exception {
-        ArrayList<Comment> comments = neo4jComment.showComment(player.getPlayerId());
-        ObservableList<Comment> observable_users = FXCollections.observableArrayList(comments);
-        System.out.println(comments.toString());
+        ArrayList<Comment> c = neo4jComment.showComment(player.getPlayerId());
+        ObservableList<Comment> comments = FXCollections.observableArrayList(c);
         if(comments.size() == 0){
-            CommentsList.setPlaceholder(new javafx.scene.control.Label("No Comments found for " + player.getPlayerExtendedName() ));
+            commentsList.setPlaceholder(new javafx.scene.control.Label("No Comments found for " + player.getPlayerExtendedName() ));
             return;
         }
-        CommentsList.setItems(observable_users);
+        commentsList.setItems(comments);
     }
 
     @FXML
@@ -93,7 +96,12 @@ public class CommentsPageController {
         else {
             neo4jComment.createComment(player.getPlayerId(), commentText, userSession.getUserId());
             alert1.showAndWait();
-            App.setRoot("player_card_view");
         }
+    }
+
+    private void showError(String text){
+        Alert a = new Alert(Alert.AlertType.WARNING, text, ButtonType.OK);
+        postButton.setDisable(true);
+        a.show();
     }
 }

@@ -3,9 +3,7 @@ package org.unipi.group15;
 import javafx.embed.swing.SwingFXUtils;
 import bean.Player;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import mongo.MongoPlayerCard;
@@ -100,7 +98,7 @@ public class PlayerCardViewController {
 
     @FXML private ImageView clubImg;
 
-    //@FXML private Button showComments;
+    @FXML private Button showComments;
 
     public void setPlayer(Player p){
         player = mongoPlayerCard.findById(Integer.parseInt(p.getPlayerId()));
@@ -178,6 +176,7 @@ public class PlayerCardViewController {
             attr6Stat.setText(player.getPhysicality().toString());
             attr6Bar.setProgress(player.getPhysicality().doubleValue()/100);
         }
+        checkService("Service not completely available!");
     }
 
     @FXML
@@ -195,7 +194,9 @@ public class PlayerCardViewController {
 
     @FXML
     private void addLike() {
-        neo4jcard.createLike(userSession.getUserId(), player.getPlayerId());
+        if(!neo4jcard.createLike(userSession.getUserId(), player.getPlayerId())){
+            checkService("Connection Problem");
+        }
         likeButton.setDisable(true);
         countLike();
     }
@@ -225,6 +226,17 @@ public class PlayerCardViewController {
     @FXML
     private void switchToChallenge() {
         App.setRoot("challenge");
+    }
+
+    private boolean checkService(String text){
+        if (!neo4jcard.checkConnection()){
+            Alert a = new Alert(Alert.AlertType.WARNING, text, ButtonType.OK);
+            showComments.setDisable(true);
+            likeButton.setDisable(true);
+            a.show();
+            return false;
+        }
+        return true;
     }
 
 }

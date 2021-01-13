@@ -37,11 +37,11 @@ public class FriendsPageController {
 
     @FXML private Label usernameLabel;
 
-    @FXML private ListView<User> FriendsList;
+    @FXML private ListView<User> friendsList;
 
     @FXML private Button searchButton;
 
-    @FXML private TableView<User> YourFriends;
+    @FXML private TableView<User> yourFriends;
 
     @FXML public TableColumn<User, String> userIdYourFriends;
 
@@ -51,7 +51,7 @@ public class FriendsPageController {
 
     @FXML public Label YourFriendLabel;
 
-    @FXML private TableView<User> SuggestedFriendLike;
+    @FXML private TableView<User> suggestedFriendLike;
 
     @FXML public TableColumn<User, String> userIdLike;
 
@@ -61,7 +61,7 @@ public class FriendsPageController {
 
     @FXML public Label valueLbl1;
 
-    @FXML private TableView<User> SuggestedFriend;
+    @FXML private TableView<User> suggestedFriend;
 
     @FXML public TableColumn<User, String> userIdFriends;
 
@@ -107,14 +107,10 @@ public class FriendsPageController {
         valueLbl.setText(null);
         valueLbl1.setText(null);
         valueLbl2.setText(null);
-        FriendsList.getItems().clear();
+        friendsList.getItems().clear();
 
-        if (!neo4jUser.checkConnection()){
-            Alert a = new Alert(Alert.AlertType.WARNING, "This service is not currently available!");
-            a.show();
-            searchButton.setDisable(true);
+        if (!checkService("This service is not currently available!"))
             return;
-        }
 
         followedusers = neo4jUser.checkalreadyfollow(userSession.getUserId());
         setAlreadyFollowed();
@@ -129,13 +125,13 @@ public class FriendsPageController {
         userUsernameYourFriends.setCellValueFactory(new PropertyValueFactory<>("username"));
 
         for (User user : followedusers) {
-            YourFriends.getItems().add(user);
+            yourFriends.getItems().add(user);
         }
 
-        YourFriends.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        yourFriends.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                User u = YourFriends.getSelectionModel().getSelectedItem();
+                User u = yourFriends.getSelectionModel().getSelectedItem();
                 idSelectedFriend = (u.getUserId());
                 YourFriendButton.setDisable(false);
                 YourFriendLabel.setText(u.getUsername());
@@ -151,13 +147,13 @@ public class FriendsPageController {
         userUsernameLike.setCellValueFactory(new PropertyValueFactory<>("username"));
 
         for (User user : users) {
-            SuggestedFriendLike.getItems().add(user);
+            suggestedFriendLike.getItems().add(user);
         }
 
-        SuggestedFriendLike.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        suggestedFriendLike.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                User u = SuggestedFriendLike.getSelectionModel().getSelectedItem();
+                User u = suggestedFriendLike.getSelectionModel().getSelectedItem();
 
                 for (User followeduser : followedusers) {
                     if (followeduser.getUserId().equals(u.getUserId())) {
@@ -180,13 +176,13 @@ public class FriendsPageController {
         userUsernameFriends.setCellValueFactory(new PropertyValueFactory<>("username"));
 
         for (User user : users) {
-            SuggestedFriend.getItems().add(user);
+            suggestedFriend.getItems().add(user);
         }
 
-        SuggestedFriend.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        suggestedFriend.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                User u = SuggestedFriend.getSelectionModel().getSelectedItem();
+                User u = suggestedFriend.getSelectionModel().getSelectedItem();
                 for (User followeduser : followedusers) {
                     if (followeduser.getUserId().equals(u.getUserId())) {
                         follow_button2.setDisable(true);
@@ -204,18 +200,18 @@ public class FriendsPageController {
 
     @FXML
     private void searchFriend(){
-        FriendsList.getItems().clear();
+        friendsList.getItems().clear();
         ArrayList<User> users = neo4jUser.searchUser(userToFind.getText(), userSession.getUserId());
         ObservableList<User> observable_users = FXCollections.observableArrayList(users);
         if(users.size() == 0){
-            FriendsList.setPlaceholder(new Label("No Users found containing "+ userToFind.getText()));
+            friendsList.setPlaceholder(new Label("No Users found containing "+ userToFind.getText()));
             return;
         }
-        FriendsList.setItems(observable_users);
-        FriendsList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        friendsList.setItems(observable_users);
+        friendsList.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                User u = FriendsList.getSelectionModel().getSelectedItem();
+                User u = friendsList.getSelectionModel().getSelectedItem();
                 int i;
                 for (i = 0; i < followedusers.size(); i++) {
                     if (followedusers.get(i).getUserId().equals(u.getUserId())) {
@@ -237,7 +233,7 @@ public class FriendsPageController {
                 }
             }
         });
-        FriendsList.scrollTo(0);
+        friendsList.scrollTo(0);
     }
 
     @FXML
@@ -246,8 +242,11 @@ public class FriendsPageController {
     }
 
     @FXML
-    private void createRelationFollow() throws Exception {
-        neo4jUser.createFollow(userSession.getUserId(),idSelected);
+    private void createRelationFollow() {
+        if(neo4jUser.createFollow(userSession.getUserId(),idSelected)){
+            checkService("Connection problem!");
+            return;
+        }
         follow_button.setDisable(true);
         follow_button.setVisible(false);
         unfollow_button.setDisable(false);
@@ -258,36 +257,63 @@ public class FriendsPageController {
 
     @FXML
     private void deleteFollow(){
-        neo4jUser.deleteFollow(userSession.getUserId(),idSelectedFriend);
+        if(neo4jUser.deleteFollow(userSession.getUserId(),idSelectedFriend)){
+            checkService("Connection problem!");
+            return;
+        }
         YourFriendButton.setDisable(true);
         YourFriendLabel.setText("Unfollow " +idSelectedFriend);
         followedusers = neo4jUser.checkalreadyfollow(userSession.getUserId());
     }
 
     @FXML
-    private void createRelationFollow1() throws Exception {
-        neo4jUser.createFollow(userSession.getUserId(),idSelected1);
+    private void createRelationFollow1() {
+        if(neo4jUser.createFollow(userSession.getUserId(),idSelected1)){
+            checkService("Connection problem!");
+            return;
+        }
         follow_button1.setDisable(true);
         valueLbl1.setText("User already followed");
         followedusers = neo4jUser.checkalreadyfollow(userSession.getUserId());
     }
 
     @FXML
-    private void createRelationFollow2() throws Exception {
-        neo4jUser.createFollow(userSession.getUserId(),idSelected2);
+    private void createRelationFollow2() {
+        if(!neo4jUser.createFollow(userSession.getUserId(),idSelected2)){
+            checkService("Connection problem!");
+            return;
+        }
         follow_button2.setDisable(true);
         valueLbl2.setText("User already followed");
         followedusers = neo4jUser.checkalreadyfollow(userSession.getUserId());
     }
 
     @FXML
-    private void deleteRelationFollow() throws Exception {
-        neo4jUser.deleteFollow(userSession.getUserId(),idSelected);
+    private void deleteRelationFollow() {
+        if (!neo4jUser.deleteFollow(userSession.getUserId(),idSelected)){
+            checkService("Connection problem!");
+            return;
+        }
+
         unfollow_button.setDisable(true);
         unfollow_button.setVisible(false);
         follow_button.setDisable(false);
         follow_button.setVisible(true);
         valueLbl.setText("Follow " +idSelected);
         followedusers = neo4jUser.checkalreadyfollow(userSession.getUserId());
+    }
+
+    private boolean checkService(String text){
+        if (!neo4jUser.checkConnection()){
+            Alert a = new Alert(Alert.AlertType.WARNING, text, ButtonType.OK);
+            yourFriends.getItems().clear();
+            friendsList.getItems().clear();
+            suggestedFriend.getItems().clear();
+            suggestedFriendLike.getItems().clear();
+            searchButton.setDisable(true);
+            a.show();
+            return false;
+        }
+        return true;
     }
 }

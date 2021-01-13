@@ -1,6 +1,8 @@
 package neo4j;
 
 import bean.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.HashMap;
 import static org.neo4j.driver.Values.parameters;
 
 public class Neo4jUser extends Neo4jConnection{
+    private static final Logger logger = LogManager.getLogger(Neo4jUser.class);
 
     @Override
     public void close(){
@@ -31,6 +34,9 @@ public class Neo4jUser extends Neo4jConnection{
                 }
                 return users;
             });
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            followedusers = null;
         }
         return followedusers;
     }
@@ -53,14 +59,17 @@ public class Neo4jUser extends Neo4jConnection{
                 }
                 return users;
             });
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            matchingUsers = null;
         }
         return matchingUsers;
     }
 
     public ArrayList<User> suggestedUserByLike(final String user_id){
-        ArrayList<User> SuggestedUsers;
+        ArrayList<User> suggestedUsers;
         try (Session session = driver.session()) {
-            SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
+            suggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
                 Result result = tx.run("MATCH (u:User{id: $user_id})-[:Follow]->(u1:User)\n" +
                                         "WITH collect(u1) AS FollowedUserYet\n" +
                                         "MATCH p=(n:User{id: $user_id})-[:Like]->(:PlayerCard)<-[l:Like]-(u:User)\n" +
@@ -77,14 +86,17 @@ public class Neo4jUser extends Neo4jConnection{
                 }
                 return users;
             });
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            suggestedUsers = null;
         }
-        return SuggestedUsers;
+        return suggestedUsers;
     }
 
     public ArrayList<User> suggestedUserByFriends(final String user_id) {
-        ArrayList<User> SuggestedUsers;
+        ArrayList<User> suggestedUsers;
         try (Session session = driver.session()) {
-            SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
+            suggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
                 Result result = tx.run("MATCH (u:User{id: $user_id})-[:Follow]->(u1:User)\n" +
                                         "WITH collect(u1) AS FollowedUserYet\n" +
                                         "MATCH p=(n:User{id: $user_id})-[:Follow]->(:User)<-[f:Follow]-(u:User)\n" +
@@ -102,14 +114,17 @@ public class Neo4jUser extends Neo4jConnection{
                 }
                 return users;
             });
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            suggestedUsers = null;
         }
-        return SuggestedUsers;
+        return suggestedUsers;
     }
 
     public ArrayList<User> suggestedUserChallenge(final String user_id) {
-        ArrayList<User> SuggestedUsers;
+        ArrayList<User> suggestedUsers;
         try (Session session = driver.session()) {
-            SuggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
+            suggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
                 Result result = tx.run("MATCH (u:User{id: $user_id})\n" +
                                         "WITH toInteger(u.score) as userscore\n" +
                                         "MATCH (u1:User)\n" +
@@ -125,8 +140,11 @@ public class Neo4jUser extends Neo4jConnection{
                 }
                 return users;
             });
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            suggestedUsers = null;
         }
-        return SuggestedUsers;
+        return suggestedUsers;
     }
 
     public boolean createUser(final String user_id, final String username){
@@ -138,12 +156,14 @@ public class Neo4jUser extends Neo4jConnection{
                return 1;
             });
         } catch (Exception e){
+            logger.error("Exception occurred: ", e);
             result = false;
         }
         return result;
     }
 
-    public void createFollow(final String user_id, final String user_id1){
+    public boolean createFollow(final String user_id, final String user_id1){
+        boolean result = true;
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("MATCH (u:User{id: $user_id}),(u1:User{id: $user_id1})\n" +
@@ -151,10 +171,15 @@ public class Neo4jUser extends Neo4jConnection{
                         parameters("user_id", user_id , "user_id1", user_id1));
                 return 1;
             });
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            result = false;
         }
+        return result;
     }
 
-    public void deleteFollow(final String user_id, final String user_id1){
+    public boolean deleteFollow(final String user_id, final String user_id1){
+        boolean result = true;
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("MATCH path=(u:User{id: $user_id})-[f:Follow]-(u1:User{id: $user_id1})\n" +
@@ -162,10 +187,15 @@ public class Neo4jUser extends Neo4jConnection{
                         parameters("user_id", user_id , "user_id1", user_id1));
                 return 1;
             });
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            result = false;
         }
+        return result;
     }
 
-    public void createPost(final String user_id, final Integer comment_id){
+    public boolean createPost(final String user_id, final Integer comment_id){
+        boolean result = true;
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
                 tx.run("MATCH (u:User{id: $user_id}),(c:Comment{id: $comment_id})\n" +
@@ -173,7 +203,11 @@ public class Neo4jUser extends Neo4jConnection{
                         parameters("user_id", user_id , "comment_id", comment_id));
                 return 1;
             });
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            result = false;
         }
+        return result;
     }
 
     public boolean updateScore(final String user_id, final Integer score){
@@ -186,9 +220,9 @@ public class Neo4jUser extends Neo4jConnection{
                 return 1;
             });
         } catch (Exception e){
+            logger.error("Exception occurred: ", e);
             result = false;
         }
-
         return result;
     }
 
@@ -207,6 +241,9 @@ public class Neo4jUser extends Neo4jConnection{
                 }
                 return userMapResult;
             });
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            userMap = null;
         }
         return userMap;
     }

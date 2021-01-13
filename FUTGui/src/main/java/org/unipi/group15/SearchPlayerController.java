@@ -56,11 +56,8 @@ public class SearchPlayerController {
     private void initialize(){
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
-        if (!neo4jPlayerCard.checkConnection()){
-            Alert alert = new Alert(Alert.AlertType.WARNING, "This service is not currently available");
-            alert.show();
-            toFindButton.setDisable(true);
-        }
+
+        checkService("This service is not currently available");
     }
 
     @FXML
@@ -136,6 +133,16 @@ public class SearchPlayerController {
     @FXML
     public void onEnter(ActionEvent ae) throws Exception {
         findPlayer();
+    }
+
+    private boolean checkService(String text){
+        if (!neo4jPlayerCard.checkConnection()){
+            toFindButton.setDisable(true);
+            Alert a = new Alert(Alert.AlertType.WARNING, text, ButtonType.OK);
+            a.show();
+            return false;
+        }
+        return true;
     }
 
 }
