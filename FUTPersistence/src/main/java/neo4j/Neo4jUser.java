@@ -20,7 +20,7 @@ public class Neo4jUser extends Neo4jConnection{
         try (Session session = driver.session()) {
             followedusers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
                 Result result = tx.run("MATCH (u:User{id: $user_id})-[:Follow]->(u1:User)\n" +
-                                "RETURN toString(u1.id) AS Id, u1.username AS Username",
+                                        "RETURN toString(u1.id) AS Id, u1.username AS Username",
                         parameters("user_id", user_id));
                 ArrayList<User> users = new ArrayList<>();
                 while (result.hasNext()){
@@ -41,8 +41,8 @@ public class Neo4jUser extends Neo4jConnection{
         {
             matchingUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
                 Result result = tx.run( "MATCH (u:User)\n" +
-                                "WHERE (u.username) CONTAINS $username AND (u.id)<>$user_id\n" +
-                                "RETURN u.username AS Username, toString(u.id) AS Id",
+                                        "WHERE (u.username) CONTAINS $username AND (u.id)<>$user_id\n" +
+                                        "RETURN u.username AS Username, toString(u.id) AS Id",
                         parameters( "username", username, "user_id", user_id));
                 ArrayList<User> users = new ArrayList<>();
                 while(result.hasNext())

@@ -38,8 +38,8 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         {
             matchingPlayers = session.readTransaction((TransactionWork<ArrayList<Player>>) tx -> {
                 Result result = tx.run( "MATCH (p:PlayerCard)\n" +
-                                "WHERE (p.name) CONTAINS $name \n" +
-                                "RETURN p.name AS Name, p.id AS PlayerId, p.quality AS Quality, p.revision AS Revision, p.images AS Img0",
+                                        "WHERE (p.name) CONTAINS $name \n" +
+                                        "RETURN p.name AS Name, p.id AS PlayerId, p.quality AS Quality, p.revision AS Revision, p.images AS Img0",
                         parameters( "name", name));
                 ArrayList<Player> Players = new ArrayList<>();
                 while(result.hasNext())
@@ -75,7 +75,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
             Integer numLike = session.readTransaction((TransactionWork<Integer>) tx -> {
 
                 String query = "MATCH (p:PlayerCard{id: $playercard})-[l:Like]-(:User)"+
-                        "RETURN COUNT(l) AS numLike";
+                                "RETURN COUNT(l) AS numLike";
                 Result result = tx.run( query, parameters("playercard", playercard) );
                 return result.single().get("numLike").asInt();
             });
@@ -89,7 +89,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
             boolean existLike = session.readTransaction((TransactionWork<Boolean>) tx -> {
 
                 String query = "MATCH (c:User{id: $user_id})-[l:Like]->(p:PlayerCard{id: $playercard}) \n" +
-                        "RETURN COUNT(l) > 0 AS boolExist";
+                                "RETURN COUNT(l) > 0 AS boolExist";
                 Result result = tx.run( query, parameters("user_id", user_id , "playercard", playercard));
                 return result.single().get("boolExist").asBoolean();
             });

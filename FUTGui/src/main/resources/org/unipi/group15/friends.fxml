@@ -137,7 +137,6 @@
                   </AnchorPane>
                   <TextField fx:id="userToFind" layoutX="34.0" layoutY="44.0" onAction="#onEnter" prefHeight="26.0" prefWidth="192.0" promptText="Search new friend" />
                   <Label fx:id="valueLbl" alignment="CENTER" layoutX="217.0" layoutY="180.0" prefHeight="39.0" prefWidth="86.0" text="Label" />
-                  <Button fx:id="unfollow_button" layoutX="221.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#deleteRelationFollow" prefHeight="39.0" prefWidth="78.0" text="Unfollow" />
                   <Button fx:id="follow_button" layoutX="221.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#createRelationFollow" prefHeight="39.0" prefWidth="78.0" text="Follow" />
                   <Text layoutX="346.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Friends">
                      <font>
