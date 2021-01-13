@@ -214,7 +214,7 @@ public class Neo4jUser extends Neo4jConnection{
         boolean result = true;
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
-                tx.run("MATCH (u:User{id: toInteger($user_id)})\n" +
+                tx.run("MATCH (u:User{id: toString($user_id)})\n" +
                         "SET u.score = u.score + $score",
                         parameters("user_id", user_id , "score", score));
                 return 1;

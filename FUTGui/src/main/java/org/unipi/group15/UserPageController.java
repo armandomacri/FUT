@@ -168,7 +168,7 @@ public class UserPageController {
     }
 
     @FXML
-    public void switchToAdmin(){ App.setRoot("mainView"); }
+    public void switchToAdmin(){ App.setRoot("adminFirstPage"); }
 
     @FXML
     public void logOut() {

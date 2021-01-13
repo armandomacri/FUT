@@ -20,7 +20,6 @@ public class MongoChallenge extends MongoConnection{
 
     public String insertChallenge (Challenge newChallenge){
         myColl = db.getCollection("challenge");
-
         Document homeDoc = new Document("id", newChallenge.getHome()).append("username", newChallenge.getHomeUser()).append("score", newChallenge.getHomeScore());
         Document awayDoc = new Document("id", newChallenge.getAway()).append("username", newChallenge.getAwayUser()).append("score", newChallenge.getAwayScore());
         Document doc = new Document("date", newChallenge.getDate()).append("home", homeDoc).append("away", awayDoc).append("points_earned/lost", newChallenge.getPoints());
@@ -38,7 +37,6 @@ public class MongoChallenge extends MongoConnection{
     public ArrayList<Challenge> findUserChallenge (String userID){
         myColl = db.getCollection("challenge");
         ArrayList<Challenge> results = new ArrayList<>();
-
         try (MongoCursor<Document> cursor = myColl.find(or(eq("home.id", userID), eq("away.id", userID))).iterator())
         {
             while (cursor.hasNext())
@@ -56,6 +54,8 @@ public class MongoChallenge extends MongoConnection{
         }
         return results;
     }
+
+
 
     @Override
     public void close(){

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.AdminFirstPageController">
+   <children>
+      <AnchorPane prefHeight="600.0" prefWidth="900.0">
+         <children>
+            <Pane layoutX="-1.0" prefHeight="38.0" prefWidth="240.0" />
+            <AnchorPane layoutX="-1.0" prefHeight="600.0" prefWidth="902.0">
+               <children>
+                  <Text layoutX="384.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin panel" underline="true">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <Button layoutX="32.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#logOut" prefHeight="26.0" prefWidth="66.0" text="Log Out" />
+                  <Button layoutX="784.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#playerAnalytics" prefHeight="26.0" prefWidth="103.0" text="Player Analytics" />
+                  <LineChart fx:id="userGraph" layoutX="24.0" layoutY="132.0" prefHeight="400.0" prefWidth="418.0" title="Users registered">
+                    <xAxis>
+                      <CategoryAxis prefHeight="45.0" prefWidth="341.0" fx:id="xAxisUsers" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis fx:id="yAxisUsers" label="#Users" side="LEFT" />
+                    </yAxis>
+                  </LineChart>
+                  <LineChart fx:id="challengeGraph" layoutX="464.0" layoutY="132.0" prefHeight="400.0" prefWidth="418.0" title="Challenges played">
+                     <xAxis>
+                        <CategoryAxis prefHeight="46.0" prefWidth="341.0" side="BOTTOM" fx:id="xAxisChallenges" />
+                     </xAxis>
+                     <yAxis>
+                        <NumberAxis fx:id="yAxisChallenges" label="#Challenges" side="LEFT" />
+                     </yAxis>
+                  </LineChart>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

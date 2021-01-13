@@ -58,6 +58,7 @@ public class ChallengeController {
         userIdLabel.setText(userSession.getUserId());
         selectedSquad = null;
         selectedUser = null;
+        suggestedUserTableView.getItems().clear();
         setTable(seachUserTableView);
         setTable(suggestedUserTableView);
         if (!neo4jUser.checkConnection()){
@@ -201,11 +202,11 @@ public class ChallengeController {
         suggestedUserScore.setCellValueFactory(new PropertyValueFactory<>("score"));
         ObservableList<User> users = FXCollections.observableArrayList(neo4jUser.suggestedUserChallenge(userSession.getUserId()));
         suggestedUserTableView.setItems(users);
+        suggestedUserScore.setSortType(TableColumn.SortType.DESCENDING);
+        suggestedUserTableView.getSortOrder().setAll(suggestedUserScore);
         suggestedUserTableView.setOnMouseClicked((MouseEvent event) -> {
             selectedUser = suggestedUserTableView.getSelectionModel().getSelectedItem();
             showSelectedUserSquads(suggestedUserTableView.getSelectionModel().getSelectedItem().getUserId());
-            suggestedUserScore.setSortType(TableColumn.SortType.DESCENDING);
-            suggestedUserTableView.getSortOrder().setAll(suggestedUserScore);
         });
     }
 

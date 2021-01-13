@@ -25,7 +25,7 @@ import org.bson.Document;
 import java.io.*;
 import java.util.*;
 
-public class MainViewController {
+public class AdminSecondPageController {
 
     private static final Neo4jPlayerCard neo4jPlayerCard = new Neo4jPlayerCard();
     private static final Neo4jUser neo4jUser = new Neo4jUser();
@@ -387,4 +387,14 @@ public class MainViewController {
             }
         }
     }
+
+    @FXML
+    public void logOut() {
+        App.getSession().clear();
+        App.setRoot("primary");
+    }
+
+    @FXML
+    public void userAnalytics(){ App.setRoot("adminFirstPage"); }
+
 }
