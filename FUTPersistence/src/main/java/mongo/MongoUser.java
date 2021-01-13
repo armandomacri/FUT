@@ -147,7 +147,6 @@ public class MongoUser extends MongoConnection{
         Bson lim = limit(10);
         myColl.aggregate(Arrays.asList(groupCountry, order, lim)).forEach(createDocuments);;
         return result;
-
     }
 
     @Override
@@ -158,10 +157,10 @@ public class MongoUser extends MongoConnection{
 
     public static void main(String[] args){
         MongoUser mongoUser = new MongoUser();
-        System.out.println(mongoUser.getUserPerCountryLastYear());
+        System.out.println(mongoUser.getUserPerCountryLastYear().get(0).get("_id"));
         //String id = mongoUser.add("armando", "armando", "Armando9876", "italy", "8/01/2021", "armando");
         //mongoUser.delete(id);
-        System.out.println(mongoClient.getClusterDescription().getType());
+        //System.out.println(mongoClient.getClusterDescription().getType());
 
         //System.out.println(mongoClient.getClusterDescription().getType().compareTo(ClusterType.UNKNOWN));
     }

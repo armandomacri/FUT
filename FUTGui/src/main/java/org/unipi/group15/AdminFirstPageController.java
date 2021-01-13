@@ -11,16 +11,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import javafx.util.Callback;
+import mongo.MongoChallenge;
 import mongo.MongoPlayerCard;
 import mongo.MongoSquad;
+import mongo.MongoUser;
 import neo4j.Neo4jPlayerCard;
 import neo4j.Neo4jUser;
 import org.apache.commons.io.FilenameUtils;
@@ -31,13 +30,12 @@ import java.util.*;
 
 public class AdminFirstPageController {
 
-    private static final Neo4jPlayerCard neo4jPlayerCard = new Neo4jPlayerCard();
-    private static final Neo4jUser neo4jUser = new Neo4jUser();
-    private static final MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
-    private static final MongoSquad mongoSquad = new MongoSquad();
+    private static final MongoChallenge mongoChallenge = new MongoChallenge();
+    private static final MongoUser mongoUser = new MongoUser();
+    ArrayList<Document> UserPerCountry = new ArrayList<>();
 
     @FXML
-    private LineChart<String, Number> userGraph;
+    private BarChart<String, Number> userGraph;
 
     @FXML
     private LineChart<String, Number> challengeGraph;
@@ -56,6 +54,7 @@ public class AdminFirstPageController {
 
     @FXML
     private void initialize(){
+        UserPerCountry = mongoUser.getUserPerCountryLastYear();
         fillUserGraph();
         fillChallengeGraph();
     }
@@ -65,10 +64,9 @@ public class AdminFirstPageController {
         XYChart.Series series = new XYChart.Series();
         series.setName("Users");
         //populating the series with data
-        for(int i=0; i<3; i++){
-            series.getData().add(new XYChart.Data("mese N: "+i, i*10)); {
-            }
-        };
+        for(int i=0; i<10; i++) {
+            series.getData().add(new XYChart.Data(UserPerCountry.get(i).get("_id"), UserPerCountry.get(i).get("numUsers")));
+        }
         //adding data in the graph
         userGraph.getData().add(series);
     }
