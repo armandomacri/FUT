@@ -117,7 +117,7 @@ public class MongoPlayerCard extends MongoConnection{
             {
                 Document playerDoc = cursor.next();
                 if (playerDoc == null)
-                    return null;
+
                 results.add(composePlayer(playerDoc));
             }
         }
