@@ -55,23 +55,6 @@ public class MongoUser extends MongoConnection{
 
     }
 
-    public ArrayList<User> findUsers(String toFind, String userId) {
-        myColl = db.getCollection("users");
-        ArrayList<User> users = new ArrayList<>();
-
-        try (MongoCursor<Document> cursor = myColl.find(and(regex("username",".*" + Pattern.quote(toFind) + ".*", "-i"), ne("_id", new ObjectId(userId)))).iterator())
-        {
-            while (cursor.hasNext())
-            {
-                Document userDoc = cursor.next();
-                User user = composeUser(userDoc);
-                users.add(user);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return users;
-    }
 
     private User composeUser(Document doc){
         //no user found

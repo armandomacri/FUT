@@ -35,7 +35,7 @@ public class AdminFirstPageController {
     private static final MongoChallenge mongoChallenge = new MongoChallenge();
     private static final MongoUser mongoUser = new MongoUser();
     ArrayList<Document> UserPerCountry = new ArrayList<>();
-    ArrayList<Document> ChallengePerDay = new ArrayList<>();
+    TreeMap<Date, Integer> ChallengePerDay = new TreeMap<>();
 
     @FXML
     private BarChart<String, Number> userGraph;
@@ -80,10 +80,12 @@ public class AdminFirstPageController {
         XYChart.Series series = new XYChart.Series();
         series.setName("Challenges");
         //populating the series with data
-        for(int i=0; i<30; i++) {
-            series.getData().add(new XYChart.Data(ChallengePerDay.get(i).get("date"), ChallengePerDay.get(i).get("numChallenges")));
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        for (Map.Entry<Date, Integer> entry : ChallengePerDay.entrySet()) {
+            Date key = entry.getKey();
+            Integer value = entry.getValue();
+            series.getData().add(new XYChart.Data(format.format(key), value));
         }
-        //adding data in the graph
         challengeGraph.getData().add(series);
         challengeGraph.setCreateSymbols(false);
     }
