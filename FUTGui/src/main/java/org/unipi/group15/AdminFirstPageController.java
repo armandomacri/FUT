@@ -26,6 +26,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.bson.Document;
 
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class AdminFirstPageController {
@@ -33,12 +35,13 @@ public class AdminFirstPageController {
     private static final MongoChallenge mongoChallenge = new MongoChallenge();
     private static final MongoUser mongoUser = new MongoUser();
     ArrayList<Document> UserPerCountry = new ArrayList<>();
+    ArrayList<Document> ChallengePerDay = new ArrayList<>();
 
     @FXML
     private BarChart<String, Number> userGraph;
 
     @FXML
-    private LineChart<String, Number> challengeGraph;
+    private LineChart<Date, Number> challengeGraph;
 
     @FXML
     private CategoryAxis xAxisUsers;
@@ -47,14 +50,15 @@ public class AdminFirstPageController {
     private NumberAxis yAxisUsers;
 
     @FXML
-    private CategoryAxis xAxisChallenges ;
+    private Axis xAxisChallenges ;
 
     @FXML
     private NumberAxis yAxisChallenges ;
 
     @FXML
-    private void initialize(){
+    private void initialize() throws ParseException {
         UserPerCountry = mongoUser.getUserPerCountryLastYear();
+        ChallengePerDay = mongoChallenge.ChallengesPerDay();
         fillUserGraph();
         fillChallengeGraph();
     }
@@ -71,16 +75,17 @@ public class AdminFirstPageController {
         userGraph.getData().add(series);
     }
 
-    private void fillChallengeGraph() {
+    private void fillChallengeGraph() throws ParseException {
         //defining a series
         XYChart.Series series = new XYChart.Series();
         series.setName("Challenges");
         //populating the series with data
-        series.getData().add(new XYChart.Data("Jan 2020", 23));
-        series.getData().add(new XYChart.Data("Feb 2020", 14));
-        series.getData().add(new XYChart.Data("Mar 2020", 15));
+        for(int i=0; i<30; i++) {
+            series.getData().add(new XYChart.Data(ChallengePerDay.get(i).get("date"), ChallengePerDay.get(i).get("numChallenges")));
+        }
         //adding data in the graph
         challengeGraph.getData().add(series);
+        challengeGraph.setCreateSymbols(false);
     }
 
     @FXML

@@ -68,7 +68,6 @@ public class MongoChallenge extends MongoConnection{
         ArrayList<Document> result = new ArrayList<>();
         myColl = db.getCollection("challenge");
         Consumer<Document> createDocuments = doc -> {result.add(doc);};
-
         Bson groupDate = group("$date",
                 sum("numChallenges", 1)
         );
@@ -79,7 +78,6 @@ public class MongoChallenge extends MongoConnection{
                 include("numChallenges")
                 )
         );
-
         myColl.aggregate(Arrays.asList(groupDate, sort, limit, project)).forEach(createDocuments);
         return result;
     }
