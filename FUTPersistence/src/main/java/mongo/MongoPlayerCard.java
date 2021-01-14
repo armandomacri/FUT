@@ -108,24 +108,6 @@ public class MongoPlayerCard extends MongoConnection{
         return player;
     }
 
-    public ArrayList<Player> findByPosition(String position){
-        myColl = db.getCollection("player_cards");
-        ArrayList<Player> results = new ArrayList<>();
-        try (MongoCursor<Document> cursor = myColl.find(eq("position", position)).iterator())
-        {
-            while (cursor.hasNext())
-            {
-                Document playerDoc = cursor.next();
-                if (playerDoc == null)
-                    return null;
-                results.add(composePlayer(playerDoc));
-            }
-        }
-
-        return results;
-    }
-
-
     public ArrayList<Player> filterBy(String position, String nation, String quality){
         myColl = db.getCollection("player_cards");
         ArrayList<Player> results = new ArrayList<>();
@@ -138,20 +120,24 @@ public class MongoPlayerCard extends MongoConnection{
                     return null;
                 results.add(composePlayer(playerDoc));
             }
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            results = null;
         }
 
         return results;
     }
 
     public boolean deletePlayer (int id){
-        boolean x = true;
+        boolean result = true;
         myColl = db.getCollection("player_cards");
         try{
             myColl.deleteOne(eq("_id", id));
         } catch (Exception e){
-            x = false;
+            logger.error("Exception occurred: ", e);
+            result = false;
         }
-        return x;
+        return result;
     }
 
     private Player composePlayer(Document playerDoc){

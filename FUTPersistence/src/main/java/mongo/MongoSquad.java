@@ -4,6 +4,8 @@ import bean.Player;
 import bean.Squad;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Updates;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -18,9 +20,10 @@ import static com.mongodb.client.model.Projections.*;
 import static com.mongodb.client.model.Sorts.descending;
 
 public class MongoSquad extends MongoConnection{
+    private static final Logger logger = LogManager.getLogger(MongoSquad.class);
     private MongoCollection<Document> myColl;
 
-    public void add(String userId, int index, Squad squad){
+    public boolean add(String userId, int index, Squad squad){
         myColl = db.getCollection("users");
         Document squadDoc = new Document();
         squadDoc.append("name", squad.getName());
@@ -35,38 +38,60 @@ public class MongoSquad extends MongoConnection{
             String value = squad.getPlayers().get(key);
             playersDoc.append(key, value);
         }
-
+        boolean result = true;
         squadDoc.append("players", playersDoc);
-        if(index == -1){
-            myColl.updateOne(
-                    eq("_id", new ObjectId(userId)),
-                    Updates.push("squads", squadDoc)
-            );
-        } else {
-            myColl.updateOne(
-                    new Document("_id", new ObjectId(userId)),
-                    new Document("$set", new Document("squads."+index, squadDoc))
-            );
+        try{
+            if(index == -1){
+                myColl.updateOne(
+                        eq("_id", new ObjectId(userId)),
+                        Updates.push("squads", squadDoc)
+                );
+            } else {
+                myColl.updateOne(
+                        new Document("_id", new ObjectId(userId)),
+                        new Document("$set", new Document("squads."+index, squadDoc))
+                );
+            }
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            result = false;
         }
+
+        return result;
     }
 
-    public void delete(String userId, int index){
+    public boolean delete(String userId, int index){
         myColl = db.getCollection("users");
-        myColl.updateOne(
-                new Document("_id", new ObjectId(userId)),
-                new Document("$unset", new Document("squads."+index, 1))
-        );
+        boolean result = true;
+        try {
+            myColl.updateOne(
+                    new Document("_id", new ObjectId(userId)),
+                    new Document("$unset", new Document("squads."+index, 1))
+            );
 
-        myColl.updateOne(
-                new Document("_id", new ObjectId(userId)),
-                new Document("$pull", new Document("squads", null))
-        );
+            myColl.updateOne(
+                    new Document("_id", new ObjectId(userId)),
+                    new Document("$pull", new Document("squads", null))
+            );
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            result = false;
+        }
+        return result;
     }
 
     public ArrayList<Squad> getSquads(String id){
         myColl = db.getCollection("users");
-        Document doc = myColl.find(eq("_id",new ObjectId(id))).projection(fields(include("squads"), excludeId())).first();
-        return composeSquads(doc);
+        Document doc;
+        try{
+            doc = myColl.find(eq("_id",new ObjectId(id))).projection(fields(include("squads"), excludeId())).first();
+        } catch (Exception e){
+            doc = null;
+        }
+
+        if (doc == null)
+            return null;
+         return composeSquads(doc);
     }
 
     private ArrayList<Squad> composeSquads(Document doc){

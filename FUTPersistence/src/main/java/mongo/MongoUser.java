@@ -2,23 +2,29 @@ package mongo;
 
 import bean.*;
 import com.mongodb.client.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
-
-import javax.print.Doc;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
+import static com.mongodb.client.model.Accumulators.sum;
+import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Sorts.descending;
 import static com.mongodb.client.model.Updates.inc;
 
 public class MongoUser extends MongoConnection{
+    private static final Logger logger = LogManager.getLogger(MongoUser.class);
     private MongoCollection<Document> myColl;
 
     public String add(String firstName, String lastName, String username, String country, String joinDate, String password){
         myColl = db.getCollection("users");
-
+        String id;
         Document user = new Document("username", username)
                 .append("first_name", firstName)
                 .append("last_name", lastName)
@@ -29,11 +35,12 @@ public class MongoUser extends MongoConnection{
                 .append("squads", new ArrayList<>());
         try {
             myColl.insertOne(user);
+            id = user.getObjectId("_id").toString();
         } catch (Exception e){
-            return null;
+            logger.error("Exception occurred: ", e);
+            id = null;
         }
-
-        return user.getObjectId("_id").toString();
+        return id;
     }
 
     public void delete(String id){
@@ -126,16 +133,20 @@ public class MongoUser extends MongoConnection{
             result = false;
         }
 
+
         return result;
 
     }
 
-    public int getScore (String userId){
+    public ArrayList<Document> getUserPerCountryLastYear(){
         myColl = db.getCollection("users");
-        //query
-        Document doc = myColl.find(eq("_id", new ObjectId(userId))).first();
-        assert doc != null;
-        return (Integer) doc.get("score");
+        ArrayList<Document> result = new ArrayList<>();
+        Consumer<Document> createDocuments = doc -> {result.add(doc);};
+        Bson groupCountry = group("$country", sum("numUsers", 1));
+        Bson order = sort(descending("numUser"));
+        Bson lim = limit(10);
+        myColl.aggregate(Arrays.asList(groupCountry, order, lim)).forEach(createDocuments);;
+        return result;
     }
 
     @Override
@@ -146,9 +157,12 @@ public class MongoUser extends MongoConnection{
 
     public static void main(String[] args){
         MongoUser mongoUser = new MongoUser();
+        System.out.println(mongoUser.getUserPerCountryLastYear().get(0).get("_id"));
         //String id = mongoUser.add("armando", "armando", "Armando9876", "italy", "8/01/2021", "armando");
         //mongoUser.delete(id);
-        System.out.println(mongoUser.getUser("Armando"));
+        //System.out.println(mongoClient.getClusterDescription().getType());
+
+        //System.out.println(mongoClient.getClusterDescription().getType().compareTo(ClusterType.UNKNOWN));
     }
 
 

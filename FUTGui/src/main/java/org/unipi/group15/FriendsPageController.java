@@ -17,7 +17,7 @@ import user.UserSessionService;
 import java.util.ArrayList;
 
 public class FriendsPageController {
-    private static Neo4jUser neo4jUser = new Neo4jUser();;
+    private static Neo4jUser neo4jUser = new Neo4jUser();
     private final UserSessionService userSession = App.getSession();
     private String idSelected = null;
     private String idSelectedFriend = null;
