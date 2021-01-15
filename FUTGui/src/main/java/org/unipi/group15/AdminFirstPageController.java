@@ -11,36 +11,37 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import javafx.util.Callback;
+import mongo.MongoChallenge;
 import mongo.MongoPlayerCard;
 import mongo.MongoSquad;
+import mongo.MongoUser;
 import neo4j.Neo4jPlayerCard;
 import neo4j.Neo4jUser;
 import org.apache.commons.io.FilenameUtils;
 import org.bson.Document;
 
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class AdminFirstPageController {
 
-    private static final Neo4jPlayerCard neo4jPlayerCard = new Neo4jPlayerCard();
-    private static final Neo4jUser neo4jUser = new Neo4jUser();
-    private static final MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
-    private static final MongoSquad mongoSquad = new MongoSquad();
+    private static final MongoChallenge mongoChallenge = new MongoChallenge();
+    private static final MongoUser mongoUser = new MongoUser();
+    ArrayList<Document> UserPerCountry = new ArrayList<>();
+    TreeMap<Date, Integer> ChallengePerDay = new TreeMap<>();
 
     @FXML
-    private LineChart<String, Number> userGraph;
+    private BarChart<String, Number> userGraph;
 
     @FXML
-    private LineChart<String, Number> challengeGraph;
+    private LineChart<Date, Number> challengeGraph;
 
     @FXML
     private CategoryAxis xAxisUsers;
@@ -49,13 +50,15 @@ public class AdminFirstPageController {
     private NumberAxis yAxisUsers;
 
     @FXML
-    private CategoryAxis xAxisChallenges ;
+    private Axis xAxisChallenges ;
 
     @FXML
     private NumberAxis yAxisChallenges ;
 
     @FXML
-    private void initialize(){
+    private void initialize() throws ParseException {
+        UserPerCountry = mongoUser.getUserPerCountryLastYear();
+        ChallengePerDay = mongoChallenge.ChallengesPerDay();
         fillUserGraph();
         fillChallengeGraph();
     }
@@ -65,24 +68,26 @@ public class AdminFirstPageController {
         XYChart.Series series = new XYChart.Series();
         series.setName("Users");
         //populating the series with data
-        for(int i=0; i<3; i++){
-            series.getData().add(new XYChart.Data("mese N: "+i, i*10)); {
-            }
-        };
+        for(int i=0; i<10; i++) {
+            series.getData().add(new XYChart.Data(UserPerCountry.get(i).get("_id"), UserPerCountry.get(i).get("numUsers")));
+        }
         //adding data in the graph
         userGraph.getData().add(series);
     }
 
-    private void fillChallengeGraph() {
+    private void fillChallengeGraph() throws ParseException {
         //defining a series
         XYChart.Series series = new XYChart.Series();
         series.setName("Challenges");
         //populating the series with data
-        series.getData().add(new XYChart.Data("Jan 2020", 23));
-        series.getData().add(new XYChart.Data("Feb 2020", 14));
-        series.getData().add(new XYChart.Data("Mar 2020", 15));
-        //adding data in the graph
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        for (Map.Entry<Date, Integer> entry : ChallengePerDay.entrySet()) {
+            Date key = entry.getKey();
+            Integer value = entry.getValue();
+            series.getData().add(new XYChart.Data(format.format(key), value));
+        }
         challengeGraph.getData().add(series);
+        challengeGraph.setCreateSymbols(false);
     }
 
     @FXML

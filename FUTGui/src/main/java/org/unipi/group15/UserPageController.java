@@ -57,7 +57,6 @@ public class UserPageController {
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Date date = userSession.getJoinDate();
         registrationDaysLabel.setText(df.format(date));
-        passwordLabel.setText(userSession.getPassword());
         countryLabel.setText(userSession.getCountry());
         nameLabel.setText(userSession.getFirstName());
         lastNameLabel.setText(userSession.getLastName());

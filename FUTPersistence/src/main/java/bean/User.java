@@ -115,16 +115,24 @@ public class User {
 
     @Override
     public String toString(){
-        StringBuilder s = new StringBuilder("USER {\n" +
-                "\t ID: " + userId + "\n" +
-                "\t FIRST NAME: " + firstName + "\n" +
-                "\t LAST NAME: " + lastName + "\n " +
-                "\t USERNAME: " + username + "\n" +
-                "\t JOIN DATE: " + joinDate + "\n" +
-                "\t COUNTRY: " + country + "\n" +
-                "\t PASSWORD: " + password + "\n" +
-                "\t SCORE: " + score + "\n" +
-                "\t SQUADS {\n");
+        StringBuilder s;
+        if(firstName == null){
+            s = new StringBuilder("USER {\n" +
+                    "\t ID: " + userId + "\n" +
+                    "\t USERNAME: " + username + "\n");
+        }
+        else{
+            s = new StringBuilder("USER {\n" +
+                    "\t ID: " + userId + "\n" +
+                    "\t FIRST NAME: " + firstName + "\n" +
+                    "\t LAST NAME: " + lastName + "\n " +
+                    "\t USERNAME: " + username + "\n" +
+                    "\t JOIN DATE: " + joinDate + "\n" +
+                    "\t COUNTRY: " + country + "\n" +
+                    "\t PASSWORD: " + password + "\n" +
+                    "\t SCORE: " + score + "\n" +
+                    "\t SQUADS {\n");
+        }
 
         if (squads != null)
             for(Squad squad : squads)

@@ -110,7 +110,7 @@
                               <Pane>
                                  <children>
                                     <TextField fx:id="searchUsersTextField" alignment="CENTER" layoutY="1.0" onAction="#onEnter" prefHeight="26.0" prefWidth="171.0" promptText="Find users" />
-                                    <Button fx:id="findPlayerButton" layoutX="192.0" layoutY="2.0" mnemonicParsing="false" onMouseClicked="#serchFriend" prefWidth="70.0" text="Find" />
+                                    <Button fx:id="findPlayerButton" layoutX="192.0" layoutY="2.0" mnemonicParsing="false" onMouseClicked="#searchFriend" prefWidth="70.0" text="Find" />
                                  </children>
                               </Pane>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select a user to view his squad" textAlignment="CENTER" wrappingWidth="270.6839599609375" />

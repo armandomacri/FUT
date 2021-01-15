@@ -95,19 +95,18 @@ public class FriendsPageController {
         userIdLabel.setText(userSession.getUserId());
         userToFind.setText(null);
         follow_button.setDisable(true);
-        follow_button1.setDisable(true);
-        follow_button2.setDisable(true);
-        YourFriendLabel.setText(null);
+        yourFriendButton.setDisable(true);
         follow_button1.setDisable(true);
         follow_button2.setDisable(true);
         valueLbl.setText(null);
+        YourFriendLabel.setText(null);
         valueLbl1.setText(null);
         valueLbl2.setText(null);
         friendsList.getItems().clear();
-
+        suggestedFriend.getItems().clear();
+        suggestedFriendLike.getItems().clear();
         if (!checkService("This service is not currently available!"))
             return;
-
         followedusers = neo4jUser.checkalreadyfollow(userSession.getUserId());
         setAlreadyFollowed();
         setSuggestedFriendLike();
@@ -118,11 +117,9 @@ public class FriendsPageController {
     private void setAlreadyFollowed(){
         userIdYourFriends.setCellValueFactory(new PropertyValueFactory<>("userId"));
         userUsernameYourFriends.setCellValueFactory(new PropertyValueFactory<>("username"));
-
         for (User user : followedusers) {
             yourFriends.getItems().add(user);
         }
-
         yourFriends.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -130,7 +127,6 @@ public class FriendsPageController {
                 idSelectedFriend = (u.getUserId());
                 yourFriendButton.setDisable(false);
                 YourFriendLabel.setText(u.getUsername());
-
             }
         });
     }
@@ -140,16 +136,13 @@ public class FriendsPageController {
         ArrayList<User> users = neo4jUser.suggestedUserByLike(userSession.getUserId());
         userIdLike.setCellValueFactory(new PropertyValueFactory<>("userId"));
         userUsernameLike.setCellValueFactory(new PropertyValueFactory<>("username"));
-
         for (User user : users) {
             suggestedFriendLike.getItems().add(user);
         }
-
         suggestedFriendLike.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 User u = suggestedFriendLike.getSelectionModel().getSelectedItem();
-
                 for (User followeduser : followedusers) {
                     if (followeduser.getUserId().equals(u.getUserId())) {
                         follow_button1.setDisable(true);
@@ -169,11 +162,9 @@ public class FriendsPageController {
         ArrayList<User> users = neo4jUser.suggestedUserByFriends(userSession.getUserId());
         userIdFriends.setCellValueFactory(new PropertyValueFactory<>("userId"));
         userUsernameFriends.setCellValueFactory(new PropertyValueFactory<>("username"));
-
         for (User user : users) {
             suggestedFriend.getItems().add(user);
         }
-
         suggestedFriend.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -208,9 +199,15 @@ public class FriendsPageController {
             public void handle(MouseEvent event) {
                 User u = friendsList.getSelectionModel().getSelectedItem();
                 int i;
+                if (followedusers.size() == 0){
+                    idSelected = (u.getUserId());
+                    follow_button.setDisable(false);
+                    valueLbl.setText("Follow " + u.getUsername());
+                }
                 for (i = 0; i < followedusers.size(); i++) {
                     if (followedusers.get(i).getUserId().equals(u.getUserId())) {
                         valueLbl.setText("User already followed");
+                        follow_button.setDisable(true);
                         break;
                     }
                     else{
@@ -231,14 +228,11 @@ public class FriendsPageController {
 
     @FXML
     private void createRelationFollow() {
-        if(neo4jUser.createFollow(userSession.getUserId(),idSelected)){
+        if(!neo4jUser.createFollow(userSession.getUserId(),idSelected)){
             checkService("Connection problem!");
             return;
         }
         follow_button.setDisable(true);
-        //follow_button.setVisible(false);
-       // unfollow_button.setDisable(false);
-      //  unfollow_button.setVisible(true);
         valueLbl.setText("User already followed");
         followedusers = neo4jUser.checkalreadyfollow(userSession.getUserId());
         yourFriends.getItems().clear();
@@ -247,7 +241,7 @@ public class FriendsPageController {
 
     @FXML
     private void deleteFollow(){
-        if(neo4jUser.deleteFollow(userSession.getUserId(),idSelectedFriend)){
+        if(!neo4jUser.deleteFollow(userSession.getUserId(),idSelectedFriend)){
             checkService("Connection problem!");
             return;
         }
@@ -260,7 +254,7 @@ public class FriendsPageController {
 
     @FXML
     private void createRelationFollow1() {
-        if(neo4jUser.createFollow(userSession.getUserId(),idSelected1)){
+        if(!neo4jUser.createFollow(userSession.getUserId(),idSelected1)){
             checkService("Connection problem!");
             return;
         }
@@ -283,25 +277,6 @@ public class FriendsPageController {
         yourFriends.getItems().clear();
         setAlreadyFollowed();
     }
-/*
-    @FXML
-    private void deleteRelationFollow() {
-        if (!neo4jUser.deleteFollow(userSession.getUserId(),idSelected)){
-            checkService("Connection problem!");
-            return;
-        }
-
-        unfollow_button.setDisable(true);
-        unfollow_button.setVisible(false);
-        follow_button.setDisable(false);
-        follow_button.setVisible(true);
-        valueLbl.setText("Follow " +idSelected);
-        followedusers = neo4jUser.checkalreadyfollow(userSession.getUserId());
-        YourFriends.getItems().clear();
-        setAlreadyFollowed();
-    }
-
- */
 
     private boolean checkService(String text){
         if (!neo4jUser.checkConnection()){

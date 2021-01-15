@@ -70,17 +70,16 @@ public class ChallengeController {
     }
 
     @FXML
-    private void serchFriend(){
+    private void searchFriend(){
+
         seachUserTableView.getItems().clear();
-        String text = searchUsersTextField.getText();
-        ArrayList<User> u = neo4jUser.searchUser(text, userSession.getUserId());
-        ObservableList<User> users = FXCollections.observableArrayList();
+        ArrayList<User> users = neo4jUser.searchUser(searchUsersTextField.getText(), userSession.getUserId());
+        ObservableList<User> observable_users = FXCollections.observableArrayList(users);
         if(users.size() == 0){
             seachUserTableView.setPlaceholder(new Label("No Users found containing "+ searchUsersTextField.getText()));
             return;
         }
-        seachUserTableView.setItems(users);
-
+        seachUserTableView.setItems(observable_users);
     }
 
     @FXML
@@ -211,7 +210,7 @@ public class ChallengeController {
     }
 
     @FXML
-    public void onEnter() { serchFriend(); }
+    public void onEnter() { searchFriend(); }
 
     @FXML
     private void switchToProfile() {

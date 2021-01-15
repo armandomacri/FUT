@@ -250,6 +250,8 @@ public class Neo4jUser extends Neo4jConnection{
 
     public static void main( String... args ) throws Exception{
         Neo4jUser ex = new Neo4jUser();
-        System.out.println(ex.createUser("3243234", "Armando"));
+        ArrayList<User> prova = new ArrayList<>();
+        prova = ex.searchUser("Marvel", "5ff97e8283b19024e081534f");
+        System.out.println(prova);
     }
 }

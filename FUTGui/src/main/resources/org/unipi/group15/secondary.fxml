@@ -174,7 +174,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                            <children>
-                              <Label layoutY="19.0" text="County" textFill="WHITE">
+                              <Label layoutY="19.0" text="Country" textFill="WHITE">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
