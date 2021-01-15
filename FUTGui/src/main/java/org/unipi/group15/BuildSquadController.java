@@ -62,21 +62,19 @@ public class BuildSquadController {
         moduleChoiceBox.getItems().addAll(FXCollections.observableArrayList("352",
                                             "4231", "4312", "433", "442"));
 
-        chosenPlayersTableView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("playerName"));
-        chosenPlayersTableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("overall"));
-        chosenPlayersTableView.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("pace"));
-        chosenPlayersTableView.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("dribbling"));
-        chosenPlayersTableView.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("shooting"));
-        chosenPlayersTableView.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("defending"));
-        chosenPlayersTableView.getColumns().get(6).setCellValueFactory(new PropertyValueFactory<>("passing"));
-        chosenPlayersTableView.getColumns().get(7).setCellValueFactory(new PropertyValueFactory<>("physicality"));
+        chosenPlayersTableView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("playerExtendedName"));
+        chosenPlayersTableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("position"));
+        chosenPlayersTableView.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("overall"));
+        chosenPlayersTableView.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("revision"));
+        chosenPlayersTableView.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("league"));
+        chosenPlayersTableView.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("nationality"));
+
         findPlayersTableView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("playerExtendedName"));
         findPlayersTableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("position"));
         findPlayersTableView.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("overall"));
         findPlayersTableView.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("revision"));
-        findPlayersTableView.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("club"));
-        findPlayersTableView.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("league"));
-        findPlayersTableView.getColumns().get(6).setCellValueFactory(new PropertyValueFactory<>("nationality"));
+        findPlayersTableView.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("league"));
+        findPlayersTableView.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("nationality"));
 
         if(squadIndex != -1) {
             squad = App.getSession().getSquads().get(squadIndex);
