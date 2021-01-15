@@ -82,7 +82,7 @@ public class ComputeScoreService {
 
         HashMap<String, Player> players = new HashMap<>();
         for (String key : positions.keySet()) {
-            Player p = mongoPlayerCard.findById(Integer.parseInt(positions.get(key)));
+            Player p = mongoPlayerCard.findById(positions.get(key));
             if(p == null)
                 continue;
             players.put(key, p);

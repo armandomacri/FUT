@@ -20,11 +20,11 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         driver.close();
     }
 
-    public boolean createPlayer(final int id, final String playername, final String quality, final String revision, final String images) {
+    public boolean createPlayer(final String id, final String playername, final String quality, final String revision, final String images) {
         boolean result = true;
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> {
-                tx.run("CREATE (:PlayerCard {id: $id, name: $playername, quality: $quality, revision: $revision, images: $images})",
+                tx.run("CREATE (:PlayerCard {id: toInteger($id), name: $playername, quality: $quality, revision: $revision, images: $images})",
                         parameters("id", id, "playername", playername, "quality", quality, "revision", revision, "images", images));
                 return 1;
             });
@@ -43,14 +43,14 @@ public class Neo4jPlayerCard extends Neo4jConnection{
             matchingPlayers = session.readTransaction((TransactionWork<ArrayList<Player>>) tx -> {
                 Result result = tx.run( "MATCH (p:PlayerCard)\n" +
                                         "WHERE (p.name) CONTAINS $name \n" +
-                                        "RETURN p.name AS Name, p.id AS PlayerId, p.quality AS Quality, p.revision AS Revision, p.image AS Img0",
+                                        "RETURN p.name AS Name, toString(p.id) AS PlayerId, p.quality AS Quality, p.revision AS Revision, p.image AS Img0",
                         parameters( "name", name));
                 ArrayList<Player> Players = new ArrayList<>();
                 while(result.hasNext())
                 {
                     Player p = null;
                     Record r = result.next();
-                    p = new Player(r.get("PlayerId").asInt(), r.get("Name").asString(), r.get("Quality").asString(),  r.get("Revision").asString(),  r.get("Img0").asString());
+                    p = new Player(r.get("PlayerId").asString(), r.get("Name").asString(), r.get("Quality").asString(),  r.get("Revision").asString(),  r.get("Img0").asString());
                     Players.add(p);
                 }
                 return Players;
@@ -62,11 +62,11 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         return matchingPlayers;
     }
 
-    public boolean createLike(final String user_id, final int playercard){
+    public boolean createLike(final String user_id, final String playercard){
         boolean result = true;
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
-                tx.run("MATCH (u:User{id: $user_id}),(p:PlayerCard{id: $playercard})\n" +
+                tx.run("MATCH (u:User{id: $user_id}),(p:PlayerCard{id: toInteger($playercard)})\n" +
                         "CREATE (u)-[:Like]->(p)",
                         parameters("user_id", user_id , "playercard", playercard));
                 return 1;
@@ -78,13 +78,13 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         return result;
     }
 
-    public int countLikes(final int playercard) {
+    public int countLikes(final String playercard) {
         int numLike = 0;
         try ( Session session = driver.session() )
         {
             numLike = session.readTransaction((TransactionWork<Integer>) tx -> {
 
-                String query = "MATCH (p:PlayerCard{id: $playercard})-[l:Like]-(:User)"+
+                String query = "MATCH (p:PlayerCard{id: toInteger($playercard)})-[l:Like]-(:User)"+
                                 "RETURN COUNT(l) AS numLike";
                 Result result = tx.run( query, parameters("playercard", playercard) );
                 return result.single().get("numLike").asInt();
@@ -97,13 +97,13 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         return numLike;
     }
 
-    public boolean checkLikes(final String user_id, final int playercard) {
+    public boolean checkLikes(final String user_id, final String playercard) {
         boolean existLike;
         try ( Session session = driver.session() )
         {
              existLike = session.readTransaction((TransactionWork<Boolean>) tx -> {
 
-                String query = "MATCH (c:User{id: $user_id})-[l:Like]->(p:PlayerCard{id: $playercard}) \n" +
+                String query = "MATCH (c:User{id: $user_id})-[l:Like]->(p:PlayerCard{id: toInteger($playercard)}) \n" +
                                 "RETURN COUNT(l) > 0 AS boolExist";
                 Result result = tx.run( query, parameters("user_id", user_id , "playercard", playercard));
                 return result.single().get("boolExist").asBoolean();
@@ -143,9 +143,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
     public static void main( String... args ) throws Exception{
         try ( Neo4jPlayerCard ex = new Neo4jPlayerCard() )
         {
-            HashMap<String, String> prova = new HashMap<>();
-            //prova = ex.mostLikedPlayer();
-            System.out.println(prova);
+            System.out.println(ex.countLikes("20"));
         }
     }
 

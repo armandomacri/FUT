@@ -90,7 +90,6 @@
                               </ImageView>
                            </children>
                         </GridPane>
-                        <Button fx:id="admin" layoutX="80.0" layoutY="130.0" mnemonicParsing="false" onAction="#switchToAdmin" text="Button" />
                      </children>
                   </AnchorPane>
                </children>

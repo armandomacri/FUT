@@ -52,7 +52,6 @@ public class MongoUser extends MongoConnection{
         myColl = db.getCollection("users");
         Document doc = myColl.find(eq("username", username)).first();
         return composeUser(doc);
-
     }
 
 
@@ -61,6 +60,13 @@ public class MongoUser extends MongoConnection{
         if (doc == null)
             return null;
 
+        if (doc.get("administrator") != null) {
+            if (doc.get("administrator").equals("true")) {
+                return new User(doc.get("username").toString(), doc.getObjectId("_id").toString(),
+                        doc.get("password").toString(), doc.get("administrator").toString());
+            }
+            else return null;
+        }
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Date date = null;
         try {

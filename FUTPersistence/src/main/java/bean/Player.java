@@ -3,7 +3,7 @@ package bean;
 import java.util.Date;
 
 public class Player {
-    private int playerId;
+    private String playerId;
     private String playerName;
     private String playerExtendedName;
     private String quality;
@@ -37,7 +37,7 @@ public class Player {
     private String img0;
 
     //constructor for neo4j
-    public Player(int playerId, String playerExtName, String quality, String revision, String img0){
+    public Player(String playerId, String playerExtName, String quality, String revision, String img0){
         this.playerId = playerId;
         this.playerExtendedName = playerExtName;
         this.quality = quality;
@@ -47,7 +47,7 @@ public class Player {
 
 
     //general constructor
-    public Player(int playerId, String player_name, String player_extended_name, String quality,
+    public Player(String playerId, String player_name, String player_extended_name, String quality,
                   String revision, Integer overall, String club, String league, String nationality,
                   String position, Date date_of_birth, String height, String weight, Date added_date,
                   String pref_foot, Integer weak_foot, Integer skill_moves, String[] images){
@@ -72,7 +72,7 @@ public class Player {
     }
 
     //costructor for not GK
-    public Player(int playerId, String player_name, String player_extended_name, String quality,
+    public Player(String playerId, String player_name, String player_extended_name, String quality,
                   String revision, Integer overall, String club, String league, String nationality,
                   String position, Date date_of_birth, String height, String weight, Date added_date,
                   Integer att1, Integer att2, Integer att3, Integer att4, Integer att5,
@@ -100,7 +100,7 @@ public class Player {
 
     public Player(){}
 
-    public int getPlayerId() {
+    public String getPlayerId() {
         return playerId;
     }
 
@@ -228,7 +228,7 @@ public class Player {
         return img0;
     }
 
-    public void setPlayerId(int playerId) {
+    public void setPlayerId(String playerId) {
         this.playerId = playerId;
     }
 

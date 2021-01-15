@@ -101,7 +101,7 @@ public class PlayerCardViewController {
     @FXML private Button showComments;
 
     public void setPlayer(Player p){
-        player = mongoPlayerCard.findById(Integer.parseInt(p.getPlayerId()));
+        player = mongoPlayerCard.findById(p.getPlayerId());
     }
 
     @FXML

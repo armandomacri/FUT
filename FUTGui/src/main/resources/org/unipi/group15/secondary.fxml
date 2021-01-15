@@ -34,13 +34,13 @@
                <children>
                   <AnchorPane layoutX="269.0" layoutY="14.0" prefHeight="50.0" prefWidth="114.0">
                      <children>
-                        <Button layoutY="12.0" mnemonicParsing="false" onAction="#switchToPrimary" text="Sing In">
+                        <Button layoutY="12.0" mnemonicParsing="false" onAction="#switchToPrimary" text="Sign In">
                            <styleClass>
                               <String fx:value="button_click" />
                               <String fx:value="button_switch" />
                               <String fx:value="button_radius_left" />
                            </styleClass></Button>
-                        <Button disable="true" layoutX="70.0" layoutY="12.0" mnemonicParsing="false" text="Sing Up">
+                        <Button disable="true" layoutX="70.0" layoutY="12.0" mnemonicParsing="false" text="Sign Up">
                            <styleClass>
                               <String fx:value="button_disabled" />
                               <String fx:value="button_radius_right" />
@@ -116,7 +116,7 @@
                               </Text>
                               <AnchorPane layoutY="1.0" prefHeight="42.0" prefWidth="91.0" style="-fx-border-color: #5fd0c0; -fx-border-width: 0 0 1 0;">
                                  <children>
-                                    <Text fill="WHITE" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sing Up">
+                                    <Text fill="WHITE" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign Up">
                                        <font>
                                           <Font size="30.0" />
                                        </font>

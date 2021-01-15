@@ -28,7 +28,6 @@ public class UserPageController {
     private static final MongoSquad mongoSquad = new MongoSquad();
     private static MongoChallenge mongoChallenge = new MongoChallenge();
 
-    @FXML private Button admin;
 
     @FXML private Label usernameLabel;
 
@@ -37,8 +36,6 @@ public class UserPageController {
     @FXML private Label registrationDaysLabel;
 
     @FXML private Label countryLabel;
-
-    @FXML private Label passwordLabel;
 
     @FXML private Label nameLabel;
 
@@ -165,9 +162,6 @@ public class UserPageController {
     public void switchToChallenge(){
         App.setRoot("challenge");
     }
-
-    @FXML
-    public void switchToAdmin(){ App.setRoot("adminFirstPage"); }
 
     @FXML
     public void logOut() {

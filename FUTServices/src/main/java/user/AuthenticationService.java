@@ -32,7 +32,6 @@ public class AuthenticationService {
         /* togliere commento appena creato un profilo
         if (!u.getPassword().equals(encryptedPwd))
             throw new SignInException("Password or Username are incorrect!");
-
          */
 
         logger.info("User logged!");

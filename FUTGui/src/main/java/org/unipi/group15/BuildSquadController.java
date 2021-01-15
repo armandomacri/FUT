@@ -84,7 +84,7 @@ public class BuildSquadController {
 
             ArrayList<Player> players = new ArrayList<>();
             for (Map.Entry<String, String> item : squad.getPlayers().entrySet()) {
-                Player p = mongoPlayerCard.findById(Integer.parseInt(item.getValue()));
+                Player p = mongoPlayerCard.findById(item.getValue());
                 if (p == null)
                     continue;
                 players.add(p);
@@ -189,7 +189,7 @@ public class BuildSquadController {
 
         ArrayList<Player> players = new ArrayList<>();
         for (Map.Entry<String, String> item : squad.getPlayers().entrySet()) {
-            players.add(mongoPlayerCard.findById(Integer.parseInt(item.getValue())));
+            players.add(mongoPlayerCard.findById(item.getValue()));
         }
         ObservableList<Player> comp = FXCollections.observableArrayList(players);
         chosenPlayersTableView.setItems(comp);
@@ -223,7 +223,7 @@ public class BuildSquadController {
         int overall;
 
         for (Map.Entry<String, String> item : squad.getPlayers().entrySet()) {
-            sum +=mongoPlayerCard.findById(Integer.parseInt(item.getValue())).getOverall();
+            sum +=mongoPlayerCard.findById(item.getValue()).getOverall();
         }
 
         overall = sum/11;
