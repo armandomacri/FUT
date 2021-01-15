@@ -140,7 +140,11 @@ public class MongoUser extends MongoConnection{
 
     public static void main(String[] args){
         MongoUser mongoUser = new MongoUser();
-        System.out.println(mongoUser.getUserPerCountryLastYear().get(0).get("_id"));
+        int i;
+        for (i=0;i<25;i++) {
+            System.out.println(mongoUser.getUserPerCountryLastYear().get(i).get("_id"));
+            System.out.println(mongoUser.getUserPerCountryLastYear().get(i).get("numUsers"));
+        }
         //String id = mongoUser.add("armando", "armando", "Armando9876", "italy", "8/01/2021", "armando");
         //mongoUser.delete(id);
         //System.out.println(mongoClient.getClusterDescription().getType());

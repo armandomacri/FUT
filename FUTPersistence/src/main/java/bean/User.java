@@ -116,7 +116,7 @@ public class User {
     @Override
     public String toString(){
         StringBuilder s;
-        if(firstName.equals(null)){
+        if(firstName == null){
             s = new StringBuilder("USER {\n" +
                     "\t ID: " + userId + "\n" +
                     "\t USERNAME: " + username + "\n");

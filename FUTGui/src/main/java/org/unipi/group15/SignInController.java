@@ -3,6 +3,7 @@ package org.unipi.group15;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,7 +22,7 @@ public class SignInController {
 
     @FXML private TextField usernameTextField;
 
-    @FXML private TextField passwordTextField;
+    @FXML private PasswordField passwordTextField;
 
     @FXML private HBox errorBox;
 
@@ -70,7 +71,10 @@ public class SignInController {
     }
 
     private void changePage(){
-        App.setRoot("userPage");
+        if(usernameTextField.getText().equals("admin") & passwordTextField.getText().equals("admin"))
+            App.setRoot("adminFirstPage");
+        else
+            App.setRoot("userPage");
     }
 
     @FXML
