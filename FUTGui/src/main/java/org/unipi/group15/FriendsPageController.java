@@ -35,7 +35,11 @@ public class FriendsPageController {
 
     @FXML private Label usernameLabel;
 
-    @FXML private ListView<User> friendsList;
+    @FXML private TableView<User> searchUser;
+
+    @FXML public TableColumn<User, String> userIdSearchFriends;
+
+    @FXML public TableColumn<User, String> userUsernameSearchFriends;
 
     @FXML private Button searchButton;
 
@@ -102,7 +106,7 @@ public class FriendsPageController {
         YourFriendLabel.setText(null);
         valueLbl1.setText(null);
         valueLbl2.setText(null);
-        friendsList.getItems().clear();
+        searchUser.getItems().clear();
         suggestedFriend.getItems().clear();
         suggestedFriendLike.getItems().clear();
         if (!checkService("This service is not currently available!"))
@@ -186,18 +190,20 @@ public class FriendsPageController {
 
     @FXML
     private void searchFriend(){
-        friendsList.getItems().clear();
+        searchUser.getItems().clear();
+        userIdSearchFriends.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        userUsernameSearchFriends.setCellValueFactory(new PropertyValueFactory<>("username"));
         ArrayList<User> users = neo4jUser.searchUser(userToFind.getText(), userSession.getUserId());
         ObservableList<User> observable_users = FXCollections.observableArrayList(users);
         if(users.size() == 0){
-            friendsList.setPlaceholder(new Label("No Users found containing "+ userToFind.getText()));
+            searchUser.setPlaceholder(new Label("No Users found containing "+ userToFind.getText()));
             return;
         }
-        friendsList.setItems(observable_users);
-        friendsList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        searchUser.setItems(observable_users);
+        searchUser.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                User u = friendsList.getSelectionModel().getSelectedItem();
+                User u = searchUser.getSelectionModel().getSelectedItem();
                 int i;
                 if (followedusers.size() == 0){
                     idSelected = (u.getUserId());
@@ -218,7 +224,7 @@ public class FriendsPageController {
                 }
             }
         });
-        friendsList.scrollTo(0);
+        searchUser.scrollTo(0);
     }
 
     @FXML
@@ -282,7 +288,7 @@ public class FriendsPageController {
         if (!neo4jUser.checkConnection()){
             Alert a = new Alert(Alert.AlertType.WARNING, text, ButtonType.OK);
             yourFriends.getItems().clear();
-            friendsList.getItems().clear();
+            searchUser.getItems().clear();
             suggestedFriend.getItems().clear();
             suggestedFriendLike.getItems().clear();
             searchButton.setDisable(true);
