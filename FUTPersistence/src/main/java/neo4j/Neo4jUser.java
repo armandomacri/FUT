@@ -251,7 +251,7 @@ public class Neo4jUser extends Neo4jConnection{
     public static void main( String... args ) throws Exception{
         Neo4jUser ex = new Neo4jUser();
         ArrayList<User> prova = new ArrayList<>();
-        prova = ex.checkalreadyfollow("5ff97e8283b19024e081534f");
+        prova = ex.searchUser("Marvel", "5ff97e8283b19024e081534f");
         System.out.println(prova);
     }
 }

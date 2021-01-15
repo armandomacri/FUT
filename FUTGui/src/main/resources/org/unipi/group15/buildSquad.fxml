@@ -30,18 +30,28 @@
             </Pane>
             <Pane layoutX="17.0" layoutY="67.0" prefHeight="48.0" prefWidth="528.0">
                <children>
-                  <ChoiceBox fx:id="moduleChoiceBox" layoutX="412.0" layoutY="12.0" prefHeight="25.0" prefWidth="103.0" />
-                  <Label layoutX="8.0" layoutY="12.0" text=" Name Squad:">
+                  <ChoiceBox fx:id="moduleChoiceBox" layoutX="292.0" layoutY="11.0" prefHeight="26.0" prefWidth="70.0" />
+                  <Label layoutX="-4.0" layoutY="12.0" text=" Name Squad:">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="squadNameTextField" layoutX="112.0" layoutY="12.0" />
-                  <Label layoutX="282.0" layoutY="12.0" text="Choose Module">
+                  <TextField fx:id="squadNameTextField" layoutX="104.0" layoutY="12.0" prefHeight="25.0" prefWidth="114.0" />
+                  <Label layoutX="230.0" layoutY="12.0" text="Module">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
+                  <Label layoutX="384.0" layoutY="10.0" prefHeight="19.0" prefWidth="70.0" text="Overall:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Text fx:id="overallText" layoutX="457.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="28.799963378906227">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
                </children>
             </Pane>
             <AnchorPane layoutX="14.0" layoutY="318.0" prefHeight="267.0" prefWidth="528.0" styleClass="findPlayerBox">
@@ -70,11 +80,6 @@
                      </columnResizePolicy>
                   </TableView>
                   <Button fx:id="SaveButton" layoutX="264.0" layoutY="230.0" mnemonicParsing="false" onAction="#saveSquad" prefWidth="70.0" text="Save" />
-                  <Label layoutX="359.0" layoutY="229.0" prefHeight="19.0" prefWidth="70.0" text="Overall:">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
                   <TextField fx:id="positionPlayerTextField" layoutX="349.0" layoutY="50.0" onAction="#onEnter" prefHeight="26.0" prefWidth="63.0" promptText="Position" />
                   <TextField fx:id="qualityPlayerTextField" layoutX="264.0" layoutY="50.0" onAction="#onEnter" prefHeight="26.0" prefWidth="70.0" promptText="Quality" />
                   <TextField fx:id="nationPlayerTextField" layoutX="180.0" layoutY="50.0" onAction="#onEnter" prefHeight="26.0" prefWidth="70.0" promptText="Nation" />
@@ -104,11 +109,6 @@
                   <Text layoutX="52.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SUGGESTED PLAYERS" />
                </children>
             </AnchorPane>
-            <Text fx:id="overallText" layoutX="569.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="28.799963378906227">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Text>
          </children>
       </AnchorPane>
    </children>

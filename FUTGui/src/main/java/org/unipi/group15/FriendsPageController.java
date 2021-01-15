@@ -199,9 +199,15 @@ public class FriendsPageController {
             public void handle(MouseEvent event) {
                 User u = friendsList.getSelectionModel().getSelectedItem();
                 int i;
+                if (followedusers.size() == 0){
+                    idSelected = (u.getUserId());
+                    follow_button.setDisable(false);
+                    valueLbl.setText("Follow " + u.getUsername());
+                }
                 for (i = 0; i < followedusers.size(); i++) {
                     if (followedusers.get(i).getUserId().equals(u.getUserId())) {
                         valueLbl.setText("User already followed");
+                        follow_button.setDisable(true);
                         break;
                     }
                     else{
