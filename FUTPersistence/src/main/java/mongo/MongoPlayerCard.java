@@ -29,7 +29,7 @@ public class MongoPlayerCard extends MongoConnection{
     private static final Logger logger = LogManager.getLogger(MongoPlayerCard.class);
     private MongoCollection<Document> myColl;
 
-    public boolean add(Integer _id, String player_name, String player_extended_name, String quality, String revision, String origin, Integer overall,
+    public boolean add(int _id, String player_name, String player_extended_name, String quality, String revision, String origin, Integer overall,
                       String club, String league, String nationality, String position, String date_of_birth, Integer weight, Integer height,
                       String added_date, Integer pace, Integer dribbling, Integer shooting, Integer passing, Integer defending,
                       Integer physicality, String pref_foot, Integer weak_foot, Integer skill_moves, String images){
@@ -88,7 +88,7 @@ public class MongoPlayerCard extends MongoConnection{
         return results;
     }
 
-    public Player findById(Integer id){
+    public Player findById(int id){
         myColl = db.getCollection("player_cards");
         Document playerDoc;
         Player player;
@@ -153,10 +153,10 @@ public class MongoPlayerCard extends MongoConnection{
         String[] images = playerDoc.get("images").toString().split(",");
         Player p;
         if (playerDoc.get("position").toString().equals("GK")) {
-            p = new Player(playerDoc.get("_id").toString(), playerDoc.get("player_name").toString(), playerDoc.get("player_extended_name").toString(), playerDoc.get("quality").toString(), playerDoc.get("revision").toString(), Integer.parseInt(playerDoc.get("overall").toString()), playerDoc.get("club").toString(), playerDoc.get("league").toString(), playerDoc.get("nationality").toString(), playerDoc.get("position").toString(), date1, playerDoc.get("height").toString(), playerDoc.get("weight").toString(), date2, Integer.parseInt(playerDoc.get("gk_diving").toString()), Integer.parseInt(playerDoc.get("gk_reflexes").toString()), Integer.parseInt(playerDoc.get("gk_handling").toString()), Integer.parseInt(playerDoc.get("gk_speed").toString()), Integer.parseInt(playerDoc.get("gk_kicking").toString()), Integer.parseInt(playerDoc.get("gk_positoning").toString()), playerDoc.get("pref_foot").toString(), Integer.parseInt(playerDoc.get("weak_foot").toString()), Integer.parseInt(playerDoc.get("skill_moves").toString()), images);
+            p = new Player(Integer.parseInt(playerDoc.get("_id").toString()), playerDoc.get("player_name").toString(), playerDoc.get("player_extended_name").toString(), playerDoc.get("quality").toString(), playerDoc.get("revision").toString(), Integer.parseInt(playerDoc.get("overall").toString()), playerDoc.get("club").toString(), playerDoc.get("league").toString(), playerDoc.get("nationality").toString(), playerDoc.get("position").toString(), date1, playerDoc.get("height").toString(), playerDoc.get("weight").toString(), date2, Integer.parseInt(playerDoc.get("gk_diving").toString()), Integer.parseInt(playerDoc.get("gk_reflexes").toString()), Integer.parseInt(playerDoc.get("gk_handling").toString()), Integer.parseInt(playerDoc.get("gk_speed").toString()), Integer.parseInt(playerDoc.get("gk_kicking").toString()), Integer.parseInt(playerDoc.get("gk_positoning").toString()), playerDoc.get("pref_foot").toString(), Integer.parseInt(playerDoc.get("weak_foot").toString()), Integer.parseInt(playerDoc.get("skill_moves").toString()), images);
         }
         else {
-            p = new Player(playerDoc.get("_id").toString(), playerDoc.get("player_name").toString(), playerDoc.get("player_extended_name").toString(), playerDoc.get("quality").toString(), playerDoc.get("revision").toString(), Integer.parseInt(playerDoc.get("overall").toString()), playerDoc.get("club").toString(), playerDoc.get("league").toString(), playerDoc.get("nationality").toString(), playerDoc.get("position").toString(), date1, playerDoc.get("height").toString(), playerDoc.get("weight").toString(), date2, Integer.parseInt(playerDoc.get("pace").toString()), Integer.parseInt(playerDoc.get("dribbling").toString()), Integer.parseInt(playerDoc.get("shooting").toString()), Integer.parseInt(playerDoc.get("passing").toString()), Integer.parseInt(playerDoc.get("defending").toString()), Integer.parseInt(playerDoc.get("physicality").toString()), playerDoc.get("pref_foot").toString(), Integer.parseInt(playerDoc.get("weak_foot").toString()), Integer.parseInt(playerDoc.get("skill_moves").toString()), images);
+            p = new Player(Integer.parseInt(playerDoc.get("_id").toString()), playerDoc.get("player_name").toString(), playerDoc.get("player_extended_name").toString(), playerDoc.get("quality").toString(), playerDoc.get("revision").toString(), Integer.parseInt(playerDoc.get("overall").toString()), playerDoc.get("club").toString(), playerDoc.get("league").toString(), playerDoc.get("nationality").toString(), playerDoc.get("position").toString(), date1, playerDoc.get("height").toString(), playerDoc.get("weight").toString(), date2, Integer.parseInt(playerDoc.get("pace").toString()), Integer.parseInt(playerDoc.get("dribbling").toString()), Integer.parseInt(playerDoc.get("shooting").toString()), Integer.parseInt(playerDoc.get("passing").toString()), Integer.parseInt(playerDoc.get("defending").toString()), Integer.parseInt(playerDoc.get("physicality").toString()), playerDoc.get("pref_foot").toString(), Integer.parseInt(playerDoc.get("weak_foot").toString()), Integer.parseInt(playerDoc.get("skill_moves").toString()), images);
         }
 
         return p;
@@ -273,12 +273,12 @@ public class MongoPlayerCard extends MongoConnection{
 ).pretty()
      */
 
-    public ArrayList<Document> leagueAnalytics(String legue){
+    public ArrayList<Document> leagueAnalytics(String league){
         ArrayList<Document> result = new ArrayList<>();
         myColl = db.getCollection("player_cards");
         Consumer<Document> createDocuments = doc -> {result.add(doc);};
 
-        Bson matchLeague = match(eq("league", legue));
+        Bson matchLeague = match(eq("league", league));
         Bson groupQuality = group("$quality",
                                 sum("numPlayers", 1),
                                 avg("paceAvg", "$pace"),
