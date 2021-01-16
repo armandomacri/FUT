@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- configurazione.xml -->
-<ConfigurationService mode="local">
+<ConfigurationService mode="replica">
     <MongoIp>localhost</MongoIp>
     <MongoPort>27017</MongoPort>
     <ReplicaSet>
-        <Replica ip="localhost" port="27018"></Replica>
-        <Replica ip="localhost" port="27019"></Replica>
-        <Replica ip="localhost" port="27020"></Replica>
+        <Replica ip="172.16.3.130" port="27018"></Replica>
+        <Replica ip="172.16.3.133" port="27018"></Replica>
+        <Replica ip="172.16.3.129" port="27018"></Replica>
     </ReplicaSet>
     <DBName>futdb</DBName>
 </ConfigurationService>

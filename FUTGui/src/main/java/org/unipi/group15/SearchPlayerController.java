@@ -102,7 +102,7 @@ public class SearchPlayerController {
                     App.setRoot("player_card_view");
                 }
             });
-            HBox h1 = new HBox(new Label("Name: "), new Text(players.get(i).getPlayerName()));
+            HBox h1 = new HBox(new Label("Name: "), new Text(players.get(i).getPlayerExtendedName()));
             HBox h5 = new HBox(new Label("Quality: "), new Text(players.get(i).getQuality()));
             HBox h6 = new HBox(new Label("Revision: "), new Text(players.get(i).getRevision()));
             ImageView plImg = new ImageView();

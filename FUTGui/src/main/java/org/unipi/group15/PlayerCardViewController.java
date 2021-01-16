@@ -101,7 +101,7 @@ public class PlayerCardViewController {
     @FXML private Button showComments;
 
     public void setPlayer(Player p){
-        player = mongoPlayerCard.findById(Integer.parseInt(p.getPlayerId()));
+        player = mongoPlayerCard.findById(p.getPlayerId());
     }
 
     @FXML
@@ -181,7 +181,7 @@ public class PlayerCardViewController {
 
     @FXML
     private void countLike() {
-        Integer numLikes = neo4jcard.countLikes(player.getPlayerId());
+        int numLikes = neo4jcard.countLikes(player.getPlayerId());
         likeLabel1.setText(String.valueOf(numLikes));
     }
 

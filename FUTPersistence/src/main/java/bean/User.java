@@ -13,6 +13,7 @@ public class User {
     private Integer score;
     private Date joinDate;
     private ArrayList<Squad> squads;
+    private String administrator;
 
     //user constructor with squads
     public User(String username, String first_name, String last_name,
@@ -43,6 +44,16 @@ public class User {
         this.score = score;
         this.squads = new ArrayList<>();
     }
+
+    //user constructor only 3 parameter (ADMIN)
+    public User(String username, String user_id, String password, String administrator){
+        this.username = username;
+        this.userId = user_id;
+        this.password = password;
+        this.administrator = administrator;
+    }
+
+
 
     public User(){
 
@@ -79,6 +90,8 @@ public class User {
     public ArrayList<Squad> getSquads() {
         return squads;
     }
+
+    public String getAdministrator() { return administrator; }
 
     public void setUsername(String username) {
         this.username = username;

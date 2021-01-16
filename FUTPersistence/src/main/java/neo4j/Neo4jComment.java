@@ -26,12 +26,13 @@ public class Neo4jComment extends Neo4jConnection{
     }
 
     public ArrayList<Comment> showComment(final String player_id) throws Exception {
+        System.out.println("prova");
         ArrayList<Comment> comments;
         try (Session session = driver.session())
         {
             comments = session.readTransaction((TransactionWork<ArrayList<Comment>>) tx -> {
-                Result result = tx.run( "MATCH p=(u:User)-[:Post]-(c:Comment)-[:Related]->(pc:PlayerCard{id: $player_id})\n" +
-                                        "RETURN c.id AS Id, c.text AS Text, c.comment_date AS Date, u.username AS Username ",
+                Result result = tx.run( "MATCH path=(u:User)-[p:Post]-(c:Comment)-[:Related]->(pc:PlayerCard{id: toInteger($player_id)})\n" +
+                                        "RETURN c.id AS Id, c.text AS Text, p.date AS Date, u.username AS Username ",
                         parameters( "player_id", player_id) );
                 ArrayList<Comment> commentsResult = new ArrayList<>();
                 while(result.hasNext())
@@ -74,7 +75,7 @@ public class Neo4jComment extends Neo4jConnection{
                         "WHERE id(c) = toInteger($commentId)\n" +
                         "CREATE (u)-[:Post{date: date()}]->(c)",
                         parameters("commentId", commentId, "user_id", user_id));
-                tx.run("MATCH (p:PlayerCard{id: $player_id}), (c:Comment)\n" +
+                tx.run("MATCH (p:PlayerCard{id: toInteger($player_id)}), (c:Comment)\n" +
                         "WHERE id(c) = toInteger($commentId)\n" +
                         "CREATE (c)-[:Related]->(p)",
                         parameters("commentId", commentId, "player_id", player_id));

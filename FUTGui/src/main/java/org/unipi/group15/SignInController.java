@@ -51,7 +51,10 @@ public class SignInController {
             return;
         }
         App.setSession(userSession);
-        changePage();
+        if (userSession.getAdministrator() != null)
+            changePage("adminFirstPage");
+        else
+            changePage("userPage");
     }
 
     private void setErrorBox(String text){
@@ -70,11 +73,8 @@ public class SignInController {
         errorBox.setVisible(true);
     }
 
-    private void changePage(){
-        if(usernameTextField.getText().equals("admin") & passwordTextField.getText().equals("admin"))
-            App.setRoot("adminFirstPage");
-        else
-            App.setRoot("userPage");
+    private void changePage(String page){
+            App.setRoot(page);
     }
 
     @FXML
