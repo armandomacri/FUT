@@ -20,7 +20,7 @@ abstract class LevelDBConnection {
         options.createIfMissing(true);
 
         try {
-            db = factory.open(new File("db"), options);
+            db = factory.open(new File("cache"), options);
         } catch (IOException ioe) {
             logger.error("Exception happened! ", ioe);
         }

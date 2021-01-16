@@ -17,7 +17,6 @@ public class ImageService {
 
     public BufferedImage get(String imgUrl){
 
-        //image not present on leveldb
         if (!storeImage.isPresent(imgUrl)){
             try {
                 URL url = new URL(imgUrl);
@@ -31,7 +30,7 @@ public class ImageService {
                 return image;
 
             } catch (IOException ioe) {
-                logger.error("Exception happened! ", ioe);
+                logger.error("Exception occurred: ", ioe);
                 return null;
             }
         }
@@ -43,7 +42,7 @@ public class ImageService {
                 image = ImageIO.read(bis);
                 bis.close();
             } catch (IOException ioe) {
-                logger.error("Exception happened! ", ioe);
+                logger.error("Exception occurred: ", ioe);
             }
 
             return image;

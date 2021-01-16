@@ -108,9 +108,6 @@ public class PlayerCardViewController {
     private void initialize() {
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
-        countLike();
-        checkLike();
-
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(player.getDateOfBirth());
 
@@ -176,7 +173,10 @@ public class PlayerCardViewController {
             attr6Stat.setText(player.getPhysicality().toString());
             attr6Bar.setProgress(player.getPhysicality().doubleValue()/100);
         }
-        checkService("Service not completely available!");
+        if(checkService("Service not completely available!")) {
+            countLike();
+            checkLike();
+        }
     }
 
     @FXML
@@ -195,7 +195,8 @@ public class PlayerCardViewController {
     @FXML
     private void addLike() {
         if(!neo4jcard.createLike(userSession.getUserId(), player.getPlayerId())){
-            checkService("Connection Problem");
+            if(!checkService("Connection Problem"))
+                return;
         }
         likeButton.setDisable(true);
         countLike();
@@ -233,6 +234,7 @@ public class PlayerCardViewController {
             Alert a = new Alert(Alert.AlertType.WARNING, text, ButtonType.OK);
             showComments.setDisable(true);
             likeButton.setDisable(true);
+            likeLabel1.setText("Unknown");
             a.show();
             return false;
         }

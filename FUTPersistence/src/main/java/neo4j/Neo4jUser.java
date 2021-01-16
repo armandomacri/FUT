@@ -27,9 +27,8 @@ public class Neo4jUser extends Neo4jConnection{
                         parameters("user_id", user_id));
                 ArrayList<User> users = new ArrayList<>();
                 while (result.hasNext()){
-                    User u = null;
                     Record r = result.next();
-                    u = new User(r.get("Username").asString(), r.get("Id").asString());
+                    User u = new User(r.get("Username").asString(), r.get("Id").asString());
                     users.add(u);
                 }
                 return users;
@@ -107,9 +106,8 @@ public class Neo4jUser extends Neo4jConnection{
                         parameters("user_id", user_id));
                 ArrayList<User> users = new ArrayList<>();
                 while (result.hasNext()) {
-                    User u = null;
                     Record r = result.next();
-                    u = new User(r.get("Username").asString(), r.get("Id").asString());
+                    User u = new User(r.get("Username").asString(), r.get("Id").asString());
                     users.add(u);
                 }
                 return users;
@@ -194,22 +192,6 @@ public class Neo4jUser extends Neo4jConnection{
         return result;
     }
 
-    public boolean createPost(final String user_id, final Integer comment_id){
-        boolean result = true;
-        try (Session session = driver.session()){
-            session.writeTransaction( tx -> {
-                tx.run("MATCH (u:User{id: $user_id}),(c:Comment{id: $comment_id})\n" +
-                        "CREATE (u)-[:Post]->(c)",
-                        parameters("user_id", user_id , "comment_id", comment_id));
-                return 1;
-            });
-        } catch (Exception e){
-            logger.error("Exception occurred: ", e);
-            result = false;
-        }
-        return result;
-    }
-
     public boolean updateScore(final String user_id, final Integer score){
         boolean result = true;
         try (Session session = driver.session()){
@@ -227,7 +209,7 @@ public class Neo4jUser extends Neo4jConnection{
     }
 
     public HashMap<String, String> mostActiveUser(){
-        HashMap<String, String> userMap = new HashMap<>();
+        HashMap<String, String> userMap;
         try (Session session = driver.session()) {
             userMap = session.readTransaction((TransactionWork<HashMap<String, String>>) tx -> {
                 Result result = tx.run("MATCH (u:User)-[r]->()\n" +
@@ -250,8 +232,7 @@ public class Neo4jUser extends Neo4jConnection{
 
     public static void main( String... args ) throws Exception{
         Neo4jUser ex = new Neo4jUser();
-        ArrayList<User> prova = new ArrayList<>();
-        prova = ex.searchUser("Marvel", "5ff97e8283b19024e081534f");
+        ArrayList<User> prova = ex.searchUser("Marvel", "5ff97e8283b19024e081534f");
         System.out.println(prova);
     }
 }

@@ -20,12 +20,12 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         driver.close();
     }
 
-    public boolean createPlayer(final String id, final String playername, final String quality, final String revision, final String images) {
+    public boolean createPlayer(final String id, final String playername, final String quality, final String revision, final String image) {
         boolean result = true;
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> {
-                tx.run("CREATE (:PlayerCard {id: toInteger($id), name: $playername, quality: $quality, revision: $revision, images: $images})",
-                        parameters("id", id, "playername", playername, "quality", quality, "revision", revision, "images", images));
+                tx.run("CREATE (:PlayerCard {id: $id, name: $playername, quality: $quality, revision: $revision, image: $image})",
+                        parameters("id", id, "playername", playername, "quality", quality, "revision", revision, "image", image));
                 return 1;
             });
 
@@ -43,7 +43,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
             matchingPlayers = session.readTransaction((TransactionWork<ArrayList<Player>>) tx -> {
                 Result result = tx.run( "MATCH (p:PlayerCard)\n" +
                                         "WHERE (p.name) CONTAINS $name \n" +
-                                        "RETURN p.name AS Name, toString(p.id) AS PlayerId, p.quality AS Quality, p.revision AS Revision, p.image AS Img0",
+                                        "RETURN p.name AS Name, p.id AS PlayerId, p.quality AS Quality, p.revision AS Revision, p.image AS Img0",
                         parameters( "name", name));
                 ArrayList<Player> Players = new ArrayList<>();
                 while(result.hasNext())

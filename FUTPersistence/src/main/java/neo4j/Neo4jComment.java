@@ -25,7 +25,7 @@ public class Neo4jComment extends Neo4jConnection{
         driver = null;
     }
 
-    public ArrayList<Comment> showComment(final String player_id) throws Exception {
+    public ArrayList<Comment> showComment(final String player_id){
         System.out.println("prova");
         ArrayList<Comment> comments;
         try (Session session = driver.session())
@@ -48,18 +48,17 @@ public class Neo4jComment extends Neo4jConnection{
                     }
                     c = new Comment(r.get("Id").asString(), date, r.get("Text").asString(), r.get("Username").asString());
                     commentsResult.add(c);
-                    //String date1 = parserSDF.format(c.getDate()); per avere data nel formato corretto in output
                 }
                 return commentsResult;
             });
         } catch (Exception e){
-            logger.error("Exeption appened: ", e);
+            logger.error("Exeption occurred: ", e);
             comments = null;
         }
         return comments;
     }
 
-    public boolean createComment(final String player_id,  final String text, final String user_id) throws Exception {
+    public boolean createComment(final String player_id,  final String text, final String user_id){
         boolean check = true;
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
@@ -82,7 +81,7 @@ public class Neo4jComment extends Neo4jConnection{
                 return 1;
             });
         } catch (Exception e){
-            logger.error("Exeption appened: ", e);
+            logger.error("Exeption occurred: ", e);
             check = false;
         }
         return check;

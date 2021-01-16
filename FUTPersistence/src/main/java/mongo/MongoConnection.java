@@ -19,7 +19,6 @@ abstract class MongoConnection implements AutoCloseable{
 
     static {
         //open connection
-        try {
             switch (mongoConfig.mode){
                 case "local":
                     mongoClient = MongoClients.create("mongodb://"+mongoConfig.mongoIp+":"+mongoConfig.mongoPort);
@@ -30,13 +29,7 @@ abstract class MongoConnection implements AutoCloseable{
                 default:
                     mongoClient = MongoClients.create("mongodb://localhost:27017");
                     break;
-
             }
             db = mongoClient.getDatabase(mongoConfig.dbName).withWriteConcern(WriteConcern.MAJORITY).withReadPreference(ReadPreference.nearest());
-
-        } catch (Exception e){
-
-        }
-
     }
 }

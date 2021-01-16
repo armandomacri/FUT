@@ -1,6 +1,5 @@
 package mongo;
 
-import bean.Player;
 import bean.Squad;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Updates;
@@ -24,7 +23,6 @@ public class MongoSquad extends MongoConnection{
     private MongoCollection<Document> myColl;
 
     public boolean add(String userId, int index, Squad squad){
-        myColl = db.getCollection("users");
         Document squadDoc = new Document();
         squadDoc.append("name", squad.getName());
         squadDoc.append("module", squad.getModule());
@@ -41,6 +39,7 @@ public class MongoSquad extends MongoConnection{
         boolean result = true;
         squadDoc.append("players", playersDoc);
         try{
+            myColl = db.getCollection("users");
             if(index == -1){
                 myColl.updateOne(
                         eq("_id", new ObjectId(userId)),
@@ -61,9 +60,9 @@ public class MongoSquad extends MongoConnection{
     }
 
     public boolean delete(String userId, int index){
-        myColl = db.getCollection("users");
         boolean result = true;
         try {
+            myColl = db.getCollection("users");
             myColl.updateOne(
                     new Document("_id", new ObjectId(userId)),
                     new Document("$unset", new Document("squads."+index, 1))
@@ -81,9 +80,9 @@ public class MongoSquad extends MongoConnection{
     }
 
     public ArrayList<Squad> getSquads(String id){
-        myColl = db.getCollection("users");
         Document doc;
         try{
+            myColl = db.getCollection("users");
             doc = myColl.find(eq("_id",new ObjectId(id))).projection(fields(include("squads"), excludeId())).first();
         } catch (Exception e){
             doc = null;
@@ -123,7 +122,7 @@ public class MongoSquad extends MongoConnection{
 
     public ArrayList<Document> SquadAnalytics(String country){
         ArrayList<Document> result = new ArrayList<>();
-        myColl = db.getCollection("users");
+
 
         Consumer<Document> createDocuments = doc -> {result.add(doc);};
 
@@ -142,8 +141,15 @@ public class MongoSquad extends MongoConnection{
                 )
         );
 
-        myColl.aggregate(Arrays.asList(matchCountry, unqindSquads, distinctUserModules, groupModules, sort, limit, project)).
-                forEach(createDocuments);
+        try {
+            myColl = db.getCollection("users");
+            myColl.aggregate(Arrays.asList(matchCountry, unqindSquads, distinctUserModules, groupModules, sort, limit, project)).
+                    forEach(createDocuments);
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            return null;
+        }
+
         return result;
     }
 

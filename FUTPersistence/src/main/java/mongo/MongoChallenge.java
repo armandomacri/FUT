@@ -37,13 +37,13 @@ public class MongoChallenge extends MongoConnection{
         Document homeDoc = new Document("id", newChallenge.getHome()).append("username", newChallenge.getHomeUser()).append("score", newChallenge.getHomeScore());
         Document awayDoc = new Document("id", newChallenge.getAway()).append("username", newChallenge.getAwayUser()).append("score", newChallenge.getAwayScore());
         Document doc = new Document("date", newChallenge.getDate()).append("home", homeDoc).append("away", awayDoc).append("points_earned/lost", newChallenge.getPoints());
-        String id = null;
+        String id;
         try {
             myColl.insertOne(doc);
             id = doc.getObjectId("_id").toString();
         } catch (Exception e){
             logger.error("Exception occurred: ", e);
-             id= null;
+             id = null;
         }
         return id;
     }
@@ -98,13 +98,10 @@ public class MongoChallenge extends MongoConnection{
                     )
             );
             myColl.aggregate(Arrays.asList(matchDate, groupDate, limit, project)).forEach(createDocuments);
-        }
-
-        catch (Exception e){
+        } catch (Exception e){
             logger.error("Exception occurred: ", e);
             result = null;
         }
-
         return result;
     }
 

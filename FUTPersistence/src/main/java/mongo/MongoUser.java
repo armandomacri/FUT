@@ -11,7 +11,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.regex.Pattern;
 import static com.mongodb.client.model.Accumulators.sum;
 import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.*;
@@ -43,15 +42,29 @@ public class MongoUser extends MongoConnection{
         return id;
     }
 
-    public void delete(String id){
-        myColl = db.getCollection("users");
-        myColl.deleteOne(eq("_id", new ObjectId(id)));
+    public boolean delete(String id){
+        boolean result = true;
+        try {
+            myColl = db.getCollection("users");
+            myColl.deleteOne(eq("_id", new ObjectId(id)));
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            result = false;
+        }
+        return result;
     }
 
     public User getUser(String username){
-        myColl = db.getCollection("users");
-        Document doc = myColl.find(eq("username", username)).first();
-        return composeUser(doc);
+        User u;
+        try {
+            myColl = db.getCollection("users");
+            Document doc = myColl.find(eq("username", username)).first();
+            u = composeUser(doc);
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            u = null;
+        }
+        return u;
     }
 
 
@@ -108,33 +121,33 @@ public class MongoUser extends MongoConnection{
                 doc.get("country").toString(), date, doc.get("password").toString(), s, (int)Double.parseDouble(doc.get("score").toString()));
     }
 
-    public Integer countElement(){
-        myColl = db.getCollection("users");
-        return Math.toIntExact(myColl.countDocuments());
-    }
-
     public boolean updateScore (String userId, int points){
         myColl = db.getCollection("users");
         boolean result = true;
         try {
             myColl.updateOne(eq("_id", new ObjectId(userId)), inc("score", points));
         } catch (Exception e){
+            logger.error("Exception occurred: ", e);
             result = false;
         }
-
-
         return result;
-
     }
 
     public ArrayList<Document> getUserPerCountryLastYear(){
-        myColl = db.getCollection("users");
+
         ArrayList<Document> result = new ArrayList<>();
         Consumer<Document> createDocuments = doc -> {result.add(doc);};
         Bson groupCountry = group("$country", sum("numUsers", 1));
         Bson order = sort(descending("numUser"));
         Bson lim = limit(10);
-        myColl.aggregate(Arrays.asList(groupCountry, order, lim)).forEach(createDocuments);;
+        try {
+            myColl = db.getCollection("users");
+            myColl.aggregate(Arrays.asList(groupCountry, order, lim)).forEach(createDocuments);
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            return null;
+        }
+
         return result;
     }
 
@@ -146,11 +159,7 @@ public class MongoUser extends MongoConnection{
 
     public static void main(String[] args){
         MongoUser mongoUser = new MongoUser();
-        int i;
-        for (i=0;i<25;i++) {
-            System.out.println(mongoUser.getUserPerCountryLastYear().get(i).get("_id"));
-            System.out.println(mongoUser.getUserPerCountryLastYear().get(i).get("numUsers"));
-        }
+
         //String id = mongoUser.add("armando", "armando", "Armando9876", "italy", "8/01/2021", "armando");
         //mongoUser.delete(id);
         //System.out.println(mongoClient.getClusterDescription().getType());

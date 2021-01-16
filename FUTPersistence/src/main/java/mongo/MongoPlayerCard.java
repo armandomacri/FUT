@@ -34,7 +34,6 @@ public class MongoPlayerCard extends MongoConnection{
                       String added_date, Integer pace, Integer dribbling, Integer shooting, Integer passing, Integer defending,
                       Integer physicality, String pref_foot, Integer weak_foot, Integer skill_moves, String images){
         boolean result = true;
-        myColl = db.getCollection("player_cards");
         Document player = new Document("_id", _id)
                 .append("player_name", player_name)
                 .append("player_extended_name", player_extended_name)
@@ -61,6 +60,7 @@ public class MongoPlayerCard extends MongoConnection{
                 .append("skill_moves", skill_moves)
                 .append("images", images);
         try {
+            myColl = db.getCollection("player_cards");
             myColl.insertOne(player);
         } catch (Exception e){
             logger.error("Exception occurred: ", e);
@@ -89,11 +89,11 @@ public class MongoPlayerCard extends MongoConnection{
     }
 
     public Player findById(String id){
-        myColl = db.getCollection("player_cards");
         Document playerDoc;
         Player player;
 
         try{
+            myColl = db.getCollection("player_cards");
             playerDoc = myColl.find(eq("_id", Integer.parseInt(id))).first();
             /**********************************************************************/
             if(playerDoc == null) //player ancora non caricato
@@ -130,8 +130,8 @@ public class MongoPlayerCard extends MongoConnection{
 
     public boolean deletePlayer (int id){
         boolean result = true;
-        myColl = db.getCollection("player_cards");
         try{
+            myColl = db.getCollection("player_cards");
             myColl.deleteOne(eq("_id", id));
         } catch (Exception e){
             logger.error("Exception occurred: ", e);
@@ -232,8 +232,12 @@ public class MongoPlayerCard extends MongoConnection{
                                     include("physicalityAvg")
                                     )
                                 );
+        try{
+            myColl.aggregate(Arrays.asList(matchNationality, groupLeague, sort, limit, project)).forEach(createDocuments);
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+        }
 
-        myColl.aggregate(Arrays.asList(matchNationality, groupLeague, sort, limit, project)).forEach(createDocuments);
         return result;
     }
 
@@ -299,8 +303,12 @@ public class MongoPlayerCard extends MongoConnection{
                 include("physicalityAvg")
                 )
         );
+        try{
+            myColl.aggregate(Arrays.asList(matchLeague, groupQuality, project)).forEach(createDocuments);
+        } catch(Exception e){
+            logger.error("Exception occurred: ", e);
+        }
 
-        myColl.aggregate(Arrays.asList(matchLeague, groupQuality, project)).forEach(createDocuments);
         return result;
     }
 
@@ -310,12 +318,8 @@ public class MongoPlayerCard extends MongoConnection{
         //logger.info("Mongo close connection!");
     }
 
-
     public static void main(String[] args){
         MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
-        ArrayList<Document> prova = new ArrayList<>();
-        prova  = mongoPlayerCard.leagueAnalytics("Serie A TIM");
-        System.out.println(prova);
-        //mongoPlayerCard.leagueAnalytics("Serie A TIM");
+        //ArrayList<Document> prova = mongoPlayerCard.leagueAnalytics("Serie A TIM");
     }
 }
