@@ -80,7 +80,7 @@ public class AdminFirstPageController {
         XYChart.Series series = new XYChart.Series();
         series.setName("Challenges");
         //populating the series with data
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         for (Map.Entry<Date, Integer> entry : ChallengePerDay.entrySet()) {
             Date key = entry.getKey();
             Integer value = entry.getValue();

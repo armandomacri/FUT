@@ -1,17 +1,19 @@
 package bean;
 
+import java.util.Date;
+
 public class Challenge {
     private String challengeId;
     private String home;
     private String homeUser;
-    private String date;
+    private Date date;
     private String away;
     private String awayUser;
     private Integer homeScore;
     private Integer awayScore;
     private Integer points;
 
-    public Challenge(String challengeId, String home, String homeUser, String away, String awayUser, String date, Integer homeScore, Integer awayScore, Integer points){
+    public Challenge(String challengeId, String home, String homeUser, String away, String awayUser, Date date, Integer homeScore, Integer awayScore, Integer points){
         this.challengeId = challengeId;
         this.home = home;
         this.homeUser = homeUser;
@@ -35,7 +37,7 @@ public class Challenge {
         return homeUser;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -71,7 +73,7 @@ public class Challenge {
         this.homeUser = homeUser;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

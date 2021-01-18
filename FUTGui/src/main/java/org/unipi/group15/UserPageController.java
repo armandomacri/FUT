@@ -113,7 +113,7 @@ public class UserPageController {
         }
         squadsWrapper.setContent(gridPane);
 
-
+/*
         ArrayList<Challenge> challenges = mongoChallenge.findUserChallenge(userSession.getUserId());
         if (challenges.size() == 0){
             //non ci sono squadre
@@ -125,13 +125,16 @@ public class UserPageController {
         gridPane1.setPadding(new Insets(10, 10, 10, 10));
         gridPane1.setHgap(10);
 
+        String pattern = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+
         for(int i = 0; i < challenges.size(); i++){
             VBox container = new VBox();
             container.setAlignment(Pos.CENTER);
             container.getStyleClass().add("challengePane");
             HBox h1 = new HBox(new Label("Match: "), new Text(challenges.get(i).getHomeUser() + " vs " + challenges.get(i).getAwayUser()));
             HBox h2 = new HBox(new Label("Result: "), new Text(challenges.get(i).getHomeScore().toString() + "-" + challenges.get(i).getAwayScore().toString()));
-            HBox h3 = new HBox(new Label("Date: "), new Text(challenges.get(i).getDate()));
+            HBox h3 = new HBox(new Label("Date: "), new Text(sdf.format(challenges.get(i).getDate())));
             HBox h4 = new HBox(new Label("Points earned/lost: "), new Text(challenges.get(i).getPoints().toString()));
             container.getChildren().add(h1);
             container.getChildren().add(h2);
@@ -140,7 +143,7 @@ public class UserPageController {
             gridPane1.add(container, i, 0);
         }
 
-        challengesWrapper.setContent(gridPane1);
+        challengesWrapper.setContent(gridPane1);*/
     }
 
     @FXML

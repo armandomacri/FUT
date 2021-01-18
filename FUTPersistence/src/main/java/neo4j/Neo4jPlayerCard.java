@@ -43,7 +43,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
             matchingPlayers = session.readTransaction((TransactionWork<ArrayList<Player>>) tx -> {
                 Result result = tx.run( "MATCH (p:PlayerCard)\n" +
                                         "WHERE (p.name) CONTAINS $name \n" +
-                                        "RETURN p.name AS Name, p.id AS PlayerId, p.quality AS Quality, p.revision AS Revision, p.image AS Img0",
+                                        "RETURN p.name AS Name, toString(p.id) AS PlayerId, p.quality AS Quality, p.revision AS Revision, p.image AS Img0",
                         parameters( "name", name));
                 ArrayList<Player> Players = new ArrayList<>();
                 while(result.hasNext())

@@ -58,7 +58,7 @@ public class MongoChallenge extends MongoConnection{
                 Document challenge = cursor.next();
                 Document homeDoc = (Document) challenge.get("home");
                 Document awayDoc = (Document) challenge.get("away");
-                Challenge c = new Challenge(challenge.getObjectId("_id").toString(), homeDoc.get("id").toString(), homeDoc.get("username").toString(),awayDoc.get("id").toString(), awayDoc.get("username").toString(), challenge.get("date").toString(), Integer.parseInt(homeDoc.get("score").toString()), Integer.parseInt(awayDoc.get("score").toString()), Integer.parseInt(challenge.get("points_earned/lost").toString()));
+                Challenge c = new Challenge(challenge.getObjectId("_id").toString(), homeDoc.get("id").toString(), homeDoc.get("username").toString(),awayDoc.get("id").toString(), awayDoc.get("username").toString(), challenge.getDate("date"), Integer.parseInt(homeDoc.get("score").toString()), Integer.parseInt(awayDoc.get("score").toString()), Integer.parseInt(challenge.get("points_earned/lost").toString()));
                 results.add(c);
             }
         } catch (Exception e){
@@ -74,20 +74,19 @@ public class MongoChallenge extends MongoConnection{
             myColl = db.getCollection("challenge");
             TreeMap<Date, Integer> finalResult = result;
             Consumer<Document> createDocuments = doc -> {
-                try {
-                    finalResult.put(new SimpleDateFormat("dd/MM/yyyy").parse(doc.get("date").toString()), Integer.parseInt(doc.get("numChallenges").toString()));
-                } catch (ParseException e) {
-                    logger.error("Exception occurred: ", e);
-                }
+                finalResult.put(doc.getDate("date"), Integer.parseInt(doc.get("numChallenges").toString()));
             };
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             LocalDate today = LocalDate.now();
-            String toFind;
+            Date start;
             if (today.getMonthValue() == 1){
-                toFind = "/" + 12 + "/";
+                start = format.parse((today.getYear()-1) + "-12-" + today.getDayOfMonth() + "T00:00:00.000Z");;
+
             }else{
-                toFind = "/" + (today.getMonthValue() - 1) + "/";
+                start = format.parse(today.getYear() + "-" + (today.getMonthValue()-1) + "-" + today.getDayOfMonth() + "T00:00:00.000Z");;
             }
-            Bson matchDate = match(and(regex("date",".*" + Pattern.quote(toFind) + ".*")));
+            Date end = format.parse(today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth() + "T00:00:00.000Z");;
+            Bson matchDate = match(and(lt("date", end), gt("date", start)));
             Bson groupDate = group("$date",
                     sum("numChallenges", 1)
             );
@@ -98,7 +97,8 @@ public class MongoChallenge extends MongoConnection{
                     )
             );
             myColl.aggregate(Arrays.asList(matchDate, groupDate, limit, project)).forEach(createDocuments);
-        } catch (Exception e){
+        }
+        catch (Exception e){
             logger.error("Exception occurred: ", e);
             result = null;
         }

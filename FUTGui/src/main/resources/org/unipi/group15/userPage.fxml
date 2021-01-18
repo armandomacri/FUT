@@ -116,13 +116,7 @@
                      </children>
                   </Pane>
                   <ScrollPane fx:id="squadsWrapper" layoutX="14.0" layoutY="231.0" prefHeight="179.0" prefWidth="631.0" />
-                  <ScrollPane fx:id="challengesWrapper" layoutX="14.0" layoutY="446.0" prefHeight="140.0" prefWidth="631.0" />
                   <Label layoutX="14.0" layoutY="201.0" prefHeight="18.0" prefWidth="107.0" text="My squads">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="14.0" layoutY="412.0" prefHeight="30.0" prefWidth="130.0" text="My Challenges">
                      <font>
                         <Font size="20.0" />
                      </font>

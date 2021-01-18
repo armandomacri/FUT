@@ -17,15 +17,19 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import mongo.MongoChallenge;
 import mongo.MongoSquad;
 import neo4j.Neo4jUser;
 import user.ComputeScoreService;
 import user.UserSessionService;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ChallengeController {
     private static final Neo4jUser neo4jUser = new Neo4jUser();
     private static final MongoSquad mongoSquad = new MongoSquad();
+    private static MongoChallenge mongoChallenge = new MongoChallenge();
     private final UserSessionService userSession = App.getSession();
     private Squad selectedSquad;
     private User selectedUser;
@@ -67,6 +71,41 @@ public class ChallengeController {
             return;
         }
         setSuggestedOpponent();
+        setChallengeBox();
+    }
+
+    @FXML
+    private void setChallengeBox(){
+        ArrayList<Challenge> challenges = mongoChallenge.findUserChallenge(userSession.getUserId());
+        if (challenges.size() == 0){
+            //non ci sono squadre
+            //inserire pannello vuoto
+            return;
+        }
+
+        GridPane gridPane1 = new GridPane();
+        gridPane1.setPadding(new Insets(10, 10, 10, 10));
+        gridPane1.setHgap(10);
+
+        String pattern = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+
+        for(int i = 0; i < challenges.size(); i++){
+            VBox container = new VBox();
+            container.setAlignment(Pos.CENTER);
+            container.getStyleClass().add("challengePane");
+            HBox h1 = new HBox(new Label("Match: "), new Text(challenges.get(i).getHomeUser() + " vs " + challenges.get(i).getAwayUser()));
+            HBox h2 = new HBox(new Label("Result: "), new Text(challenges.get(i).getHomeScore().toString() + "-" + challenges.get(i).getAwayScore().toString()));
+            HBox h3 = new HBox(new Label("Date: "), new Text(sdf.format(challenges.get(i).getDate())));
+            HBox h4 = new HBox(new Label("Points earned/lost: "), new Text(challenges.get(i).getPoints().toString()));
+            container.getChildren().add(h1);
+            container.getChildren().add(h2);
+            container.getChildren().add(h3);
+            container.getChildren().add(h4);
+            gridPane1.add(container, i, 0);
+        }
+
+        userSquadScrollPane.setContent(gridPane1);
     }
 
     @FXML

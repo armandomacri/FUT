@@ -28,7 +28,7 @@ public class ComputeScoreService {
         int points = getFinalPoints(home_user, away_user, homeScore, awayScore);
         SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date(System.currentTimeMillis());
-        Challenge result = new Challenge(null, home_user.getUserId(), home_user.getUsername(),away_user.getUserId(), away_user.getUsername(), formatter.format(date), homeScore, awayScore, points);
+        Challenge result = new Challenge(null, home_user.getUserId(), home_user.getUsername(),away_user.getUserId(), away_user.getUsername(), date, homeScore, awayScore, points);
         MongoChallenge mongoChallenge = new MongoChallenge();
         String challID = mongoChallenge.insertChallenge(result);
         result.setChallengeId(challID);
