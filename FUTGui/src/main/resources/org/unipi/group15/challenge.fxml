@@ -100,7 +100,7 @@
             </VBox>
             <AnchorPane layoutX="239.0" prefHeight="600.0" prefWidth="662.0">
                <children>
-                  <ScrollPane fx:id="userSquadScrollPane" layoutX="65.0" layoutY="312.0" prefHeight="133.0" prefWidth="531.0" />
+                  <ScrollPane fx:id="userScrollPane" layoutX="65.0" layoutY="312.0" prefHeight="133.0" prefWidth="531.0" />
                   <VBox layoutX="65.0" layoutY="29.0" prefHeight="238.0" prefWidth="531.0">
                      <children>
                         <HBox prefHeight="72.0" prefWidth="531.0">

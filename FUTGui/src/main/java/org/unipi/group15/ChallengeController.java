@@ -40,7 +40,7 @@ public class ChallengeController {
 
     @FXML private TextField searchUsersTextField;
 
-    @FXML private ScrollPane userSquadScrollPane;
+    @FXML private ScrollPane userScrollPane;
 
     @FXML private TableView<User> seachUserTableView;
 
@@ -78,8 +78,7 @@ public class ChallengeController {
     private void setChallengeBox(){
         ArrayList<Challenge> challenges = mongoChallenge.findUserChallenge(userSession.getUserId());
         if (challenges.size() == 0){
-            //non ci sono squadre
-            //inserire pannello vuoto
+
             return;
         }
 
@@ -104,8 +103,7 @@ public class ChallengeController {
             container.getChildren().add(h4);
             gridPane1.add(container, i, 0);
         }
-
-        userSquadScrollPane.setContent(gridPane1);
+        userScrollPane.setContent(gridPane1);
     }
 
     @FXML
@@ -198,10 +196,10 @@ public class ChallengeController {
                         hResult.setStyle("-fx-alignment: center ; -fx-font-size: 28 ");
                         hRecap.setStyle("-fx-alignment: center ; -fx-font-size: 22");
                         container2.getChildren().addAll(hResult, hRecap);
-                        userSquadScrollPane.fitToHeightProperty();
-                        userSquadScrollPane.fitToWidthProperty();
-                        userSquadScrollPane.setContent(null);
-                        userSquadScrollPane.setContent(container2);
+                        userScrollPane.fitToHeightProperty();
+                        userScrollPane.fitToWidthProperty();
+                        userScrollPane.setContent(null);
+                        userScrollPane.setContent(container2);
                     }
                 }
             });
@@ -211,7 +209,7 @@ public class ChallengeController {
             container.getChildren().addAll(selectButton);
             gridPane.add(container, i, 0);
         }
-        userSquadScrollPane.setContent(gridPane);
+        userScrollPane.setContent(gridPane);
     }
 
     private void setMySquad(){
