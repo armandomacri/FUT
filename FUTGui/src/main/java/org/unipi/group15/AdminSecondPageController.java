@@ -118,30 +118,19 @@ public class AdminSecondPageController {
     private Button chooseFileButton;
 
     @FXML
-    private TableView<Map.Entry<String,String>> likedPlayers;
+    private TableView<Map.Entry<String,String>> analyticsTable;
 
     @FXML
-    private TableColumn<Map.Entry<String, String>, String> likedPlayerName;
+    private TableColumn<Map.Entry<String, String>, String> firstColumnAnalytics;
 
     @FXML
-    private TableColumn<Map.Entry<String, String>, String> numLikes;
+    private TableColumn<Map.Entry<String, String>, String> secondColumnAnalytics;
 
-    @FXML
-    private TableView<Map.Entry<String,String>> activeUser;
-
-    @FXML
-    private TableColumn<Map.Entry<String, String>, String> activeUsername;
-
-    @FXML
-    private TableColumn<Map.Entry<String, String>, String> numOperations;
-
-    private File file;
+        private File file;
 
     @FXML
     private void initialize(){
         uploadButton.setDisable(true);
-        setLikedPlayers();
-        setActiveUsers();
     }
 
     @FXML
@@ -304,46 +293,52 @@ public class AdminSecondPageController {
         SquadAnalyticsTable.getColumns().setAll(ModuleColumn, UsageColumn);
     }
 
+    @FXML
     private void setLikedPlayers(){
+        firstColumnAnalytics.setText("Player Name");
+        secondColumnAnalytics.setText("Likes");
         Map<String, String> likedplayers = neo4jPlayerCard.mostLikedPlayer();
-        likedPlayerName.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
+        firstColumnAnalytics.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
                 return new SimpleStringProperty(p.getValue().getKey());
             }
         });
-        numLikes.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
+        secondColumnAnalytics.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
                 return new SimpleStringProperty(p.getValue().getValue());
             }
         });
         ObservableList<Map.Entry<String, String>> items = FXCollections.observableArrayList(likedplayers.entrySet());
-        likedPlayers.setItems(items);
-        likedPlayers.getColumns().setAll(likedPlayerName, numLikes);
-        numLikes.setSortType(TableColumn.SortType.DESCENDING);
-        likedPlayers.getSortOrder().setAll(numLikes);
+        analyticsTable.setItems(items);
+        analyticsTable.getColumns().setAll(firstColumnAnalytics, secondColumnAnalytics);
+        secondColumnAnalytics.setSortType(TableColumn.SortType.DESCENDING);
+        analyticsTable.getSortOrder().setAll(secondColumnAnalytics);
     }
 
+    @FXML
     private void setActiveUsers(){
+        firstColumnAnalytics.setText("Username");
+        secondColumnAnalytics.setText("Operations");
         Map<String, String> activeusers = neo4jUser.mostActiveUser();
-        activeUsername.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
+        firstColumnAnalytics.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
                 return new SimpleStringProperty(p.getValue().getKey());
             }
         });
-        numOperations.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
+        secondColumnAnalytics.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
                 return new SimpleStringProperty(p.getValue().getValue());
             }
         });
         ObservableList<Map.Entry<String, String>> items = FXCollections.observableArrayList(activeusers.entrySet());
-        activeUser.setItems(items);
-        activeUser.getColumns().setAll(activeUsername, numOperations);
-        numOperations.setSortType(TableColumn.SortType.DESCENDING);
-        activeUser.getSortOrder().setAll(numOperations);
+        analyticsTable.setItems(items);
+        analyticsTable.getColumns().setAll(firstColumnAnalytics, secondColumnAnalytics);
+        secondColumnAnalytics.setSortType(TableColumn.SortType.DESCENDING);
+        analyticsTable.getSortOrder().setAll(secondColumnAnalytics);
     }
 
 
