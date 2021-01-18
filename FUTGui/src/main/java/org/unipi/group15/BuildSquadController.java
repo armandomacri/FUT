@@ -8,16 +8,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import mongo.MongoPlayerCard;
 import mongo.MongoSquad;
 import user.UserSessionService;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
+
+import java.util.*;
 
 public class BuildSquadController {
     private static final UserSessionService userSession = App.getSession();
@@ -36,7 +40,7 @@ public class BuildSquadController {
 
     @FXML private TableView<Player> findPlayersTableView;
 
-    @FXML private TableView<Player> chosenPlayersTableView;
+    @FXML private AnchorPane squadsAnchorPane;
 
     @FXML private TextField findPlayerTextField;
 
@@ -62,13 +66,6 @@ public class BuildSquadController {
         moduleChoiceBox.getItems().addAll(FXCollections.observableArrayList("352",
                                             "4231", "4312", "433", "442"));
 
-        chosenPlayersTableView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("playerExtendedName"));
-        chosenPlayersTableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("position"));
-        chosenPlayersTableView.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("overall"));
-        chosenPlayersTableView.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("revision"));
-        chosenPlayersTableView.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("league"));
-        chosenPlayersTableView.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("nationality"));
-
         findPlayersTableView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("playerExtendedName"));
         findPlayersTableView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("position"));
         findPlayersTableView.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("overall"));
@@ -76,22 +73,22 @@ public class BuildSquadController {
         findPlayersTableView.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("league"));
         findPlayersTableView.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("nationality"));
 
-        if(squadIndex != -1) {
+        if(squadIndex != -1) { //modify squad
             squad = App.getSession().getSquads().get(squadIndex);
             squadNameTextField.setText(squad.getName());
             moduleChoiceBox.getSelectionModel().select(squad.getModule());
             displayModulePositions(squad.getModule());
 
-            ArrayList<Player> players = new ArrayList<>();
+            HashMap<String, Player> players = new HashMap<>();
             for (Map.Entry<String, String> item : squad.getPlayers().entrySet()) {
                 Player p = mongoPlayerCard.findById(item.getValue());
                 if (p == null)
                     continue;
-                players.add(p);
+                players.put(item.getKey(), p);
             }
-            ObservableList<Player> comp = FXCollections.observableArrayList(players);
 
-            chosenPlayersTableView.setItems(comp);
+            showSquad(players);
+
             overallText.setText(computeOverall(squad).toString());
         }
         else {
@@ -147,7 +144,6 @@ public class BuildSquadController {
 
     private void displayPosition(ArrayList<String> elem){
         choosePlayerBox(elem);
-        chosenPlayersTableView.getItems().clear();
         overallText.setText("");
 
     }
@@ -155,6 +151,45 @@ public class BuildSquadController {
     private void choosePlayerBox(ArrayList<String> elem){
         positionChoiceBox.getItems().removeAll(positionChoiceBox.getItems());
         positionChoiceBox.getItems().addAll(FXCollections.observableArrayList(elem));
+    }
+
+    private void showSquad(HashMap<String, Player> players){
+        squadsAnchorPane.getChildren().clear();
+        GridPane grid = new GridPane();
+        int row = 0, column = 0;
+
+        for (Map.Entry<String, Player> item : players.entrySet()){
+            VBox v = new VBox();
+            HBox h = new HBox(new Label(item.getKey()));
+            h.setAlignment(Pos.CENTER);
+            VBox container = new VBox();
+            container.getStyleClass().add("showPlayer");
+            HBox h1 = new HBox(new Label(item.getValue().getPlayerExtendedName()));
+            h1.setAlignment(Pos.CENTER);
+            HBox h2 = new HBox(new Label(item.getValue().getOverall().toString()));
+            h2.setAlignment(Pos.CENTER);
+            if(item.getValue().getQuality().contains("Gold")) {
+                container.getStyleClass().add("goldPlayer");
+            }
+            else if (item.getValue().getQuality().contains("Silver")) {
+                container.getStyleClass().add("silverPlayer");
+            }
+            else {
+                container.getStyleClass().add("bronzePlayer");
+            }
+            container.getChildren().addAll(h1, h2);
+            v.getChildren().addAll(h, container);
+            grid.setHgap(15); //horizontal gap in pixels => that's what you are asking for
+            grid.setVgap(20); //vertical gap in pixels
+            grid.setMinSize(0,0);
+            grid.add(v, row, column);
+            if (column == 2)
+                row += 1;
+            column = (column == 0) ? 1 : (column == 1) ? 2 : 0;
+        }
+
+
+        squadsAnchorPane.getChildren().add(grid);
     }
 
     @FXML
@@ -165,8 +200,7 @@ public class BuildSquadController {
     @FXML
     private void selectPlayer(){
 
-
-        ObservableList<Player> players = null;
+        ObservableList<Player> players;
         if (!findPlayerTextField.getText().equals(""))
             players = FXCollections.observableArrayList(mongoPlayerCard.findPlayers(findPlayerTextField.getText()));
         else if (!positionPlayerTextField.getText().equals("") & !nationPlayerTextField.getText().equals("") & !qualityPlayerTextField.getText().equals(""))
@@ -187,12 +221,11 @@ public class BuildSquadController {
         String pos = positionChoiceBox.getSelectionModel().getSelectedItem();
         squad.getPlayers().put(pos, player.getPlayerId());
 
-        ArrayList<Player> players = new ArrayList<>();
+        HashMap<String, Player> players = new HashMap<>();
         for (Map.Entry<String, String> item : squad.getPlayers().entrySet()) {
-            players.add(mongoPlayerCard.findById(item.getValue()));
+            players.put(item.getKey(),mongoPlayerCard.findById(item.getValue()));
         }
-        ObservableList<Player> comp = FXCollections.observableArrayList(players);
-        chosenPlayersTableView.setItems(comp);
+        showSquad(players);
         overallText.setText(computeOverall(squad).toString());
         findPlayersTableView.getItems().clear();
         /*
@@ -223,7 +256,11 @@ public class BuildSquadController {
         int overall;
 
         for (Map.Entry<String, String> item : squad.getPlayers().entrySet()) {
-            sum +=mongoPlayerCard.findById(item.getValue()).getOverall();
+            Player p = mongoPlayerCard.findById(item.getValue());
+            if (p == null)
+                continue;
+            else
+                sum += p.getOverall();
         }
 
         overall = sum/11;

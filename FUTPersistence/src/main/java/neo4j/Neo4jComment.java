@@ -26,13 +26,12 @@ public class Neo4jComment extends Neo4jConnection{
     }
 
     public ArrayList<Comment> showComment(final String player_id){
-        System.out.println("prova");
         ArrayList<Comment> comments;
         try (Session session = driver.session())
         {
             comments = session.readTransaction((TransactionWork<ArrayList<Comment>>) tx -> {
                 Result result = tx.run( "MATCH path=(u:User)-[p:Post]-(c:Comment)-[:Related]->(pc:PlayerCard{id: toInteger($player_id)})\n" +
-                                        "RETURN c.id AS Id, c.text AS Text, p.date AS Date, u.username AS Username ",
+                                        "RETURN c.id AS Id, c.text AS Text, p.date AS Date, u.username AS Username",
                         parameters( "player_id", player_id) );
                 ArrayList<Comment> commentsResult = new ArrayList<>();
                 while(result.hasNext())

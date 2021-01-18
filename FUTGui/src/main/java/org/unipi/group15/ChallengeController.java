@@ -224,6 +224,8 @@ public class ChallengeController {
 
     @FXML
     private void switchToBuildSquad() {
+        BuildSquadController bqc = new BuildSquadController();
+        bqc.setSquadIndex(-1);
         App.setRoot("buildSquad");
     }
 
