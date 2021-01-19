@@ -45,6 +45,14 @@ public class Player {
         this.img0 = img0;
     }
 
+    public Player(String playerExtName, String revision, String nationality, int overall, String league , String position){
+        this.playerExtendedName = playerExtName;
+        this.revision = revision;
+        this.nationality = nationality;
+        this.overall = overall;
+        this.league = league;
+        this.position = position;
+    }
 
     //general constructor
     public Player(String playerId, String player_name, String player_extended_name, String quality,
@@ -87,7 +95,7 @@ public class Player {
             this.gkSpeed = att4;
             this.gkKicking = att5;
             this.gkPositioning = att6;
-        } else{
+        } else {
             this.pace = att1;
             this.dribbling = att2;
             this.shooting = att3;
@@ -226,10 +234,6 @@ public class Player {
 
     public String getImg0() {
         return img0;
-    }
-
-    public void setPlayerId(String playerId) {
-        this.playerId = playerId;
     }
 
     public void setPlayerName(String playerName) {

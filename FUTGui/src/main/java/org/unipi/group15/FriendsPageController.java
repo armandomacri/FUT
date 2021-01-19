@@ -262,7 +262,7 @@ public class FriendsPageController {
 
     @FXML
     private void createRelationFollow1() {
-        if(!neo4jUser.createFollow(userSession.getUserId(),idSelected1)){
+        if(!neo4jUser.createFollow(userSession.getUserId(), idSelected1)){
             checkService("Connection problem!");
             return;
         }

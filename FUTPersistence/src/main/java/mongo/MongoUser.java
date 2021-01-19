@@ -98,13 +98,14 @@ public class MongoUser extends MongoConnection{
         else {
             for (Document squad : squadsDoc) {
                 Document playersDoc = (Document) squad.get("players");
-                HashMap<String, String> x = new HashMap<>();
+                HashMap<String, Player> x = new HashMap<>();
                 for (Map.Entry<String, Object> curEntry : playersDoc.entrySet()) {
-                    x.put(curEntry.getKey(), (String) curEntry.getValue());
-                }
+                    String pos = curEntry.getKey();
 
+                    Document p = (Document) curEntry.getValue();
+                    x.put(pos, new Player(p.get("player_name").toString(), p.get("revision").toString(), p.get("nationality").toString(), Integer.parseInt(p.get("overall").toString()), p.get("league").toString(), p.get("position").toString()));
+                }
                 try {
-                    df = new SimpleDateFormat("dd/MM/yyyy");
                     date = df.parse(squad.get("date").toString());
                 } catch (ParseException e) {
                     e.printStackTrace();

@@ -36,7 +36,7 @@ public class Neo4jComment extends Neo4jConnection{
                 ArrayList<Comment> commentsResult = new ArrayList<>();
                 while(result.hasNext())
                 {
-                    Comment c = null;
+                    Comment c;
                     Record r = result.next();
                     SimpleDateFormat parserSDF=new SimpleDateFormat("yyyy-MM-dd");
                     Date date = null;

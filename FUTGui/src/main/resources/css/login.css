@@ -67,10 +67,6 @@ GridPane {
     -fx-effect: none;
 }
 
-#errorBox{
-
-}
-
 #errorBox > .label{
     -fx-text-fill: #FD003A;
     -fx-font-size: 15;

@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.SearchPlayerController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.SearchPlayerController">
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="900.0">
          <children>
@@ -97,7 +97,7 @@
             </Pane>
             <AnchorPane layoutX="257.0" layoutY="53.0" prefHeight="56.0" prefWidth="618.0">
                <children>
-                  <Label layoutX="22.0" layoutY="14.0" text="Find a player:">
+                  <Label layoutX="26.0" layoutY="14.0" text="Find a player:">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -107,10 +107,10 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <Button fx:id="toFindButton" layoutX="537.0" layoutY="15.0" mnemonicParsing="false" onMouseClicked="#findPlayer" prefHeight="26.0" prefWidth="78.0" text="Find" />
+                  <Button fx:id="toFindButton" layoutX="532.0" layoutY="12.0" mnemonicParsing="false" onMouseClicked="#findPlayer" prefHeight="26.0" prefWidth="78.0" text="Find" textFill="#2d3d51" />
                </children>
             </AnchorPane>
-            <ScrollPane fx:id="playersWrapper" layoutX="240.0" layoutY="119.0" prefHeight="480.0" prefWidth="658.0" />
+            <ScrollPane fx:id="playersWrapper" layoutX="245.0" layoutY="115.0" prefHeight="480.0" prefWidth="651.0" style="-fx-background-color: white;" />
          </children>
       </AnchorPane>
    </children>

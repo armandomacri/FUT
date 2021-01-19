@@ -1,5 +1,6 @@
 package mongo;
 
+import bean.Player;
 import bean.Squad;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Updates;
@@ -33,8 +34,13 @@ public class MongoSquad extends MongoConnection{
         Iterator iterator = squad.getPlayers().keySet().iterator();
         while (iterator.hasNext()){
             String key = iterator.next().toString();
-            String value = squad.getPlayers().get(key);
-            playersDoc.append(key, value);
+            Player value = squad.getPlayers().get(key);
+            playersDoc.append(key, new Document("player_name", value.getPlayerExtendedName())
+                                                .append("revision", value.getRevision())
+                                                .append("overall", value.getOverall())
+                                                .append("nationality", value.getNationality())
+                                                .append("league", value.getLeague())
+                                                .append("position", value.getPosition()));
         }
         boolean result = true;
         squadDoc.append("players", playersDoc);
@@ -97,24 +103,24 @@ public class MongoSquad extends MongoConnection{
         ArrayList<Document> squadsDoc = (ArrayList)doc.get("squads");
         //inserire se non ha squadra, inizializzatlo vuoto
         ArrayList<Squad> s = new ArrayList<>();
-        SimpleDateFormat df;
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Date date = null;
         for (Document squad : squadsDoc) {
             Document playersDoc = (Document) squad.get("players");
-            HashMap<String, String> x = new HashMap<>();
+            HashMap<String, Player> x = new HashMap<>();
             for (Map.Entry<String, Object> curEntry : playersDoc.entrySet()) {
-                x.put(curEntry.getKey(), (String) curEntry.getValue());
+                String pos = curEntry.getKey();
+                Document p = (Document) curEntry.getValue();
+                x.put(pos, new Player(p.get("player_name").toString(), p.get("revision").toString(), p.get("nationality").toString(), Integer.parseInt(p.get("overall").toString()), p.get("league").toString(), p.get("position").toString()));
             }
 
             try {
-                df = new SimpleDateFormat("dd/MM/yyyy");
                 date = df.parse(squad.get("date").toString());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            Squad sq = new Squad(squad.get("name").toString(), squad.get("module").toString(),
-                    date, x);
+            Squad sq = new Squad(squad.get("name").toString(), squad.get("module").toString(), date, x);
             s.add(sq);
         }
         return s;

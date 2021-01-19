@@ -34,8 +34,6 @@ public class UserSessionService {
 
     public String getUserId(){ return user.getUserId(); }
 
-    public String getPassword() { return user.getPassword(); }
-
     public Date getJoinDate(){ return user.getJoinDate(); }
 
     public String getCountry(){ return user.getCountry(); }

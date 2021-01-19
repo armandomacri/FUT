@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.PlayerCardViewController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.PlayerCardViewController">
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="900.0">
          <children>
@@ -186,7 +186,6 @@
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints maxHeight="141.60001220703126" minHeight="10.0" prefHeight="114.99999389648437" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="31.999981689453136" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
                       <RowConstraints maxHeight="85.6" minHeight="10.0" prefHeight="56.8" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
@@ -202,17 +201,17 @@
                            <image>
                            </image>
                         </ImageView>
-                        <Text id="overall" fx:id="overall" strokeType="OUTSIDE" strokeWidth="0.0" text="92" textAlignment="CENTER" wrappingWidth="44.53662109375" GridPane.rowIndex="2">
+                        <Text id="overall" fx:id="overall" strokeType="OUTSIDE" strokeWidth="0.0" text="92" textAlignment="CENTER" wrappingWidth="44.53662109375" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <Text id="position" fx:id="position" strokeType="OUTSIDE" strokeWidth="0.0" text="ST" textAlignment="CENTER" wrappingWidth="48.66211128234863" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                        <Text id="position" fx:id="position" strokeType="OUTSIDE" strokeWidth="0.0" text="ST" textAlignment="CENTER" wrappingWidth="48.66211128234863" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <Text id="player_name" fx:id="playerName" strokeType="OUTSIDE" strokeWidth="0.0" text="Ronaldo" textAlignment="CENTER" wrappingWidth="152.1093864440918" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <Text id="player_name" fx:id="playerName" strokeType="OUTSIDE" strokeWidth="0.0" text="Ronaldo" textAlignment="CENTER" wrappingWidth="152.1093864440918" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font size="21.0" />
                            </font>
@@ -223,13 +222,11 @@
             </AnchorPane>
             <AnchorPane layoutX="611.0" layoutY="233.0" prefHeight="333.0" prefWidth="274.0">
                <children>
-                  <GridPane layoutY="45.0" prefHeight="230.0" prefWidth="274.0">
+                  <GridPane layoutX="40.0" layoutY="47.0" prefHeight="192.0" prefWidth="174.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -249,29 +246,28 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pref. foot:" wrappingWidth="123.7281494140625" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
-                  <Label layoutX="14.0" text="Card Information">
+                  <Label layoutX="69.0" text="Card Information">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="48.0" fitWidth="60.0" layoutX="4.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="43.0" fitWidth="30.0" layoutX="40.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../img/Thumb_up_icon.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="likeLabel" layoutX="83.0" layoutY="258.0" text="Likes: " />
-                  <Button fx:id="likeButton" layoutX="187.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#addLike" prefHeight="31.0" prefWidth="60.0" text="Like!" />
-                  <Label fx:id="likeLabel1" layoutX="120.0" layoutY="258.0" text="0" />
+                  <Label fx:id="likeLabel" layoutX="89.0" layoutY="278.0" text="Likes: " />
+                  <Button fx:id="likeButton" layoutX="167.0" layoutY="270.0" mnemonicParsing="false" onMouseClicked="#addLike" prefHeight="31.0" prefWidth="60.0" text="Like!" />
+                  <Label fx:id="likeLabel1" layoutX="133.0" layoutY="278.0" text="0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="263.0" layoutY="234.0" prefHeight="318.0" prefWidth="274.0">
                <children>
-                  <GridPane layoutY="13.0" prefHeight="292.0" prefWidth="309.0">
+                  <GridPane layoutX="45.0" layoutY="13.0" prefHeight="292.0" prefWidth="184.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />

@@ -24,23 +24,21 @@
     -fx-background-radius: 50;
 }
 
-.statisticsBox{
-    -fx-background-radius: 10;
-    -fx-background-color: #384a62;
-    //-fx-effect: innershadow(gaussian, rgba( 0, 0, 0, 0.5 ), 10, 0, 5, 5);
-
-}
-
-.circlePane{
-    -fx-border-radius: 100;
-    -fx-border-color: black;
-    -fx-alignment: center;
-}
-
 .squadPane {
     -fx-background-radius: 20;
     -fx-padding: 15;
-    -fx-background-color: #cacaca;
+    -fx-background-color: #2d3d51;
+}
+
+.squadPane .label{
+    -fx-font-size: 15;
+    -fx-text-fill: white;
+}
+
+.squadPane .button{
+    -fx-background-color: transparent;
+    -fx-text-fill: #14d0ad;
+    -fx-cursor: hand;
 }
 
 .challengePane {
@@ -87,6 +85,13 @@
     -fx-background-radius: 50;
 }
 
+#toFindButton{
+    -fx-background-color: #2d3d51;
+    -fx-background-radius: 50;
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+    -fx-cursor: hand;
+}
 /*
 DA sistemare
 .textLabel{

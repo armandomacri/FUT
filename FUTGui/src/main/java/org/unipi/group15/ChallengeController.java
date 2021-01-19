@@ -80,7 +80,6 @@ public class ChallengeController {
     private void setChallengeBox(){
         ArrayList<Challenge> challenges = mongoChallenge.findUserChallenge(userSession.getUserId());
         if (challenges.size() == 0){
-
             return;
         }
 
@@ -124,7 +123,7 @@ public class ChallengeController {
         ArrayList<User> users = neo4jUser.searchUser(searchUsersTextField.getText(), userSession.getUserId());
         ObservableList<User> observable_users = FXCollections.observableArrayList(users);
         if(users.size() == 0){
-            seachUserTableView.setPlaceholder(new Label("No Users found containing "+ searchUsersTextField.getText()));
+            seachUserTableView.setPlaceholder(new Label("No Users found containing " + searchUsersTextField.getText()));
             return;
         }
         seachUserTableView.setItems(observable_users);

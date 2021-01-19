@@ -17,8 +17,8 @@ public class ComputeScoreService {
 
 
     public Challenge results (User home_user, User away_user, Squad homeSquad, Squad awaySquad){
-        HashMap<String, Player> homePlayers = getSquadPalyers(homeSquad.getPlayers());
-        HashMap<String, Player> awayPlayers = getSquadPalyers(awaySquad.getPlayers());
+        HashMap<String, Player> homePlayers = homeSquad.getPlayers();
+        HashMap<String, Player> awayPlayers = awaySquad.getPlayers();
 
         ArrayList<Integer> overallPoints = getOverallPoints(homePlayers, awayPlayers);
         ArrayList<Integer> iconPoints = getIconPoints(homePlayers, awayPlayers);
@@ -76,19 +76,6 @@ public class ComputeScoreService {
         }
 
         return result;
-    }
-
-    private HashMap<String, Player> getSquadPalyers(HashMap<String, String> positions){
-
-        HashMap<String, Player> players = new HashMap<>();
-        for (String key : positions.keySet()) {
-            Player p = mongoPlayerCard.findById(positions.get(key));
-            if(p == null)
-                continue;
-            players.put(key, p);
-        }
-
-        return players;
     }
 
     //check if all the players are in the right position

@@ -78,7 +78,7 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <Button fx:id="SaveButton" layoutX="239.0" layoutY="177.0" mnemonicParsing="false" onAction="#saveSquad" prefWidth="70.0" text="Save" />
+                  <Button fx:id="saveButton" layoutX="239.0" layoutY="177.0" mnemonicParsing="false" onAction="#saveSquad" prefWidth="70.0" text="Save" />
                   <TextField fx:id="positionPlayerTextField" layoutX="708.0" layoutY="134.0" onAction="#onEnter" prefHeight="26.0" prefWidth="63.0" promptText="Position" />
                   <TextField fx:id="qualityPlayerTextField" layoutX="626.0" layoutY="134.0" onAction="#onEnter" prefHeight="26.0" prefWidth="70.0" promptText="Quality" />
                   <TextField fx:id="nationPlayerTextField" layoutX="542.0" layoutY="134.0" onAction="#onEnter" prefHeight="26.0" prefWidth="70.0" promptText="Nation" />
