@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- configurazione.xml -->
-<ConfigurationService mode="local">
+<ConfigurationService mode="replica">
     <MongoIp>localhost</MongoIp>
     <MongoPort>27017</MongoPort>
     <ReplicaSet>

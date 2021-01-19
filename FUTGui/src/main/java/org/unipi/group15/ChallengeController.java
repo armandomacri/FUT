@@ -34,6 +34,8 @@ public class ChallengeController {
     private Squad selectedSquad;
     private User selectedUser;
 
+    @FXML private Label mutableLabel;
+
     @FXML private Label userIdLabel;
 
     @FXML private Label usernameLabel;
@@ -123,6 +125,7 @@ public class ChallengeController {
     private void showSelectedUserSquads(final String user_id){
         //ottenere l'id dell'utente di cui voglio le squadre
         //le squadre appaiono quando clicco sull'utente
+        mutableLabel.setText("Select opponent's squad");
         setSquad(mongoSquad.getSquads(user_id));
     }
 
@@ -150,6 +153,7 @@ public class ChallengeController {
                 @Override
                 public void handle(ActionEvent event) {
                     if (selectedSquad == null) {
+                        mutableLabel.setText("Select your squad");
                         selectedSquad = userSquads.get(Integer.parseInt(selectButton.getId()));
                         VBox container1 = new VBox();
                         HBox h11 = new HBox(new Label("Username: "), new Text(selectedUser.getUsername()));
@@ -181,6 +185,7 @@ public class ChallengeController {
                         VBox container2 = new VBox();
                         HBox hResult = new HBox(new Text(App.getSession().getUsername() + " " + result.getHomeScore() + ":" + result.getAwayScore() + " " + selectedUser.getUsername()));
                         HBox hRecap;
+                        mutableLabel.setText("Challenge's result");
                         if(result.getHomeScore() > result.getAwayScore()){
                             hRecap = new HBox(new Text("Congratulations, you won the match. Points earned: " + result.getPoints().toString()));
                             userSession.setScore(userSession.getScore()+result.getPoints());

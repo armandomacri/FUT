@@ -54,7 +54,7 @@ public class UserPageController {
     private void initialize(){
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
         Date date = userSession.getJoinDate();
         registrationDaysLabel.setText(df.format(date));
         countryLabel.setText(userSession.getCountry());
@@ -70,9 +70,10 @@ public class UserPageController {
             return;
         }
 
-        GridPane gridPane = new GridPane();
-        gridPane.setPadding(new Insets(10, 10, 10, 10));
-        gridPane.setHgap(10);
+
+        squadsWrapper.setPadding(new Insets(10, 10, 10, 10));
+        squadsWrapper.setHgap(10);
+        squadsWrapper.setVgap(10);
 
         for(int i = 0; i < squads.size(); i++){
             VBox container = new VBox();
