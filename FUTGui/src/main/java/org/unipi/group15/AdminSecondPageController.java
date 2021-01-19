@@ -162,42 +162,41 @@ public class AdminSecondPageController {
         pacLeagueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
-                return new SimpleStringProperty((d.getValue().get("paceAvg").toString()));
+                return new SimpleStringProperty((String.format("%.2f" ,d.getValue().get("paceAvg"))));
             }
         });
 
         driLeagueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
-                return new SimpleStringProperty((d.getValue().get("dribblingAvg").toString()));
+                return new SimpleStringProperty((String.format("%.2f" ,d.getValue().get("dribblingAvg"))));
             }
         });
 
         shoLeagueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
-                return new SimpleStringProperty((d.getValue().get("shootingAvg").toString()));
+                return new SimpleStringProperty((String.format("%.2f" ,d.getValue().get("shootingAvg"))));
             }
         });
 
         defLeagueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
-                return new SimpleStringProperty((d.getValue().get("defendingAvg").toString()));
-            }
+                return new SimpleStringProperty((String.format("%.2f" ,d.getValue().get("defendingAvg"))));            }
         });
 
         pasLeagueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
-                return new SimpleStringProperty((d.getValue().get("passingAvg").toString()));
+                return new SimpleStringProperty((String.format("%.2f" ,d.getValue().get("passingAvg"))));
             }
         });
 
         phyLeagueColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
-                return new SimpleStringProperty((d.getValue().get("physicalityAvg").toString()));
+                return new SimpleStringProperty((String.format("%.2f" ,d.getValue().get("physicalityAvg"))));
             }
         });
 
@@ -226,42 +225,42 @@ public class AdminSecondPageController {
         pacQualityColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
-                return new SimpleStringProperty((d.getValue().get("paceAvg").toString()));
+                return new SimpleStringProperty((String.format("%.2f" ,d.getValue().get("paceAvg"))));
             }
         });
 
         driQualityColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
-                return new SimpleStringProperty((d.getValue().get("dribblingAvg").toString()));
+                return new SimpleStringProperty((String.format("%.2f" ,d.getValue().get("dribblingAvg"))));
             }
         });
 
         shoQualityColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
-                return new SimpleStringProperty((d.getValue().get("shootingAvg").toString()));
+                return new SimpleStringProperty((String.format("%.2f" ,d.getValue().get("shootingAvg"))));
             }
         });
 
         defQualityColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
-                return new SimpleStringProperty((d.getValue().get("defendingAvg").toString()));
+                return new SimpleStringProperty((String.format("%.2f" ,d.getValue().get("defendingAvg"))));
             }
         });
 
         pasQualityColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
-                return new SimpleStringProperty((d.getValue().get("passingAvg").toString()));
+                return new SimpleStringProperty((String.format("%.2f" ,d.getValue().get("passingAvg"))));
             }
         });
 
         phyQualityColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Document, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Document, String> d) {
-                return new SimpleStringProperty((d.getValue().get("physicalityAvg").toString()));
+                return new SimpleStringProperty((String.format("%.2f" ,d.getValue().get("physicalityAvg"))));
             }
         });
 

@@ -81,11 +81,12 @@ public class MongoChallenge extends MongoConnection{
             Date start;
             if (today.getMonthValue() == 1){
                 start = format.parse((today.getYear()-1) + "-12-" + today.getDayOfMonth() + "T00:00:00.000Z");;
-
             }else{
-                start = format.parse(today.getYear() + "-" + (today.getMonthValue()-1) + "-" + today.getDayOfMonth() + "T00:00:00.000Z");;
+                start = format.parse(today.getYear() + "-" + (today.getMonthValue()-1) + "-" +
+                        today.getDayOfMonth() + "T00:00:00.000Z");;
             }
-            Date end = format.parse(today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth() + "T00:00:00.000Z");;
+            Date end = format.parse(today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth()
+                    + "T23:59:59.000Z");;
             Bson matchDate = match(and(lt("date", end), gt("date", start)));
             Bson groupDate = group("$date",
                     sum("numChallenges", 1)
@@ -93,8 +94,7 @@ public class MongoChallenge extends MongoConnection{
             Bson limit = limit(31);
             Bson project = project(fields(excludeId(),
                     computed("date", "$_id"),
-                    include("numChallenges")
-                    )
+                    include("numChallenges"))
             );
             myColl.aggregate(Arrays.asList(matchDate, groupDate, limit, project)).forEach(createDocuments);
         }
