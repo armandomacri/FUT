@@ -18,6 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import java.net.URL?>
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.FriendsPageController">
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="900.0">
@@ -117,7 +118,7 @@
                             <TableColumn fx:id="userUsernameLike" prefWidth="110.0" text="Username" />
                           </columns>
                         </TableView>
-                        <Button fx:id="follow_button1" layoutX="206.0" layoutY="121.0" mnemonicParsing="false" onMouseClicked="#createRelationFollow1" prefHeight="39.0" prefWidth="78.0" text="Follow" />
+                        <Button fx:id="follow_button1" layoutX="206.0" layoutY="121.0" mnemonicParsing="false" onMouseClicked="#createRelationFollow1" prefHeight="39.0" prefWidth="78.0" styleClass="friendBtn" text="Follow" />
                         <Label fx:id="valueLbl1" alignment="CENTER" layoutX="220.0" layoutY="169.0" prefHeight="39.0" prefWidth="50.0" text="Label" />
                      </children>
                   </AnchorPane>
@@ -134,13 +135,13 @@
                               <TableColumn fx:id="userUsernameFriends" prefWidth="110.0" text="Username" />
                            </columns>
                         </TableView>
-                        <Button fx:id="follow_button2" layoutX="206.0" layoutY="121.0" mnemonicParsing="false" onMouseClicked="#createRelationFollow2" prefHeight="39.0" prefWidth="78.0" text="Follow" />
+                        <Button fx:id="follow_button2" layoutX="206.0" layoutY="121.0" mnemonicParsing="false" onMouseClicked="#createRelationFollow2" prefHeight="39.0" prefWidth="78.0" styleClass="friendBtn" text="Follow" />
                         <Label fx:id="valueLbl2" alignment="CENTER" layoutX="220.0" layoutY="169.0" prefHeight="39.0" prefWidth="50.0" text="Label" />
                      </children>
                   </AnchorPane>
                   <TextField fx:id="userToFind" layoutX="34.0" layoutY="44.0" onAction="#onEnter" prefHeight="26.0" prefWidth="192.0" promptText="Search new friend" />
                   <Label fx:id="valueLbl" alignment="CENTER" layoutX="217.0" layoutY="180.0" prefHeight="39.0" prefWidth="86.0" text="Label" />
-                  <Button fx:id="follow_button" layoutX="221.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#createRelationFollow" prefHeight="39.0" prefWidth="78.0" text="Follow" />
+                  <Button fx:id="follow_button" layoutX="221.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#createRelationFollow" prefHeight="39.0" prefWidth="78.0" styleClass="friendBtn" text="Follow" />
                   <Text layoutX="346.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Friends">
                      <font>
                         <Font size="18.0" />
@@ -152,11 +153,14 @@
                         <TableColumn fx:id="userUsernameYourFriends" prefWidth="110.0" text="Username" />
                      </columns>
                   </TableView>
-                  <Button fx:id="yourFriendButton" layoutX="539.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#deleteFollow" prefHeight="39.0" prefWidth="78.0" text="Unfollow" />
+                  <Button fx:id="yourFriendButton" layoutX="539.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#deleteFollow" prefHeight="39.0" prefWidth="78.0" styleClass="friendBtn"  text="Unfollow" />
                   <Label fx:id="YourFriendLabel" alignment="CENTER" layoutX="553.0" layoutY="180.0" prefHeight="39.0" prefWidth="50.0" text="Label" />
                </children>
             </AnchorPane>
          </children>
       </AnchorPane>
    </children>
+   <stylesheets>
+      <URL value="@../../../css/friends.css"/>
+   </stylesheets>
 </StackPane>

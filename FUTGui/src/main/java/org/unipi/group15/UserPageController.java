@@ -56,11 +56,11 @@ public class UserPageController {
         userIdLabel.setText(userSession.getUserId());
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
         Date date = userSession.getJoinDate();
-        registrationDaysLabel.setText(df.format(date));
-        countryLabel.setText(userSession.getCountry());
-        nameLabel.setText(userSession.getFirstName());
-        lastNameLabel.setText(userSession.getLastName());
-        scoreLabel.setText(String.valueOf(userSession.getScore()));
+        registrationDaysLabel.setText("Registered from: " + df.format(date));
+        countryLabel.setText("Country: " + userSession.getCountry());
+        nameLabel.setText("First name: " + userSession.getFirstName());
+        lastNameLabel.setText("Last name: " + userSession.getLastName());
+        scoreLabel.setText("Score: " + userSession.getScore());
 
         ArrayList<Squad> squads = userSession.getSquads();
 
@@ -77,6 +77,7 @@ public class UserPageController {
 
         for(int i = 0; i < squads.size(); i++){
             VBox container = new VBox();
+            container.setSpacing(2);
             container.setAlignment(Pos.CENTER);
             container.getStyleClass().add("squadPane");
             HBox h1 = new HBox(new Label("Name: "), new Text(squads.get(i).getName()));
@@ -87,6 +88,8 @@ public class UserPageController {
             Button deleteButton = new Button("Delete");
             modifybutton.setId(Integer.toString(i));
             deleteButton.setId(Integer.toString(i));
+            modifybutton.setStyle("-fx-background-color: #14d0ad; -fx-border-color: #ffffff");
+            deleteButton.setStyle("-fx-background-color: #14d0ad; -fx-border-color: #ffffff");
 
             modifybutton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -116,7 +119,7 @@ public class UserPageController {
             if(i<5)
                 squadsWrapper.add(container, i, 0);
             else
-                squadsWrapper.add(container, (i-5), 1);
+                squadsWrapper.add(container, (i-5), 2);
         }
 
     }

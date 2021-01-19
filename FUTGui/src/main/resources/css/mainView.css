@@ -49,6 +49,18 @@
     -fx-background-color: #cacaca;
 }
 
+.challengePaneWin {
+    -fx-background-radius: 20;
+    -fx-padding: 15;
+    -fx-background-color: lightgreen;
+}
+
+.challengePaneLose {
+    -fx-background-radius: 20;
+    -fx-padding: 15;
+    -fx-background-color: red;
+}
+
 .goldPlayer {
     -fx-background-radius: 13;
     -fx-padding: 8;
@@ -67,6 +79,13 @@
     -fx-background-color: #cd7f32;
 }
 
+.labelWhiteRound{
+    -fx-font-size: 18;
+    -fx-padding: 0 25;
+    -fx-text-fill: black;
+    -fx-background-color: white;
+    -fx-background-radius: 50;
+}
 
 /*
 DA sistemare

@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -85,6 +86,8 @@ public class SearchPlayerController {
         for(int i = 0; i < players.size(); i++){
 
             VBox container = new VBox();
+            container.setAlignment(Pos.CENTER);
+            container.setMaxWidth(200);
             if(players.get(i).getQuality().contains("Gold")) {
                 container.getStyleClass().add("goldPlayer");
             }

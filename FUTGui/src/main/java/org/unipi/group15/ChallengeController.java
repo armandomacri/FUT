@@ -103,6 +103,15 @@ public class ChallengeController {
             container.getChildren().add(h2);
             container.getChildren().add(h3);
             container.getChildren().add(h4);
+            if(((challenges.get(i).getHomeScore() > challenges.get(i).getAwayScore())&(challenges.get(i).getHomeUser().equals(userSession.getUsername())))|
+                ((challenges.get(i).getHomeScore() < challenges.get(i).getAwayScore())&(challenges.get(i).getAwayUser().equals(userSession.getUsername())))){
+                System.out.println("prova");
+                container.getStyleClass().add("challengePaneWin");
+            }
+            if(((challenges.get(i).getHomeScore() > challenges.get(i).getAwayScore())&(challenges.get(i).getAwayUser().equals(userSession.getUsername())))|
+                    ((challenges.get(i).getHomeScore() < challenges.get(i).getAwayScore())&(challenges.get(i).getHomeUser().equals(userSession.getUsername())))){
+                container.getStyleClass().add("challengePaneLose");
+            }
             gridPane1.add(container, i, 0);
         }
         userScrollPane.setContent(gridPane1);

@@ -1,0 +1,4 @@
+.friendBtn{
+    -fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #14d0ad, #ffffff);
+    -fx-border-color:black;
+}
