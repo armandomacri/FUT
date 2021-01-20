@@ -128,8 +128,6 @@ public class MongoSquad extends MongoConnection{
 
     public ArrayList<Document> SquadAnalytics(String country){
         ArrayList<Document> result = new ArrayList<>();
-
-
         Consumer<Document> createDocuments = doc -> {result.add(doc);};
 
         Bson matchCountry = match(and(eq("country", country)));
