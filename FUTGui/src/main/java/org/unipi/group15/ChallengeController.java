@@ -50,9 +50,9 @@ public class ChallengeController {
 
     @FXML public TableColumn<User, Integer> suggestedUserId;
 
-    @FXML public TableColumn<User, String> suggestedUserUsername;
+    @FXML private TableColumn<User, String> suggestedUserUsername;
 
-    @FXML public TableColumn<User, Integer> suggestedUserScore;
+    @FXML private TableColumn<User, Integer> suggestedUserScore;
 
     @FXML private HBox userCompetitionHBox;
 
@@ -148,6 +148,7 @@ public class ChallengeController {
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setHgap(10);
 
+        int j = 0;
         //mostrare le squadre che hanno lo stesso modulo
         for(int i = 0; i < userSquads.size(); i++) {
             if(userSquads.get(i).getPlayers().size() < 11)
@@ -157,9 +158,9 @@ public class ChallengeController {
             container.setAlignment(Pos.CENTER);
             container.getStyleClass().add("squadPane");
             HBox h1 = new HBox(new Label(userSquads.get(i).getName()));
-            h1.getStyleClass().add("hBox");
+            h1.setAlignment(Pos.CENTER);
             HBox h2 = new HBox(new Label(userSquads.get(i).getModule()));
-            h2.getStyleClass().add("hBox");
+            h2.setAlignment(Pos.CENTER);
             HBox h3 = new HBox();
 
             Button selectButton = new Button("Select");
@@ -227,8 +228,9 @@ public class ChallengeController {
             container.getChildren().add(h1);
             container.getChildren().add(h2);
             container.getChildren().add(h3);
-            container.getChildren().addAll(selectButton);
-            gridPane.add(container, i, 0);
+            container.getChildren().add(selectButton);
+            gridPane.add(container, j, 0);
+            j++;
         }
         userScrollPane.setContent(gridPane);
     }

@@ -75,9 +75,11 @@ public class MongoChallenge extends MongoConnection{
         //ArrayList<Document> result = new ArrayList<>();
         Consumer<Document> createDocuments = doc -> {result.add(doc);};
         Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        Date yesterday = cal.getTime();
         cal.add(Calendar.MONTH, -1);
         Date monthAgo = cal.getTime();
-        Bson matchDate = match(and(lt("date", new Date()), gt("date", monthAgo)));
+        Bson matchDate = match(and(lt("date", yesterday), gt("date", monthAgo)));
         Bson groupDate = group("$date", sum("numChallenges", 1));
         Bson sortDate = sort(ascending("_id"));
         Bson project = project(fields(excludeId(),
