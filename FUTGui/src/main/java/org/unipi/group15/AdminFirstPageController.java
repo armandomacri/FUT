@@ -18,6 +18,7 @@ public class AdminFirstPageController {
 
     @FXML private LineChart<Date, Number> challengeGraph;
 
+
     @FXML
     private void initialize(){
         userPerCountry = mongoUser.getUserPerCountryLastYear();
