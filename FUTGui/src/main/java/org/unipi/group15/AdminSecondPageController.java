@@ -114,9 +114,6 @@ public class AdminSecondPageController {
     private TextField choosedFileLabel;
 
     @FXML
-    private Button chooseFileButton;
-
-    @FXML
     private TableView<Map.Entry<String,String>> analyticsTable;
 
     @FXML

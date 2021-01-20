@@ -69,26 +69,23 @@ public class MongoChallenge extends MongoConnection{
         return results;
     }
 
-    public HashMap<Date, Integer> ChallengesPerDay(){
+    public ArrayList<Document> ChallengesPerDay(){
         myColl = db.getCollection("challenge");
-        HashMap<Date, Integer> result = new HashMap<>();
+        ArrayList<Document> result = new ArrayList<>();
         //ArrayList<Document> result = new ArrayList<>();
-        Consumer<Document> createDocuments = doc -> {System.out.println(doc);};
+        Consumer<Document> createDocuments = doc -> {result.add(doc);};
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);
         Date monthAgo = cal.getTime();
         Bson matchDate = match(and(lt("date", new Date()), gt("date", monthAgo)));
         Bson groupDate = group("$date", sum("numChallenges", 1));
         Bson sortDate = sort(ascending("_id"));
-
         Bson project = project(fields(excludeId(),
                 computed("date", "$_id"),
                 include("numChallenges"))
         );
         Bson limit = limit(31);
         myColl.aggregate(Arrays.asList(matchDate, groupDate, sortDate, limit, project)).forEach(createDocuments);
-
-
         return result;
     }
 
@@ -99,7 +96,7 @@ public class MongoChallenge extends MongoConnection{
 
     public static void main(String[] args) {
         MongoChallenge mc = new MongoChallenge();
-        mc.ChallengesPerDay();
+        System.out.println(mc.ChallengesPerDay());
     }
 }
 
