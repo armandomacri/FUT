@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class ChallengeController {
     private static final Neo4jUser neo4jUser = new Neo4jUser();
     private static final MongoSquad mongoSquad = new MongoSquad();
-    private static MongoChallenge mongoChallenge = new MongoChallenge();
+    private static final MongoChallenge mongoChallenge = new MongoChallenge();
     private final UserSessionService userSession = App.getSession();
     private Squad selectedSquad;
     private User selectedUser;

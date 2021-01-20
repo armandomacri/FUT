@@ -1,7 +1,6 @@
 package neo4j;
 
 import bean.Player;
-import bean.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.neo4j.driver.*;
@@ -48,7 +47,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
                 ArrayList<Player> Players = new ArrayList<>();
                 while(result.hasNext())
                 {
-                    Player p = null;
+                    Player p;
                     Record r = result.next();
                     p = new Player(r.get("PlayerId").asString(), r.get("Name").asString(), r.get("Quality").asString(),  r.get("Revision").asString(),  r.get("Img0").asString());
                     Players.add(p);
@@ -79,7 +78,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
     }
 
     public int countLikes(final String playercard) {
-        int numLike = 0;
+        int numLike;
         try ( Session session = driver.session() )
         {
             numLike = session.readTransaction((TransactionWork<Integer>) tx -> {

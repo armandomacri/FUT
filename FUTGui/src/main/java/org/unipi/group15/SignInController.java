@@ -38,7 +38,7 @@ public class SignInController {
     @FXML
     private void signIn(){
         AuthenticationService authenticationService = new AuthenticationService();
-        UserSessionService userSession = null;
+        UserSessionService userSession;
         try {
             userSession = authenticationService.signIn(usernameTextField.getText(), passwordTextField.getText());
         } catch (SignInException sie) {
@@ -78,5 +78,5 @@ public class SignInController {
     }
 
     @FXML
-    public void onEnter(ActionEvent ae) { signIn(); }
+    public void onEnter() { signIn(); }
 }

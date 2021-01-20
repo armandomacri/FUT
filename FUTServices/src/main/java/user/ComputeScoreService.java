@@ -5,16 +5,11 @@ import bean.Player;
 import bean.Squad;
 import bean.User;
 import mongo.MongoChallenge;
-import mongo.MongoPlayerCard;
 import mongo.MongoUser;
 import neo4j.Neo4jUser;
-
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ComputeScoreService {
-    private final static MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
-
 
     public Challenge results (User home_user, User away_user, Squad homeSquad, Squad awaySquad){
         HashMap<String, Player> homePlayers = homeSquad.getPlayers();
@@ -26,7 +21,6 @@ public class ComputeScoreService {
         int homeScore = getPositioningPoints(homePlayers) + getNationalityPoints(homePlayers) + getLeaguePoints(homePlayers) + overallPoints.get(0)+ iconPoints.get(0) + bestPlayerPoints.get(0);
         int awayScore = getPositioningPoints(awayPlayers) + getNationalityPoints(awayPlayers) + getLeaguePoints(awayPlayers) + overallPoints.get(1)+ iconPoints.get(1) + bestPlayerPoints.get(1);
         int points = getFinalPoints(home_user, away_user, homeScore, awayScore);
-        SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date(System.currentTimeMillis());
         Challenge result = new Challenge(null, home_user.getUserId(), home_user.getUsername(),away_user.getUserId(), away_user.getUsername(), date, homeScore, awayScore, points);
         MongoChallenge mongoChallenge = new MongoChallenge();

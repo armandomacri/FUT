@@ -92,9 +92,7 @@ public class AuthenticationService {
         try {
             authenticationService.signIn("Armando", "oijd");
             //authenticationService.signUp("Armando", "ciao", "Iatly", "armando", "armando");
-        }  catch (SignInException e) {
-            e.printStackTrace();
-        } catch (UserNotFoudException e) {
+        }  catch (SignInException | UserNotFoudException e) {
             e.printStackTrace();
         }
     }

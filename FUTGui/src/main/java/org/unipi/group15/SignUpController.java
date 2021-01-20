@@ -45,7 +45,7 @@ public class SignUpController {
         }
 
         AuthenticationService as = new AuthenticationService();
-        UserSessionService userSessionService = null;
+        UserSessionService userSessionService;
 
         try {
             userSessionService = as.signUp(usernameTextField.getText(), passwordTextField.getText(), countryTextField.getText(), firstNameTextField.getText(), lastNameTextField.getText());

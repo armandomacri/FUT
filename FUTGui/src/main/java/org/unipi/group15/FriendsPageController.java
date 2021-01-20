@@ -3,12 +3,10 @@ package org.unipi.group15;
 import bean.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -17,7 +15,7 @@ import user.UserSessionService;
 import java.util.ArrayList;
 
 public class FriendsPageController {
-    private static Neo4jUser neo4jUser = new Neo4jUser();
+    private static final Neo4jUser neo4jUser = new Neo4jUser();
     private final UserSessionService userSession = App.getSession();
     private String idSelected = null;
     private String idSelectedFriend = null;
@@ -126,7 +124,7 @@ public class FriendsPageController {
         for (User user : followedusers) {
             yourFriends.getItems().add(user);
         }
-        yourFriends.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        yourFriends.setOnMouseClicked(new EventHandler<>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 User u = yourFriends.getSelectionModel().getSelectedItem();
@@ -145,7 +143,7 @@ public class FriendsPageController {
         for (User user : users) {
             suggestedFriendLike.getItems().add(user);
         }
-        suggestedFriendLike.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        suggestedFriendLike.setOnMouseClicked(new EventHandler<>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 User u = suggestedFriendLike.getSelectionModel().getSelectedItem();
@@ -171,7 +169,7 @@ public class FriendsPageController {
         for (User user : users) {
             suggestedFriend.getItems().add(user);
         }
-        suggestedFriend.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        suggestedFriend.setOnMouseClicked(new EventHandler<>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 User u = suggestedFriend.getSelectionModel().getSelectedItem();
@@ -202,12 +200,12 @@ public class FriendsPageController {
             return;
         }
         searchUser.setItems(observable_users);
-        searchUser.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        searchUser.setOnMouseClicked(new EventHandler<>() {
             @Override
             public void handle(MouseEvent event) {
                 User u = searchUser.getSelectionModel().getSelectedItem();
                 int i;
-                if (followedusers.size() == 0){
+                if (followedusers.size() == 0) {
                     idSelected = (u.getUserId());
                     follow_button.setDisable(false);
                     valueLbl.setText("Follow " + u.getUsername());
@@ -217,8 +215,7 @@ public class FriendsPageController {
                         valueLbl.setText("User already followed");
                         follow_button.setDisable(true);
                         break;
-                    }
-                    else{
+                    } else {
                         idSelected = (u.getUserId());
                         follow_button.setDisable(false);
                         valueLbl.setText("Follow " + u.getUsername());
@@ -230,7 +227,7 @@ public class FriendsPageController {
     }
 
     @FXML
-    public void onEnter(ActionEvent ae) {
+    public void onEnter() {
         searchFriend();
     }
 

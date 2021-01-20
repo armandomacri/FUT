@@ -8,19 +8,21 @@ import java.util.Date;
 
 public class UserSessionService {
     private static UserSessionService instance;
-    private User user;
+    private static User user;
 
     /*               SINGLETONE PATTERN            */
-    private UserSessionService(User user) {
-        this.user = user;
+    private UserSessionService() {
     }
 
     public static UserSessionService getInstace(User user) {
         if(instance == null) {
-            instance = new UserSessionService(user);
+            instance = new UserSessionService();
         }
+        setUser(user);
         return instance;
     }
+
+    private static void setUser(User u) {user = u;}
 
     public String getFirstName() {
         return user.getFirstName();

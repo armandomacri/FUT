@@ -76,7 +76,7 @@ public class CommentsPageController {
     }
 
     @FXML
-    public void loadComments() throws Exception {
+    public void loadComments(){
         ArrayList<Comment> c = neo4jComment.showComment(player.getPlayerId());
         ObservableList<Comment> comments = FXCollections.observableArrayList(c);
         if(comments.size() == 0){
@@ -87,7 +87,7 @@ public class CommentsPageController {
     }
 
     @FXML
-    public void createComment() throws Exception {
+    public void createComment() {
         String commentText = newCommentText.getText();
         Alert alert = new Alert(Alert.AlertType.WARNING, "The text field is empty, please fill it", ButtonType.OK);
         Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Comments insert correctly", ButtonType.CLOSE);

@@ -3,30 +3,20 @@ package mongo;
 import bean.Challenge;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.sun.source.tree.Tree;
-import neo4j.Neo4jUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-
-import javax.print.Doc;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.DoubleBinaryOperator;
-import java.util.regex.Pattern;
-
-import static com.mongodb.client.model.Accumulators.avg;
 import static com.mongodb.client.model.Accumulators.sum;
 import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Aggregates.project;
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Projections.*;
 import static com.mongodb.client.model.Projections.computed;
-import static com.mongodb.client.model.Sorts.descending;
 
 public class MongoChallenge extends MongoConnection{
     private MongoCollection<Document> myColl;
@@ -80,13 +70,13 @@ public class MongoChallenge extends MongoConnection{
             LocalDate today = LocalDate.now();
             Date start;
             if (today.getMonthValue() == 1){
-                start = format.parse((today.getYear()-1) + "-12-" + today.getDayOfMonth() + "T00:00:00.000Z");;
+                start = format.parse((today.getYear()-1) + "-12-" + today.getDayOfMonth() + "T00:00:00.000Z");
             }else{
                 start = format.parse(today.getYear() + "-" + (today.getMonthValue()-1) + "-" +
-                        today.getDayOfMonth() + "T00:00:00.000Z");;
+                        today.getDayOfMonth() + "T00:00:00.000Z");
             }
             Date end = format.parse(today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth()
-                    + "T23:59:59.000Z");;
+                    + "T23:59:59.000Z");
             Bson matchDate = match(and(lt("date", end), gt("date", start)));
             Bson groupDate = group("$date",
                     sum("numChallenges", 1)

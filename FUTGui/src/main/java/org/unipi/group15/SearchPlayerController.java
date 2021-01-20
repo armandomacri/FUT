@@ -2,7 +2,6 @@ package org.unipi.group15;
 
 import bean.Player;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -136,7 +135,7 @@ public class SearchPlayerController {
     }
 
     @FXML
-    public void onEnter(ActionEvent ae) throws Exception {
+    public void onEnter() {
         findPlayer();
     }
 

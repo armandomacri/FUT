@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import mongo.MongoChallenge;
 import mongo.MongoSquad;
 import org.apache.logging.log4j.LogManager;
@@ -22,9 +21,8 @@ import java.util.*;
 
 public class UserPageController {
     private static final Logger logger = LogManager.getLogger(UserPageController.class);
-    private static UserSessionService userSession = App.getSession();
+    private static final UserSessionService userSession = App.getSession();
     private static final MongoSquad mongoSquad = new MongoSquad();
-    private static MongoChallenge mongoChallenge = new MongoChallenge();
 
     @FXML private Label usernameLabel;
 
@@ -84,7 +82,7 @@ public class UserPageController {
             modifybutton.setId(Integer.toString(i));
             deleteButton.setId(Integer.toString(i));
 
-            modifybutton.setOnAction(new EventHandler<ActionEvent>() {
+            modifybutton.setOnAction(new EventHandler<>() {
                 @Override
                 public void handle(ActionEvent event) {
                     BuildSquadController bqc = new BuildSquadController();
@@ -94,7 +92,7 @@ public class UserPageController {
                 }
             });
 
-            deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            deleteButton.setOnAction(new EventHandler<>() {
                 @Override
                 public void handle(ActionEvent event) {
                     int index = Integer.parseInt(modifybutton.getId());

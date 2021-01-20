@@ -13,7 +13,7 @@ import java.util.Base64;
 
 public class ImageService {
     private static final Logger logger = LogManager.getLogger(ImageService.class);
-    private static StoreImage storeImage = new StoreImage();
+    private static final StoreImage storeImage = new StoreImage();
 
     public BufferedImage get(String imgUrl){
 

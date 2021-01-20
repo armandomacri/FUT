@@ -38,7 +38,7 @@ public class App extends Application {
         try {
             scene.setRoot(loadFXML(fxml));
         } catch (IOException e) {
-            logger.error("Exceptions happen!", e);
+            logger.error("Exceptions occure:", e);
         }
     }
 
@@ -52,8 +52,7 @@ public class App extends Application {
     }
 
     public void close(){
-        if (session == null)
-            return;
-        session.clear();
+        if (session != null)
+            session.clear();
     }
 }

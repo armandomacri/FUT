@@ -2,8 +2,6 @@ package admin;
 
 import mongo.MongoPlayerCard;
 import neo4j.Neo4jPlayerCard;
-
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 
 public class UpdatePlayerCardsList {

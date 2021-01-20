@@ -214,7 +214,7 @@ public class MongoSquad extends MongoConnection{
 
     public static void main(String[] args){
         MongoSquad ms = new MongoSquad();
-        ArrayList<Document> prova = new ArrayList<>();
+        ArrayList<Document> prova;
         prova  = ms.SquadAnalytics("Italy");
         System.out.println(prova);
         //ms.add("1", 1,new Squad("CIAOOOO", "7323", new Date()));

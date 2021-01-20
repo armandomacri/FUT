@@ -1,14 +1,10 @@
 package neo4j;
 
 import bean.Comment;
-import bean.User;
-import configuration.LoadXmlConf;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
