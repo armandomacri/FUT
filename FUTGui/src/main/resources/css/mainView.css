@@ -41,6 +41,13 @@
     -fx-cursor: hand;
 }
 
+.hBox {
+    -fx-font-size: 15;
+    -fx-text-fill: white;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
 .challengePane {
     -fx-background-radius: 20;
     -fx-padding: 15;

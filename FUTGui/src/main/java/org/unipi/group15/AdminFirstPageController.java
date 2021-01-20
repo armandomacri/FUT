@@ -22,7 +22,7 @@ public class AdminFirstPageController {
     @FXML
     private void initialize(){
         userPerCountry = mongoUser.getUserPerCountryLastYear();
-        challengePerDay = mongoChallenge.ChallengesPerDay();
+        challengePerDay = mongoChallenge.challengesPerDay();
         fillUserGraph();
         fillChallengeGraph();
     }

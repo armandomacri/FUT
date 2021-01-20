@@ -40,6 +40,8 @@ public class UserPageController {
 
     @FXML private GridPane squadsWrapper;
 
+    @FXML private Button buildButton;
+
     @FXML
     private void initialize(){
         usernameLabel.setText(userSession.getUsername());
@@ -60,6 +62,10 @@ public class UserPageController {
             return;
         }
 
+
+        if(squads.size() == 10){
+            buildButton.setDisable(true);
+        }
 
         squadsWrapper.setPadding(new Insets(10, 10, 10, 10));
         squadsWrapper.setHgap(10);

@@ -85,7 +85,7 @@
                                     <Image url="@../../../img/team.png" />
                                  </image>
                               </ImageView>
-                              <Button graphicTextGap="0.0" mnemonicParsing="false" onMouseClicked="#switchToBuildSquad" prefHeight="31.0" prefWidth="148.0" text="Build My Squad" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Button fx:id="buildButton" graphicTextGap="0.0" mnemonicParsing="false" onMouseClicked="#switchToBuildSquad" prefHeight="31.0" prefWidth="148.0" text="Build My Squad" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                               <Button disable="true" mnemonicParsing="false" style="-fx-border-color: ffffff; -fx-border-width: 0 0 2 0;" text="Challenge" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
                                  <image>

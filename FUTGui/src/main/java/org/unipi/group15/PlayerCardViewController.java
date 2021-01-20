@@ -100,6 +100,8 @@ public class PlayerCardViewController {
 
     @FXML private Button showComments;
 
+    @FXML private Button buildButton;
+
     public void setPlayer(Player p){
         player = mongoPlayerCard.findById(p.getPlayerId());
     }
@@ -108,6 +110,11 @@ public class PlayerCardViewController {
     private void initialize() {
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
+
+        if(userSession.getSquads().size() == 10){
+            buildButton.setDisable(true);
+        }
+
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(player.getDateOfBirth());
 

@@ -23,11 +23,11 @@ public class FriendsPageController {
     private String idSelected2 = null;
     private ArrayList<User> followedusers = null;
 
-    @FXML public TextField userToFind;
+    @FXML private TextField userToFind;
 
-    @FXML public Button follow_button;
+    @FXML private Button follow_button;
 
-    @FXML public Label valueLbl;
+    @FXML private Label valueLbl;
 
     @FXML private Label userIdLabel;
 
@@ -35,41 +35,43 @@ public class FriendsPageController {
 
     @FXML private TableView<User> searchUser;
 
-    @FXML public TableColumn<User, String> userIdSearchFriends;
+    @FXML private TableColumn<User, String> userIdSearchFriends;
 
-    @FXML public TableColumn<User, String> userUsernameSearchFriends;
+    @FXML private TableColumn<User, String> userUsernameSearchFriends;
 
     @FXML private Button searchButton;
 
     @FXML private TableView<User> yourFriends;
 
-    @FXML public TableColumn<User, String> userIdYourFriends;
+    @FXML private TableColumn<User, String> userIdYourFriends;
 
-    @FXML public TableColumn<User, String> userUsernameYourFriends;
+    @FXML private TableColumn<User, String> userUsernameYourFriends;
 
-    @FXML public Button yourFriendButton;
+    @FXML private Button yourFriendButton;
 
-    @FXML public Label YourFriendLabel;
+    @FXML private Label YourFriendLabel;
 
     @FXML private TableView<User> suggestedFriendLike;
 
-    @FXML public TableColumn<User, String> userIdLike;
+    @FXML private TableColumn<User, String> userIdLike;
 
-    @FXML public TableColumn<User, String> userUsernameLike;
+    @FXML private TableColumn<User, String> userUsernameLike;
 
-    @FXML public Button follow_button1;
+    @FXML private Button follow_button1;
 
-    @FXML public Label valueLbl1;
+    @FXML private Label valueLbl1;
 
     @FXML private TableView<User> suggestedFriend;
 
-    @FXML public TableColumn<User, String> userIdFriends;
+    @FXML private TableColumn<User, String> userIdFriends;
 
-    @FXML public TableColumn<User, String> userUsernameFriends;
+    @FXML private TableColumn<User, String> userUsernameFriends;
 
-    @FXML public Button follow_button2;
+    @FXML private Button follow_button2;
 
-    @FXML public Label valueLbl2;
+    @FXML private Label valueLbl2;
+
+    @FXML private Button buildButton;
 
     @FXML
     private void switchToProfile() {
@@ -97,6 +99,12 @@ public class FriendsPageController {
     private void initialize(){
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
+
+        if(userSession.getSquads().size() == 10){
+            buildButton.setDisable(true);
+        }
+
+
         userToFind.setText(null);
         follow_button.setDisable(true);
         yourFriendButton.setDisable(true);

@@ -33,6 +33,8 @@ public class SearchPlayerController {
 
     @FXML private ScrollPane playersWrapper;
 
+    @FXML private Button buildButton;
+
     @FXML
     private void switchToProfile(){
         App.setRoot("userPage");
@@ -61,6 +63,10 @@ public class SearchPlayerController {
         userIdLabel.setText(userSession.getUserId());
 
         checkService("This service is not currently available");
+
+        if(userSession.getSquads().size() == 10){
+            buildButton.setDisable(true);
+        }
     }
 
     @FXML

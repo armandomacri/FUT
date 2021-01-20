@@ -69,7 +69,7 @@ public class MongoChallenge extends MongoConnection{
         return results;
     }
 
-    public ArrayList<Document> ChallengesPerDay(){
+    public ArrayList<Document> challengesPerDay(){
         myColl = db.getCollection("challenge");
         ArrayList<Document> result = new ArrayList<>();
         //ArrayList<Document> result = new ArrayList<>();
@@ -96,7 +96,7 @@ public class MongoChallenge extends MongoConnection{
 
     public static void main(String[] args) {
         MongoChallenge mc = new MongoChallenge();
-        System.out.println(mc.ChallengesPerDay());
+        System.out.println(mc.challengesPerDay());
     }
 }
 

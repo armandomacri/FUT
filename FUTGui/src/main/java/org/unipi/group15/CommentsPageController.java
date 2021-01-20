@@ -31,6 +31,8 @@ public class CommentsPageController {
 
     @FXML private Button postButton;
 
+    @FXML private Button buildButton;
+
     @FXML
     private void switchToProfile() {
         App.setRoot("userPage");
@@ -67,6 +69,11 @@ public class CommentsPageController {
     private void initialize() throws Exception {
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
+
+        if(userSession.getSquads().size() == 10){
+            buildButton.setDisable(true);
+        }
+
         upLabel.setText("Comments related to " + player.getPlayerExtendedName() + " player card. Position: " + player.getPosition() + " Overall: " + player.getOverall() );
         if (!neo4jComment.checkConnection()){
             showError("This service is not currently available");

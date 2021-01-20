@@ -58,10 +58,17 @@ public class ChallengeController {
 
     @FXML private Button findPlayerButton;
 
+    @FXML private Button buildButton;
+
     @FXML
     private void initialize(){
         usernameLabel.setText(userSession.getUsername());
         userIdLabel.setText(userSession.getUserId());
+
+        if(userSession.getSquads().size() == 10){
+            buildButton.setDisable(true);
+        }
+
         selectedSquad = null;
         selectedUser = null;
         suggestedUserTableView.getItems().clear();
@@ -104,7 +111,6 @@ public class ChallengeController {
             container.getChildren().add(h4);
             if(((challenges.get(i).getHomeScore() > challenges.get(i).getAwayScore())&(challenges.get(i).getHomeUser().equals(userSession.getUsername())))|
                 ((challenges.get(i).getHomeScore() < challenges.get(i).getAwayScore())&(challenges.get(i).getAwayUser().equals(userSession.getUsername())))){
-                System.out.println("prova");
                 container.getStyleClass().add("challengePaneWin");
             }
             if(((challenges.get(i).getHomeScore() > challenges.get(i).getAwayScore())&(challenges.get(i).getAwayUser().equals(userSession.getUsername())))|
@@ -150,8 +156,10 @@ public class ChallengeController {
             VBox container = new VBox();
             container.setAlignment(Pos.CENTER);
             container.getStyleClass().add("squadPane");
-            HBox h1 = new HBox(new Label("Name: "), new Text(userSquads.get(i).getName()));
-            HBox h2 = new HBox(new Label("Module: "), new Text(userSquads.get(i).getModule()));
+            HBox h1 = new HBox(new Label(userSquads.get(i).getName()));
+            h1.getStyleClass().add("hBox");
+            HBox h2 = new HBox(new Label(userSquads.get(i).getModule()));
+            h2.getStyleClass().add("hBox");
             HBox h3 = new HBox();
 
             Button selectButton = new Button("Select");
