@@ -50,7 +50,7 @@ public class UserPageController {
         countryLabel.setText(userSession.getCountry());
         nameLabel.setText(userSession.getFirstName());
         lastNameLabel.setText(userSession.getLastName());
-        scoreLabel.setText(Integer.toString(userSession.getScore()));
+        scoreLabel.setText("Score: " + userSession.getScore());
 
         ArrayList<Squad> squads = userSession.getSquads();
 
@@ -63,7 +63,7 @@ public class UserPageController {
 
         squadsWrapper.setPadding(new Insets(10, 10, 10, 10));
         squadsWrapper.setHgap(10);
-        squadsWrapper.setVgap(10);
+        squadsWrapper.setVgap(20);
 
         for(int i = 0; i < squads.size(); i++){
             VBox container = new VBox();
