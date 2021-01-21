@@ -47,7 +47,7 @@ public class Neo4jUser extends Neo4jConnection{
             matchingUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
                 Result result = tx.run( "MATCH (u:User)\n" +
                                         "WHERE (u.username) CONTAINS $username AND (u.id)<>$user_id\n" +
-                                        "RETURN u.username AS Username, toString(u.id) AS Id, u.score AS Score",
+                                        "RETURN u.username AS Username, toString(u.id) AS Id, u.score AS Score\n",
                         parameters( "username", username, "user_id", user_id));
                 ArrayList<User> users = new ArrayList<>();
                 while(result.hasNext())
@@ -128,6 +128,7 @@ public class Neo4jUser extends Neo4jConnection{
                                         "MATCH (u1:User)\n" +
                                         "WHERE userscore-2 <= u1.score <= userscore+2 AND (u1.id)<>$user_id\n" +
                                         "RETURN toString(u1.id) AS Id, u1.username AS Username, u1.score AS Score\n" +
+                                        "ORDER BY rand()\n" +
                                         "LIMIT 10",
                         parameters("user_id", user_id));
                 ArrayList<User> users = new ArrayList<>();
