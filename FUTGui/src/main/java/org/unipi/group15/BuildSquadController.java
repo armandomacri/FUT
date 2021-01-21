@@ -38,7 +38,7 @@ public class BuildSquadController {
 
     @FXML private TableView<Player> findPlayersTableView;
 
-    @FXML private AnchorPane squadsAnchorPane;
+    @FXML private GridPane squadsGridPane;
 
     @FXML private TextField findPlayerTextField;
 
@@ -150,8 +150,7 @@ public class BuildSquadController {
     }
 
     private void showSquad(HashMap<String, Player> players){
-        squadsAnchorPane.getChildren().clear();
-        GridPane grid = new GridPane();
+        squadsGridPane.getChildren().clear();
         int row = 0, column = 0;
 
         for (Map.Entry<String, Player> item : players.entrySet()){
@@ -166,17 +165,19 @@ public class BuildSquadController {
             h2.setAlignment(Pos.CENTER);
             container.getChildren().addAll(h1, h2);
             v.getChildren().addAll(h, container);
-            grid.setHgap(15); //horizontal gap in pixels => that's what you are asking for
-            grid.setVgap(20); //vertical gap in pixels
-            grid.setMinSize(0,0);
-            grid.add(v, row, column);
-            if (column == 2)
+            squadsGridPane.setHgap(5);
+            if (row == 0 & column == 2)
+                row = 2;
+            squadsGridPane.add(v, row, column);
+            if (row < 4)
                 row += 1;
-            column = (column == 0) ? 1 : (column == 1) ? 2 : 0;
+            else{
+                row = 0;
+                column += 1;
+            }
+
+
         }
-
-
-        squadsAnchorPane.getChildren().add(grid);
     }
 
     @FXML

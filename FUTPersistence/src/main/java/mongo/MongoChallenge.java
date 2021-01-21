@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import javax.swing.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -82,12 +83,15 @@ public class MongoChallenge extends MongoConnection{
         Bson matchDate = match(and(lt("date", yesterday), gt("date", monthAgo)));
         Bson groupDate = group("$date", sum("numChallenges", 1));
         Bson sortDate = sort(ascending("_id"));
+
         Bson project = project(fields(excludeId(),
                 computed("date", "$_id"),
                 include("numChallenges"))
         );
         Bson limit = limit(31);
         myColl.aggregate(Arrays.asList(matchDate, groupDate, sortDate, limit, project)).forEach(createDocuments);
+
+
         return result;
     }
 

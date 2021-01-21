@@ -9,7 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import static org.neo4j.driver.Values.parameters;
 
 public class Neo4jComment extends Neo4jConnection{
@@ -18,7 +17,6 @@ public class Neo4jComment extends Neo4jConnection{
     @Override
     public void close() throws Exception {
         driver.close();
-        driver = null;
     }
 
     public ArrayList<Comment> showComment(final String player_id){
@@ -27,21 +25,22 @@ public class Neo4jComment extends Neo4jConnection{
         {
             comments = session.readTransaction((TransactionWork<ArrayList<Comment>>) tx -> {
                 Result result = tx.run( "MATCH path=(u:User)-[p:Post]-(c:Comment)-[:Related]->(pc:PlayerCard{id: toInteger($player_id)})\n" +
-                                        "RETURN c.id AS Id, c.text AS Text, p.date AS Date, u.username AS Username",
+                                        "RETURN ID(c) AS Id, c.text AS Text, date(p.date) AS Date, u.username AS Username\n" +
+                                        "ORDER BY Date DESC",
                         parameters( "player_id", player_id) );
                 ArrayList<Comment> commentsResult = new ArrayList<>();
                 while(result.hasNext())
                 {
                     Comment c;
                     Record r = result.next();
-                    SimpleDateFormat parserSDF=new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat parserSDF = new SimpleDateFormat("yyyy-MM-dd");
                     Date date = null;
                     try {
-                        date = parserSDF.parse(r.get("Date").asString());
+                        date = parserSDF.parse(r.get("Date").asLocalDate().toString());
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    c = new Comment(r.get("Id").asString(), date, r.get("Text").asString(), r.get("Username").asString());
+                    c = new Comment(r.get("Id").toString(), date, r.get("Text").asString(), r.get("Username").asString());
                     commentsResult.add(c);
                 }
                 return commentsResult;
@@ -57,22 +56,12 @@ public class Neo4jComment extends Neo4jConnection{
         boolean check = true;
         try (Session session = driver.session()){
             session.writeTransaction( tx -> {
-                Result result = tx.run("CREATE (c:Comment{text: $text}) RETURN toString(id(c)) AS commentId",
-                        parameters( "text", text));
-                String commentId = null;
-                while(result.hasNext())
-                {
-                    Record r = result.next();
-                    commentId = r.get("commentId").asString();
-                }
-                tx.run("MATCH (u:User{id: $user_id}), (c:Comment)\n" +
-                        "WHERE id(c) = toInteger($commentId)\n" +
-                        "CREATE (u)-[:Post{date: date()}]->(c)",
-                        parameters("commentId", commentId, "user_id", user_id));
-                tx.run("MATCH (p:PlayerCard{id: toInteger($player_id)}), (c:Comment)\n" +
-                        "WHERE id(c) = toInteger($commentId)\n" +
-                        "CREATE (c)-[:Related]->(p)",
-                        parameters("commentId", commentId, "player_id", player_id));
+                Result result = tx.run("MATCH (u:User {id: $user_id}), (p:PlayerCard{id: toInteger($player_id)})\n" +
+                                        "WITH u, p\n" +
+                                        "CREATE (c:Comment{text: $text})\n" +
+                                        "CREATE (u)-[:Post {date: date()}]->(c)\n" +
+                                        "CREATE (c)-[:Related]->(p)",
+                        parameters( "text", text, "user_id", user_id, "player_id", player_id));
                 return 1;
             });
         } catch (Exception e){

@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.CommentsPageController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.CommentsPageController">
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="900.0">
          <children>
@@ -97,10 +97,20 @@
             </VBox>
             <AnchorPane layoutX="240.0" prefHeight="600.0" prefWidth="661.0">
                <children>
-                  <ListView fx:id="commentsList" layoutX="23.0" layoutY="93.0" prefHeight="348.0" prefWidth="623.0" />
                   <Label fx:id="upLabel" layoutX="23.0" layoutY="61.0" prefHeight="31.0" prefWidth="623.0" text="Label" />
                   <TextArea fx:id="newCommentText" layoutX="23.0" layoutY="462.0" prefHeight="119.0" prefWidth="460.0" promptText="Insert here your comment..." />
-                  <Button fx:id="postButton" layoutX="523.0" layoutY="499.0" mnemonicParsing="false" onMouseClicked="#createComment" prefHeight="45.0" prefWidth="78.0" text="Post" />
+                  <Button fx:id="postButton" layoutX="517.0" layoutY="499.0" mnemonicParsing="false" onMouseClicked="#createComment" prefHeight="45.0" prefWidth="78.0" text="Post" />
+                  <ScrollPane fx:id="commentsScrollPane" layoutX="19.0" layoutY="92.0" prefHeight="331.0" prefWidth="623.0">
+                     <content>
+                        <GridPane fx:id="commentsGridPane" alignment="CENTER" prefHeight="42.0" prefWidth="573.0">
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="145.39996337890625" minWidth="10.0" prefWidth="96.4" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="455.1999877929687" minWidth="10.0" prefWidth="390.80000000000007" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="201.199951171875" minWidth="10.0" prefWidth="89.79999999999995" />
+                          </columnConstraints>
+                        </GridPane>
+                     </content>
+                  </ScrollPane>
                </children>
             </AnchorPane>
          </children>

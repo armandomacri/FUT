@@ -99,4 +99,38 @@ DA sistemare
 }
  */
 
+.commentContainer{
+    -fx-padding: 10 20;
+}
+
+.commentContainer .text-area{
+    -fx-padding: 15 5 15 10;
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-min-width: 300;
+    -fx-max-width: 300;
+    -fx-word-wrap: break-word;
+    -fx-border-style: none;
+    -fx-font-size: 15;
+}
+
+.commentContainer .text-area .content {
+    -fx-background-color: white;
+}
+
+.commentContainer .text-area .scroll-pane .scroll-bar:vertical {
+    -fx-pref-width: 1;
+    -fx-opacity: 0;
+}
+
+#postButton{
+    -fx-background-color: #2d3d51;
+    -fx-background-radius: 50;
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+    -fx-cursor: hand;
+}
+
+
+
 

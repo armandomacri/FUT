@@ -5,21 +5,15 @@ import java.util.Date;
 
 public class Comment {
     private String id;
-    private String author_username;
+    private String author;
     private Date date;
     private String text;
-
-    public Comment (String id, Date date, String text){
-        this.id = id;
-        this.date = date;
-        this.text = text;
-    }
 
     public Comment (String id, Date date, String text, String author){
         this.id = id;
         this.date = date;
         this.text = text;
-        this.author_username = author;
+        this.author = author;
     }
 
     public String getId() {
@@ -33,6 +27,8 @@ public class Comment {
     public String getText() {
         return text;
     }
+
+    public String getAuthor() { return author; }
 
     public void setId(String id) {
         this.id = id;
@@ -51,7 +47,7 @@ public class Comment {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date1 = df.format(date);
         return "Comment: " + id + " {\n" +
-                "\t DATE: " + date1 + "\t AUTHOR: " + author_username +
+                "\t DATE: " + date1 + "\t AUTHOR: " + author +
                 "\t TEXT: " + text + "\n";
     }
 }

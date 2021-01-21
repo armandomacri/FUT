@@ -69,13 +69,10 @@ public class Neo4jUser extends Neo4jConnection{
         ArrayList<User> suggestedUsers;
         try (Session session = driver.session()) {
             suggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
-                Result result = tx.run("MATCH (u:User{id: $user_id})-[:Follow]->(u1:User)\n" +
-                                        "WITH collect(u1) AS FollowedUserYet\n" +
-                                        "MATCH p=(n:User{id: $user_id})-[:Like]->(:PlayerCard)<-[l:Like]-(u:User)\n" +
-                                        "WHERE NOT u IN FollowedUserYet\n" +
-                                        "RETURN toString(u.id) AS Id, u.username AS Username, count(l) AS NumLike\n" +
-                                        "ORDER BY NumLike DESC\n" +
-                                        "LIMIT 5",
+                Result result = tx.run("MATCH p=(n:User {id: $user_id})-[:Like]->(:PlayerCard)<-[:Like]-(u:User)\n" +
+                                "WHERE NOT EXISTS ((n)-[:Follow]-(u)) AND u.id <> $user_id\n" +
+                                "RETURN DISTINCT toString(u.id) AS Id, u.username AS Username\n" +
+                                "LIMIT 5",
                         parameters("user_id", user_id));
                 ArrayList<User> users = new ArrayList<>();
                 while (result.hasNext()){
@@ -96,14 +93,13 @@ public class Neo4jUser extends Neo4jConnection{
         ArrayList<User> suggestedUsers;
         try (Session session = driver.session()) {
             suggestedUsers = session.readTransaction((TransactionWork<ArrayList<User>>) tx -> {
-                Result result = tx.run("MATCH (u:User{id: $user_id})-[:Follow]->(u1:User)\n" +
-                                        "WITH collect(u1) AS FollowedUserYet\n" +
-                                        "MATCH p=(n:User{id: $user_id})-[:Follow]->(:User)<-[f:Follow]-(u:User)\n" +
-                                        "WHERE NOT u IN FollowedUserYet\n" +
-                                        "RETURN toString(u.id) AS Id, u.username AS Username, count(f) AS NumFollow\n" +
-                                        "ORDER BY NumFollow DESC\n" +
-                                        "LIMIT 5",
-                        parameters("user_id", user_id));
+                Result result = tx.run("MATCH p=(n:User{id: $user_id})-[:Follow]->(:User)<-[:Follow]-(u:User)\n" +
+                                            "WHERE NOT EXISTS ((n)-[:Follow]-(u))\n" +
+                                            "WITH u, rand() AS number\n" +
+                                            "RETURN toString(u.id) AS Id, u.username AS Username\n" +
+                                            "ORDER BY number\n" +
+                                            "LIMIT 5",
+                                parameters("user_id", user_id));
                 ArrayList<User> users = new ArrayList<>();
                 while (result.hasNext()) {
                     Record r = result.next();
@@ -232,7 +228,7 @@ public class Neo4jUser extends Neo4jConnection{
 
     public static void main( String... args ) throws Exception{
         Neo4jUser ex = new Neo4jUser();
-        ex.updateScore("5ff97e8283b19024e081534f", 3);
+        ex.suggestedUserByFriends("5ff97e8283b19024e081534f");
 
     }
 }
