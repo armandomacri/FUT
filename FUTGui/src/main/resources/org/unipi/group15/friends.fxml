@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.FriendsPageController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.FriendsPageController">
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="900.0">
          <children>
@@ -99,12 +99,12 @@
             </VBox>
             <AnchorPane layoutX="240.0" prefHeight="600.0" prefWidth="661.0">
                <children>
-                  <TableView fx:id="searchUser" layoutX="35.0" layoutY="80.0" prefHeight="200.0" prefWidth="171.0">
+                  <TableView fx:id="searchUser" layoutX="35.0" layoutY="80.0" prefHeight="200.0" prefWidth="180.0">
                      <columns>
-                        <TableColumn fx:id="userIdSearchFriends" prefWidth="60.0" text="UserId" />
-                        <TableColumn fx:id="userUsernameSearchFriends" prefWidth="110.0" text="Username" />
+                        <TableColumn fx:id="userIdSearchFriends" prefWidth="65.0" text="UserId" />
+                        <TableColumn fx:id="userUsernameSearchFriends" prefWidth="114.39996337890625" text="Username" />
                      </columns></TableView>
-                  <Button fx:id="searchButton" layoutX="231.0" layoutY="44.0" mnemonicParsing="false" onAction="#searchFriend" prefHeight="26.0" prefWidth="57.0" text="Search" />
+                  <Button fx:id="searchButton" layoutX="217.0" layoutY="44.0" mnemonicParsing="false" onAction="#searchFriend" prefHeight="26.0" prefWidth="67.0" text="Search" />
                   <AnchorPane layoutX="23.0" layoutY="286.0" prefHeight="299.0" prefWidth="296.0">
                      <children>
                         <Text layoutX="14.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Suggested friend by like">
@@ -112,55 +112,56 @@
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <TableView fx:id="suggestedFriendLike" layoutX="13.0" layoutY="69.0" prefHeight="200.0" prefWidth="171.0">
+                        <TableView fx:id="suggestedFriendLike" layoutX="13.0" layoutY="69.0" prefHeight="200.0" prefWidth="180.0">
                           <columns>
-                            <TableColumn fx:id="userIdLike" prefWidth="60.0" text="UserId" />
-                            <TableColumn fx:id="userUsernameLike" prefWidth="110.0" text="Username" />
+                            <TableColumn fx:id="userIdLike" prefWidth="65.0" text="UserId" />
+                            <TableColumn fx:id="userUsernameLike" prefWidth="119.19998168945312" text="Username" />
                           </columns>
                         </TableView>
-                        <Button fx:id="follow_button1" layoutX="206.0" layoutY="121.0" mnemonicParsing="false" onMouseClicked="#createRelationFollow1" prefHeight="39.0" prefWidth="78.0" styleClass="friendBtn" text="Follow" />
-                        <Label fx:id="valueLbl1" alignment="CENTER" layoutX="220.0" layoutY="169.0" prefHeight="39.0" prefWidth="50.0" text="Label" />
+                        <Button fx:id="follow_button1" layoutX="203.0" layoutY="123.0" mnemonicParsing="false" onMouseClicked="#createRelationFollow1" prefHeight="39.0" prefWidth="78.0" styleClass="friendBtn" text="Follow" />
+                        <Label fx:id="valueLbl1" alignment="CENTER" layoutX="217.0" layoutY="169.0" prefHeight="39.0" prefWidth="50.0" text="Label" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="333.0" layoutY="286.0" prefHeight="299.0" prefWidth="296.0">
+                  <AnchorPane layoutX="333.0" layoutY="286.0" prefHeight="299.0" prefWidth="312.0">
                      <children>
-                        <Text layoutX="14.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Suggested friend of friends">
+                        <Text layoutX="23.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Suggested friend of friends">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <TableView fx:id="suggestedFriend" layoutX="13.0" layoutY="69.0" prefHeight="200.0" prefWidth="171.0">
+                        <TableView fx:id="suggestedFriend" layoutX="23.0" layoutY="69.0" prefHeight="200.0" prefWidth="180.0">
                            <columns>
-                              <TableColumn fx:id="userIdFriends" prefWidth="60.0" text="UserId" />
-                              <TableColumn fx:id="userUsernameFriends" prefWidth="110.0" text="Username" />
+                              <TableColumn fx:id="userIdFriends" prefWidth="65.0" text="UserId" />
+                              <TableColumn fx:id="userUsernameFriends" prefWidth="119.20001220703125" text="Username" />
                            </columns>
                         </TableView>
-                        <Button fx:id="follow_button2" layoutX="206.0" layoutY="121.0" mnemonicParsing="false" onMouseClicked="#createRelationFollow2" prefHeight="39.0" prefWidth="78.0" styleClass="friendBtn" text="Follow" />
-                        <Label fx:id="valueLbl2" alignment="CENTER" layoutX="220.0" layoutY="169.0" prefHeight="39.0" prefWidth="50.0" text="Label" />
+                        <Button fx:id="follow_button2" layoutX="212.0" layoutY="121.0" mnemonicParsing="false" onMouseClicked="#createRelationFollow2" prefHeight="39.0" prefWidth="78.0" styleClass="friendBtn" text="Follow" />
+                        <Label fx:id="valueLbl2" alignment="CENTER" layoutX="226.0" layoutY="169.0" prefHeight="39.0" prefWidth="50.0" text="Label" />
                      </children>
                   </AnchorPane>
-                  <TextField fx:id="userToFind" layoutX="34.0" layoutY="44.0" onAction="#onEnter" prefHeight="26.0" prefWidth="192.0" promptText="Search new friend" />
-                  <Label fx:id="valueLbl" alignment="CENTER" layoutX="217.0" layoutY="180.0" prefHeight="39.0" prefWidth="86.0" text="Label" />
-                  <Button fx:id="follow_button" layoutX="221.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#createRelationFollow" prefHeight="39.0" prefWidth="78.0" styleClass="friendBtn" text="Follow" />
-                  <Text layoutX="346.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Friends">
+                  <TextField fx:id="userToFind" layoutX="34.0" layoutY="44.0" onAction="#onEnter" prefHeight="26.0" prefWidth="171.0" promptText="Search new friend" />
+                  <Label fx:id="valueLbl" alignment="CENTER" layoutX="220.0" layoutY="180.0" prefHeight="39.0" prefWidth="86.0" text="Label" />
+                  <Button fx:id="follow_button" layoutX="224.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#createRelationFollow" prefHeight="39.0" prefWidth="78.0" styleClass="friendBtn" text="Follow" />
+                  <Text layoutX="355.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Friends">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TableView fx:id="yourFriends" layoutX="346.0" layoutY="80.0" prefHeight="200.0" prefWidth="171.0">
+                  <TableView fx:id="yourFriends" layoutX="355.0" layoutY="80.0" prefHeight="200.0" prefWidth="180.0">
                      <columns>
-                        <TableColumn fx:id="userIdYourFriends" prefWidth="60.0" text="UserId" />
-                        <TableColumn fx:id="userUsernameYourFriends" prefWidth="110.0" text="Username" />
+                        <TableColumn fx:id="userIdYourFriends" prefWidth="65.0" text="UserId" />
+                        <TableColumn fx:id="userUsernameYourFriends" prefWidth="119.20001220703125" text="Username" />
                      </columns>
                   </TableView>
-                  <Button fx:id="yourFriendButton" layoutX="539.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#deleteFollow" prefHeight="39.0" prefWidth="78.0" styleClass="friendBtn" text="Unfollow" />
-                  <Label fx:id="YourFriendLabel" alignment="CENTER" layoutX="553.0" layoutY="180.0" prefHeight="39.0" prefWidth="50.0" text="Label" />
+                  <Button fx:id="yourFriendButton" layoutX="544.0" layoutY="132.0" mnemonicParsing="false" onMouseClicked="#deleteFollow" prefHeight="39.0" prefWidth="78.0" styleClass="friendBtn" text="Unfollow" />
+                  <Label fx:id="YourFriendLabel" alignment="CENTER" layoutX="558.0" layoutY="180.0" prefHeight="39.0" prefWidth="50.0" text="Label" />
                </children>
             </AnchorPane>
          </children>
       </AnchorPane>
    </children>
    <stylesheets>
+      <URL value="@../../../css/friends.css" />
       <URL value="@../../../css/friends.css" />
    </stylesheets>
 </StackPane>

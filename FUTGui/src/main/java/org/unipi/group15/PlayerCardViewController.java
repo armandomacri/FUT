@@ -18,8 +18,6 @@ public class PlayerCardViewController {
     public static Neo4jPlayerCard neo4jcard = new Neo4jPlayerCard();
     public final UserSessionService userSession = App.getSession();
 
-    @FXML private Label likeLabel1;
-
     @FXML private Button likeButton;
 
     @FXML private Label usernameLabel;
@@ -189,14 +187,24 @@ public class PlayerCardViewController {
     @FXML
     private void countLike() {
         int numLikes = neo4jcard.countLikes(player.getPlayerId());
-        likeLabel1.setText(String.valueOf(numLikes));
+        if (numLikes == -1){
+            if(!checkService("Service not completely available!")){
+                Alert a = new Alert(Alert.AlertType.WARNING, "Something wrong!");
+                a.show();
+            }
+            return;
+        }
+
+        likeButton.setText(Integer.toString(numLikes));
     }
 
     @FXML
     private void checkLike() {
         boolean existLikes = neo4jcard.checkLikes(userSession.getUserId(), player.getPlayerId());
-        if (existLikes)
+        if (existLikes) {
             likeButton.setDisable(true);
+            likeButton.setStyle("-fx-background-image: url('./img/heart_full.png'); -fx-text-fill: white; -fx-opacity: 1");
+        }
     }
 
     @FXML
@@ -206,6 +214,7 @@ public class PlayerCardViewController {
                 return;
         }
         likeButton.setDisable(true);
+        likeButton.setStyle("-fx-background-image: url('./img/heart_full.png'); -fx-text-fill: white; -fx-opacity: 1");
         countLike();
     }
 
@@ -243,7 +252,6 @@ public class PlayerCardViewController {
             Alert a = new Alert(Alert.AlertType.WARNING, text, ButtonType.OK);
             showComments.setDisable(true);
             likeButton.setDisable(true);
-            likeLabel1.setText("Unknown");
             a.show();
             return false;
         }

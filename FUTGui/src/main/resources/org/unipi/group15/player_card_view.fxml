@@ -220,7 +220,7 @@
                   </GridPane>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="611.0" layoutY="233.0" prefHeight="333.0" prefWidth="274.0">
+            <AnchorPane layoutX="611.0" layoutY="233.0" prefHeight="256.0" prefWidth="274.0">
                <children>
                   <GridPane layoutX="40.0" layoutY="47.0" prefHeight="192.0" prefWidth="174.0">
                     <columnConstraints>
@@ -251,14 +251,6 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="43.0" fitWidth="30.0" layoutX="40.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../img/Thumb_up_icon.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="likeLabel" layoutX="89.0" layoutY="278.0" text="Likes: " />
-                  <Button fx:id="likeButton" layoutX="167.0" layoutY="270.0" mnemonicParsing="false" onMouseClicked="#addLike" prefHeight="31.0" prefWidth="60.0" text="Like!" />
-                  <Label fx:id="likeLabel1" layoutX="133.0" layoutY="278.0" text="0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="263.0" layoutY="234.0" prefHeight="318.0" prefWidth="274.0">
@@ -301,7 +293,11 @@
                   </Label>
                </children>
             </AnchorPane>
-            <Button fx:id="showComments" layoutX="459.0" layoutY="553.0" mnemonicParsing="false" onMouseClicked="#goToComments" prefHeight="26.0" prefWidth="174.0" text="Go to the comments section" />
+            <Button fx:id="showComments" layoutX="459.0" layoutY="549.0" mnemonicParsing="false" onMouseClicked="#goToComments" prefHeight="30.0" prefWidth="226.0" text="Go to the comments section">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
+            <Button fx:id="likeButton" layoutX="748.0" layoutY="542.0" mnemonicParsing="false" onMouseClicked="#addLike" prefHeight="50.0" prefWidth="50.0" styleClass="likeButton" text="??" />
          </children>
       </AnchorPane>
    </children>

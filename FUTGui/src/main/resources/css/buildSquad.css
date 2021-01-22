@@ -115,27 +115,9 @@
 }
 
 .showPlayer {
-    -fx-background-color: #c5c7c9;
+    -fx-background-color: #D3D3D3;
     -fx-background-radius: 20 20 20 20;
     -fx-padding: 10 0 10 0;
     -fx-max-width: 150;
     -fx-min-width: 150;
-}
-
-.goldPlayer {
-    -fx-background-radius: 13;
-    -fx-padding: 8;
-    -fx-background-color: gold;
-}
-
-.silverPlayer {
-    -fx-background-radius: 13;
-    -fx-padding: 8;
-    -fx-background-color: silver;
-}
-
-.bronzePlayer {
-    -fx-background-radius: 13;
-    -fx-padding: 8;
-    -fx-background-color: #cd7f32;
 }

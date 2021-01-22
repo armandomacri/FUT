@@ -131,6 +131,23 @@ DA sistemare
     -fx-cursor: hand;
 }
 
+.likeButton{
+    -fx-background-color: transparent;
+    -fx-background-image: url("../img/heart.png");
+    -fx-background-size: contain;
+    -fx-cursor: hand;
+}
+
+#showComments{
+    -fx-background-color: #ba6d7c;
+    -fx-background-radius: 50;
+    -fx-text-fill: white;
+    -fx-border-color: #844558;
+    -fx-border-width: 3;
+    -fx-border-radius: 50;
+    -fx-cursor: hand;
+}
+
 
 
 

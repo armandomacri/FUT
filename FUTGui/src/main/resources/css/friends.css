@@ -1,4 +1,18 @@
 .friendBtn{
-    -fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #14d0ad, #ffffff);
+    -fx-border-width: 2;
+    -fx-border-color: black;
     -fx-border-color:black;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+#userToFind{
+    -fx-background-radius: 50;
+}
+
+#searchButton{
+    -fx-background-radius: 50;
+    -fx-background-color: #2d3d51;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
 }
