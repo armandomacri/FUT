@@ -9,8 +9,18 @@
 }
 
 .left_login_pane{
-    -fx-background-color:  #5fd0c0;
+    -fx-background-image: url("../img/pattern.png");
     -fx-background-radius: 10 0 0 10;
+}
+
+.titleLabel{
+    -fx-text-fill: #ba6d7c;
+    -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 )
+}
+
+.subTitleLabel{
+    -fx-text-fill: #844558;
+    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
 }
 
 .text-field{

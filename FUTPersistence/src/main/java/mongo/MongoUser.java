@@ -138,7 +138,7 @@ public class MongoUser extends MongoConnection{
         ArrayList<Document> result = new ArrayList<>();
         Consumer<Document> createDocuments = doc -> { result.add(doc);};
         Bson groupCountry = group("$country", sum("numUsers", 1));
-        Bson order = sort(descending("numUser"));
+        Bson order = sort(descending("numUsers"));
         Bson lim = limit(10);
         boolean t = true;
         try {

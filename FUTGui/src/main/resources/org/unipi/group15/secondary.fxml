@@ -18,16 +18,16 @@
          <children>
             <AnchorPane layoutX="19.0" layoutY="20.0" prefHeight="560.0" prefWidth="430.0" styleClass="left_login_pane">
                <children>
-                  <Text fill="WHITE" fontSmoothingType="LCD" layoutX="174.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FUT">
+                  <Label layoutX="127.0" layoutY="32.0" styleClass="titleLabel" text="FUT">
                      <font>
-                        <Font size="48.0" />
+                        <Font name="System Bold Italic" size="96.0" />
                      </font>
-                  </Text>
-                  <Text fill="WHITE" layoutX="139.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FifaUnipiTeam">
+                  </Label>
+                  <Label layoutX="51.0" layoutY="257.0" styleClass="subTitleLabel" text="FifaUnipiTeam">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold" size="48.0" />
                      </font>
-                  </Text>
+                  </Label>
                </children>
             </AnchorPane>
             <AnchorPane layoutX="449.0" layoutY="20.0" prefHeight="560.0" prefWidth="430.0" styleClass="right_login_pane">
