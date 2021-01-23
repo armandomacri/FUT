@@ -134,21 +134,34 @@ public class MongoUser extends MongoConnection{
         return result;
     }
 
-    public ArrayList<Document> getUserPerCountryLastYear(){
-
+    public ArrayList<Document> getUserPerCountry(){
         ArrayList<Document> result = new ArrayList<>();
-        Consumer<Document> createDocuments = doc -> {result.add(doc);};
+        Consumer<Document> createDocuments = doc -> { result.add(doc);};
         Bson groupCountry = group("$country", sum("numUsers", 1));
         Bson order = sort(descending("numUser"));
         Bson lim = limit(10);
+        boolean t = true;
         try {
             myColl = db.getCollection("users");
             myColl.aggregate(Arrays.asList(groupCountry, order, lim)).forEach(createDocuments);
         } catch (Exception e){
             logger.error("Exception occurred: ", e);
-            return null;
+            t = false;
         }
+        if (!t)
+            return null;
+        return result;
+    }
 
+    public long countUsers(){
+        long result;
+        try {
+            myColl = db.getCollection("users");
+            result = myColl.countDocuments();
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            result = -1;
+        }
         return result;
     }
 
@@ -160,6 +173,8 @@ public class MongoUser extends MongoConnection{
 
     public static void main(String[] args){
         MongoUser mongoUser = new MongoUser();
+        ArrayList<Document> a = mongoUser.getUserPerCountry();
+
 
         //String id = mongoUser.add("armando", "armando", "Armando9876", "italy", "8/01/2021", "armando");
         //mongoUser.delete(id);

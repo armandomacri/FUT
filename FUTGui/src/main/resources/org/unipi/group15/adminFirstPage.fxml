@@ -5,27 +5,27 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../../css/mainView.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.AdminFirstPageController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" stylesheets="@../../../css/admin.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unipi.group15.AdminFirstPageController">
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="900.0">
          <children>
             <Pane layoutX="-1.0" prefHeight="38.0" prefWidth="240.0" />
             <AnchorPane layoutX="-1.0" prefHeight="600.0" prefWidth="902.0">
                <children>
-                  <Text layoutX="384.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin panel" underline="true">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
                   <Button layoutX="32.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#logOut" prefHeight="26.0" prefWidth="66.0" text="Log Out" />
-                  <Button layoutX="784.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#playerAnalytics" prefHeight="26.0" prefWidth="103.0" text="Player Analytics" />
-                  <BarChart fx:id="userGraph" layoutX="24.0" layoutY="132.0" prefHeight="400.0" prefWidth="418.0" title="Users registered">
+                  <Button layoutX="770.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#playerAnalytics" prefHeight="26.0" prefWidth="103.0" text="Player Analytics" />
+                  <BarChart fx:id="userGraph" layoutX="23.0" layoutY="78.0" prefHeight="400.0" prefWidth="418.0" title="Users registered">
                     <xAxis>
                       <CategoryAxis prefHeight="45.0" prefWidth="341.0" fx:id="xAxisUsers" />
                     </xAxis>
@@ -33,7 +33,7 @@
                       <NumberAxis fx:id="yAxisUsers" label="#Users" side="LEFT" />
                     </yAxis>
                   </BarChart>
-                  <LineChart fx:id="challengeGraph" layoutX="464.0" layoutY="132.0" prefHeight="400.0" prefWidth="418.0" title="Challenges played">
+                  <LineChart fx:id="challengeGraph" layoutX="451.0" layoutY="78.0" prefHeight="400.0" prefWidth="418.0" title="Challenges played">
                      <xAxis>
                         <CategoryAxis prefHeight="46.0" prefWidth="341.0" side="BOTTOM" fx:id="xAxisChallenges" />
                      </xAxis>
@@ -41,6 +41,64 @@
                         <NumberAxis fx:id="yAxisChallenges" label="#Challenges" side="LEFT" />
                      </yAxis>
                   </LineChart>
+                  <Label layoutX="384.0" layoutY="25.0" text="Admin Panel">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Pane layoutX="36.0" layoutY="505.0" prefHeight="68.0" prefWidth="830.0" styleClass="infoPane">
+                     <children>
+                        <GridPane alignment="CENTER_RIGHT" layoutX="7.0" prefHeight="68.0" prefWidth="824.0">
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Registered Users">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                                 <children>
+                                    <Label fx:id="countUsersLabel" text="Label" textFill="WHITE">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                 <children>
+                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Player Cards">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3">
+                                 <children>
+                                    <Label fx:id="countPlayerCardsLabel" text="Label" textFill="WHITE">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </Pane>
                </children>
             </AnchorPane>
          </children>

@@ -1,0 +1,19 @@
+.button{
+    -fx-background-color: #2d3d51;
+    -fx-cursor: hand;
+    -fx-background-radius: 50;
+    -fx-text-fill: white;
+    -fx-font-size: 12;
+}
+
+.infoPane{
+    -fx-background-color: #2d3d51;
+    -fx-background-radius: 20;
+}
+
+.infoPane .label{
+    -fx-background-color: white;
+    -fx-background-radius: 50;
+    -fx-padding: 4 15;
+    -fx-text-fill: #2d3d51;
+}

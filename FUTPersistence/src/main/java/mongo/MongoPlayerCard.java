@@ -236,6 +236,17 @@ public class MongoPlayerCard extends MongoConnection{
         return result;
     }
 
+    public long countPlayerCards(){
+        long result;
+        try {
+            myColl = db.getCollection("player_cards");
+            result = myColl.countDocuments();
+        } catch (Exception e){
+            logger.error("Exception occurred: ", e);
+            result = -1;
+        }
+        return result;
+    }
 
     /*
     db.player_cards.aggregate(

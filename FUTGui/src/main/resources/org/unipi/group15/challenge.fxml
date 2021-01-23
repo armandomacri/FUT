@@ -111,7 +111,10 @@
                                     <Button fx:id="findPlayerButton" layoutX="192.0" layoutY="2.0" mnemonicParsing="false" onMouseClicked="#searchFriend" prefWidth="70.0" text="Find" />
                                  </children>
                               </Pane>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select a user to view his squad" textAlignment="CENTER" wrappingWidth="270.6839599609375" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Suggested Users by Score" textAlignment="CENTER" wrappingWidth="270.6839599609375">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font></Text>
                            </children>
                         </HBox>
                         <HBox prefHeight="236.0" prefWidth="531.0">
@@ -140,10 +143,21 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <HBox fx:id="userCompetitionHBox" alignment="CENTER" layoutX="65.0" layoutY="473.0" prefHeight="100.0" prefWidth="531.0">
+                  <Label fx:id="mutableLabel" layoutX="65.0" layoutY="286.0" text="My challenge">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <GridPane fx:id="userCompetitionGridPane" layoutX="65.0" layoutY="478.0" prefHeight="91.0" prefWidth="531.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="258.3999450683594" minWidth="10.0" prefWidth="160.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="172.20001220703125" minWidth="10.0" prefWidth="106.39995117187502" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="214.60003662109375" minWidth="10.0" prefWidth="160.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <children>
-                        <Pane prefHeight="200.0" prefWidth="200.0" />
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
                               <ImageView fitHeight="100.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -152,10 +166,8 @@
                               </ImageView>
                            </children>
                         </HBox>
-                        <Pane prefHeight="200.0" prefWidth="200.0" />
                      </children>
-                  </HBox>
-                  <Label fx:id="mutableLabel" layoutX="65.0" layoutY="296.0" text="Your challenges" />
+                  </GridPane>
                </children>
             </AnchorPane>
          </children>

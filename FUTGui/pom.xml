@@ -76,6 +76,7 @@
                 <version>0.0.4</version>
                 <configuration>
                     <mainClass>org.unipi.group15.App</mainClass>
+                    <includePathExceptionsInClasspath>true</includePathExceptionsInClasspath>
                 </configuration>
             </plugin>
         </plugins>

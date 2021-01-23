@@ -89,12 +89,16 @@ public class AuthenticationService {
 
     public static void main(String[] args){
         AuthenticationService authenticationService = new AuthenticationService();
+        /*
         try {
             authenticationService.signIn("Armando", "oijd");
             //authenticationService.signUp("Armando", "ciao", "Iatly", "armando", "armando");
         }  catch (SignInException | UserNotFoudException e) {
             e.printStackTrace();
         }
+
+         */
+        System.out.println(authenticationService.encryptPassword("admin"));
     }
 
 }

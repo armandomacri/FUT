@@ -71,9 +71,7 @@ public class MongoChallenge extends MongoConnection{
     }
 
     public ArrayList<Document> challengesPerDay(){
-        myColl = db.getCollection("challenge");
         ArrayList<Document> result = new ArrayList<>();
-        //ArrayList<Document> result = new ArrayList<>();
         Consumer<Document> createDocuments = doc -> {result.add(doc);};
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
@@ -89,9 +87,16 @@ public class MongoChallenge extends MongoConnection{
                 include("numChallenges"))
         );
         Bson limit = limit(31);
-        myColl.aggregate(Arrays.asList(matchDate, groupDate, sortDate, limit, project)).forEach(createDocuments);
-
-
+        boolean t = true;
+        try {
+            myColl = db.getCollection("challenge");
+            myColl.aggregate(Arrays.asList(matchDate, groupDate, sortDate, limit, project)).forEach(createDocuments);
+        } catch(Exception e){
+            logger.error("Exception occurred: ", e);
+            t = false;
+        }
+        if (!t)
+            return null;
         return result;
     }
 

@@ -20,7 +20,6 @@ import neo4j.Neo4jPlayerCard;
 import neo4j.Neo4jUser;
 import org.apache.commons.io.FilenameUtils;
 import org.bson.Document;
-
 import java.io.*;
 import java.util.*;
 
@@ -30,103 +29,74 @@ public class AdminSecondPageController {
     private static final Neo4jUser neo4jUser = new Neo4jUser();
     private static final MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
     private static final MongoSquad mongoSquad = new MongoSquad();
+    private File file;
 
+    @FXML private TableView<Document> nationAnalyticsTable;
 
-    @FXML
-    private TableView<Document> nationAnalyticsTable;
+    @FXML private TableColumn<Document, String> LeagueColumn;
 
-    @FXML
-    private TableColumn<Document, String> LeagueColumn;
+    @FXML private TableColumn<Document, String> numPlayersLeagueColumn;
 
-    @FXML
-    private TableColumn<Document, String> numPlayersLeagueColumn;
+    @FXML private TableColumn<Document, String> pacLeagueColumn;
 
-    @FXML
-    private TableColumn<Document, String> pacLeagueColumn;
+    @FXML private TableColumn<Document, String> driLeagueColumn;
 
-    @FXML
-    private TableColumn<Document, String> driLeagueColumn;
+    @FXML private TableColumn<Document, String> shoLeagueColumn;
 
-    @FXML
-    private TableColumn<Document, String> shoLeagueColumn;
+    @FXML private TableColumn<Document, String> defLeagueColumn;
 
-    @FXML
-    private TableColumn<Document, String> defLeagueColumn;
+    @FXML private TableColumn<Document, String> pasLeagueColumn;
 
-    @FXML
-    private TableColumn<Document, String> pasLeagueColumn;
+    @FXML private TableColumn<Document, String> phyLeagueColumn;
 
-    @FXML
-    private TableColumn<Document, String> phyLeagueColumn;
+    @FXML private TableView<Document> leagueAnalyticsTable;
 
-    @FXML
-    private TableView<Document> leagueAnalyticsTable;
+    @FXML private TableColumn<Document, String> QualityColumn;
 
-    @FXML
-    private TableColumn<Document, String> QualityColumn;
+    @FXML private TableColumn<Document, String> numPlayersQualityColumn;
 
-    @FXML
-    private TableColumn<Document, String> numPlayersQualityColumn;
+    @FXML private TableColumn<Document, String> pacQualityColumn;
 
-    @FXML
-    private TableColumn<Document, String> pacQualityColumn;
+    @FXML private TableColumn<Document, String> driQualityColumn;
 
-    @FXML
-    private TableColumn<Document, String> driQualityColumn;
+    @FXML private TableColumn<Document, String> shoQualityColumn;
 
-    @FXML
-    private TableColumn<Document, String> shoQualityColumn;
+    @FXML private TableColumn<Document, String> defQualityColumn;
 
-    @FXML
-    private TableColumn<Document, String> defQualityColumn;
+    @FXML private TableColumn<Document, String> pasQualityColumn;
 
-    @FXML
-    private TableColumn<Document, String> pasQualityColumn;
+    @FXML private TableColumn<Document, String> phyQualityColumn;
 
-    @FXML
-    private TableColumn<Document, String> phyQualityColumn;
+    @FXML private TableView<Document> SquadAnalyticsTable;
 
-    @FXML
-    private TableView<Document> SquadAnalyticsTable;
+    @FXML private TableColumn<Document, String> ModuleColumn;
 
-    @FXML
-    private TableColumn<Document, String> ModuleColumn;
+    @FXML private TableColumn<Document, String> UsageColumn;
 
-    @FXML
-    private TableColumn<Document, String> UsageColumn;
+    @FXML private TextField NationSelector;
 
-    @FXML
-    private TextField NationSelector;
+    @FXML private TextField LeagueSelector;
 
-    @FXML
-    private TextField LeagueSelector;
+    @FXML private TextField NationSelector1;
 
-    @FXML
-    private TextField NationSelector1;
+    @FXML private Label errorLabel;
 
-    @FXML
-    private Label errorLabel;
+    @FXML private Button uploadButton;
 
-    @FXML
-    private Button uploadButton;
+    @FXML private TextField choosedFileLabel;
 
-    @FXML
-    private TextField choosedFileLabel;
+    @FXML private TableView<Map.Entry<String,String>> analyticsTable;
 
-    @FXML
-    private TableView<Map.Entry<String,String>> analyticsTable;
+    @FXML private TableColumn<Map.Entry<String, String>, String> firstColumnAnalytics;
 
-    @FXML
-    private TableColumn<Map.Entry<String, String>, String> firstColumnAnalytics;
+    @FXML private TableColumn<Map.Entry<String, String>, String> secondColumnAnalytics;
 
-    @FXML
-    private TableColumn<Map.Entry<String, String>, String> secondColumnAnalytics;
-
-        private File file;
+    @FXML private MenuButton selectAnalyticsMenuButton;
 
     @FXML
     private void initialize(){
         uploadButton.setDisable(true);
+        checkService("Service not completely available!");
     }
 
     @FXML
@@ -294,6 +264,13 @@ public class AdminSecondPageController {
         firstColumnAnalytics.setText("Player Name");
         secondColumnAnalytics.setText("Likes");
         Map<String, String> likedplayers = neo4jPlayerCard.mostLikedPlayer();
+        if (likedplayers == null){
+            if(checkService("Service not completely available!")){
+                Alert a = new Alert(Alert.AlertType.WARNING, "Something wrong");
+                a.show();
+            }
+            return;
+        }
         firstColumnAnalytics.setCellValueFactory(new Callback<>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
@@ -318,6 +295,14 @@ public class AdminSecondPageController {
         firstColumnAnalytics.setText("Username");
         secondColumnAnalytics.setText("Operations");
         Map<String, String> activeusers = neo4jUser.mostActiveUser();
+        if (activeusers == null){
+            if(checkService("Service not completely available!")){
+                Alert a = new Alert(Alert.AlertType.WARNING, "Something wrong");
+                a.show();
+            }
+            return;
+        }
+
         firstColumnAnalytics.setCellValueFactory(new Callback<>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
@@ -386,5 +371,16 @@ public class AdminSecondPageController {
 
     @FXML
     public void userAnalytics(){ App.setRoot("adminFirstPage"); }
+
+    private boolean checkService(String text){
+        if (!neo4jPlayerCard.checkConnection()){
+            uploadButton.setDisable(true);
+            selectAnalyticsMenuButton.setDisable(true);
+            Alert a = new Alert(Alert.AlertType.WARNING, text, ButtonType.OK);
+            a.show();
+            return false;
+        }
+        return true;
+    }
 
 }

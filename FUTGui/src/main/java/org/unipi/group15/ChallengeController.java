@@ -54,7 +54,7 @@ public class ChallengeController {
 
     @FXML private TableColumn<User, Integer> suggestedUserScore;
 
-    @FXML private HBox userCompetitionHBox;
+    @FXML private GridPane userCompetitionGridPane;
 
     @FXML private Button findPlayerButton;
 
@@ -173,12 +173,12 @@ public class ChallengeController {
                         mutableLabel.setText("Select your squad");
                         selectedSquad = userSquads.get(Integer.parseInt(selectButton.getId()));
                         VBox container1 = new VBox();
-                        HBox h11 = new HBox(new Label("Username: "), new Text(selectedUser.getUsername()));
-                        HBox h21 = new HBox(new Label("Name: "), new Text(selectedSquad.getName()));
-                        HBox h31 = new HBox(new Label("Module: "), new Text(selectedSquad.getModule()));
+                        HBox h11 = new HBox(new Label("Username: " + selectedUser.getUsername()));
+                        HBox h21 = new HBox(new Label("Name: " + selectedSquad.getName()));
+                        HBox h31 = new HBox(new Label("Module: " + selectedSquad.getModule()));
                         container1.getChildren().addAll(h11, h21, h31);
-                        userCompetitionHBox.getChildren().add(0, container1);
-                        userCompetitionHBox.getChildren().remove(1);
+                        container1.getStyleClass().add("squadPane");
+                        userCompetitionGridPane.add(container1, 0, 0);
                         setMySquad();
                         seachUserTableView.setDisable(true);
                         suggestedUserTableView.setDisable(true);
@@ -186,12 +186,12 @@ public class ChallengeController {
                     else{
                         Squad mySelectedSquad = userSquads.get(Integer.parseInt(selectButton.getId()));
                         VBox container1 = new VBox();
-                        HBox h11 = new HBox(new Label("Username: "), new Text(App.getSession().getUsername()));
-                        HBox h21 = new HBox(new Label("Name: "), new Text(mySelectedSquad.getName()));
-                        HBox h31 = new HBox(new Label("Module: "), new Text(mySelectedSquad.getModule()));
+                        HBox h11 = new HBox(new Label("Username: " + App.getSession().getUsername()));
+                        HBox h21 = new HBox(new Label("Name: " + mySelectedSquad.getName()));
+                        HBox h31 = new HBox(new Label("Module: " + mySelectedSquad.getModule()));
                         container1.getChildren().addAll(h11, h21, h31);
-                        userCompetitionHBox.getChildren().remove(2);
-                        userCompetitionHBox.getChildren().add(2, container1);
+                        container1.getStyleClass().add("squadPane");
+                        userCompetitionGridPane.add(container1, 2, 0);
                         ComputeScoreService css = new ComputeScoreService();
                         Challenge result = css.results(App.getSession().getUser(), selectedUser, mySelectedSquad, selectedSquad);
                         if(result == null){
@@ -201,27 +201,27 @@ public class ChallengeController {
                         }
                         VBox container2 = new VBox();
                         HBox hResult = new HBox(new Text(App.getSession().getUsername() + " " + result.getHomeScore() + ":" + result.getAwayScore() + " " + selectedUser.getUsername()));
-                        HBox hRecap;
+                        HBox hRecap = new HBox();
+                        hResult.setAlignment(Pos.CENTER);
                         mutableLabel.setText("Challenge's result");
                         if(result.getHomeScore() > result.getAwayScore()){
-                            hRecap = new HBox(new Text("Congratulations, you won the match. Points earned: " + result.getPoints().toString()));
+                            hRecap.getChildren().add(new Text("Congratulations, you won the match. Points earned: " + result.getPoints().toString()));
                             userSession.setScore(userSession.getScore()+result.getPoints());
                         }
                         else if(result.getHomeScore() < result.getAwayScore()){
-                            hRecap = new HBox(new Text("Sorry, you lost the match. Points lost: " + result.getPoints().toString()));
+                            hRecap.getChildren().add(new Text("Sorry, you lost the match. Points lost: " + result.getPoints().toString()));
                             userSession.setScore(Math.max(userSession.getScore() - result.getPoints(), 0));
 
                         }
                         else{
-                            hRecap =  new HBox(new Text("It's a Draw. Points earned/lost: " + result.getPoints().toString()));
+                            hRecap.getChildren().add(new Text("It's a Draw. Points earned/lost: " + result.getPoints().toString()));
                         }
-                        hResult.setStyle("-fx-alignment: center ; -fx-font-size: 28 ");
-                        hRecap.setStyle("-fx-alignment: center ; -fx-font-size: 22");
+                        hResult.setStyle("-fx-text-alignment: center ; -fx-font-size: 28 ");
+                        hRecap.setStyle("-fx-text-alignment: center ; -fx-font-size: 22");
                         container2.getChildren().addAll(hResult, hRecap);
-                        userScrollPane.fitToHeightProperty();
-                        userScrollPane.fitToWidthProperty();
-                        userScrollPane.setContent(null);
-                        userScrollPane.setContent(container2);
+                        gridPane.getChildren().clear();
+                        gridPane.add(container2, 0, 0);
+                        gridPane.setAlignment(Pos.CENTER);
                     }
                 }
             });
