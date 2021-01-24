@@ -17,3 +17,7 @@
     -fx-padding: 4 15;
     -fx-text-fill: #2d3d51;
 }
+
+.statisticsBox{
+    -fx-background-color: #2d3d51;
+}

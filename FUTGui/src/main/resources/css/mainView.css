@@ -92,12 +92,7 @@
     -fx-font-size: 15;
     -fx-cursor: hand;
 }
-/*
-DA sistemare
-.textLabel{
-    border-bottom: 1px solid black;
-}
- */
+
 
 .commentContainer{
     -fx-padding: 10 20;
