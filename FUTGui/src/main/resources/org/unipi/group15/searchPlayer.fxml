@@ -76,7 +76,7 @@
                                     <Image url="@../../../img/team.png" />
                                  </image>
                               </ImageView>
-                              <Button graphicTextGap="0.0" mnemonicParsing="false" fx:id="buildButton" onMouseClicked="#switchToBuildSquad" prefHeight="31.0" prefWidth="148.0" text="Build My Squad" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Button fx:id="buildButton" graphicTextGap="0.0" mnemonicParsing="false" onMouseClicked="#switchToBuildSquad" prefHeight="31.0" prefWidth="148.0" text="Build My Squad" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                               <Button mnemonicParsing="false" onMouseClicked="#switchToChallenge" text="Challenge" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
                                  <image>
@@ -97,17 +97,22 @@
             </Pane>
             <AnchorPane layoutX="257.0" layoutY="53.0" prefHeight="56.0" prefWidth="618.0">
                <children>
-                  <Label layoutX="26.0" layoutY="14.0" text="Find a player:">
+                  <Label layoutX="14.0" layoutY="14.0" text="Find a player:">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="toFind" layoutX="142.0" layoutY="12.0" onAction="#onEnter" prefHeight="26.0" prefWidth="378.0" promptText="Insert here the name of the player">
+                  <TextField fx:id="toFind" layoutX="127.0" layoutY="12.0" onAction="#onEnter" prefHeight="30.0" prefWidth="239.0" promptText="Insert here the name of the player">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <Button fx:id="toFindButton" layoutX="532.0" layoutY="12.0" mnemonicParsing="false" onMouseClicked="#findPlayer" prefHeight="26.0" prefWidth="78.0" text="Find" textFill="#2d3d51" />
+                  <Button fx:id="toFindButton" layoutX="352.0" layoutY="11.0" mnemonicParsing="false" onMouseClicked="#findPlayer" prefHeight="26.0" prefWidth="78.0" text="Find" textFill="#2d3d51" />
+                  <Button fx:id="suggestPlayerButton" layoutX="481.0" layoutY="11.0" mnemonicParsing="false" onMouseClicked="#suggestPlayer" prefHeight="30.0" prefWidth="122.0" style="-fx-background-color: transparent;" styleClass="showPlayerButton" text="Suggest Players" textFill="#2c3c4f">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
             <ScrollPane fx:id="playersWrapper" layoutX="245.0" layoutY="115.0" prefHeight="480.0" prefWidth="651.0" style="-fx-background-color: white;" />

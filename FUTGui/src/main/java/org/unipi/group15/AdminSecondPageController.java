@@ -14,21 +14,16 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import javafx.util.Callback;
-import mongo.MongoPlayerCard;
-import mongo.MongoSquad;
-import neo4j.Neo4jPlayerCard;
-import neo4j.Neo4jUser;
+import mongo.MongoAdmin;
+import neo4j.Neo4jAdmin;
 import org.apache.commons.io.FilenameUtils;
 import org.bson.Document;
 import java.io.*;
 import java.util.*;
 
 public class AdminSecondPageController {
-
-    private static final Neo4jPlayerCard neo4jPlayerCard = new Neo4jPlayerCard();
-    private static final Neo4jUser neo4jUser = new Neo4jUser();
-    private static final MongoPlayerCard mongoPlayerCard = new MongoPlayerCard();
-    private static final MongoSquad mongoSquad = new MongoSquad();
+    private static final MongoAdmin mongoAdmin = new MongoAdmin();
+    private static final Neo4jAdmin neo4jAdmin = new Neo4jAdmin();
     private File file;
 
     @FXML private TableView<Document> nationAnalyticsTable;
@@ -109,7 +104,7 @@ public class AdminSecondPageController {
     public void onEnter2() { squadAnalytics(); }
 
     private void nationAnalytics(){
-        ArrayList<Document> result = mongoPlayerCard.nationalityAnalytics(NationSelector.getText());
+        ArrayList<Document> result = mongoAdmin.nationalityAnalytics(NationSelector.getText());
 
         LeagueColumn.setCellValueFactory(new Callback<>() {
             @Override
@@ -173,7 +168,7 @@ public class AdminSecondPageController {
     }
 
     private void leagueAnalytics(){
-        ArrayList<Document> result = mongoPlayerCard.leagueAnalytics(LeagueSelector.getText());
+        ArrayList<Document> result = mongoAdmin.leagueAnalytics(LeagueSelector.getText());
 
         QualityColumn.setCellValueFactory(new Callback<>() {
             @Override
@@ -237,7 +232,7 @@ public class AdminSecondPageController {
     }
 
     private void squadAnalytics(){
-        ArrayList<Document> result = mongoSquad.SquadAnalytics(NationSelector1.getText());
+        ArrayList<Document> result = mongoAdmin.SquadAnalytics(NationSelector1.getText());
 
         ModuleColumn.setCellValueFactory(new Callback<>() {
             @Override
@@ -263,7 +258,7 @@ public class AdminSecondPageController {
     private void setLikedPlayers(){
         firstColumnAnalytics.setText("Player Name");
         secondColumnAnalytics.setText("Likes");
-        Map<String, String> likedplayers = neo4jPlayerCard.mostLikedPlayer();
+        Map<String, String> likedplayers = neo4jAdmin.mostLikedPlayer();
         if (likedplayers == null){
             if(checkService("Service not completely available!")){
                 Alert a = new Alert(Alert.AlertType.WARNING, "Something wrong");
@@ -294,7 +289,7 @@ public class AdminSecondPageController {
     private void setActiveUsers(){
         firstColumnAnalytics.setText("Username");
         secondColumnAnalytics.setText("Operations");
-        Map<String, String> activeusers = neo4jUser.mostActiveUser();
+        Map<String, String> activeusers = neo4jAdmin.mostActiveUser();
         if (activeusers == null){
             if(checkService("Service not completely available!")){
                 Alert a = new Alert(Alert.AlertType.WARNING, "Something wrong");
@@ -373,7 +368,7 @@ public class AdminSecondPageController {
     public void userAnalytics(){ App.setRoot("adminFirstPage"); }
 
     private boolean checkService(String text){
-        if (!neo4jPlayerCard.checkConnection()){
+        if (!neo4jAdmin.checkConnection()){
             uploadButton.setDisable(true);
             selectAnalyticsMenuButton.setDisable(true);
             Alert a = new Alert(Alert.AlertType.WARNING, text, ButtonType.OK);

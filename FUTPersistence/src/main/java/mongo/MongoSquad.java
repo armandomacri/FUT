@@ -126,84 +126,6 @@ public class MongoSquad extends MongoConnection{
         return s;
     }
 
-    public ArrayList<Document> SquadAnalytics(String country){
-        ArrayList<Document> result = new ArrayList<>();
-        Consumer<Document> createDocuments = doc -> {result.add(doc);};
-
-        Bson matchCountry = match(and(eq("country", country)));
-        Bson unqindSquads = unwind("$squads");
-
-        Bson distinctUserModules = new Document("$group", new Document("_id", new Document("user", "$_id").append("module",
-                "$squads.module")));
-
-        Bson groupModules = group("$_id.module", sum("use", 1));
-        Bson sort = sort(descending("use"));
-        Bson limit = limit(3);
-        Bson project = project(fields(excludeId(),
-                include("use"),
-                computed("module", "$_id")
-                )
-        );
-
-        try {
-            myColl = db.getCollection("users");
-            myColl.aggregate(Arrays.asList(matchCountry, unqindSquads, distinctUserModules, groupModules, sort, limit, project)).
-                    forEach(createDocuments);
-        } catch (Exception e){
-            logger.error("Exception occurred: ", e);
-            return null;
-        }
-
-        return result;
-    }
-
-    /*
-    db.users.aggregate(
-  [
-    //first step
-
-        { $match: {"country": "Italy"}},
-
-    //second step
-
-        {$unwind: "$squads"},
-
-    //forth step (distinct)
-
-        {
-          $group: {
-            _id: { module: "$squads.module", user: "$_id"}
-          }
-        },
-
-    //fifth step
-
-        {
-          $group: {
-            _id: { module: "$_id.module"},
-            num: {$sum: 1}
-          }
-        },
-
-    //sixth step
-
-        { $sort: {num:-1} },
-
-    //seventh step
-
-        { $limit: 3 },
-
-    //formatting
-        {
-          $project: {
-            _id:0,
-            module: "$_id.module", use: "$num"
-          }
-        }
-      ]
-    );
- */
-
     @Override
     public void close(){
         mongoClient.close();
@@ -212,9 +134,7 @@ public class MongoSquad extends MongoConnection{
 
     public static void main(String[] args){
         MongoSquad ms = new MongoSquad();
-        ArrayList<Document> prova;
-        prova  = ms.SquadAnalytics("Italy");
-        System.out.println(prova);
+
         //ms.add("1", 1,new Squad("CIAOOOO", "7323", new Date()));
         //ms.delete("0", 7);
         //System.out.println(ms.getSquads("Arvel"));

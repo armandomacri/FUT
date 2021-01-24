@@ -24,7 +24,7 @@ abstract class MongoConnection implements AutoCloseable{
                     mongoClient = MongoClients.create("mongodb://"+mongoConfig.mongoIp+":"+mongoConfig.mongoPort);
                     break;
                 case "replica":
-                    mongoClient = MongoClients.create("mongodb://"+mongoConfig.getReplicaIp(0)+":"+mongoConfig.getReplicaPort(0)+","+mongoConfig.getReplicaIp(1)+":"+mongoConfig.getReplicaPort(1)+","+mongoConfig.getReplicaIp(2)+":"+mongoConfig.getReplicaPort(2)+"/?retryWrites=true&w=majority&wtimeoutMS=5000&readPreference=nearest");
+                    mongoClient = MongoClients.create("mongodb://"+mongoConfig.getReplicaIp(0)+":"+mongoConfig.getReplicaPort(0)+","+mongoConfig.getReplicaIp(1)+":"+mongoConfig.getReplicaPort(1)+","+mongoConfig.getReplicaIp(2)+":"+mongoConfig.getReplicaPort(2)+"/?retryWrites=true&w=3&wtimeoutMS=5000&readPreference=nearest");
                     break;
                 default:
                     mongoClient = MongoClients.create("mongodb://localhost:27017");

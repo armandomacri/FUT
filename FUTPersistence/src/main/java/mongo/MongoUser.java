@@ -5,16 +5,11 @@ import com.mongodb.client.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.function.Consumer;
-import static com.mongodb.client.model.Accumulators.sum;
-import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.*;
-import static com.mongodb.client.model.Sorts.descending;
 import static com.mongodb.client.model.Updates.inc;
 
 public class MongoUser extends MongoConnection{
@@ -134,37 +129,6 @@ public class MongoUser extends MongoConnection{
         return result;
     }
 
-    public ArrayList<Document> getUserPerCountry(){
-        ArrayList<Document> result = new ArrayList<>();
-        Consumer<Document> createDocuments = doc -> { result.add(doc);};
-        Bson groupCountry = group("$country", sum("numUsers", 1));
-        Bson order = sort(descending("numUsers"));
-        Bson lim = limit(10);
-        boolean t = true;
-        try {
-            myColl = db.getCollection("users");
-            myColl.aggregate(Arrays.asList(groupCountry, order, lim)).forEach(createDocuments);
-        } catch (Exception e){
-            logger.error("Exception occurred: ", e);
-            t = false;
-        }
-        if (!t)
-            return null;
-        return result;
-    }
-
-    public long countUsers(){
-        long result;
-        try {
-            myColl = db.getCollection("users");
-            result = myColl.countDocuments();
-        } catch (Exception e){
-            logger.error("Exception occurred: ", e);
-            result = -1;
-        }
-        return result;
-    }
-
     @Override
     public void close(){
         mongoClient.close();
@@ -173,7 +137,6 @@ public class MongoUser extends MongoConnection{
 
     public static void main(String[] args){
         MongoUser mongoUser = new MongoUser();
-        ArrayList<Document> a = mongoUser.getUserPerCountry();
 
 
         //String id = mongoUser.add("armando", "armando", "Armando9876", "italy", "8/01/2021", "armando");

@@ -6,21 +6,10 @@ import com.mongodb.client.MongoCursor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bson.Document;
-import org.bson.conversions.Bson;
-
-import javax.swing.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
-import java.util.function.Consumer;
-import static com.mongodb.client.model.Accumulators.sum;
-import static com.mongodb.client.model.Aggregates.*;
-import static com.mongodb.client.model.Aggregates.project;
 import static com.mongodb.client.model.Filters.*;
-import static com.mongodb.client.model.Projections.*;
-import static com.mongodb.client.model.Projections.computed;
-import static com.mongodb.client.model.Sorts.ascending;
 
 public class MongoChallenge extends MongoConnection{
     private MongoCollection<Document> myColl;
@@ -70,36 +59,6 @@ public class MongoChallenge extends MongoConnection{
         return results;
     }
 
-    public ArrayList<Document> challengesPerDay(){
-        ArrayList<Document> result = new ArrayList<>();
-        Consumer<Document> createDocuments = doc -> {result.add(doc);};
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -1);
-        Date yesterday = cal.getTime();
-        cal.add(Calendar.MONTH, -1);
-        Date monthAgo = cal.getTime();
-        Bson matchDate = match(and(lt("date", yesterday), gt("date", monthAgo)));
-        Bson groupDate = group("$date", sum("numChallenges", 1));
-        Bson sortDate = sort(ascending("_id"));
-
-        Bson project = project(fields(excludeId(),
-                computed("date", "$_id"),
-                include("numChallenges"))
-        );
-        Bson limit = limit(31);
-        boolean t = true;
-        try {
-            myColl = db.getCollection("challenge");
-            myColl.aggregate(Arrays.asList(matchDate, groupDate, sortDate, limit, project)).forEach(createDocuments);
-        } catch(Exception e){
-            logger.error("Exception occurred: ", e);
-            t = false;
-        }
-        if (!t)
-            return null;
-        return result;
-    }
-
     @Override
     public void close(){
         mongoClient.close();
@@ -107,7 +66,6 @@ public class MongoChallenge extends MongoConnection{
 
     public static void main(String[] args) {
         MongoChallenge mc = new MongoChallenge();
-        System.out.println(mc.challengesPerDay());
     }
 }
 

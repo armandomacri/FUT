@@ -140,7 +140,6 @@ public class BuildSquadController {
     private void displayPosition(ArrayList<String> elem){
         choosePlayerBox(elem);
         overallText.setText("");
-
     }
 
     private void choosePlayerBox(ArrayList<String> elem){
@@ -174,8 +173,6 @@ public class BuildSquadController {
                 row = 0;
                 column += 1;
             }
-
-
         }
     }
 
@@ -205,11 +202,6 @@ public class BuildSquadController {
         showSquad(squad.getPlayers());
         overallText.setText(computeOverall().toString());
         findPlayersTableView.getItems().clear();
-        /*
-        if(squad.getPlayers().size() == 11 )
-            SaveButton.setDisable(false);
-
-         */
         addPlayerButton.setDisable(true);
     }
 

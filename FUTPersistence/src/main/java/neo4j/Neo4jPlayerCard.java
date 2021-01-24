@@ -5,10 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import static org.neo4j.driver.Values.parameters;
 
 public class Neo4jPlayerCard extends Neo4jConnection{
@@ -115,34 +112,49 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         return existLike;
     }
 
-    public HashMap<String, String> mostLikedPlayer(){
-        HashMap<String, String> playerMap;
-        try (Session session = driver.session()) {
-            playerMap = session.readTransaction((TransactionWork<HashMap<String, String>>) tx -> {
-                Result result = tx.run("MATCH path=(p:PlayerCard)-[l:Like]-(u:User)\n" +
-                                        "RETURN p.name AS PlayerName, p.id, COUNT(l) AS numLike \n" +
-                                        "ORDER BY numLike DESC\n" +
-                                        "LIMIT 25");
-                HashMap<String, String> playerMapResult = new HashMap<>();
-                while (result.hasNext()) {
+    public ArrayList<Player> suggestPlayers(String user_id){
+        ArrayList<Player> suggestedPlayer;
+        try (Session session = driver.session())
+        {
+            suggestedPlayer = session.readTransaction((TransactionWork<ArrayList<Player>>) tx -> {
+                Result result = tx.run( "MATCH (:User {id: $user_id})-[:Follow]-(u:User)\n" +
+                                "CALL\n" +
+                                "{\n" +
+                                    "WITH u\n" +
+                                    "MATCH (u)-[:Like]->(p:PlayerCard)\n" +
+                                    "RETURN p \n" +
+                                    "UNION\n" +
+                                    "WITH u\n" +
+                                    "MATCH (u)-[:Post]->(:Comment)-[:Related]->(p:PlayerCard)\n" +
+                                    "RETURN p\n" +
+                                "}\n" +
+                                "WITH p, rand() as pos\n" +
+                                "ORDER BY pos\n" +
+                                "RETURN DISTINCT p.name AS Name, toString(p.id) AS PlayerId, p.quality AS Quality, p.revision AS Revision, p.image AS Img0\n" +
+                                "LIMIT 6\n",
+                        parameters( "user_id", user_id));
+                ArrayList<Player> Players = new ArrayList<>();
+                while(result.hasNext())
+                {
+                    Player p;
                     Record r = result.next();
-                    playerMapResult.put(r.get("PlayerName").asString(), r.get("numLike").toString());
-
+                    p = new Player(r.get("PlayerId").asString(), r.get("Name").asString(), r.get("Quality").asString(),  r.get("Revision").asString(),  r.get("Img0").asString());
+                    Players.add(p);
                 }
-                return playerMapResult;
+                return Players;
             });
         }catch (Exception e){
             logger.error("Exception occurred: ", e);
-            playerMap = null;
+            suggestedPlayer = null;
         }
-        return playerMap;
+        return suggestedPlayer;
     }
 
 
     public static void main( String... args ) throws Exception{
         try ( Neo4jPlayerCard ex = new Neo4jPlayerCard() )
         {
-            System.out.println(ex.countLikes("20"));
+            System.out.println(ex.suggestPlayers("5ff97e7883b19024e080f651"));
         }
     }
 

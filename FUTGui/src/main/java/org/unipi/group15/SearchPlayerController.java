@@ -35,6 +35,8 @@ public class SearchPlayerController {
 
     @FXML private Button buildButton;
 
+    @FXML private Button suggestPlayerButton;
+
     @FXML
     private void switchToProfile(){
         App.setRoot("userPage");
@@ -71,24 +73,48 @@ public class SearchPlayerController {
 
     @FXML
     private void findPlayer() {
-
-        playersWrapper.setContent(null);
-
         ArrayList<Player> players = neo4jPlayerCard.searchPlayerCard(toFind.getText());
-
+        if (players == null){
+            if(!checkService("This service is not currently available")){
+                Alert a = new Alert(Alert.AlertType.WARNING, "Something wrong");
+                a.show();
+            }
+            return;
+        }
         if (players.size() == 0){
             Alert alert = new Alert(Alert.AlertType.WARNING, "No player cards were found", ButtonType.OK);
             alert.showAndWait();
             return;
         }
+        build(players);
+    }
 
+    @FXML
+    private void suggestPlayer(){
+        ArrayList<Player> players = neo4jPlayerCard.suggestPlayers(userSession.getUserId());
+        if (players == null){
+            if(!checkService("This service is not currently available")){
+                Alert a = new Alert(Alert.AlertType.WARNING, "Something wrong");
+                a.show();
+            }
+            return;
+        }
+        if (players.size() == 0){
+            Alert alert = new Alert(Alert.AlertType.WARNING, "No suggestion", ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
+        build(players);
+    }
+
+    private void build(ArrayList<Player> players){
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setHgap(12);
         gridPane.setVgap(12);
 
-        int j = 0;
-        int k = 0;
+        ImageService imageService = new ImageService();
+        int j = 0, k = 0;
         for(int i = 0; i < players.size(); i++){
 
             VBox container = new VBox();
@@ -117,14 +143,12 @@ public class SearchPlayerController {
             HBox h1 = new HBox(new Label("Name: "), new Text(players.get(i).getPlayerExtendedName()));
             HBox h5 = new HBox(new Label("Quality: "), new Text(players.get(i).getQuality()));
             HBox h6 = new HBox(new Label("Revision: "), new Text(players.get(i).getRevision()));
+
             ImageView plImg = new ImageView();
             plImg.setPreserveRatio(true);
             plImg.setFitHeight(150);
             plImg.setFitWidth(150);
-            ImageService imageService = new ImageService();
             plImg.setImage(SwingFXUtils.toFXImage(imageService.get(players.get(i).getImg0()), null));
-
-
             container.getChildren().add(h1);
             container.getChildren().add(h5);
             container.getChildren().add(h6);
@@ -141,13 +165,14 @@ public class SearchPlayerController {
     }
 
     @FXML
-    public void onEnter() {
+    private void onEnter() {
         findPlayer();
     }
 
     private boolean checkService(String text){
         if (!neo4jPlayerCard.checkConnection()){
             toFindButton.setDisable(true);
+            suggestPlayerButton.setDisable(true);
             Alert a = new Alert(Alert.AlertType.WARNING, text, ButtonType.OK);
             a.show();
             return false;
