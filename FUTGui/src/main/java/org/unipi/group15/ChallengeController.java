@@ -86,7 +86,9 @@ public class ChallengeController {
     @FXML
     private void setChallengeBox(){
         ArrayList<Challenge> challenges = mongoChallenge.findUserChallenge(userSession.getUserId());
-        if (challenges.size() == 0){
+        if (challenges==null | challenges.size()==0){
+            Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
+            a.show();
             return;
         }
 
@@ -140,7 +142,13 @@ public class ChallengeController {
         //ottenere l'id dell'utente di cui voglio le squadre
         //le squadre appaiono quando clicco sull'utente
         mutableLabel.setText("Select opponent's squad");
-        setSquad(mongoSquad.getSquads(user_id));
+        ArrayList<Squad> sq = mongoSquad.getSquads(user_id);
+        if (sq==null | sq.size()==0){
+            Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
+            a.show();
+            return;
+        }
+        setSquad(sq);
     }
 
     private void setSquad(ArrayList<Squad> userSquads){
@@ -247,7 +255,13 @@ public class ChallengeController {
         table.setOnMouseClicked((MouseEvent event) -> {
              if (table.getSelectionModel().getSelectedItem() != null) {
                  selectedUser = table.getSelectionModel().getSelectedItem();
-                 selectedUser.setSquads(mongoSquad.getSquads(selectedUser.getUserId()));
+                 ArrayList<Squad> sq = mongoSquad.getSquads(selectedUser.getUserId());
+                 if (sq==null | sq.size()==0){
+                     Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
+                     a.show();
+                     return;
+                 }
+                 selectedUser.setSquads(sq);
                  setSquad(selectedUser.getSquads());
              }
 

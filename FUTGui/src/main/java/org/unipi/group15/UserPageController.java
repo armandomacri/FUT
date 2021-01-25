@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -103,7 +104,12 @@ public class UserPageController {
                 public void handle(ActionEvent event) {
                     int index = Integer.parseInt(modifybutton.getId());
                     squads.remove(index);
-                    mongoSquad.delete(userSession.getUserId(), index);
+                    boolean result = mongoSquad.delete(userSession.getUserId(), index);
+                    if(result==false){
+                        Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
+                        a.show();
+                        return;
+                    }
                     App.setRoot("userPage");
                 }
             });

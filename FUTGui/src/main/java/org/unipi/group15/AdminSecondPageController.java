@@ -109,6 +109,11 @@ public class AdminSecondPageController {
 
     private void nationAnalytics(){
         ArrayList<Document> result = mongoAdmin.nationalityAnalytics(NationSelector.getText());
+        if (result==null | result.size()==0){
+            Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
+            a.show();
+            return;
+        }
 
         LeagueColumn.setCellValueFactory(new Callback<>() {
             @Override
@@ -173,6 +178,11 @@ public class AdminSecondPageController {
 
     private void leagueAnalytics(){
         ArrayList<Document> result = mongoAdmin.leagueAnalytics(LeagueSelector.getText());
+        if (result==null | result.size()==0){
+            Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
+            a.show();
+            return;
+        }
 
         QualityColumn.setCellValueFactory(new Callback<>() {
             @Override
@@ -237,6 +247,11 @@ public class AdminSecondPageController {
 
     private void squadAnalytics(){
         ArrayList<Document> result = mongoAdmin.SquadAnalytics(NationSelector1.getText());
+        if (result==null | result.size()==0){
+            Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
+            a.show();
+            return;
+        }
 
         ModuleColumn.setCellValueFactory(new Callback<>() {
             @Override

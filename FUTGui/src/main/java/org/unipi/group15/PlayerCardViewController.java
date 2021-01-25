@@ -102,6 +102,11 @@ public class PlayerCardViewController {
 
     public void setPlayer(Player p){
         player = mongoPlayerCard.findById(p.getPlayerId());
+        if(player==null){
+            Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
+            a.show();
+            return;
+        }
     }
 
     @FXML

@@ -184,8 +184,11 @@ public class BuildSquadController {
             players = FXCollections.observableArrayList(mongoPlayerCard.findPlayers(findPlayerTextField.getText()));
         else if (!positionPlayerTextField.getText().equals("") & !nationPlayerTextField.getText().equals("") & !qualityPlayerTextField.getText().equals(""))
             players = FXCollections.observableArrayList(mongoPlayerCard.filterBy(positionPlayerTextField.getText(), nationPlayerTextField.getText(), qualityPlayerTextField.getText()));
-        else
+        else{
+            Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
+            a.show();
             return;
+        };
 
         findPlayersTableView.getItems().clear();
         findPlayersTableView.setItems(players);
@@ -195,8 +198,11 @@ public class BuildSquadController {
     @FXML
     private void addPlayer(){
         Player player = findPlayersTableView.getSelectionModel().getSelectedItem();
-        if(player == null)
+        if (player==null){
+            Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
+            a.show();
             return;
+        }
         String pos = positionChoiceBox.getSelectionModel().getSelectedItem();
         squad.getPlayers().put(pos, player);
         showSquad(squad.getPlayers());
@@ -216,7 +222,12 @@ public class BuildSquadController {
         else
             userSession.getSquads().add(squadIndex, squad);
 
-        mongoSquad.add(userSession.getUserId(), squadIndex, squad);
+        boolean result = mongoSquad.add(userSession.getUserId(), squadIndex, squad);
+        if (result==false){
+            Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
+            a.show();
+            return;
+        }
         App.setRoot("userPage");
     }
 

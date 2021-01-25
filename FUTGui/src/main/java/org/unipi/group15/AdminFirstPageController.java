@@ -42,6 +42,11 @@ public class AdminFirstPageController {
 
     private void fillUserGraph() {
         ArrayList<Document> userPerCountry = mongoAdmin.getUserPerCountry();
+        if (userPerCountry==null | userPerCountry.size()==0){
+            Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
+            a.show();
+            return;
+        }
         XYChart.Series series = new XYChart.Series();
         series.setName("Users");
         //populating the series with data
@@ -54,6 +59,11 @@ public class AdminFirstPageController {
 
     private void fillChallengeGraph(){
         ArrayList<Document> challengePerDay = mongoAdmin.challengesPerDay();
+        if (challengePerDay==null | challengePerDay.size()==0){
+            Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
+            a.show();
+            return;
+        }
         //defining a series
         XYChart.Series series = new XYChart.Series();
         series.setName("Challenges");
