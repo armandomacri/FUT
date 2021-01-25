@@ -42,7 +42,7 @@ public class AdminFirstPageController {
 
     private void fillUserGraph() {
         ArrayList<Document> userPerCountry = mongoAdmin.getUserPerCountry();
-        if (userPerCountry==null | userPerCountry.size()==0){
+        if (userPerCountry==null){
             Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
             a.show();
             return;
@@ -59,7 +59,7 @@ public class AdminFirstPageController {
 
     private void fillChallengeGraph(){
         ArrayList<Document> challengePerDay = mongoAdmin.challengesPerDay();
-        if (challengePerDay==null | challengePerDay.size()==0){
+        if (challengePerDay==null){
             Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
             a.show();
             return;

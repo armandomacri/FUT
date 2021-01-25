@@ -86,7 +86,7 @@ public class ChallengeController {
     @FXML
     private void setChallengeBox(){
         ArrayList<Challenge> challenges = mongoChallenge.findUserChallenge(userSession.getUserId());
-        if (challenges==null | challenges.size()==0){
+        if (challenges==null){
             Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
             a.show();
             return;
@@ -143,7 +143,7 @@ public class ChallengeController {
         //le squadre appaiono quando clicco sull'utente
         mutableLabel.setText("Select opponent's squad");
         ArrayList<Squad> sq = mongoSquad.getSquads(user_id);
-        if (sq==null | sq.size()==0){
+        if (sq==null){
             Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
             a.show();
             return;
@@ -256,7 +256,7 @@ public class ChallengeController {
              if (table.getSelectionModel().getSelectedItem() != null) {
                  selectedUser = table.getSelectionModel().getSelectedItem();
                  ArrayList<Squad> sq = mongoSquad.getSquads(selectedUser.getUserId());
-                 if (sq==null | sq.size()==0){
+                 if (sq==null){
                      Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
                      a.show();
                      return;

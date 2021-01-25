@@ -109,7 +109,7 @@ public class AdminSecondPageController {
 
     private void nationAnalytics(){
         ArrayList<Document> result = mongoAdmin.nationalityAnalytics(NationSelector.getText());
-        if (result==null | result.size()==0){
+        if (result==null){
             Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
             a.show();
             return;
@@ -178,7 +178,7 @@ public class AdminSecondPageController {
 
     private void leagueAnalytics(){
         ArrayList<Document> result = mongoAdmin.leagueAnalytics(LeagueSelector.getText());
-        if (result==null | result.size()==0){
+        if (result==null){
             Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
             a.show();
             return;
@@ -247,7 +247,7 @@ public class AdminSecondPageController {
 
     private void squadAnalytics(){
         ArrayList<Document> result = mongoAdmin.SquadAnalytics(NationSelector1.getText());
-        if (result==null | result.size()==0){
+        if (result==null){
             Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
             a.show();
             return;
