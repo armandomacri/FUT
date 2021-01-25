@@ -15,7 +15,7 @@ public class Neo4jComment extends Neo4jConnection{
     private static final Logger logger = LogManager.getLogger(Neo4jComment.class);
 
     @Override
-    public void close() throws Exception {
+    public void close(){
         driver.close();
     }
 

@@ -63,7 +63,8 @@ public class MongoAdmin extends MongoConnection{
         boolean t = true;
         try {
             myColl = db.getCollection("challenge");
-            myColl.aggregate(Arrays.asList(matchDate, groupDate, sortDate, limit, project)).forEach(createDocuments);
+            myColl.aggregate(Arrays.asList(matchDate, groupDate, sortDate, limit, project))
+                    .forEach(createDocuments);
         } catch(Exception e){
             logger.error("Exception occurred: ", e);
             t = false;
@@ -121,7 +122,8 @@ public class MongoAdmin extends MongoConnection{
         myColl = db.getCollection("player_cards");
         Consumer<Document> createDocuments = doc -> {result.add(doc);};
 
-        Bson matchNationality = match(and(eq("nationality", nationality), ne("league", "Icons")));
+        Bson matchNationality = match(and(eq("nationality", nationality),
+                                          ne("league", "Icons")));
         Bson groupLeague = group("$league",
                 sum("numPlayers", 1),
                 avg("paceAvg", "$pace"),
@@ -129,8 +131,7 @@ public class MongoAdmin extends MongoConnection{
                 avg("shootingAvg", "$shooting"),
                 avg("passingAvg", "$passing"),
                 avg("defendingAvg", "$defending"),
-                avg("physicalityAvg", "$physicality")
-        );
+                avg("physicalityAvg", "$physicality"));
         Bson sort = sort(descending("numPlayers"));
         Bson limit = limit(3);
         Bson project = project(fields(excludeId(),
@@ -141,15 +142,13 @@ public class MongoAdmin extends MongoConnection{
                 include("shootingAvg"),
                 include("passingAvg"),
                 include("defendingAvg"),
-                include("physicalityAvg")
-                )
+                include("physicalityAvg"))
         );
         try{
             myColl.aggregate(Arrays.asList(matchNationality, groupLeague, sort, limit, project)).forEach(createDocuments);
         } catch (Exception e){
             logger.error("Exception occurred: ", e);
         }
-
         return result;
     }
 
@@ -203,13 +202,10 @@ public class MongoAdmin extends MongoConnection{
     public ArrayList<Document> SquadAnalytics(String country){
         ArrayList<Document> result = new ArrayList<>();
         Consumer<Document> createDocuments = doc -> {result.add(doc);};
-
         Bson matchCountry = match(and(eq("country", country)));
         Bson unqindSquads = unwind("$squads");
-
-        Bson distinctUserModules = new Document("$group", new Document("_id", new Document("user", "$_id").append("module",
-                "$squads.module")));
-
+        Bson distinctUserModules = new Document("$group", new Document("_id", new Document("user", "$_id")
+                                        .append("module", "$squads.module")));
         Bson groupModules = group("$_id.module", sum("use", 1));
         Bson sort = sort(descending("use"));
         Bson limit = limit(3);
@@ -218,16 +214,15 @@ public class MongoAdmin extends MongoConnection{
                 computed("module", "$_id")
                 )
         );
-
         try {
             myColl = db.getCollection("users");
-            myColl.aggregate(Arrays.asList(matchCountry, unqindSquads, distinctUserModules, groupModules, sort, limit, project)).
+            myColl.aggregate(Arrays.asList(matchCountry, unqindSquads, distinctUserModules, groupModules,
+                                           sort, limit, project)).
                     forEach(createDocuments);
         } catch (Exception e){
             logger.error("Exception occurred: ", e);
             return null;
         }
-
         return result;
     }
 
@@ -306,8 +301,7 @@ public class MongoAdmin extends MongoConnection{
                 avg("shootingAvg", "$shooting"),
                 avg("passingAvg", "$passing"),
                 avg("defendingAvg", "$defending"),
-                avg("physicalityAvg", "$physicality")
-        );
+                avg("physicalityAvg", "$physicality"));
         Bson project = project(fields(excludeId(),
                 computed("league", "$_id"),
                 include("numPlayers"),
@@ -316,16 +310,13 @@ public class MongoAdmin extends MongoConnection{
                 include("shootingAvg"),
                 include("passingAvg"),
                 include("defendingAvg"),
-                include("physicalityAvg")
-                )
-        );
+                include("physicalityAvg")));
         try{
             myColl.aggregate(Arrays.asList(matchLeague, groupQuality, project)).forEach(createDocuments);
         } catch(Exception e){
             logger.error("Exception occurred: ", e);
             r = false;
         }
-        
         if (!r)
             return null;
         return result;
