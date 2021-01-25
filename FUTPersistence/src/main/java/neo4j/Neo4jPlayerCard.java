@@ -37,10 +37,9 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         try (Session session = driver.session())
         {
             matchingPlayers = session.readTransaction((TransactionWork<ArrayList<Player>>) tx -> {
-                Result result = tx.run( "MATCH (p:PlayerCard)\n" +
-                                        "WHERE (p.name) CONTAINS $name \n" +
-                                        "RETURN p.name AS Name, toString(p.id) AS PlayerId, p.quality AS Quality, p.revision AS Revision, p.image AS Img0",
-                        parameters( "name", name));
+                final String str = "*" + name + "*";
+                Result result = tx.run( "CALL db.index.fulltext.queryNodes('searchPlayer','" + str +"') YIELD node RETURN node.name AS Name, toString(node.id) AS PlayerId, node.quality AS Quality, node.revision AS Revision, node.image AS Img0\n",
+                        parameters(  "name", name));
                 ArrayList<Player> Players = new ArrayList<>();
                 while(result.hasNext())
                 {
@@ -154,7 +153,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
     public static void main( String... args ) throws Exception{
         try ( Neo4jPlayerCard ex = new Neo4jPlayerCard() )
         {
-            System.out.println(ex.suggestPlayers("5ff97e7883b19024e080f651"));
+            System.out.println(ex.searchPlayerCard("mess"));
         }
     }
 
