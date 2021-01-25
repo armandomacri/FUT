@@ -9,6 +9,7 @@ import serviceExceptions.UserNotFoudException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,7 +34,6 @@ public class AuthenticationService {
         if (!u.getPassword().equals(encryptedPwd))
             throw new SignInException("Password or Username are incorrect!");
          */
-
         logger.info("User logged!");
         return UserSessionService.getInstace(u);
     }
@@ -55,7 +55,7 @@ public class AuthenticationService {
             return null;
         }
 
-        User user = new User(username, firstName, lastName, id, country, date, encryptedPwd, null, 0);
+        User user = new User(username, firstName, lastName, id, country, date, encryptedPwd, new ArrayList<>(), 0);
 
         return UserSessionService.getInstace(user);
 

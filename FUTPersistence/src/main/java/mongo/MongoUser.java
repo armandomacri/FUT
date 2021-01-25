@@ -88,7 +88,7 @@ public class MongoUser extends MongoConnection{
         //inserire se non ha squadra, inizializzatlo vuoto
         ArrayList<Squad> s = new ArrayList<>();
         if(squadsDoc.size() == 0){
-          s = null;
+          s = new ArrayList<>();
         }
         else {
             for (Document squad : squadsDoc) {
