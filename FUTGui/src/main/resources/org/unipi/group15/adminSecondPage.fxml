@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -85,6 +86,8 @@
                               <TableColumn fx:id="UsageColumn" maxWidth="80.0" resizable="false" text="#Usage" />
                            </columns>
                         </TableView>
+                        <Line endX="422.5999755859375" endY="-1.52587890625E-5" layoutX="117.0" layoutY="172.0" startX="-108.60000610351562" startY="-1.52587890625E-5" stroke="WHITE" />
+                        <Line endX="422.5999755859375" endY="-1.52587890625E-5" layoutX="122.0" layoutY="338.0" startX="-108.60000610351562" startY="-1.52587890625E-5" stroke="WHITE" />
                      </children></Pane>
                   <Text layoutX="384.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin panel">
                      <font>
@@ -98,7 +101,7 @@
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <TableView fx:id="analyticsTable" layoutX="15.0" layoutY="53.0" prefHeight="270.0" prefWidth="259.0">
+                        <TableView fx:id="analyticsTable" layoutX="15.0" layoutY="53.0" prefHeight="228.0" prefWidth="259.0">
                           <columns>
                             <TableColumn fx:id="firstColumnAnalytics" maxWidth="175.0" prefWidth="175.0" resizable="false" />
                             <TableColumn fx:id="secondColumnAnalytics" maxWidth="80.0" resizable="false" />
@@ -110,15 +113,24 @@
                             <MenuItem mnemonicParsing="false" onAction="#setActiveUsers" text="Most Active Users" />
                           </items>
                         </MenuButton>
-                        <Text fill="WHITE" layoutX="25.0" layoutY="386.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Upload new players file">
+                        <Text fill="WHITE" layoutX="26.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Upload new players file">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
-                        <TextField fx:id="choosedFileLabel" editable="false" layoutX="25.0" layoutY="404.0" prefHeight="25.0" prefWidth="160.0" />
-                        <Button fx:id="chooseFileButton" layoutX="179.0" layoutY="404.0" mnemonicParsing="false" onAction="#chooseFile" text="Choose file" />
-                        <Button fx:id="uploadButton" layoutX="118.0" layoutY="443.0" mnemonicParsing="false" onAction="#uploadFile" text="Upload" />
-                        <Label fx:id="errorLabel" layoutX="48.0" layoutY="475.0" prefHeight="17.0" prefWidth="192.0" textFill="RED" wrapText="true" />
+                        <TextField fx:id="choosedFileLabel" editable="false" layoutX="25.0" layoutY="438.0" prefHeight="25.0" prefWidth="160.0" promptText="Choose file" />
+                        <Button fx:id="chooseFileButton" layoutX="178.0" layoutY="438.0" mnemonicParsing="false" onAction="#chooseFile" text="Select" />
+                        <Button fx:id="uploadButton" layoutX="118.0" layoutY="463.0" mnemonicParsing="false" onAction="#uploadFile" text="Upload" />
+                        <Label fx:id="errorLabel" layoutX="48.0" layoutY="484.0" prefHeight="17.0" prefWidth="192.0" textFill="RED" wrapText="true" />
+                        <Line endX="324.800048828125" layoutX="-53.0" layoutY="298.0" startX="70.4000244140625" stroke="WHITE" />
+                        <Line endX="324.800048828125" layoutX="-54.0" layoutY="404.0" startX="70.4000244140625" stroke="WHITE" />
+                        <TextField fx:id="positionTextField" layoutX="17.0" layoutY="316.0" promptText="Choose position" />
+                        <Label fx:id="mostUsedPlayerLabel" layoutX="17.0" layoutY="356.0" text="Label" textFill="WHITE">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="156.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#showMostUsedPlayer" text="Most Used Player" />
                      </children>
                   </Pane>
                   <Button layoutX="32.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#logOut" prefHeight="26.0" prefWidth="66.0" text="Log Out" />

@@ -294,6 +294,7 @@ public class MongoAdmin extends MongoConnection{
 
     public ArrayList<Document> leagueAnalytics(String league){
         ArrayList<Document> result = new ArrayList<>();
+        boolean r = true;
         myColl = db.getCollection("player_cards");
         Consumer<Document> createDocuments = doc -> {result.add(doc);};
 
@@ -322,14 +323,64 @@ public class MongoAdmin extends MongoConnection{
             myColl.aggregate(Arrays.asList(matchLeague, groupQuality, project)).forEach(createDocuments);
         } catch(Exception e){
             logger.error("Exception occurred: ", e);
+            r = false;
+        }
+        
+        if (!r)
+            return null;
+        return result;
+    }
+
+    /*
+    db.users.aggregate(
+	[
+		{ $unwind: "$squads" },
+		{ $match: { "squads.players.GK.player_name": { $exists: true}}},
+		{
+			$group: {_id: { player: "$squads.players.GK.player_name"}, sum : { $sum: 1 } }
+		},
+		{ $sort: { sum: -1} },
+		{ $limit: 1 },
+		{
+			$project: {
+				_id: 0,
+				mostUsedPlayer: "$_id.player",
+			}
+		}
+	]
+)
+     */
+
+    public String mostUsedPlayer(String pos){
+        boolean result = true;
+        Bson unwindSquads = unwind("$squads");
+        Bson matchPos = match(exists("squads.players."+pos+".player_name", true));
+        Bson groupPlayer = group("$squads.players."+pos+".player_name", sum("count", 1));
+        Bson sortPlayer = sort(descending("count"));
+        Bson limit = limit(1);
+        Bson project = project(fields(excludeId(), computed("mostUsedPlayer", "$_id")));
+        Document doc = null;
+        try{
+            myColl = db.getCollection("users");
+             doc = myColl.aggregate(Arrays.asList(unwindSquads, matchPos, groupPlayer, sortPlayer, limit, project)).first();
+        } catch(Exception e){
+            logger.error("Exception occurred: ", e);
+            result = false;
         }
 
-        return result;
+        if(!result)
+            return null;
+        return  doc.get("mostUsedPlayer").toString();
     }
 
     @Override
     public void close(){
         if (mongoClient != null)
             mongoClient.close();
+    }
+
+    public static void main(String[] args){
+        MongoAdmin mongoAdmin = new MongoAdmin();
+        System.out.println(mongoAdmin.mostUsedPlayer("GK"));
     }
 }

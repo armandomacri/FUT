@@ -88,6 +88,10 @@ public class AdminSecondPageController {
 
     @FXML private MenuButton selectAnalyticsMenuButton;
 
+    @FXML private TextField positionTextField;
+
+    @FXML private Label mostUsedPlayerLabel;
+
     @FXML
     private void initialize(){
         uploadButton.setDisable(true);
@@ -356,6 +360,20 @@ public class AdminSecondPageController {
             }
             errorLabel.setVisible(true);
         }
+    }
+
+    @FXML
+    private void showMostUsedPlayer(){
+        if (positionTextField.equals(""))
+            return;
+
+        String player = mongoAdmin.mostUsedPlayer(positionTextField.getText());
+        if (player == null){
+            Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
+            a.show();
+            return;
+        }
+        mostUsedPlayerLabel.setText(positionTextField.getText() + ": " + player);
     }
 
     @FXML
