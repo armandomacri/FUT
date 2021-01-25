@@ -152,4 +152,10 @@ public class CommentsPageController {
         }
         return true;
     }
+
+    @FXML
+    public void logOut() {
+        App.getSession().clear();
+        App.setRoot("primary");
+    }
 }

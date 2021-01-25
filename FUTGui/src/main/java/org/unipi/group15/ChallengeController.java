@@ -308,6 +308,12 @@ public class ChallengeController {
         App.setRoot("friends");
     }
 
+    @FXML
+    public void logOut() {
+        App.getSession().clear();
+        App.setRoot("primary");
+    }
+
     private void showError(String text){
         Alert a = new Alert(Alert.AlertType.WARNING, text);
         a.show();

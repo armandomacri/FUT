@@ -121,7 +121,6 @@
                         <TextField fx:id="choosedFileLabel" editable="false" layoutX="25.0" layoutY="438.0" prefHeight="25.0" prefWidth="160.0" promptText="Choose file" />
                         <Button fx:id="chooseFileButton" layoutX="178.0" layoutY="438.0" mnemonicParsing="false" onAction="#chooseFile" text="Select" />
                         <Button fx:id="uploadButton" layoutX="118.0" layoutY="463.0" mnemonicParsing="false" onAction="#uploadFile" text="Upload" />
-                        <Label fx:id="errorLabel" layoutX="48.0" layoutY="484.0" prefHeight="17.0" prefWidth="192.0" textFill="RED" wrapText="true" />
                         <Line endX="324.800048828125" layoutX="-53.0" layoutY="298.0" startX="70.4000244140625" stroke="WHITE" />
                         <Line endX="324.800048828125" layoutX="-54.0" layoutY="404.0" startX="70.4000244140625" stroke="WHITE" />
                         <TextField fx:id="positionTextField" layoutX="17.0" layoutY="316.0" promptText="Choose position" />

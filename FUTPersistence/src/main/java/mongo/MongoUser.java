@@ -5,7 +5,6 @@ import com.mongodb.client.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

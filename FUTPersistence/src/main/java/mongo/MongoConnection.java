@@ -39,4 +39,6 @@ abstract class MongoConnection implements AutoCloseable{
             }
             db = mongoClient.getDatabase(mongoConfig.dbName).withWriteConcern(WriteConcern.MAJORITY).withReadPreference(ReadPreference.nearest());
     }
+
+    abstract public void close();
 }

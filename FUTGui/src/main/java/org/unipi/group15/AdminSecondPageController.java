@@ -74,8 +74,6 @@ public class AdminSecondPageController {
 
     @FXML private TextField NationSelector1;
 
-    @FXML private Label errorLabel;
-
     @FXML private Button uploadButton;
 
     @FXML private TextField choosedFileLabel;
@@ -336,8 +334,6 @@ public class AdminSecondPageController {
         analyticsTable.getSortOrder().setAll(secondColumnAnalytics);
     }
 
-
-
     @FXML
     private void chooseFile(ActionEvent event) {
         Window window = ((Node) (event.getSource())).getScene().getWindow();
@@ -347,11 +343,10 @@ public class AdminSecondPageController {
         choosedFileLabel.setText(file.getAbsolutePath());
         if (FilenameUtils.getExtension(String.valueOf(file)).equals("csv")) {
             uploadButton.setDisable(false);
-            errorLabel.setVisible(false);
         }
         else {
-            errorLabel.setText("Extension file not allowed, convert file to csv or change file");
-            errorLabel.setVisible(true);
+            Alert a = new Alert(Alert.AlertType.WARNING, "Extension file not allowed, convert file to csv or change file");
+            a.show();
             uploadButton.setDisable(true);
         }
     }
@@ -368,12 +363,13 @@ public class AdminSecondPageController {
             UpdatePlayerCardsList upcd = new UpdatePlayerCardsList();
             result = upcd.insertPlayerCards(nextLine, file.getParent());
             if(result){
-                errorLabel.setText("Player cards added correctly");
+                Alert a = new Alert(Alert.AlertType.INFORMATION, "Player cards added correctly");
+                a.show();
             }
             else{
-                errorLabel.setText("There were some problems, check notAdded.txt for further information");
+                Alert a = new Alert(Alert.AlertType.ERROR, "There were some problems, check notAdded.txt for further information");
+                a.show();
             }
-            errorLabel.setVisible(true);
         }
     }
 

@@ -6,19 +6,12 @@ import com.mongodb.client.MongoCursor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import static com.mongodb.client.model.Filters.*;
-import static com.mongodb.client.model.Aggregates.*;
-import static com.mongodb.client.model.Accumulators.*;
-import static com.mongodb.client.model.Projections.*;
-import static com.mongodb.client.model.Sorts.descending;
 
 public class MongoPlayerCard extends MongoConnection{
     private static final Logger logger = LogManager.getLogger(MongoPlayerCard.class);
@@ -160,7 +153,6 @@ public class MongoPlayerCard extends MongoConnection{
     @Override
     public void close(){
         mongoClient.close();
-        //logger.info("Mongo close connection!");
     }
 
     public static void main(String[] args){

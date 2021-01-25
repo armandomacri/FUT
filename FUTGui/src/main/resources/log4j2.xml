@@ -14,10 +14,11 @@
                 <SizeBasedTriggeringPolicy size="19500KB"/>
             </Policies>
         </RollingFile>
-
+        <!--
         <File name="Mongo" fileName="${APP_LOG_ROOT}/FUT-${date:yyyyMMdd}-mongo.log" immediateFlush="false" append="true">
             <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </File>
+        -->
     </Appenders>
     <Loggers>
         <Root level="debug">

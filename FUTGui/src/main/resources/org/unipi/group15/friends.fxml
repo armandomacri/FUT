@@ -40,7 +40,7 @@
                         </Text>
                         <HBox alignment="TOP_CENTER" layoutX="-1.0" layoutY="76.0" prefHeight="27.0" prefWidth="240.0">
                            <children>
-                              <Label fx:id="usernameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="0.0" prefWidth="130.0" text="Username">
+                              <Label fx:id="usernameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="0.0" prefWidth="130.0" text="Username" wrapText="true">
                                  <font>
                                     <Font size="18.0" />
                                  </font>

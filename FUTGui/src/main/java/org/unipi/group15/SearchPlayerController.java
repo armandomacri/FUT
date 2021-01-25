@@ -180,4 +180,10 @@ public class SearchPlayerController {
         return true;
     }
 
+    @FXML
+    public void logOut() {
+        App.getSession().clear();
+        App.setRoot("primary");
+    }
+
 }

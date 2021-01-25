@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import mongo.MongoUser;
+import neo4j.Neo4jUser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import user.UserSessionService;
@@ -57,5 +59,10 @@ public class App extends Application {
     public void close(){
         if (session != null)
             session.clear();
+
+        MongoUser mongoUser = new MongoUser();
+        Neo4jUser neo4jUser = new Neo4jUser();
+        mongoUser.close();
+        neo4jUser.close();
     }
 }

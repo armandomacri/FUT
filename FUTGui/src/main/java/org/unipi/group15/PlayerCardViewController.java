@@ -263,4 +263,9 @@ public class PlayerCardViewController {
         return true;
     }
 
+    @FXML
+    public void logOut() {
+        App.getSession().clear();
+        App.setRoot("primary");
+    }
 }

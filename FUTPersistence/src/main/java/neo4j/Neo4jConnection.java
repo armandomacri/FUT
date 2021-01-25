@@ -29,4 +29,6 @@ abstract class Neo4jConnection implements AutoCloseable{
         return result;
     }
 
+    abstract public void close();
+
 }
