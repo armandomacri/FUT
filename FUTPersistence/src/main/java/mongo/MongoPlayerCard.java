@@ -83,16 +83,13 @@ public class MongoPlayerCard extends MongoConnection{
         try{
             myColl = db.getCollection("player_cards");
             playerDoc = myColl.find(eq("_id", Integer.parseInt(id))).first();
-            /**********************************************************************/
-            if(playerDoc == null) //player ancora non caricato
+            if(playerDoc == null)
                 return null;
-            /**********************************************************************/
             player = composePlayer(playerDoc);
         } catch (Exception e){
             logger.error("Exception occurred: ", e);
             player = null;
         }
-
         return player;
     }
 
@@ -118,13 +115,18 @@ public class MongoPlayerCard extends MongoConnection{
 
     public boolean deletePlayer (int id){
         boolean result = true;
-        try{
-            myColl = db.getCollection("player_cards");
-            myColl.deleteOne(eq("_id", id));
-        } catch (Exception e){
-            logger.error("Exception occurred: ", e);
-            result = false;
+        for (int i = 0; i < 3; i++){
+            try{
+                myColl = db.getCollection("player_cards");
+                myColl.deleteOne(eq("_id", id));
+                if (result != false)
+                    break;
+            } catch (Exception e){
+                logger.error("Impossible to delete player: " + id, e);
+                result = false;
+            }
         }
+
         return result;
     }
 

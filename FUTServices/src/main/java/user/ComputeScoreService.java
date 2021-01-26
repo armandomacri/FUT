@@ -24,11 +24,6 @@ public class ComputeScoreService {
         Date date = new Date(System.currentTimeMillis());
         Challenge result = new Challenge(null, home_user.getUserId(), home_user.getUsername(),away_user.getUserId(), away_user.getUsername(), date, homeScore, awayScore, points);
         MongoChallenge mongoChallenge = new MongoChallenge();
-        String challID = mongoChallenge.insertChallenge(result);
-        if(challID==null){
-            return null;
-        }
-        result.setChallengeId(challID);
         int homePointsToAdd;
         int awayPointsToAdd;
         if(homeScore>awayScore){
@@ -72,6 +67,11 @@ public class ComputeScoreService {
             return null;
         }
 
+        String challID = mongoChallenge.insertChallenge(result);
+        if(challID==null){
+            return null;
+        }
+        result.setChallengeId(challID);
         return result;
     }
 

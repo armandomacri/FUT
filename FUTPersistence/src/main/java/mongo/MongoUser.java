@@ -17,7 +17,6 @@ public class MongoUser extends MongoConnection{
     private MongoCollection<Document> myColl;
 
     public String add(String firstName, String lastName, String username, String country, String joinDate, String password){
-        myColl = db.getCollection("users");
         String id;
         Document user = new Document("username", username)
                 .append("first_name", firstName)
@@ -28,6 +27,7 @@ public class MongoUser extends MongoConnection{
                 .append("score", 0)
                 .append("squads", new ArrayList<>());
         try {
+            myColl = db.getCollection("users");
             myColl.insertOne(user);
             id = user.getObjectId("_id").toString();
         } catch (Exception e){
@@ -39,13 +39,19 @@ public class MongoUser extends MongoConnection{
 
     public boolean delete(String id){
         boolean result = true;
-        try {
-            myColl = db.getCollection("users");
-            myColl.deleteOne(eq("_id", new ObjectId(id)));
-        } catch (Exception e){
-            logger.error("Exception occurred: ", e);
-            result = false;
+
+        for (int i = 0; i < 3; i++){
+            try {
+                myColl = db.getCollection("users");
+                myColl.deleteOne(eq("_id", new ObjectId(id)));
+                if(result != false)
+                    break;
+            } catch (Exception e){
+                logger.error("Impossible to delete user: " + id, e);
+                result = false;
+            }
         }
+        logger.info("User " + id + " deleted");
         return result;
     }
 
@@ -118,14 +124,20 @@ public class MongoUser extends MongoConnection{
     }
 
     public boolean updateScore (String userId, int points){
-        myColl = db.getCollection("users");
         boolean result = true;
-        try {
-            myColl.updateOne(eq("_id", new ObjectId(userId)), inc("score", points));
-        } catch (Exception e){
-            logger.error("Exception occurred: ", e);
-            result = false;
+
+        for (int i = 0; i <3; i++){
+            try {
+                myColl = db.getCollection("users");
+                myColl.updateOne(eq("_id", new ObjectId(userId)), inc("score", points));
+                if (result != false)
+                    break;
+            } catch (Exception e){
+                logger.error("User " + userId + " impossible umpdate score (" + points + ")", e);
+                result = false;
+            }
         }
+
         return result;
     }
 

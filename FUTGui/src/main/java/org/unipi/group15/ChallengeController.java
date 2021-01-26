@@ -22,7 +22,6 @@ import mongo.MongoSquad;
 import neo4j.Neo4jUser;
 import user.ComputeScoreService;
 import user.UserSessionService;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
