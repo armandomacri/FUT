@@ -44,18 +44,23 @@ public class MongoAdmin extends MongoConnection{
 /*
     db.challenge.aggregate(
             [
-    {
-        $match : {date : {$lt : yesterday, $gt:  lastMonth} }
+    { $match : {date : {$lt : yesterday, $gt:  lastMonth} }
     },
+
     {
-        $group : { _id : {date: "$date"}, numChallenge : {$sum: 1} }
+        $group : {
+            _id : {date: "$date"}, numChallenge : {$sum: 1}
+        }
     },
+
     {
         $sort : {"_id.date" : -1 }
     },
+
     {
         $limit: 31
     },
+
     {
         $project : { _id: 0, date: "$_id.date", challenge: "$numChallenge"}
     }

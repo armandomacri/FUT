@@ -23,7 +23,6 @@ public class AuthenticationService {
             throw new SignInException("Password or Username are incorrect!");
 
         String encryptedPwd = encryptPassword(pwd);
-
         MongoUser mongoUser = new MongoUser();
         User u = mongoUser.getUser(username);
 
