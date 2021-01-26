@@ -188,7 +188,7 @@ public class BuildSquadController {
             Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
             a.show();
             return;
-        };
+        }
 
         findPlayersTableView.getItems().clear();
         findPlayersTableView.setItems(players);
@@ -225,7 +225,7 @@ public class BuildSquadController {
         }
 
         boolean result = mongoSquad.add(userSession.getUserId(), squadIndex, squad);
-        if (result==false){
+        if (!result){
             Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
             a.show();
             return;

@@ -33,16 +33,15 @@ public class Player {
     private Integer weakFoot;
     private Integer skillMoves;
     private String traits;
-    private String[] images;
-    private String img0;
+    private Image[] images;
 
     //constructor for neo4j
-    public Player(String playerId, String playerExtName, String quality, String revision, String img0){
+    public Player(String playerId, String playerExtName, String quality, String revision, Image[] image){
         this.playerId = playerId;
         this.playerExtendedName = playerExtName;
         this.quality = quality;
         this.revision = revision;
-        this.img0 = img0;
+        this.images = image;
     }
 
     public Player(String playerExtName, String revision, String nationality, int overall, String league , String position){
@@ -58,7 +57,7 @@ public class Player {
     public Player(String playerId, String player_name, String player_extended_name, String quality,
                   String revision, Integer overall, String club, String league, String nationality,
                   String position, Date date_of_birth, String height, String weight, Date added_date,
-                  String pref_foot, Integer weak_foot, Integer skill_moves, String[] images){
+                  String pref_foot, Integer weak_foot, Integer skill_moves, Image[] images){
         this.playerId = playerId;
         this.playerName = player_name;
         this.playerExtendedName = player_extended_name;
@@ -84,7 +83,7 @@ public class Player {
                   String revision, Integer overall, String club, String league, String nationality,
                   String position, Date date_of_birth, String height, String weight, Date added_date,
                   Integer att1, Integer att2, Integer att3, Integer att4, Integer att5,
-                  Integer att6, String pref_foot, Integer weak_foot, Integer skill_moves, String[] images){
+                  Integer att6, String pref_foot, Integer weak_foot, Integer skill_moves, Image[] images){
         this(playerId, player_name, player_extended_name, quality, revision, overall, club, league,
                 nationality, position, date_of_birth, height, weight, added_date, pref_foot, weak_foot,
                 skill_moves, images);
@@ -105,8 +104,6 @@ public class Player {
         }
 
     }
-
-    public Player(){}
 
     public String getPlayerId() {
         return playerId;
@@ -228,12 +225,8 @@ public class Player {
         return traits;
     }
 
-    public String[] getImages() {
+    public Image[] getImages() {
         return images;
-    }
-
-    public String getImg0() {
-        return img0;
     }
 
     public void setPlayerName(String playerName) {
@@ -352,7 +345,7 @@ public class Player {
         this.traits = traits;
     }
 
-    public void setImages(String[] images) {
+    public void setImages(Image[] images) {
         this.images = images;
     }
 }

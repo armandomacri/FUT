@@ -1,5 +1,6 @@
 package neo4j;
 
+import bean.Image;
 import bean.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,7 +46,8 @@ public class Neo4jPlayerCard extends Neo4jConnection{
                 {
                     Player p;
                     Record r = result.next();
-                    p = new Player(r.get("PlayerId").asString(), r.get("Name").asString(), r.get("Quality").asString(),  r.get("Revision").asString(),  r.get("Img0").asString());
+                    Image[] image = {new Image(r.get("Img0").asString())};
+                    p = new Player(r.get("PlayerId").asString(), r.get("Name").asString(), r.get("Quality").asString(),  r.get("Revision").asString(),  image);
                     Players.add(p);
                 }
                 return Players;
@@ -137,7 +139,8 @@ public class Neo4jPlayerCard extends Neo4jConnection{
                 {
                     Player p;
                     Record r = result.next();
-                    p = new Player(r.get("PlayerId").asString(), r.get("Name").asString(), r.get("Quality").asString(),  r.get("Revision").asString(),  r.get("Img0").asString());
+                    Image[] image = {new Image(r.get("Img0").asString())};
+                    p = new Player(r.get("PlayerId").asString(), r.get("Name").asString(), r.get("Quality").asString(),  r.get("Revision").asString(),  image);
                     Players.add(p);
                 }
                 return Players;

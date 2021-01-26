@@ -148,7 +148,8 @@ public class SearchPlayerController {
             plImg.setPreserveRatio(true);
             plImg.setFitHeight(150);
             plImg.setFitWidth(150);
-            plImg.setImage(SwingFXUtils.toFXImage(imageService.get(players.get(i).getImg0()), null));
+            players.get(i).getImages()[0].setBufferedImage(imageService.get(players.get(i).getImages()[0].getImgUrl()));
+            plImg.setImage(SwingFXUtils.toFXImage(players.get(i).getImages()[0].getBufferedImage(), null));
             container.getChildren().add(h1);
             container.getChildren().add(h5);
             container.getChildren().add(h6);

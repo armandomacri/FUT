@@ -120,13 +120,13 @@ public class PlayerCardViewController {
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(player.getDateOfBirth());
-
-        String[] img = player.getImages();
         ImageService imageService = new ImageService();
-
-        playerCardImg.setImage(SwingFXUtils.toFXImage(imageService.get(img[0]), null));
-        nationalityImg.setImage(SwingFXUtils.toFXImage(imageService.get(img[1]), null));
-        clubImg.setImage(SwingFXUtils.toFXImage(imageService.get(img[2]), null));
+        player.getImages()[0].setBufferedImage(imageService.get(player.getImages()[0].getImgUrl()));
+        player.getImages()[1].setBufferedImage(imageService.get(player.getImages()[1].getImgUrl()));
+        player.getImages()[2].setBufferedImage(imageService.get(player.getImages()[2].getImgUrl()));
+        playerCardImg.setImage(SwingFXUtils.toFXImage(player.getImages()[0].getBufferedImage(), null));
+        nationalityImg.setImage(SwingFXUtils.toFXImage(player.getImages()[1].getBufferedImage(), null));
+        clubImg.setImage(SwingFXUtils.toFXImage(player.getImages()[2].getBufferedImage(), null));
         extendedName.setText(player.getPlayerExtendedName());
         playerName.setText(player.getPlayerName());
         overall.setText(player.getOverall().toString());

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- configurazione.xml -->
 <ConfigurationService>
-    <Neo4jIp>localhost</Neo4jIp>
+    <Neo4jIp>172.16.3.133</Neo4jIp>
     <Neo4jPort>7687</Neo4jPort>
     <Username>neo4j</Username>
     <Password>fut</Password>
