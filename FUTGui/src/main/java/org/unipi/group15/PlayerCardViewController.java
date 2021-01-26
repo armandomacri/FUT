@@ -241,6 +241,11 @@ public class PlayerCardViewController {
     }
 
     @FXML
+    private void switchToFriends() {
+        App.setRoot("friends");
+    }
+
+    @FXML
     private void switchToBuildSquad() {
         BuildSquadController bqc = new BuildSquadController();
         bqc.setSquadIndex(-1);

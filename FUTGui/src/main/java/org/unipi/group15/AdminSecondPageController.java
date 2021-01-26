@@ -93,6 +93,7 @@ public class AdminSecondPageController {
     @FXML
     private void initialize(){
         uploadButton.setDisable(true);
+        mostUsedPlayerLabel.setVisible(false);
         checkService("Service not completely available!");
     }
 
@@ -377,13 +378,13 @@ public class AdminSecondPageController {
     private void showMostUsedPlayer(){
         if (positionTextField.equals(""))
             return;
-
         String player = mongoAdmin.mostUsedPlayer(positionTextField.getText());
         if (player == null){
             Alert a = new Alert(Alert.AlertType.WARNING, "Something Wrong");
             a.show();
             return;
         }
+        mostUsedPlayerLabel.setVisible(true);
         mostUsedPlayerLabel.setText(positionTextField.getText() + ": " + player);
     }
 

@@ -20,7 +20,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         boolean result = true;
         try (Session session = driver.session()) {
             session.writeTransaction(tx -> {
-                tx.run("CREATE (:PlayerCard {id: $id, name: $playername, quality: $quality, revision: $revision, image: $image})",
+                tx.run("CREATE (:PlayerCard {id: toInteger($id), name: $playername, quality: $quality, revision: $revision, image: $image})",
                         parameters("id", id, "playername", playername, "quality", quality, "revision", revision, "image", image));
                 return 1;
             });
@@ -38,7 +38,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
         {
             matchingPlayers = session.readTransaction((TransactionWork<ArrayList<Player>>) tx -> {
                 final String str = "*" + name + "*";
-                Result result = tx.run( "CALL db.index.fulltext.queryNodes('searchPlayer','" + str +"') YIELD node RETURN node.name AS Name, toString(node.id) AS PlayerId, node.quality AS Quality, node.revision AS Revision, node.image AS Img0\n",
+                Result result = tx.run( "CALL db.index.fulltext.queryNodes('searchPlayer','" + str +"') YIELD node RETURN node.name AS Name, toString(node.id) AS PlayerId, node.quality AS Quality, node.revision AS Revision, node.image AS Img0 LIMIT 50\n",
                         parameters(  "name", name));
                 ArrayList<Player> Players = new ArrayList<>();
                 while(result.hasNext())
