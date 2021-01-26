@@ -218,7 +218,6 @@ public class ChallengeController {
                         else if(result.getHomeScore() < result.getAwayScore()){
                             hRecap.getChildren().add(new Text("Sorry, you lost the match. Points lost: " + result.getPoints().toString()));
                             userSession.setScore(Math.max(userSession.getScore() - result.getPoints(), 0));
-
                         }
                         else{
                             hRecap.getChildren().add(new Text("It's a Draw. Points earned/lost: " + result.getPoints().toString()));

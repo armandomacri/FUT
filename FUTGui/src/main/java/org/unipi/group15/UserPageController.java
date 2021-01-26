@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import mongo.MongoChallenge;
 import mongo.MongoSquad;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,14 +55,9 @@ public class UserPageController {
         scoreLabel.setText("Score: " + userSession.getScore());
 
         ArrayList<Squad> squads = userSession.getSquads();
-
         if (squads == null){
-            //non ci sono squadre
-            //inserire pannello vuoto
             return;
         }
-
-
         if(squads.size() == 10){
             buildButton.setDisable(true);
         }
@@ -95,7 +89,6 @@ public class UserPageController {
                     BuildSquadController bqc = new BuildSquadController();
                     bqc.setSquadIndex(Integer.parseInt(modifybutton.getId()));
                     App.setRoot("buildSquad");
-
                 }
             });
 

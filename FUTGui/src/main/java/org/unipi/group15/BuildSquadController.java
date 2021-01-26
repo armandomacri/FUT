@@ -214,13 +214,15 @@ public class BuildSquadController {
     @FXML
     private void saveSquad(){
         squad.setName(squadNameTextField.getText());
-
+        System.out.println(squadIndex);
         if (squadIndex == -1){
             squad.setDate(new Date());
             userSession.getSquads().add(squad);
         }
-        else
-            userSession.getSquads().add(squadIndex, squad);
+        else {
+            userSession.getSquads().remove(squadIndex);
+            userSession.getSquads().add(squad);
+        }
 
         boolean result = mongoSquad.add(userSession.getUserId(), squadIndex, squad);
         if (result==false){

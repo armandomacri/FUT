@@ -49,18 +49,16 @@ public class ComputeScoreService {
 
         if (!mongoUser.updateScore(home_user.getUserId(), homePointsToAdd))
             return null;
-        if (!mongoUser.updateScore(away_user.getUserId(), awayPointsToAdd)){
+        else if (!mongoUser.updateScore(away_user.getUserId(), awayPointsToAdd)){
             mongoUser.updateScore(home_user.getUserId(), -homePointsToAdd);
             return null;
         }
-
-        if(!neo4jUser.updateScore(home_user.getUserId(), homePointsToAdd)){
+        else if(!neo4jUser.updateScore(home_user.getUserId(), homePointsToAdd)){
             mongoUser.updateScore(away_user.getUserId(), -awayPointsToAdd);
             mongoUser.updateScore(home_user.getUserId(), -homePointsToAdd);
             return null;
         }
-
-        if (!neo4jUser.updateScore(away_user.getUserId(), awayPointsToAdd)){
+        else if (!neo4jUser.updateScore(away_user.getUserId(), awayPointsToAdd)){
             neo4jUser.updateScore(home_user.getUserId(), -homePointsToAdd);
             mongoUser.updateScore(away_user.getUserId(), -awayPointsToAdd);
             mongoUser.updateScore(home_user.getUserId(), -homePointsToAdd);
@@ -68,7 +66,7 @@ public class ComputeScoreService {
         }
 
         String challID = mongoChallenge.insertChallenge(result);
-        if(challID==null){
+        if(challID == null){
             return null;
         }
         result.setChallengeId(challID);
@@ -77,7 +75,6 @@ public class ComputeScoreService {
 
     //check if all the players are in the right position
     private int getPositioningPoints (HashMap<String, Player> players){
-
         for (String key : players.keySet()) {
             if (!players.get(key).getPosition().equals(key))
                 return 0;
