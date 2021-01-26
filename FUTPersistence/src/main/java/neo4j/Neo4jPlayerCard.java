@@ -12,7 +12,7 @@ public class Neo4jPlayerCard extends Neo4jConnection{
     private static final Logger logger = LogManager.getLogger(Neo4jPlayerCard.class);
 
     @Override
-    public void close() throws Exception {
+    public void close(){
         driver.close();
     }
 

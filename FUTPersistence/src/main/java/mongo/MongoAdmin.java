@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.function.Consumer;
-
 import static com.mongodb.client.model.Accumulators.avg;
 import static com.mongodb.client.model.Accumulators.sum;
 import static com.mongodb.client.model.Aggregates.*;
@@ -42,7 +41,28 @@ public class MongoAdmin extends MongoConnection{
             return null;
         return result;
     }
+/*
+    db.challenge.aggregate(
+            [
+    {
+        $match : {date : {$lt : yesterday, $gt:  lastMonth} }
+    },
+    {
+        $group : { _id : {date: "$date"}, numChallenge : {$sum: 1} }
+    },
+    {
+        $sort : {"_id.date" : -1 }
+    },
+    {
+        $limit: 31
+    },
+    {
+        $project : { _id: 0, date: "$_id.date", challenge: "$numChallenge"}
+    }
+	]
+            )
 
+ */
     public ArrayList<Document> challengesPerDay(){
         ArrayList<Document> result = new ArrayList<>();
         Consumer<Document> createDocuments = doc -> {result.add(doc);};
