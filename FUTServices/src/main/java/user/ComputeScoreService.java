@@ -222,7 +222,7 @@ public class ComputeScoreService {
             if (diffPoints < 0 && awaySc>homeSc)
                 points = Math.abs(diffPoints);
         }
-        if(Math.abs(diffScore) > 0 && Math.abs(diffScore)<=10){
+        if(Math.abs(diffScore) >= 0 && Math.abs(diffScore)<=10){
             points = Math.abs(diffPoints);
         }
         return points;
