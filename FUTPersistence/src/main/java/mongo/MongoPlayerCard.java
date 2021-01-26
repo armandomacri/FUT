@@ -126,7 +126,6 @@ public class MongoPlayerCard extends MongoConnection{
                 result = false;
             }
         }
-
         return result;
     }
 

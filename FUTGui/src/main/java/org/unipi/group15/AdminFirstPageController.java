@@ -25,7 +25,6 @@ public class AdminFirstPageController {
     private void initialize(){
         fillUserGraph();
         fillChallengeGraph();
-
         long countUsers = mongoAdmin.countUsers();
         long coutPlayers = mongoAdmin.countPlayerCards();
 
